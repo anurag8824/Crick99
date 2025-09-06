@@ -62,7 +62,8 @@
     font-size: 13px;
     color: #fff !important;
     font-weight: 700;
-    background: #023845;
+    /* background: #023845; */
+    background-color: var(--secondary-color);
     padding: 8px 10px;
     display: block;
     text-align: center;

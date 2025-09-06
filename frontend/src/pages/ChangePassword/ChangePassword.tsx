@@ -75,28 +75,42 @@ const ChangePassword = () => {
   };
 
   return (
-    <>
+    <div style={{justifyContent: "center",
+      display: "flex",
+  }} className="">
       {/* {mobileSubheader.subheader("Change Passwojrd")} */}
       <div
-        className={!isMobile ? "col-md-12 mt-4" : "col-md-12 padding-custom"}
+      style={{width:"50vh"}}
+        className={!isMobile ? "col-md-12 mt-4 " : "col-md-12 padding-custom"}
       >
-        <div className="">
-          {/* {mobileSubheader.subheaderdesktop("Change Pajssword")} */}
-          <div style={{border:"none"}} className="card-body p0">
+        <div className="back-main-menu my-2">
+          <a href="/">BACK TO MAIN MENU</a>
+        </div>
+        <div className="bg-white">
+          <h2 className="text-center py-2">Change Password</h2>
+          <div style={{ border: "none"  }}  className="card-body p-2">
             <div className="row row5 mb-1">
-              <div className="col-12 col-lg-6">
-                {renderInputBox("current_password", "Old Password")}
+              <div className="col-12 col-lg-6 w-full ">
+                {renderInputBox("current_password", "Current Password")}
               </div>
             </div>
             <div className="row row5 mb-1">
               <div className="col-12 col-lg-6">
                 {renderInputBox("new_password", "New Password")}
               </div>
+              <div className="text-muted small">
+                <span>Password must contain:</span>
+                <ul className="ps-3" style={{ listStyleType: "disc" }}>
+                  <li>At least 8 characters</li>
+                  <li>At least one letter</li>
+                  <li>At least one number</li>
+                </ul>
+              </div>
             </div>
 
             <div className="row row5 mb-1">
               <div className="col-12 col-lg-6">
-                {renderInputBox("confirm_password", "Con. Password")}
+                {renderInputBox("confirm_password", "Confirm New  Password")}
               </div>
             </div>
 
@@ -107,14 +121,10 @@ const ChangePassword = () => {
                 </button>
               </div>
             </div>
-
-            <div className="back-main-menu my-2">
-              <a href="/">BACK TO MAIN MENU</a>
-            </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 export default ChangePassword;

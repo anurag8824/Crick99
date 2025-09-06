@@ -194,6 +194,7 @@ const AccountStatement = () => {
   return (
     <>
       {mobileSubheader.subheader('My Statement')}
+     
       <div className={!isMobile ? ' mt-1' : 'padding-custom'}>
 
       <div className="body-wrap">
@@ -204,7 +205,8 @@ const AccountStatement = () => {
 
 
         <div className=''>
-          {mobileSubheader.subheaderdesktop('My Statement')}
+          {/* {mobileSubheader.subheaderdesktop('My Account Statement')} */}
+<h1 className='text-center'>My Account Statement</h1>
           <div className='card-body p0'>
             {/* <form
               className='ng-pristine ng-valid ng-touched mb-0'

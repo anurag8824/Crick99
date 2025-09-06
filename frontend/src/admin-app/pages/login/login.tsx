@@ -103,7 +103,7 @@ const Login = () => {
                       )}
                     </div>
                     <div className='form-group text-center mb-0'>
-                      <SubmitButton type='submit' className='btn btn-submit btn-login'>
+                      <SubmitButton type='submit' className='btn btn-submit bg-dark text-white btn-login'>
                         Login
                         {userState.status === 'loading' ? (
                           <i className='fas fa-spinner fa-spin'></i>

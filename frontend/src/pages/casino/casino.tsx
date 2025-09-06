@@ -1,36 +1,36 @@
-import { AxiosResponse } from 'axios'
-import React from 'react'
-import { useAppSelector } from '../../redux/hooks'
-import { useDispatch } from 'react-redux'
-import CasinoListItem from '../CasinoList/CasinoListItem'
-import casinoService from '../../services/casino.service'
+import { AxiosResponse } from "axios";
+import React from "react";
+import { useAppSelector } from "../../redux/hooks";
+import { useDispatch } from "react-redux";
+import CasinoListItem from "../CasinoList/CasinoListItem";
+import casinoService from "../../services/casino.service";
 import {
   selectCasinoMatchList,
   setHomePageCasinoMatch,
-} from '../../redux/actions/casino/casinoSlice'
-import CasinoListItem2 from '../CasinoList/CasinoListItem2'
-import { casinoNavItems } from '../../utils/constants'
-import { useParams, useSearchParams } from 'react-router-dom'
-import { CustomLink } from '../_layout/elements/custom-link'
+} from "../../redux/actions/casino/casinoSlice";
+import CasinoListItem2 from "../CasinoList/CasinoListItem2";
+import { casinoNavItems } from "../../utils/constants";
+import { useParams, useSearchParams } from "react-router-dom";
+import { CustomLink } from "../_layout/elements/custom-link";
 
 const Casino = () => {
-  const dispatch = useDispatch()
-  const gamesList = useAppSelector<any>(selectCasinoMatchList)
+  const dispatch = useDispatch();
+  const gamesList = useAppSelector<any>(selectCasinoMatchList);
   const [searchParams] = useSearchParams();
   const queryp = useParams();
-  const category = searchParams.get("category")
-  console.log(queryp)
-  console.log(category)
+  const category = searchParams.get("category");
+  console.log(queryp);
+  console.log(category);
   React.useEffect(() => {
     if (gamesList.length <= 0)
       casinoService.getCasinoList().then((res: AxiosResponse<any>) => {
-        dispatch(setHomePageCasinoMatch(res.data.data))
-      })
-  }, [category])
+        dispatch(setHomePageCasinoMatch(res.data.data));
+      });
+  }, [category]);
   return (
     <>
-      <div className='container-fluid container-fluid-5 cas-in-list'>
-        <div className='d rkow5'>
+      <div className="container-fluid container-fluid-5 cas-in-list">
+        <div className="d rkow5">
           {/* <div className='col-xl-2 d-none d-xl-flex ' style={{marginTop:"5px"}}>
             <ul className="nav nav-pills casino-sub-tab">
               {casinoNavItems.map((Item: any, key: number) => {
@@ -41,14 +41,15 @@ const Casino = () => {
             </ul>
 
             </div> */}
-          <div className='col-xml-10 coll-12'>
-              <div className='casino-list mt-2' style={{ marginLeft: "-6px" }}>
-                <CasinoListItem2 />
-              </div>
-            </div>
+          {/* <div className='col-xml-10 coll-12'> */}
+          <h2 className="section-title text-center mb-4">Popular Games</h2>
+          <div className="games-grid-casino mt-2">
+            <CasinoListItem2 />
           </div>
+          {/* </div> */}
         </div>
+      </div>
     </>
-  )
-}
-export default Casino
+  );
+};
+export default Casino;

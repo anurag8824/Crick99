@@ -543,15 +543,19 @@ const NewAccountStatement = () => {
 
   return (
     <>
-      {mobileSubheader.subheader("MY LEDGER ")}
+      {/* {mobileSubheader.subheader("MY LEDGER ")} */}
       <div className={!isMobile ? " mt-1" : "padding-custom"}>
         <div className="body-wrap">
+       
+
           <div className="back-main-menu my-3">
             <a href="/">BACK TO MAIN MENU</a>
           </div>
 
+          <h2 className="text-center">My Ledger</h2>
+
           <div className="">
-            {mobileSubheader.subheaderdesktop("MY LEDGER")}
+            {/* {mobileSubheader.subheaderdesktop("MY LEDGER")} */}
             <div className="card-body p0">
               {/* <form
                 className="ng-pristine ng-valid ng-touched mb-0"
@@ -721,7 +725,7 @@ const NewAccountStatement = () => {
                         </th>
 
                         <th style={{ width: "45%", textAlign: "center" }}>
-                          MATCH NAME
+                        DESCRIPTION
                         </th>
 
                         <th style={{ width: "45%", textAlign: "center" }}>
@@ -729,13 +733,13 @@ const NewAccountStatement = () => {
                         </th>
 
                         <th style={{ width: "10%", textAlign: "center" }}>
-                          WON{" "}
+                          WIN{" "}
                         </th>
                         <th style={{ width: "10%", textAlign: "center" }}>
-                          LOST
+                          LOSS
                         </th>
                         <th style={{ width: "10%", textAlign: "center" }}>
-                          BALANCE
+                          HISAB
                         </th>
                       </tr>
                     </thead>

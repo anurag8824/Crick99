@@ -71,13 +71,13 @@ const Login = () => {
     <div>
       <div className='login'>
         <div className='loginInner1'>
-          <div className='log-logo m-b-20 text-center'>
+          <div className='log-logo d-none m-b-20 text-center'>
             <img src='/imgs/logo.png' className='logo-login' />
           </div>
           <div className='featured-box-login featured-box-secundary default'>
-            <h4 className='text-center'>
-              LOGIN<i className='fas fa-hand-point-down'></i>
-            </h4>
+          <div className='log-logo m-b-20 text-center'>
+            <img src='/imgs/logo.png' className='logo-login' />
+          </div>
             <form
               onSubmit={(e) => handleSubmit(e)}
               role='form'
@@ -117,24 +117,24 @@ const Login = () => {
                 )}
               </div>
               <div className='form-group text-center mb-0'>
-                <SubmitButton type='submit' className='btn btn-submit btn-login mb-10'>
-                  Login
+                <SubmitButton type='submit' className='btn btn-submit bg-dark text-white btn-login mb-10'>
+                  Sign In
+                  {userState.status === 'loading' ? (
+                    <i className='ml-2 fas fa-spinner fa-spin '></i>
+                  ) : (
+                    <i className='ml-2 fa fa-arrow-right '></i>
+                  )}
+                </SubmitButton>
+                <SubmitButton type='submit' onClick={() => handleSubmitDemoLogin()} className='btn bg-dark text-white btn-submit btn-login mb-10'>
+                 Demo Login  <i className='ml-2 fa fa-arrow-right text-white '></i>
                   {userState.status === 'loading' ? (
                     <i className='ml-2 fas fa-spinner fa-spin'></i>
                   ) : (
-                    <i className='ml-2 fas fa-sign-in-alt'></i>
+                    <i className='ml-2 fa fa-arrow-right '></i>
                   )}
                 </SubmitButton>
-                <SubmitButton type='submit' onClick={() => handleSubmitDemoLogin()} className='btn btn-submit btn-login mb-10'>
-                  Login with Demo ID
-                  {userState.status === 'loading' ? (
-                    <i className='ml-2 fas fa-spinner fa-spin'></i>
-                  ) : (
-                    <i className='ml-2 fas fa-sign-in-alt'></i>
-                  )}
-                </SubmitButton>
-                <small className='recaptchaTerms d-none'>
-                  This site is protected by reCAPTCHA and the Google
+                <small className='recaptchaTerms'>
+               <span className='text-danger'>  Note: This website is not for Indian Territory</span> <br/>
                   <a
                     target={'_blank'}
                     rel='noopener noreferrer'
@@ -142,7 +142,7 @@ const Login = () => {
                   >
                     Privacy Policy
                   </a>{' '}
-                  and
+                  
                   <a
                     target={'_blank'}
                     rel='noopener noreferrer'
@@ -150,7 +150,7 @@ const Login = () => {
                   >
                     Terms of Service
                   </a>{' '}
-                  apply.
+                 
                 </small>
               </div>
               <div className='mt-2 text-center download-apk'></div>
@@ -158,7 +158,7 @@ const Login = () => {
           </div>
         </div>
       </div>
-      <section className="footer footer-login"><div className="footer-top"><div className="footer-links"><nav className="navbar navbar-expand-sm"><ul className="navbar-nav"><li className="nav-item"><a className="nav-link" href="/terms-and-conditions" target="_blank"> Terms and Conditions </a></li><li className="nav-item"><a className="nav-link" href="/responsible-gaming" target="_blank"> Responsible Gaming </a></li></ul></nav></div><div className="support-detail"><h2>24X7 Support</h2><p></p></div><div className="social-icons-box"></div></div></section>
+      {/* <section className="footer footer-login"><div className="footer-top"><div className="footer-links"><nav className="navbar navbar-expand-sm"><ul className="navbar-nav"><li className="nav-item"><a className="nav-link" href="/terms-and-conditions" target="_blank"> Terms and Conditions </a></li><li className="nav-item"><a className="nav-link" href="/responsible-gaming" target="_blank"> Responsible Gaming </a></li></ul></nav></div><div className="support-detail"><h2>24X7 Support</h2><p></p></div><div className="social-icons-box"></div></div></section> */}
 
     </div>
 

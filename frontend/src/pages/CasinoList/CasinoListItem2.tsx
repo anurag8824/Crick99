@@ -38,23 +38,44 @@ const CasinoListItem2 = (props: any) => {
           .filter((item: any) => !item.isDisable && item.match_id !== -1)
           .map((Item: any, key: number) => {
             return (
-              <div className="col-6 event-row text-center float-left mt-3" key={key}>
-                <div style={{border:"none"}} className="card-body m-0 p-0">
-                  <a
-                    onClick={(e) => onCasinoClick(e, Item)}
-                    title={Item.title}
-                  >
-                    <img
-                      className="casino_img"
-                      src={Item.image}
-                      style={{ borderRadius: "10px", width: "150px" }}
-                    />
-                    <span className="casino_img_text">{Item.title}</span>
+              
+              // <div className="">
+                  <a className="game-card-casino" key={key}  onClick={(e) => onCasinoClick(e, Item)} title={Item.title}>
+                    <div className="game-image-container">
+                      <img
+                        src={Item.image}
+                        alt={Item.image}
+                        className="game-image"
+                       />
+                      <div className="game-overlay">
+                        <span className="play-now">Play Now</span>
+                      </div>
+                    </div>
+                    <div className="game-info">
+                      <div>{Item.title}</div>
+                    </div>
                   </a>
-                </div>
-              </div>
+                // </div>
             );
           })}
+
+      {/* <div className="games-grid-casino">
+        <a className="game-card" key={key} href="/app/casino/dt20">
+          <div className="game-image-container">
+            <img
+              src="	https://crick99.in/static/media/aaaa.15f68e1a30325d70bb2e.webp"
+              alt="Dragon Tiger"
+              className="game-image"
+            />
+            <div className="game-overlay">
+              <span className="play-now">Play Now</span>
+            </div>
+          </div>
+          <div className="game-info">
+            <h3>Dragon Tiger</h3>
+          </div>
+        </a>
+      </div> */}
     </>
   );
 };

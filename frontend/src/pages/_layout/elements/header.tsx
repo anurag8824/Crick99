@@ -13,7 +13,7 @@ import {
   selectHideBalExp,
   setExposer,
   setSingleBal,
-  setCom
+  setCom,
 } from "../../../redux/actions/balance/balanceSlice";
 import { CustomLink, useNavigateCustom } from "./custom-link";
 // import { isMobile } from "react-device-detect";
@@ -33,7 +33,7 @@ import casinoSlugs from "../../../utils/casino-slugs.json";
 
 import UserService from "../../../services/user.service";
 import betService from "../../../services/bet.service";
-
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 // const isMobile = true;
 const Header = () => {
@@ -68,17 +68,17 @@ const Header = () => {
   //   })
   // }, [])
 
-  console.log("blance is heree",balance)
+  console.log("blance is heree", balance);
 
   React.useEffect(() => {
     setIsOpenRule(rules.open);
   }, [rules]);
 
   React.useEffect(() => {
-    const handlerExposer = ({ exposer, balance,commision }: any) => {
+    const handlerExposer = ({ exposer, balance, commision }: any) => {
       if (balance !== undefined) dispatch(setSingleBal(balance));
       if (exposer !== undefined) dispatch(setExposer(exposer));
-      if(commision !== undefined) dispatch(setCom(commision))
+      if (commision !== undefined) dispatch(setCom(commision));
     };
     socketUser.on("updateExposer", handlerExposer);
 
@@ -142,88 +142,316 @@ const Header = () => {
     }
   };
 
-const [userAlldata, setUserAlldata] = React.useState<{ [key: string]: any }>({});
+  const [userAlldata, setUserAlldata] = React.useState<{ [key: string]: any }>(
+    {}
+  );
 
-   React.useEffect(() => {
-      if (userState?.user?.username) {
-        UserService.getUserDetail(userState?.user?.username).then(
-          (res: AxiosResponse<any>) => {
-            console.log(res, "ressss for all values");
-            const detail = res?.data.data
-            setUserAlldata(detail)
-          }
-        );
-      }
-    }, [userState?.user?.username]);
+  React.useEffect(() => {
+    if (userState?.user?.username) {
+      UserService.getUserDetail(userState?.user?.username).then(
+        (res: AxiosResponse<any>) => {
+          console.log(res, "ressss for all values");
+          const detail = res?.data.data;
+          setUserAlldata(detail);
+        }
+      );
+    }
+  }, [userState?.user?.username]);
 
-
-    const [notice, setNotice] = React.useState<any>();
-      React.useEffect(() => {
-       betService.getnotice().then((res: AxiosResponse<any>) => {
-            setNotice(res.data.data);
-          });
-      }, []);
+  const [notice, setNotice] = React.useState<any>();
+  React.useEffect(() => {
+    betService.getnotice().then((res: AxiosResponse<any>) => {
+      setNotice(res.data.data);
+    });
+  }, []);
 
   return (
     <header className="header">
       <div className="container-fluidu">
         <div className="ro">
           <div className="container-fluid text-white py-2">
-            <div className="d-flex align-items-center justify-content-between flex-wrap">
-              {/* Logo */}
-              <div className="d-flex align-items-center">
-                <CustomLink to="/" className="d-flex logo align-items-center">
+            <div className="d-flex align-items-center justify-content-between">
+              {/* Left - Logo */}
+              <div className="d-flex  justify-content-between align-items-center ">
+                <button
+                  // onClick={toggleMenu}
+                  className="btn btn-primay"
+                  type="button"
+                  data-bs-toggle="offcanvas"
+                  data-bs-target="#offcanvasWithBothOptions"
+                  aria-controls="offcanvasWithBothOptions"
+                  style={{
+                    fontSize: "24px",
+                    background: "none",
+                    border: "none",
+                    color: "white",
+                    cursor: "pointer",
+                  }}
+                >
+                  ☰
+                </button>
+                <CustomLink to="/" className="d-flex align-items-center">
                   <img
-                    src="/imgs/profiletop.png"
-                    className="img-fluid "
-                    // style={{ maxHeight: "40px" }}
+                    src="/imgs/logo.png"
                     alt="Logo"
+                    className="img-fluid"
+                    style={{ maxHeight: "40px", marginTop: "7px" }}
                   />
                 </CustomLink>
               </div>
 
-              {/* User Info */}
-              <div className="d-flex flex-column text-center text-md-end flex-grow-1 px-3">
-                <p className="mb-1 fw-bold ">
-                  {userState?.user?.username}({userAlldata?.code})
-                </p>
+              <div
+                className="offcanvas offcanvas-start"
+                data-bs-scroll="true"
+                tabIndex={-1}
+                id="offcanvasWithBothOptions"
+                aria-labelledby="offcanvasWithBothOptionsLabel"
+                style={{ width: "30vh" }}
+              >
+                <div className="offcanvas-header bg-theme">
+                  <h5
+                    className="offcanvas-title"
+                    id="offcanvasWithBothOptionsLabel"
+                  >
+                    <img
+                      src="/imgs/logo.png"
+                      alt="Logo"
+                      className="img-fluid"
+                      style={{ maxHeight: "40px", marginTop: "7px" }}
+                    />
+                  </h5>
+                  <button
+                    type="button"
+                    className="btn-close btn-close-white"
+                    data-bs-dismiss="offcanvas"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div className="offcanvas-body bg-theme text-white">
+                  <ul className="list-unstyled  ">
+                    {/* In Play */}
+                    <li className="mb-3 ">
+                      <a
+                        href="/match/4"
+                        className="d-flex align-items-center nav-link text-white"
+                      >
+                        <i className="fas fa-play-circle me-2"></i> In Play
+                      </a>
+                    </li>
 
-                <div className="mb-1">
-                  <span>Coins: </span>
-                  {/* <b>{(balance.balance?.toFixed(2) + balance.commision?.toFixed(2)) - balance.exposer?.toFixed(2)}</b> */}
-                  <b>{((balance.balance || 0) - (balance.exposer || 0)).toFixed(2)}</b>
+                    {/* Profile */}
+                    <li className="mb-3">
+                      <a
+                        href="/profile"
+                        className="d-flex align-items-center nav-link text-white"
+                      >
+                        <i className="fas fa-user me-2"></i> Profile
+                      </a>
+                    </li>
 
+                    {/* Statement */}
+                    <li className="mb-3">
+                      <a
+                        href="/accountstatement"
+                        className="d-flex align-items-center nav-link text-white"
+                      >
+                        <i className="fas fa-file-alt me-2"></i> Statement
+                      </a>
+                    </li>
+
+                    {/* Password */}
+                    <li className="mb-3">
+                      <a
+                        href="/changepassword"
+                        className="d-flex align-items-center nav-link text-white"
+                      >
+                        <i className="fas fa-lock me-2"></i> Password
+                      </a>
+                    </li>
+
+                    {/* Rules */}
+                    <li className="mb-3">
+                      <a
+                        href="/rules"
+                        className="d-flex align-items-center nav-link text-white"
+                      >
+                        <i className="fas fa-book me-2"></i> Rules
+                      </a>
+                    </li>
+
+                    {/* My Ledger */}
+                    <li className="mb-3">
+                      <a
+                        href="/new-accountstatement"
+                        className="d-flex align-items-center nav-link text-white"
+                      >
+                        <i className="fas fa-receipt me-2"></i> My Ledger
+                      </a>
+                    </li>
+
+                    {/* Casino */}
+                    <li className="mb-3">
+                      <a
+                        href="/casino-in/live-dmd"
+                        className="d-flex align-items-center nav-link text-white"
+                      >
+                        <i className="fas fa-dice me-2"></i> Casino
+                      </a>
+                    </li>
+
+
+
+                    {/* Logout */}
+                    <li className="mb-3">
+                      <a
+                             onClick={logoutUser}
+                        className="d-flex align-items-center nav-link text-danger"
+                      >
+                        <i className="fas fa-sign-out-alt me-2"></i> Logout
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              {/* Right Section */}
+              <div className="d-flex align-items-center gap-1">
+                {/* Coins + Expo */}
+                <div
+                  style={{ backgroundColor: "#ffffff1a", fontSize: "12px" }}
+                  className="d-flex justify-content-between align-items-center rounded-pill px-2 py-1"
+                >
+                  {/* Coins */}
+                  <span className="d-flex align-items-center me-3">
+                    <span className="text-success me-1">Coins:</span>
+                    <b>
+                      {(
+                        (balance.balance || 0) - (balance.exposer || 0)
+                      ).toFixed(2)}
+                    </b>
+                  </span>
+
+                  {/* Expo */}
+                  {!selectHideBal.exposer && (
+                    <span
+                      className="d-flex align-items-center text-danger"
+                      role="button"
+                      onClick={getExposer}
+                    >
+                      <span className="me-1">Expo:</span>
+                      <b className="d-flex align-items-center">
+                        {balance.exposer > 0 ? balance.exposer?.toFixed(2) : 0}
+                        <span className="ms-1" style={{ fontSize: "10px" }}>
+                          <VisibilityIcon />
+                        </span>
+                      </b>
+                    </span>
+                  )}
                 </div>
 
-                {!selectHideBal.exposer && (
-                  <div>
-                    <a href="#" onClick={getExposer} >Expo: </a>
-                    <b>
-                      {balance.exposer > 0 ? balance.exposer?.toFixed(2) : 0}
-                    </b>
-                  </div>
-                )}
-              </div>
+                {/* Profile */}
 
-              {/* Logout */}
-              <div className="text-center">
-                <a
-                  onClick={logoutUser}
-                  href="#"
-                  className="text-white fw-bold text-uppercase d-flex flex-column align-items-center"
-                >
-                  <img
-                    src="/imgs/LogOut.png"
-                    alt="Logout"
-                    style={{ maxHeight: "30px" }}
-                  />
-                  <span className="mt-2">Logout</span>
-                </a>
+                <div className="dropdown">
+                  {/* Trigger Button */}
+                  <button
+                    className="d-flex gap-1 align-items-center rounded-pill px-2 py-2 small border-0 text-white"
+                    style={{ backgroundColor: "#ffffff1a" }}
+                    id="profileDropdown"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <svg
+                      stroke="currentColor"
+                      fill="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 496 512"
+                      className="mobile-hide"
+                      height="22"
+                      width="22"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"></path>
+                    </svg>
+                    <span>{userState?.user?.username}</span>
+                  </button>
+
+                  {/* Dropdown Menu */}
+                  <div
+                    className="dropdown-menu dropdown-menu-end mt-2 shadow rounded-3"
+                    aria-labelledby="profileDropdown"
+                    style={{ minWidth: "200px" }}
+                  >
+                    {/* Profile Item */}
+                    <div className="dropdown-item d-flex align-items-center gap-3 border-bottom small text-muted">
+                      <svg
+                        stroke="currentColor"
+                        fill="currentColor"
+                        stroke-width="0"
+                        viewBox="0 0 496 512"
+                        height="16"
+                        width="16"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"></path>
+                      </svg>
+                      <span>{userState?.user?.username}</span>
+                    </div>
+
+                    {/* Logout Item */}
+                    <button
+                      onClick={logoutUser}
+                      className="dropdown-item d-flex align-items-center small gap-3 text-danger"
+                    >
+                      <svg
+                        stroke="currentColor"
+                        fill="currentColor"
+                        stroke-width="0"
+                        viewBox="0 0 512 512"
+                        height="16"
+                        width="16"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path d="M497 273L329 441c-15 15-41 4.5-41-17v-96H152c-13.3 0-24-10.7-24-24v-96c0-13.3 10.7-24 24-24h136V88c0-21.4 25.9-32 41-17l168 168c9.3 9.4 9.3 24.6 0 34zM192 436v-40c0-6.6-5.4-12-12-12H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h84c6.6 0 12-5.4 12-12V76c0-6.6-5.4-12-12-12H96c-53 0-96 43-96 96v192c0 53 43 96 96 96h84c6.6 0 12-5.4 12-12z"></path>
+                      </svg>
+                      <span>Logout</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div className="dropdown-menu">
+                  <div className="dropdown-item user-profile">
+                    <svg
+                      stroke="currentColor"
+                      fill="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 496 512"
+                      height="16"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 96c48.6 0 88 39.4 88 88s-39.4 88-88 88-88-39.4-88-88 39.4-88 88-88zm0 344c-58.7 0-111.3-26.6-146.5-68.2 18.8-35.4 55.6-59.8 98.5-59.8 2.4 0 4.8.4 7.1 1.1 13 4.2 26.6 6.9 40.9 6.9 14.3 0 28-2.7 40.9-6.9 2.3-.7 4.7-1.1 7.1-1.1 42.9 0 79.7 24.4 98.5 59.8C359.3 421.4 306.7 448 248 448z"></path>
+                    </svg>
+                    <span>{userState?.user?.username}</span>
+                  </div>
+                  <button className="dropdown-item logout-btn">
+                    <svg
+                      stroke="currentColor"
+                      fill="currentColor"
+                      stroke-width="0"
+                      viewBox="0 0 512 512"
+                      height="16"
+                      width="16"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M497 273L329 441c-15 15-41 4.5-41-17v-96H152c-13.3 0-24-10.7-24-24v-96c0-13.3 10.7-24 24-24h136V88c0-21.4 25.9-32 41-17l168 168c9.3 9.4 9.3 24.6 0 34zM192 436v-40c0-6.6-5.4-12-12-12H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h84c6.6 0 12-5.4 12-12V76c0-6.6-5.4-12-12-12H96c-53 0-96 43-96 96v192c0 53 43 96 96 96h84c6.6 0 12-5.4 12-12z"></path>
+                    </svg>
+                    <span>Logout</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
 
-          <Marqueemessge message={notice?.fnotice || "."} />
+          {/* <Marqueemessge message={notice?.fnotice || "."} /> */}
 
           {/* {!isMobile ? <NavMenu /> : <NavMobileMenu />} */}
           {/* {!isMobile ? <NavMenu /> : <NavMenu /> } */}
