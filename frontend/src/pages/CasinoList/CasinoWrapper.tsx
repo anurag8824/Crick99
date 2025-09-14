@@ -504,11 +504,11 @@ const CasinoWrapper = (props: any) => {
   // const gameCode: string | undefined = liveMatchData?.gameCode;
 
   const gameId = gameCode ? gameIdMap?.[gameCode] ?? null : null;
-  if(casinoMatchData){
-    return(
+   if(casinoMatchData){
+     return(
       <div>data is loading .....</div>
-    )
-  }
+     )
+   }
 
   return (
     <>
