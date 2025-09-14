@@ -203,7 +203,7 @@ const CasinoWrapper = (props: any) => {
   }, [updateOdds, checkRoundIdChange]);
 
   React.useEffect(() => {
-    axios.get(`https://socket2.9xbro.com/api/get-casino-tv/${gameCode}`).then((res)=>{
+    axios.get(`https://socket2.bxpro99.xyz/api/get-casino-tv/${gameCode}`).then((res)=>{
       console.log(res,"ressss of caisono tv")
       setNewtv(res?.data?.tv)
     })
