@@ -119,11 +119,7 @@ const CasinoWrapper = (props: any) => {
     }
   }, [userState.user, casinoMatchData?.match_id]);
 
-  if(casinoMatchData){
-    return(
-      <div>data is loading .....</div>
-    )
-  }
+  
 
   const getMatchLiveInfoInterval = async () => {
     /// const ref = useRef();
@@ -508,6 +504,11 @@ const CasinoWrapper = (props: any) => {
   // const gameCode: string | undefined = liveMatchData?.gameCode;
 
   const gameId = gameCode ? gameIdMap?.[gameCode] ?? null : null;
+  if(casinoMatchData){
+    return(
+      <div>data is loading .....</div>
+    )
+  }
 
   return (
     <>

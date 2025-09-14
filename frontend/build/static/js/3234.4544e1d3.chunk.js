@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkfair_react=self.webpackChunkfair_react||[]).push([[3234],{3234:(e,a,r)=>{r.r(a),r.d(a,{default:()=>t});var s=r(8429),c=r(4414);const t=()=>(0,c.jsx)(c.Fragment,{children:(0,c.jsx)(s.sv,{})})}}]);
