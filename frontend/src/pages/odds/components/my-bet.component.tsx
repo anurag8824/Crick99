@@ -76,26 +76,26 @@ const MyBetComponent = () => {
   console.log(getMyAllBet,"get my all bets")
 
   return (
-    <div className='table-responsive-new' style={{height:"200px", overflowY:"scroll"}}>
-      <table className='table coupon-table scorall mybet'>
-        <thead>
-          <tr style={{background:"#76d68f"}}>
-            <th>Sr.</th>
-            {userState.user.role !== RoleType.user && <th >Username</th>}
-            <th className='text-left'> Narration</th>
-            <th> Rate</th>
-            <th> Amount</th>
-           
-            <th> Run</th>
-            <th> Mode</th>
+    <div className='' style={{height:"200px", overflowY:"scroll" , overflowX:"scroll"}}>
+      <table className='table table-striped table-hover'>
+        <thead className="bg-info-subtle text-warning">
+          <tr>
+            <th style={{background:"#2a3a5a" , border:"none"}} className='text-warning'>#</th>
+            {userState.user.role !== RoleType.user && <th style={{background:"#2a3a5a"}} className='text-warning' >Username</th>}
+            <th style={{background:"#2a3a5a" , border:"none"}} className='text-warning text-left'> Runner Name</th>
+            <th style={{background:"#2a3a5a" , border:"none"}} className='text-warning'>Bet Price</th>
+            <th style={{background:"#2a3a5a" , border:"none"}} className='text-warning'>Bet Value</th>
+            <th style={{background:"#2a3a5a" , border:"none"}} className='text-warning'>Bet Amount</th>
+            <th style={{background:"#2a3a5a" , border:"none"}} className='text-warning'>Bet Profit</th>
+            <th style={{background:"#2a3a5a" , border:"none"}} className='text-warning'>Bet Loss</th>
 
             {/* {!isMobile && <th style={{background:"#76d68f"}}> Place Date</th>} */}
             {/* {!isMobile && <th style={{background:"#76d68f"}}> Match Date</th>} */}
-            <th style={{background:"#76d68f"}}> Dec</th>
+            <th style={{background:"#2a3a5a" , border:"none"}} className='text-warning'>Bet Status</th>
             {userState.user.role !== RoleType.user && <th> Date</th>}
           </tr>
         </thead>
-        <tbody className='scorall'>
+        <tbody className='text-white'>
           {getMyAllBet?.filter((b:any)=>b.bet_on !== "MATCH_ODDS")?.map((bet: IBet, index: number , ) => (
             <tr className={bet.isBack ? 'back' : 'lay'} key={bet._id}>
               <td className='no-wrap'> {index + 1} </td>
@@ -125,11 +125,11 @@ const MyBetComponent = () => {
 
 
           ))}
-                    <tr>
+                    {/* <tr>
   <td colSpan={8} style={{ backgroundColor: "#424242", color: "white", padding: "8px 10px", textAlign: "left" }}>
     Match Bets
   </td>
-</tr>
+</tr> */}
 
                     {getMyAllBet?.filter((b:any)=>b.bet_on === "MATCH_ODDS").map((bet: IBet, index: number , ) => (
             <tr className={bet.isBack ? 'back' : 'lay'} key={bet._id}>

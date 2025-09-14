@@ -13,10 +13,10 @@ const InputComponent = ({
         <div className='form-group mb-0'>
           <label>{labelName}</label>
           <input
-            placeholder=''
+            placeholder={props.placeholder || labelName} 
             name={valName}
             type='password'
-            className='form-control'
+            className='form-control change-password-input'
             onChange={changeHandler}
           />
           {errorMsg?.[valName] && (

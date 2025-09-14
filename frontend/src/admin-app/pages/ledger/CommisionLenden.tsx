@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./ClientLedger.css"; // Import the CSS file
 import betService from "../../../services/bet.service";
 import { AxiosResponse } from "axios";
+import { CustomLink } from "../../../pages/_layout/elements/custom-link";
 
 interface CommissionRow {
   name: string;
@@ -256,8 +257,16 @@ const [endDate, setEndDate] = React.useState<string>("");
   
 
   return (
-    <div>
-      <div className="bg-full">Commision Len Den</div>
+    <div className=" body-wrap p-4">
+     
+        <div style={{background:"pink"}}  className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex">
+                                                     <span className="text-2xl font-weight-normal gx-text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
+                                                     Commision Len Den
+                                                     </span>
+                                                     <CustomLink to={"/"} type="button" className="btn bg-primary">
+                                                       <span>Back</span>
+                                                     </CustomLink>
+                   </div>
 
 
       <div className="row p-4">
@@ -285,9 +294,12 @@ const [endDate, setEndDate] = React.useState<string>("");
 />
 	   </div>
 
-     <button className="btn btn-primary mt-2 mx-3" onClick={handleDateFilter}>
-  Submit
+      <div className="col-6 text-center">
+     <button style={{backgroundColor:" rgb(170, 74, 68)"}} className="btn bt-primary mt-2 mx-3" onClick={handleDateFilter}>
+      
+ Apply
 </button>
+</div>
 
 	  
 	</div>

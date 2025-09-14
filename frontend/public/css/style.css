@@ -8,7 +8,9 @@
   --secondary-bg: #000;
   --link-bg: #bbb;
   --grey-bg: #ccc;
-  --light-bg: #eee;
+  /* --light-bg: #eee; */
+  --light-bg: #1e2a3f;
+
   --suspended-color: #730709;
   --red-color: #ff0000;
   --yellow-color: #ffff00;
@@ -8830,11 +8832,27 @@ footer p {
   max-width: 90%;
 }
 
+
+.section-title {
+  color: #ffd700;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(to right, #ff8a00, #e52e71);
+  margin: 10px auto;
+}
+
 .card-body {
   -ms-flex: 1 1 auto;
   flex: 1 1 auto;
   padding: 1.25rem;
-  border: 1px solid #eee;
+  /* border: 1px solid #eee; */
 }
 
 .setting-box {
@@ -9105,6 +9123,26 @@ footer p {
   margin-bottom: 10px;
   cursor: pointer;
   position: relative;
+}
+
+/* default: mobile */
+.eye-icon {
+  font-size: 10px;
+  line-height: 1;
+}
+
+/* tablet and up */
+@media (min-width: 768px) {
+  .eye-icon {
+    font-size: 14px;
+  }
+}
+
+/* desktop and up */
+@media (min-width: 992px) {
+  .eye-icon {
+    font-size: 16px;
+  }
 }
 
 .casino-list-item.rect {

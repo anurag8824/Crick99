@@ -1,26 +1,30 @@
-import "./ledger.css";
+import React from "react";
 import betService from "../../../services/bet.service";
 import { AxiosResponse } from "axios";
-import React from "react";
+import { useAppSelector } from "../../../redux/hooks";
+import { selectUserData } from "../../../redux/actions/login/loginSlice";
 import { CustomLink } from "../../../pages/_layout/elements/custom-link";
 
 interface LedgerItem {
   _id: string;
   money: number;
   narration: string;
-  username:string;
-  createdAt:string;
-  updown:number;
+  createdAt: string;
+  updown: number;
 }
-const ClientLedger = () => {
+const LoginReport = () => {
   const [tableData, setTableData] = React.useState<LedgerItem[]>([]);
-  const [optionuser, setOptionuser] = React.useState<string>("all");
-  console.log(optionuser, "optionuser");
+  const userState = useAppSelector(selectUserData);
+
+  console.log(userState, "myledgererr")
+
+
 
   React.useEffect(() => {
     betService.oneledger().then((res: AxiosResponse<any>) => {
       const allData = res.data?.data || [];
       const dataToUse = allData[0]?.length ? allData[0] : allData[1] || [];
+      // const dataToUse = allData[1]?.length ? allData[1] : allData[0] || [];
       setTableData(dataToUse);
       // setTabledata(res.data.data);
       console.log(res, "res for lena dena jai hind !");
@@ -29,37 +33,35 @@ const ClientLedger = () => {
 
   const getProcessedRows = () => {
     let balance = 0;
-
-
-    const filteredData =
-      optionuser === "all"
-        ? tableData
-        : tableData.filter((item) => item.username === optionuser);
-
     const result: {
       id: string;
       credit: number;
       debit: number;
       balance: number;
       narration: string;
-      date:string;
+      date: string;
     }[] = [];
 
-    filteredData.forEach((item:any) => {
-      const money = item.umoney;
-     
-      const credit = money > 0 ? money : 0;
-      const debit = money < 0 ? money : 0; // keep -ve as-is
-      balance += money;
+    tableData.forEach((item: any) => {
+      const isSettled = item.settled === true;
 
-      result.push({
-        id: item._id,
-        credit,
-        debit,
-        balance,
-        narration: item.narration,
-        date:item.createdAt,
-      });
+      const isChildMatch = item.ChildId === userState.user._id;
+
+      if (!isSettled || (isSettled && isChildMatch)) {
+        const money = item.umoney;
+        const credit = money > 0 ? money : 0;
+        const debit = money < 0 ? money : 0; // keep -ve as-is
+        balance += money;
+
+        result.push({
+          id: item._id,
+          credit,
+          debit,
+          balance,
+          narration: item.narration,
+          date: item.createdAt,
+        });
+      }
     });
 
     // Reverse so [0][2] is on top and [0][0] at bottom
@@ -68,45 +70,20 @@ const ClientLedger = () => {
 
   const processedRows = getProcessedRows();
   const finalBalance = processedRows.length > 0 ? processedRows[0].balance : 0;
-  
-
   return (
     <div className=" body-wrap p-4">
-       <div style={{background:"pink"}}  className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex">
-                                               <span className="text-2xl font-weight-normal gx-text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
-                                                Client Ledger
-                                               </span>
-                                               <CustomLink to={"/"} type="button" className="btn bg-primary">
-                                                 <span>Back</span>
-                                               </CustomLink>
-             </div>
-
-      <select
-        id="select-tools-sa"
-        className="selectized mx-2 selectize-input ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched"
-        value={optionuser}
-        onChange={(e) => setOptionuser(e.target.value)}
-      >
-        <option  value="all">All Clients</option>
-        {Array.from(
-          tableData
-            .reduce((map: Map<string, any>, row: any) => {
-              if (!map.has(row.username)) {
-                map.set(row.username, row);
-              }
-              return map;
-            }, new Map())
-            .values()
-        ).map((row: any, index) => (
-          <option key={index} value={row.client}>
-            {row.username}
-          </option>
-        ))}
-      </select>
+      <div style={{background:"pink"}}  className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex">
+                                         <span className="text-2xl font-weight-normal gx-text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
+                                        Login Report
+                                         </span>
+                                         <CustomLink to={"/"} type="button" className="btn bg-primary">
+                                           <span>Back</span>
+                                         </CustomLink>
+       </div>
 
       <div>
         <div className="container w-100 mt-2 mb-5">
-          <div className="text-center mb-4"></div>
+   
 
           <div
             id="ledger_wrapper"
@@ -117,7 +94,8 @@ const ClientLedger = () => {
               <div className="col-sm-12 col-md-6"></div>
             </div>
 
-            <div className="row mb-20 overflow-auto ">
+
+            <div className="row overflow-auto mb-20">
               <div className="col-sm-12">
                 <table
                   className="table table-striped table-bordered LedgerList dataTable no-footer"
@@ -126,36 +104,36 @@ const ClientLedger = () => {
                   role="grid"
                 >
                   <thead className="navbar-bet99 text-dark">
-                    <tr role="row">
+                    <tr role="row" >
                       <th
                         className="p-1 pl-2 small sorting_disabled pr-0"
-                        style={{ minWidth: 170, width: 170 }}
+                        style={{ minWidth: 170, width: 170 , backgroundColor:"pink" }}
                       >
-                        DATE
+                       COUNTRY
                       </th>
                       <th
                         className="p-1 small text-center no-sort sorting_disabled"
-                        style={{ width: 81 }}
+                        style={{ width: 81 ,backgroundColor:"pink" }}
                       >
-                        CREDIT
+                       REGION
                       </th>
                       <th
                         className="p-1 small text-center no-sort sorting_disabled"
-                        style={{ width: 60 }}
+                        style={{ width: 81 ,backgroundColor:"pink" }}
                       >
-                        DEBIT
+                        ISP
+                      </th>
+                      <th
+                        className="p-1 small text-center no-sort sorting_disabled"
+                        style={{ width: 60 ,backgroundColor:"pink" }}
+                      >
+                        IP-ADDRESS
                       </th>
                       <th
                         className="p-1 small text-center  no-sort sorting_disabled"
-                        style={{ width: 97 }}
+                        style={{ width: 97 ,backgroundColor:"pink" }}
                       >
-                        BALANCE
-                      </th>
-                      <th
-                        className="p-1 small no-sort sorting_disabled"
-                        style={{ width: 654 }}
-                      >
-                        WINNER / Remark
+                      LOGIN DATE
                       </th>
                     </tr>
                   </thead>
@@ -167,20 +145,20 @@ const ClientLedger = () => {
                         role="row"
                         className={index % 2 === 0 ? "even" : "odd"}
                       >
-                        <td className="small pl-2 pr-0">{new Date(row.date).toLocaleString("en-US", {
+                        <td className="small pl-2 pr-0">
+                          {new Date(row.date).toLocaleString("en-US", {
                             month: "short", // Apr
                             day: "2-digit", // 16
                             hour: "2-digit", // 04
                             minute: "2-digit", // 09
                             hour12: true, // PM/AM format
-                          })}</td>
-
-                        <td>
-                          <span className="text-success">{(row.debit).toFixed(2)}</span>
+                          })}
                         </td>
-
                         <td>
-                          <span className="text-danger">{row.credit.toFixed(2)}</span>
+                          <span className="text-success">{row.credit.toFixed(2)}</span>
+                        </td>
+                        <td>
+                          <span className="text-danger">{row.debit.toFixed(2)}</span>
                         </td>
                         <td>
                           <span
@@ -191,14 +169,14 @@ const ClientLedger = () => {
                             {(row.balance).toFixed(2)}
                           </span>
                         </td>
-                        <td>
+                        <td className={row.narration === "Settlement" ? "bg-yellow-400" : ""}>
                           <span
                             className="badge badge-primary p-1"
                             style={{ fontSize: "xx-small" }}
                           >
                             🏆
                           </span>
-                          <span className="small p-0" style={{ zIndex: 2 }}>
+                          <span className="small p-0 " style={{ zIndex: 2 }}>
                             {row.narration}
                           </span>
                         </td>
@@ -221,7 +199,7 @@ const ClientLedger = () => {
             style={{
               position: "fixed",
               bottom: 0,
-              zIndex:50,
+              zIndex: 50,
               left: 0,
               background: "white",
             }}
@@ -258,12 +236,22 @@ const ClientLedger = () => {
               </span>{" "}
               14,635
             </div>
-            <div className="pt-2 col-5 row-title text-center with-commission">
+            {/* <div className="pt-2 col-5 row-title text-center with-commission">
               TOTAL
             </div>
             <div className="pt-2 pr-1 pl-1 col-7 with-commission btn btn-sm btn-success">
               {(finalBalance).toFixed(2)}
+            </div> */}
+            <div className="pt-2 col-5 row-title text-center with-commission">
+              TOTAL
             </div>
+            <div
+              className={`pt-2 pr-1 pl-1 col-7 with-commission btn btn-sm ${finalBalance >= 0 ? "btn-success" : "btn-danger"
+                }`}
+            >
+              {finalBalance.toFixed(2)}
+            </div>
+
           </div>
 
           {/* Modal */}
@@ -309,4 +297,4 @@ const ClientLedger = () => {
   );
 };
 
-export default ClientLedger;
+export default LoginReport;

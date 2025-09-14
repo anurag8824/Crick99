@@ -110,9 +110,10 @@ const Odds = () => {
     }
   }, [initApp])
 
-  React.useEffect(() => {
-    fetchOddsDetail()
-  }, [matchId])
+  //here is useEffect where closed the loop
+  // React.useEffect(() => {
+  //   fetchOddsDetail()
+  // }, [matchId])
 
   const fetchT10Stream = async () => {
     if (currentMatch?.isT10) {

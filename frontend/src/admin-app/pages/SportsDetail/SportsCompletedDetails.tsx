@@ -23,7 +23,7 @@ interface MatchItem {
 
 }
 
-const SportsDetails = () => {
+const SportsCompletedDetails = () => {
   const [marketData, setmarketData] = React.useState<MatchItem[]>([]);
   const [close, setClose] = React.useState<string | null>(null);
 
@@ -249,7 +249,7 @@ const SportsDetails = () => {
     <div className="container-fluid p-4">
        <div style={{background:"pink"}}  className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex">
                                    <span className="text-2xl font-weight-normal gx-text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
-                                   Sport Details
+                                   Completed Sports Details
                                    </span>
                                    <CustomLink to={"/"} type="button" className="btn bg-primary">
                                      <span>Back</span>
@@ -284,14 +284,14 @@ const SportsDetails = () => {
             >
               -
             </th>
-            <th
+            {/* <th
               className="sorting_disabled"
               rowSpan={1}
               colSpan={1}
               style={{ width: "63px",  background:"pink",  }}
             >
              Code
-            </th>
+            </th> */}
             <th
               className="sorting_disabled"
               rowSpan={1}
@@ -301,14 +301,7 @@ const SportsDetails = () => {
               Name
             </th>
 
-            <th
-              className="sorting_disabled"
-              rowSpan={1}
-              colSpan={1}
-              style={{ width: "205px" , background:"pink",  }}
-            >
-              Setting
-            </th>
+            
             <th
               className="sorting_disabled"
               rowSpan={1}
@@ -317,6 +310,18 @@ const SportsDetails = () => {
             >
               Time
             </th>
+
+            <th
+              className="sorting_disabled"
+              rowSpan={1}
+              colSpan={1}
+              style={{ width: "63px",  background:"pink",  }}
+            >
+             Declared Date
+            </th>
+
+            
+
             <th
               className="sorting_disabled"
               rowSpan={1}
@@ -331,7 +336,7 @@ const SportsDetails = () => {
               colSpan={1}
               style={{ width: "63px",  background:"pink",  }}
             >
-              Status
+              Won By
             </th>
             <th
               className="sorting_disabled"
@@ -339,7 +344,7 @@ const SportsDetails = () => {
               colSpan={1}
               style={{ width: "63px",  background:"pink",  }}
             >
-              Declare
+              P/L
             </th>
             {/* <th
               className="sorting_disabled"
@@ -661,4 +666,4 @@ const SportsDetails = () => {
   );
 };
 
-export default SportsDetails;
+export default SportsCompletedDetails;

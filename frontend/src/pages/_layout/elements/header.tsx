@@ -235,7 +235,8 @@ const Header = () => {
                         href="/match/4"
                         className="d-flex align-items-center nav-link text-white"
                       >
-                        <i className="fas fa-play-circle me-2"></i> In Play
+                        <i className="fas fa-home me-2"></i>
+                        In Play
                       </a>
                     </li>
 
@@ -255,7 +256,7 @@ const Header = () => {
                         href="/accountstatement"
                         className="d-flex align-items-center nav-link text-white"
                       >
-                        <i className="fas fa-file-alt me-2"></i> Statement
+                        <i className="fas fa-home me-2"></i> Statement
                       </a>
                     </li>
 
@@ -265,7 +266,7 @@ const Header = () => {
                         href="/changepassword"
                         className="d-flex align-items-center nav-link text-white"
                       >
-                        <i className="fas fa-lock me-2"></i> Password
+                        <i className="fa fa-key me-2" aria-hidden="true"></i>Password
                       </a>
                     </li>
 
@@ -275,7 +276,7 @@ const Header = () => {
                         href="/rules"
                         className="d-flex align-items-center nav-link text-white"
                       >
-                        <i className="fas fa-book me-2"></i> Rules
+                        <i className="fas  fa-circle-info me-2"></i> Rules
                       </a>
                     </li>
 
@@ -285,7 +286,7 @@ const Header = () => {
                         href="/new-accountstatement"
                         className="d-flex align-items-center nav-link text-white"
                       >
-                        <i className="fas fa-receipt me-2"></i> My Ledger
+                        <i className="fas fa-money-bill me-2"></i> My Ledger
                       </a>
                     </li>
 
@@ -295,7 +296,7 @@ const Header = () => {
                         href="/casino-in/live-dmd"
                         className="d-flex align-items-center nav-link text-white"
                       >
-                        <i className="fas fa-dice me-2"></i> Casino
+                        <i className="fas fa-play me-2"></i> Casino
                       </a>
                     </li>
 
@@ -305,7 +306,7 @@ const Header = () => {
                     <li className="mb-3">
                       <a
                              onClick={logoutUser}
-                        className="d-flex align-items-center nav-link text-danger"
+                        className="d-flex align-items-center nav-link text-white"
                       >
                         <i className="fas fa-sign-out-alt me-2"></i> Logout
                       </a>
@@ -326,23 +327,23 @@ const Header = () => {
                     <b>
                       {(
                         (balance.balance || 0) - (balance.exposer || 0)
-                      ).toFixed(2)}
+                      ).toFixed(0)}
                     </b>
                   </span>
 
                   {/* Expo */}
                   {!selectHideBal.exposer && (
                     <span
-                      className="d-flex align-items-center text-danger"
+                      className="d-flex align-items-center "
                       role="button"
                       onClick={getExposer}
                     >
-                      <span className="me-1">Expo:</span>
-                      <b className="d-flex align-items-center">
-                        {balance.exposer > 0 ? balance.exposer?.toFixed(2) : 0}
-                        <span className="ms-1" style={{ fontSize: "10px" }}>
-                          <VisibilityIcon />
-                        </span>
+                      <span className="me-1 text-danger">Expo:</span>
+                      <b className="d-flex  align-items-center">
+                        {balance.exposer > 0 ? balance.exposer?.toFixed(0) : 0}
+                        <span className="ms-1">
+  <i className="fa fa-eye eye-icon" aria-hidden="true"></i>
+</span>
                       </b>
                     </span>
                   )}
@@ -364,7 +365,7 @@ const Header = () => {
                       fill="currentColor"
                       stroke-width="0"
                       viewBox="0 0 496 512"
-                      className="mobile-hide"
+                      className="d-none d-md-block" 
                       height="22"
                       width="22"
                       xmlns="http://www.w3.org/2000/svg"

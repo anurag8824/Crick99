@@ -4,6 +4,7 @@ import { AxiosResponse } from "axios";
 import ReportModal from "./ReportModal";
 import { useAppSelector } from "../../../redux/hooks";
 import { selectUserData } from "../../../redux/actions/login/loginSlice";
+import { CustomLink } from "../../../pages/_layout/elements/custom-link";
 
 type GroupedLedger = {
   username: string;
@@ -282,9 +283,16 @@ const AllReport = () => {
   
 
   return (
-    <>
+    <div className=" body-wrap p-4">
       <div className="relative">
-        <h2 className="ledger-title">All Client Report</h2>
+        <div style={{background:"pink"}}  className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex">
+                                                      <span className="text-2xl font-weight-normal gx-text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
+                                                      All Client Ledger
+                                                      </span>
+                                                      <CustomLink to={"/"} type="button" className="btn bg-primary">
+                                                        <span>Back</span>
+                                                      </CustomLink>
+                    </div>
       </div>
 
       <div className="control-group mt-2 container-fluid selectize-control single">
@@ -695,7 +703,7 @@ const AllReport = () => {
           </tbody>
         </table>
       </div>
-    </>
+    </div>
   );
 };
 

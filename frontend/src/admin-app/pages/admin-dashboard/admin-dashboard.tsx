@@ -52,8 +52,6 @@ const AdminDashboard = () => {
   const [shared, setShared] = React.useState();
   const [detail, setDetail] = React.useState<any>({});
 
-
-
   const userState = useAppSelector<{ user: User }>(selectUserData);
   console.log(userState, "user admin details");
 
@@ -66,17 +64,16 @@ const AdminDashboard = () => {
 
   React.useEffect(() => {
     // const userState = useAppSelector<{ user: User }>(selectUserData);
-    const username:any = userState?.user?.username;
+    const username: any = userState?.user?.username;
 
     console.log(username, "testagentmaster");
     UserService.getParentUserDetail(username).then(
       (res: AxiosResponse<any>) => {
         console.log(res, "check balance for parent");
         const thatb = res.data?.data[0];
-        setDetail(thatb)
+        setDetail(thatb);
         setNewbalance(thatb.balance.balance);
         setShared(thatb.share);
-
       }
     );
   }, [userState]);
@@ -303,7 +300,7 @@ const AdminDashboard = () => {
                 className="table-responsive data-table"
                 style={{ overflow: "hidden" }}
               >
-                <div className="">
+                <div className="d-none">
                   <div
                     className="col-md-12 col-12"
                     aria-labelledby="navbarDropdowknMenuLink"
@@ -363,16 +360,12 @@ const AdminDashboard = () => {
                   {/* <tbody>{listItem()}</tbody> */}
                 </table>
 
-                <MatchList2
-                  currentMatch={currentMatch}
-                  // memoOdds={}
-                  matchList={matchList}
-                />
+           
               </div>
             </div>
           </div>
 
-          <div className="container mt30">
+          <div className="container hidden mt30">
             <div className="row">
               <div className="col-6 mb-2 col-md-3 text-center">
                 <a href={`admin/list-clients`}>
@@ -432,7 +425,7 @@ const AdminDashboard = () => {
             </div>
           </div>
 
-          <div className="container mt30">
+          <div className="container hidden mt30">
             <div className="row">
               <div className="col-md-4 mb-2">
                 <div className="card ">
@@ -453,9 +446,8 @@ const AdminDashboard = () => {
                 <div className="card ">
                   <div className="card-header h6 ng-binding">
                     {/* Match/Sess Comm ( {userState?.user?.partnership[1]?.ownRatio}% / 4% ) */}
-                    Match/Sess Comm ({" "}
-                    {detail?.mcom ?? 0}% /{" "}
-                    {detail?.scom ?? 0}% )
+                    Match/Sess Comm ( {detail?.mcom ?? 0}% / {detail?.scom ?? 0}
+                    % )
                   </div>
                 </div>
               </div>
@@ -472,6 +464,269 @@ const AdminDashboard = () => {
               </div>
             </div>
           </div>
+
+          <div className="container mt-4">
+            <div className="row g-3">
+              {/* Agent */}
+              <div className="col-6 col-lg-3">
+                <CustomLink to={"/admin/list-clients"}
+                  className="card p-3 d-flex flex-row align-items-center"
+                  style={{
+                    backgroundColor: "#ffc0cb",
+                    borderRadius: "15px",
+                    height: "100px",
+                  }}
+                >
+                  <div className="d-flex flex-column align-items-center me-3">
+  <i className="fas fa-umbrella fa-lg"></i>
+  <i className="fas fa-users fa-lg mt-2"></i>
+</div>
+                  <div>
+                    <h6 className="fw-bold mb-1">Agent</h6>
+                    <small>My Team</small>
+                  </div>
+                </CustomLink>
+              </div>
+
+              {/* Sport's Details */}
+              <div className="col-6 col-lg-3">
+                <div
+                  className="card p-3 d-flex flex-row align-items-center"
+                  style={{
+                    backgroundColor: "#ffc0cb",
+                    borderRadius: "15px",
+                    height: "100px",
+                  }}
+                >
+<i className="fas fa-tag fa-2x me-3" style={{ transform: "rotate(135deg)" }}></i>
+<div>
+                    <h6 className="fw-bold mb-1">Sport's Details</h6>
+                  </div>
+                </div>
+              </div>
+
+              {/* Ledger */}
+              <div className="col-6 col-lg-3">
+                <div
+                  className="card p-3 d-flex flex-row align-items-center"
+                  style={{
+                    backgroundColor: "#ffc0cb",
+                    borderRadius: "15px",
+                    height: "100px",
+                  }}
+                >
+               <i className="far fa-copy fa-2x me-3"></i>
+                  <div>
+                    <h6 className="fw-bold mb-1">Ledger</h6>
+                  </div>
+                </div>
+              </div>
+
+              {/* Reports */}
+              <div className="col-6 col-lg-3">
+                <div
+                  className="card p-3 d-flex flex-row align-items-center"
+                  style={{
+                    backgroundColor: "#ffc0cb",
+                    borderRadius: "15px",
+                    height: "100px",
+                  }}
+                >
+                  <i className="far fa-list-alt fa-2x me-3"></i>
+                  <div>
+                    <h6 className="fw-bold mb-1">Reports</h6>
+                    <small>Cash Transaction</small>
+                  </div>
+                </div>
+              </div>
+
+              {/* Settings */}
+              <div className="col-6 col-lg-3">
+                <div
+                  className="card p-3 d-flex flex-row align-items-center"
+                  style={{
+                    backgroundColor: "#ffc0cb",
+                    borderRadius: "15px",
+                    height: "100px",
+                  }}
+                >
+                  <i className="fas fa-cog fa-2x me-3"></i>
+                  <div>
+                    <h6 className="fw-bold mb-1">Settings</h6>
+                  </div>
+                </div>
+              </div>
+
+              {/* Logout */}
+              <div className="col-6 col-lg-3">
+                <div
+                  className="card p-3 d-flex flex-row align-items-center"
+                  style={{
+                    backgroundColor: "#ffc0cb",
+                    borderRadius: "15px",
+                    height: "100px",
+                  }}
+                >
+                  <i className="fas fa-sign-out-alt fa-2x me-3"></i>
+                  <div>
+                    <h6 className="fw-bold mb-1">Logout</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="container mt-4">
+            <div className="row g-3">
+              {/* Agent */}
+              <div className="col-6 col-lg-3">
+                <CustomLink to={"/admin/list-clients"}
+                  className="card p-3 d-flex flex-row align-items-center"
+                  style={{
+                    backgroundColor: "#ffc0cb",
+                    borderRadius: "15px",
+                    height: "100px",
+                  }}
+                >
+                  <i className="far fa-user-circle fa-2x me-3"></i>
+                  <div>
+                    <h6 className="fw-bold mb-1">Agent</h6>
+                    <small>You are agent</small>
+                  </div>
+                </CustomLink>
+              </div>
+
+              {/* Sport's Details */}
+              <div className="col-6 col-lg-3">
+                <div
+                  className="card p-3 d-flex flex-row align-items-center"
+                  style={{
+                    backgroundColor: "#ffc0cb",
+                    borderRadius: "15px",
+                    height: "100px",
+                  }}
+                >
+                  <i className="fas fa-circle-dollar-to-slot fa-2x me-3"></i>
+                  <div>
+                    <h6 className="fw-bold mb-1">0</h6>
+                    <small>Chips</small>
+                  </div>
+                </div>
+              </div>
+
+              {/* Ledger */}
+              <div className="col-6 col-lg-3">
+                <div
+                  className="card p-3 d-flex flex-row align-items-center"
+                  style={{
+                    backgroundColor: "#ffc0cb",
+                    borderRadius: "15px",
+                    height: "100px",
+                  }}
+                >
+                  <i className="fas fa-handshake fa-2x me-3"></i>
+                  <div>
+                    <h6 className="fw-bold mb-1">1</h6>
+                    <small>Members</small>
+                  </div>
+                </div>
+              </div>
+
+              {/* Reports */}
+              <div className="col-6 col-lg-3">
+                <div
+                  className="card p-3 d-flex flex-row align-items-center"
+                  style={{
+                    backgroundColor: "#ffc0cb",
+                    borderRadius: "15px",
+                    height: "100px",
+                  }}
+                >
+                  <i className="fas fa-chart-line fa-2x me-3"></i>
+                  <div>
+                    <h6 className="fw-bold mb-1">0</h6>
+                    <small>My share</small>
+                  </div>
+                </div>
+              </div>
+
+              {/* Settings */}
+              <div className="col-6 col-lg-3">
+                <div
+                  className="card p-3 d-flex flex-row align-items-center"
+                  style={{
+                    backgroundColor: "#ffc0cb",
+                    borderRadius: "15px",
+                    height: "100px",
+                  }}
+                >
+                  <i className="fas fa-building fa-2x me-3"></i>
+                  <div>
+                    <h6 className="fw-bold mb-1">100%</h6>
+                    <small>Company share</small>
+                  </div>
+                </div>
+              </div>
+
+              {/* Commsions */}
+              <div className="col-6 col-lg-3">
+                <div
+                  className="card p-3 d-flex flex-row align-items-center"
+                  style={{
+                    backgroundColor: "#ffc0cb",
+                    borderRadius: "15px",
+                    height: "100px",
+                  }}
+                >
+                  {/* <i className="fas fa-cog fa-2x me-3"></i> */}
+                  <div>
+                    <h6 className="fw-bold mb-1">0%</h6>
+                    <small>Match Commission</small>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-6 col-lg-3">
+                <div
+                  className="card p-3 d-flex flex-row align-items-center"
+                  style={{
+                    backgroundColor: "#ffc0cb",
+                    borderRadius: "15px",
+                    height: "100px",
+                  }}
+                >
+                  {/* <i className="fas fa-cog fa-2x me-3"></i> */}
+                  <div>
+                    <h6 className="fw-bold mb-1">0%</h6>
+                    <small>Session Commission</small>
+                  </div>
+                </div>
+              </div>
+
+              {/* Logout */}
+              <div className="col-6 col-lg-3">
+                <div
+                  className="card p-3 d-flex flex-row align-items-center"
+                  style={{
+                    backgroundColor: "#ffc0cb",
+                    borderRadius: "15px",
+                    height: "100px",
+                  }}
+                >
+                  <i className="fas fa-info-circle fa-2x me-3"></i>
+                  <div>
+                    <h6 className="fw-bold mb-1">Rules</h6>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <MatchList2
+                  currentMatch={currentMatch}
+                  // memoOdds={}
+                  matchList={matchList}
+                />
         </div>
       </div>
     </>

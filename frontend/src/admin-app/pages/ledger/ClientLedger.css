@@ -177,6 +177,8 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    margin-left: auto;
+    margin-right: auto;
     pointer-events: auto;
     color: #212529;
     background-color: #fff;

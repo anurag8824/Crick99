@@ -18,6 +18,7 @@ import { selectLoader } from "../../../redux/actions/common/commonSlice";
 
 import "./CommissionTable.css";
 import { useParams } from "react-router-dom";
+import { CustomLink } from "../../../pages/_layout/elements/custom-link";
 
 const AccountStatementAdmin = () => {
   const loadingState = useAppSelector(selectLoader);
@@ -252,9 +253,19 @@ const AccountStatementAdmin = () => {
 
   return (
     <>
-      {mobileSubheader.subheaderdesktopadmin("Account Statements")}
-      <div className="container-fluid">
+      {/* {mobileSubheader.subheaderdesktopadmin("Account Statements")} */}
+      <div className="container-fluid p-4">
         <div className="row">
+
+
+        <div style={{background:"pink"}}  className="bg-grey flex item-center justify-between px-5 py-3 gx-bg-flex">
+                    <span className="text-2xl font-weight-normal gx-text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
+                    List Of All Transactions
+                    </span>
+                    <CustomLink to={"/"} type="button" className="btn bg-primary">
+                      <span>Back</span>
+                    </CustomLink>
+                  </div>
           <div
             className={
               !isMobile ? "col-md-12 mt-1" : "col-md-12 padding-custom"
@@ -276,7 +287,7 @@ const AccountStatementAdmin = () => {
                       // onSelectUser={onSelectUser}
                     />
                   </div>
-                  <div className='col-6 col-lg-2 mbc-5 d-none'>
+                  <div className='col-6 col-lg-2 mbc-5 '>
                     <div className='form-group mb-0'>
                       <label className='label'>Start Date</label>
                       <div className='mx-datepicker'>
@@ -294,7 +305,7 @@ const AccountStatementAdmin = () => {
                       </div>
                     </div>
                   </div>
-                  <div className='col-6 col-lg-2 mbc-5 d-none'>
+                  <div className='col-6 col-lg-2 mbc-5'>
                     <div className='form-group mb-0'>
                       <label className='label'>End Date</label>
                       <div className='mx-datepicker'>
@@ -328,7 +339,7 @@ const AccountStatementAdmin = () => {
                   </div>
                   <div className='col-12 col-lg-1 mbc-5'>
                     <label className='label'>&nbsp;</label>
-                    <button type='submit' className='btn btn-primary btn-block'>
+                    <button type='submit' className='btn bg-primary btn-block'>
                       Submit
                     </button>
                   </div>
@@ -340,17 +351,17 @@ const AccountStatementAdmin = () => {
                 <table className='text-center' id='customers1'>
                   <thead>
                     <tr>
-                      <th className="text-white" style={{ width: '10%', background:"#424242", textAlign: 'center', whiteSpace: 'nowrap' }}>
+                      <th  style={{ width: '10%', background:"pink", textAlign: 'center', whiteSpace: 'nowrap' }}>
                         Sr No.
                       </th>
-                      <th className="text-white" style={{ width: '20%', background:"#424242", textAlign: 'center', whiteSpace: 'nowrap' }}>
+                      <th  style={{ width: '20%', background:"pink", textAlign: 'center', whiteSpace: 'nowrap' }}>
                         Date{' '}
                       </th>
-                      <th className="text-white" style={{ width: '10%', background:"#424242", textAlign: 'center' }}>Credit </th>
-                      <th className="text-white" style={{ width: '10%', background:"#424242", textAlign: 'center' }}>Debit</th>
-                      <th className="text-white" style={{ width: '10%', background:"#424242", textAlign: 'center' }}>Balance</th>
-                      <th className="text-white" style={{ width: '10%', background:"#424242", textAlign: 'center' }}>From</th>
-                      <th className="text-white" style={{ width: '45%', background:"#424242", textAlign: 'center' }}>Remark</th>
+                      <th  style={{ width: '10%', background:"pink", textAlign: 'center' }}>Credit </th>
+                      <th  style={{ width: '10%', background:"pink", textAlign: 'center' }}>Debit</th>
+                      <th  style={{ width: '10%', background:"pink", textAlign: 'center' }}>Balance</th>
+                      <th  style={{ width: '10%', background:"pink", textAlign: 'center' }}>From</th>
+                      <th  style={{ width: '45%', background:"pink", textAlign: 'center' }}>Remark</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -381,13 +392,13 @@ const AccountStatementAdmin = () => {
               </div>
               <ReactPaginate
                 breakLabel='...'
-                nextLabel='Next'
+                nextLabel='>'
                 onPageChange={handlePageClick}
                 pageRangeDisplayed={5}
                 pageCount={pageCount}
                 containerClassName={'pagination'}
                 activeClassName={'active'}
-                previousLabel={'Prev'}
+                previousLabel={'<'}
                 breakClassName={'break-me'}
               />
             </div>

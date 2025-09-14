@@ -328,11 +328,9 @@
 }
 
 .pagination>.active>a {
-    background-color: var(--theme1-bg);
-    ;
-    border-color: var(--theme1-bg);
-    ;
-    color: var(--secondary-color);
+    /* background-color: var(--theme1-bg); */
+    /* border-color: var(--theme1-bg); */
+    /* color: var(--secondary-color); */
 }
 
 .pagination>li>a {
@@ -340,7 +338,7 @@
     padding: 10px 20px;
     outline: none;
     cursor: pointer;
-    color: var(--grey-color);
+    color: rgb(42, 28, 196);
 }
 
 .pagination>.active>a,
@@ -350,16 +348,16 @@
 .pagination>.active>a:focus,
 .pagination>.active>span:focus {
     /* background-color: var(--theme1-bg); */
-    background-color: #007bff;
+    /* background-color: #007bff; */
 
     
-    color: var(--secondary-color);
+    color: #2817c2;
     outline: none;
 }
 
 .pagination>li>a,
 .pagination>li>span {
-    background-color: var(--primary-color);
+    /* background-color: var(--primary-color); */
 }
 
 .pagination>li:first-child>a,
@@ -372,3 +370,9 @@
 .no-wrap {
     white-space: nowrap;
 }
+
+.table-bordered > :not(caption) > * > * {
+    border-width: 1px !important;
+    border-color: #dee2e6 !important; /* Bootstrap's default gray */
+    border-style: solid;
+  }

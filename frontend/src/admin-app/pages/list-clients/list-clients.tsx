@@ -476,14 +476,11 @@ const ListClients = () => {
     return parseFloat(creditRef);
   };
 
-
   const mainBalanceUser = (row: any) => {
     // const creditRef = row?.creditRefrences || 0;
     const clientpl = row.balance?.profitLoss || 0;
     // const creditRef = row?.balance?.balance + row?.balance?.commision || 0;
     const creditRef = row?.balance?.balance;
-
-
 
     // return (parseFloat(creditRef) + +parseFloat(clientpl))?.toFixed(2);
     return parseFloat(creditRef);
@@ -496,7 +493,7 @@ const ListClients = () => {
     const profitloss = row?.balance?.profitLoss || 0;
 
     // return (parseFloat(creditRef) + parseFloat(profitloss) - +parseFloat(creditb))?.toFixed(2);
-    return parseFloat(row.childBalance)
+    return parseFloat(row.childBalance);
   };
 
   /* Checkbox functionality */
@@ -583,40 +580,39 @@ const ListClients = () => {
     return finalE.toFixed(2);
   };
 
+  const getRoleOptions = (): { key: RoleType; label: string }[] => {
+    const userRole = userState?.user?.role as RoleType;
 
-   const getRoleOptions = (): { key: RoleType; label: string }[] => {
-      const userRole = userState?.user?.role as RoleType;
-  
-      const allRoles = {
-        admin: "Super Admin",
-        sadmin: "Sub Admin",
-        suadmin: "Admin",
-        smdl: "Master Agent",
-        mdl: "Super Agent Master",
-        dl: "Agent Master",
-        user: "Client Master",
-      };
-  
-      const roleMap: Record<RoleType, RoleType[]> = {
-        [RoleType.admin]: [RoleType.sadmin,],
-        [RoleType.sadmin]: [RoleType.suadmin],
-        [RoleType.suadmin]: [RoleType.smdl,],
-  
-        [RoleType.smdl]: [RoleType.mdl,],
-        [RoleType.mdl]: [RoleType.dl,],
-        [RoleType.dl]: [RoleType.user],
-        [RoleType.user]: [],
-      };
-  
-      const allowedRoles = roleMap[userRole] || [];
-  
-      return allowedRoles.map((key) => ({
-        key,
-        label: allRoles[key],
-      }));
+    const allRoles = {
+      admin: "Super Admin",
+      sadmin: "Sub Admin",
+      suadmin: "Admin",
+      smdl: "Master Agent",
+      mdl: "Super Agent Master",
+      dl: "Agent Master",
+      user: "Client Master",
     };
 
-  console.log( getRoleOptions, "getrkollee")
+    const roleMap: Record<RoleType, RoleType[]> = {
+      [RoleType.admin]: [RoleType.sadmin],
+      [RoleType.sadmin]: [RoleType.suadmin],
+      [RoleType.suadmin]: [RoleType.smdl],
+
+      [RoleType.smdl]: [RoleType.mdl],
+      [RoleType.mdl]: [RoleType.dl],
+      [RoleType.dl]: [RoleType.user],
+      [RoleType.user]: [],
+    };
+
+    const allowedRoles = roleMap[userRole] || [];
+
+    return allowedRoles.map((key) => ({
+      key,
+      label: allRoles[key],
+    }));
+  };
+
+  console.log(getRoleOptions, "getrkollee");
 
   const unnmae = useParams().username;
   return (
@@ -728,14 +724,24 @@ const ListClients = () => {
         </div> */}
         <div className="row">
           <div className="col-md-12 main-container">
-            <div  className="listing-grid">
+            <div className="listing-grid">
               <div className="detail-row ">
                 <div className=" row">
-                  <div className="col-md-8 ">
+
+                  <div style={{background:"pink"}}  className="bg-grey flex item-center justify-between px-5 py-3 gx-bg-flex">
+                    <span className="text-2xl font-weight-normal gx-text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
+                      Client Details
+                    </span>
+                    <button type="button" className="btn bg-primary">
+                      <span>Back</span>
+                    </button>
+                  </div>
+
+                  <div className="col-md-12 ">
                     <div className="">
                       {/* <h2 className="d-inline-block">Account List</h2> */}
                       <p>
-                        {(userState.user.role == RoleType.admin ||
+                        {/* {(userState.user.role == RoleType.admin ||
                           userState.user.role == RoleType.sadmin) && (
                           <button
                             type="submit"
@@ -744,7 +750,7 @@ const ListClients = () => {
                           >
                             Logout All Users
                           </button>
-                        )}
+                        )} */}
 
                         {/* <button
                           type="submit"
@@ -842,30 +848,45 @@ const ListClients = () => {
                       <button className='btn btn-primary form-group w-100'>Bet Lock</button>
                     </div> */}
                   </div>
-                  <div className="float-right   col-md-4 grid gap-2 ">
-                    {userState?.user?.username === unnmae &&  getRoleOptions().some((role) => role.key === newtype) ? (
-                      <p className="text-right">
-                        {username ? (
-                          <CustomLink
-                            to={`/add-user/${username}/${newtype}`}
-                            className="btn btn-diamond"
-                          >
-                            <PersonAddIcon /> Create
-                          </CustomLink>
-                        ) : (
-                          <CustomLink
-                            to={`/add-user/${newtype}`}
-                            className="btn btn-diamond"
-                          >
-                            <PersonAddIcon /> Create
-                          </CustomLink>
-                        )}
-                      </p>
+                  <div className="float-right my-4  col-md-12 mx-auto grid gap-2 ">
+                    {userState?.user?.username === unnmae &&
+                    getRoleOptions().some((role) => role.key === newtype) ? (
+                      <div className="flex item-center justify-around">
+                        <p className="text-right">
+                          {username ? (
+                            <CustomLink
+                              to={`/add-user/${username}/${newtype}`}
+                              className="btn bg-primary"
+                            >
+                              <PersonAddIcon /> Create
+                            </CustomLink>
+                          ) : (
+                            <CustomLink
+                              to={`/add-user/${newtype}`}
+                              className="btn bg-primary"
+                            >
+                              <PersonAddIcon /> Create
+                            </CustomLink>
+                          )}
+                        </p>
+
+                        <p className="text-right">
+                          {username ? (
+                            <CustomLink to={`#`} className="btn bg-primary">
+                              Update Limit
+                            </CustomLink>
+                          ) : (
+                            <CustomLink to={`#`} className="btn bg-primary">
+                              Update Limit
+                            </CustomLink>
+                          )}
+                        </p>
+                      </div>
                     ) : (
                       ""
                     )}
 
-                    <div className="flex item-center gap-1">
+                    <div className="flexxx hidden item-center gap-1">
                       <input
                         type="text"
                         placeholder="Search"
@@ -919,17 +940,17 @@ const ListClients = () => {
                 </li>
               </ul> */}
               <div
-                style={{ overflowY: "scroll", paddingBottom:"50vh" }}
+                style={{ overflowY: "scroll", paddingBottom: "50vh" }}
                 className="table-responsive data-table "
                 ref={ref}
               >
                 <table
                   id="clientListTable"
                   className="table table-striped  table-bordered  "
-                  style={{ width: "100%" }}
+                  style={{ width: "100%", borderWidth: "none" }}
                 >
                   <thead>
-                    <tr role="row">
+                    <tr className="hidden" role="row">
                       <th colSpan={2} rowSpan={1}></th>
                       <th colSpan={4} rowSpan={1}></th>
 
@@ -970,38 +991,49 @@ const ListClients = () => {
                         />
                       </th> */}
 
-                      <th className="noExport">U St</th>
+                      <th
+                        style={{ backgroundColor: "pink" }}
+                        className="noExport"
+                      >
+                        U St
+                      </th>
                       {/* <th className="noExport">B St</th> */}
                       {/* <th></th> */}
-                      <th></th>
+                      <th style={{ backgroundColor: "pink" }}></th>
 
-                      <th>User</th>
-                      <th>Name</th>
-                      <th>Mobile</th>
-                      <th>Password</th>
+                      <th style={{ backgroundColor: "pink" }}>Name</th>
+                      <th style={{ backgroundColor: "pink" }}>Code</th>
+                      <th style={{ backgroundColor: "pink" }}>Mobile</th>
+                      <th style={{ backgroundColor: "pink" }}>Password</th>
 
                       {urole !== "dl" && newtype !== "user" && (
-                        <th>{upper?.first} Share %</th>
+                        <th style={{ backgroundColor: "pink" }}>
+                          {upper?.first} Share %
+                        </th>
                       )}
                       {urole !== "dl" && newtype !== "user" && (
-                        <th>{upper?.second} Share %</th>
+                        <th style={{ backgroundColor: "pink" }}>
+                          {upper?.second} Share %
+                        </th>
                       )}
 
                       {/* <th>SuperShare Limit</th> */}
-                      <th>Current</th>
+                      <th style={{ backgroundColor: "pink" }}>Current</th>
                       {/* <th>Client (P/L)</th> */}
-                      <th>{newtype === "user" ? "Engaged" : "Agent"}</th>
+                      <th style={{ backgroundColor: "pink" }}>
+                        {newtype === "user" ? "Engaged" : "Agent"}
+                      </th>
                       {/* <th>Available Balance</th> */}
 
                       {/* <th>Engaged</th> */}
-                      <th>Match %</th>
-                      <th>Session %</th>
+                      <th style={{ backgroundColor: "pink" }}>Match %</th>
+                      <th style={{ backgroundColor: "pink" }}>Session %</th>
 
-                      <th>Account Type</th>
+                      <th style={{ backgroundColor: "pink" }}>Account Type</th>
                       {/* <th className="noExport">Actions</th> */}
                     </tr>
                   </thead>
-                  <tbody style={{marginBottom:"87px"}}>
+                  <tbody style={{ marginBottom: "87px" }}>
                     <tr className="hidden">
                       {/* <th className="noExport"></th> */}
                       {/* for user lock */}
@@ -1038,23 +1070,23 @@ const ListClients = () => {
                       <th></th>
                       <th className="noExport"></th>
                     </tr>
-                     {/* ?.slice() // create a shallow copy to avoid mutating original */}
+                    {/* ?.slice() // create a shallow copy to avoid mutating original */}
 
-                    {users?.items?.sort((a: User, b: User) => {
-                      // Sort so that items with betLock === true come first
-                      // return (b.betLock ? true : 0) - (a.betLock ? 1 : 0);
-                      //@ts-ignore
-                      // return (b.betLock === true) - (a.betLock === true);
+                    {users?.items
+                      ?.sort((a: User, b: User) => {
+                        // Sort so that items with betLock === true come first
+                        // return (b.betLock ? true : 0) - (a.betLock ? 1 : 0);
+                        //@ts-ignore
+                        // return (b.betLock === true) - (a.betLock === true);
 
-                      return (b.isLogin === true) - (a.isLogin === true);
-                    })
-                    ?.map((user: User, index: number) => {
-                      const shouldFilterByType =
-                        newtype && newtype.trim() !== "";
+                        return (b.isLogin === true) - (a.isLogin === true);
+                      })
+                      ?.map((user: User, index: number) => {
+                        const shouldFilterByType =
+                          newtype && newtype.trim() !== "";
                         if (shouldFilterByType && user.role !== newtype) {
                           return null;
                         }
-
 
                         // if (
                         //   (shouldFilterByType && user.role !== newtype) ||
@@ -1063,9 +1095,9 @@ const ListClients = () => {
                         // )
                         //   return null;
 
-                      return (
-                        <tr key={user._id}>
-                          {/* <td>
+                        return (
+                          <tr key={user._id}>
+                            {/* <td>
                             <input
                               type={'checkbox'}
                               checked={user.selected || false}
@@ -1073,7 +1105,7 @@ const ListClients = () => {
                             />
                           </td> */}
 
-                          {/* <td>
+                            {/* <td>
                             {user.role !== RoleType.admin && (
                               <input
                                 className="form-control"
@@ -1100,112 +1132,114 @@ const ListClients = () => {
                             )}
                           </td> */}
 
-                          <td className="">
-                            {/* ye hai for login wala jisme admin ko hide rkhta hai aage bhi 3 lock hai total casino crick and login */}
-                            {user.role !== RoleType.admin && (
-                              <span
-                                onClick={() =>
-                                  updateStatus(index, !user?.isLogin, "user")
-                                }
-                                style={{ cursor: "pointer" }}
-                              >
-                                {user?.isLogin ? (
-                                  <LockOpenIcon 
-                                  style={{
-                                    backgroundColor: "green",
-                                    color: "white",
-                                    borderRadius: "2px",
-                                    padding: "2px",
-                                  }} />
-                                ) : (
-                                  <LockIcon 
-                                  style={{
-                                    backgroundColor: "red",
-                                    color: "white",
-                                    borderRadius: "2px",
-                                    padding: "2px",
-                                  }} />
-                                )}
-                              </span>
-                            )}
-                          </td>
+                            <td className="">
+                              {/* ye hai for login wala jisme admin ko hide rkhta hai aage bhi 3 lock hai total casino crick and login */}
+                              {user.role !== RoleType.admin && (
+                                <span
+                                  onClick={() =>
+                                    updateStatus(index, !user?.isLogin, "user")
+                                  }
+                                  style={{ cursor: "pointer" }}
+                                >
+                                  {user?.isLogin ? (
+                                    <LockOpenIcon
+                                      style={{
+                                        backgroundColor: "green",
+                                        color: "white",
+                                        borderRadius: "2px",
+                                        padding: "2px",
+                                      }}
+                                    />
+                                  ) : (
+                                    <LockIcon
+                                      style={{
+                                        backgroundColor: "red",
+                                        color: "white",
+                                        borderRadius: "2px",
+                                        padding: "2px",
+                                      }}
+                                    />
+                                  )}
+                                </span>
+                              )}
+                            </td>
 
-                          <td className="hidden">
-                            {user.role !== RoleType.admin && (
-                              <span
-                                // ye hain casino sbke liye superadmin ko toh vese bhi nhi dikhega
-                                onClick={() =>
-                                  updateStatus(index, !user?.betLock, "bet")
-                                }
-                                style={{ cursor: "pointer" }}
-                              >
-                                {user?.betLock ? (
-                                  <LockOpenIcon
-                                    style={{
-                                      backgroundColor: "green",
-                                      color: "white",
-                                      borderRadius: "2px",
-                                      padding: "2px",
-                                    }}
-                                  />
-                                ) : (
-                                  <LockIcon
-                                    style={{
-                                      backgroundColor: "red",
-                                      color: "white",
-                                      borderRadius: "2px",
-                                      padding: "2px",
-                                    }}
-                                  />
-                                )}
-                              </span>
-                            )}
+                            <td className="hidden">
+                              {user.role !== RoleType.admin && (
+                                <span
+                                  // ye hain casino sbke liye superadmin ko toh vese bhi nhi dikhega
+                                  onClick={() =>
+                                    updateStatus(index, !user?.betLock, "bet")
+                                  }
+                                  style={{ cursor: "pointer" }}
+                                >
+                                  {user?.betLock ? (
+                                    <LockOpenIcon
+                                      style={{
+                                        backgroundColor: "green",
+                                        color: "white",
+                                        borderRadius: "2px",
+                                        padding: "2px",
+                                      }}
+                                    />
+                                  ) : (
+                                    <LockIcon
+                                      style={{
+                                        backgroundColor: "red",
+                                        color: "white",
+                                        borderRadius: "2px",
+                                        padding: "2px",
+                                      }}
+                                    />
+                                  )}
+                                </span>
+                              )}
 
-                            {user.role !== RoleType.admin && (
-                              <span
-                                className="hidden"
-                                // sports ko hide kr rkha hai sbke liye  superadmin ko toh vese bhi nhi dikhega
-                                onClick={() =>
-                                  updateStatus(index, !user?.betLock2, "bet2")
-                                }
-                                style={{ cursor: "pointer" }}
-                              >
-                                {user?.betLock2 ? (
-                                  <LockOpenIcon
-                                    style={{
-                                      backgroundColor: "green",
-                                      color: "white",
-                                      borderRadius: "2px",
-                                      padding: "2px",
-                                    }}
-                                  />
-                                ) : (
-                                  <LockIcon
-                                    style={{
-                                      backgroundColor: "red",
-                                      color: "white",
-                                      borderRadius: "2px",
-                                      padding: "2px",
-                                    }}
-                                  />
-                                )}
-                              </span>
-                            )}
+                              {user.role !== RoleType.admin && (
+                                <span
+                                  className="hidden"
+                                  // sports ko hide kr rkha hai sbke liye  superadmin ko toh vese bhi nhi dikhega
+                                  onClick={() =>
+                                    updateStatus(index, !user?.betLock2, "bet2")
+                                  }
+                                  style={{ cursor: "pointer" }}
+                                >
+                                  {user?.betLock2 ? (
+                                    <LockOpenIcon
+                                      style={{
+                                        backgroundColor: "green",
+                                        color: "white",
+                                        borderRadius: "2px",
+                                        padding: "2px",
+                                      }}
+                                    />
+                                  ) : (
+                                    <LockIcon
+                                      style={{
+                                        backgroundColor: "red",
+                                        color: "white",
+                                        borderRadius: "2px",
+                                        padding: "2px",
+                                      }}
+                                    />
+                                  )}
+                                </span>
+                              )}
 
-                            {user.role !== RoleType.user && (
-                              <button
-                                className="vrx-lock btn btn-warning btn-sm m-0 mt-2 ml-2"
-                                data-target="#ViewPartnerShip"
-                                data-toggle="modal"
-                              >
-                                <p>+</p>
-                              </button>
-                            )}
-                          </td>
+                              {user.role !== RoleType.user && (
+                                <button
+                                  className="vrx-lock btn btn-warning btn-sm m-0 mt-2 ml-2"
+                                  data-target="#ViewPartnerShip"
+                                  data-toggle="modal"
+                                >
+                                  <p>+</p>
+                                </button>
+                              )}
+                            </td>
 
-                          {/* <td>
+                            {/* <td>
                             <a
-                              className="hover:text-white border-b pb-2"
+                              className="hover:text-white  pb-2"
                               onClick={() => {
                                 openModal("d");
                                 getUserDetail(user);
@@ -1215,360 +1249,358 @@ const ListClients = () => {
                             </a>
                           </td> */}
 
-                          <td className="relative-btn" >
-                            {" "}
-                            <button
-                              className=""
-                              onClick={() => user._id && handleToggle(user._id)}
-                            >
-                              <ArrowDropDownIcon className="size-2" />
-                            </button>
-
-
-                            <div
-                              className={`actions-td ${
-                                expandedUserId === user._id ? "open" : ""
-                              }`}
-                              // ref={modalRef}
-                            >
-                              <p className="bg-gray-800 hidden text-white p-2">
-                                Action for the user - {user.username}
-                              </p>
+                            <td className="relative-btn">
+                              {" "}
                               <button
-                                className="closed bg-gray-800 text-white"
+                                className=""
                                 onClick={() =>
                                   user._id && handleToggle(user._id)
                                 }
                               >
-                                <CloseButton className="text-white" />
+                                <ArrowDropDownIcon className="size-2 bg-primary" />
                               </button>
-                              <div className="actions-container  p-4">
-                                <a
-                                  className="hover:text-white  border-b pb-2"
-                                  style={{ color: "#007bff" }}
-                                  onClick={() => {
-                                    openModal("d");
-                                    getUserDetail(user);
-                                  }}
+                              <div
+                                className={`actions-td ${
+                                  expandedUserId === user._id ? "open" : ""
+                                }`}
+                                // ref={modalRef}
+                              >
+                                <p className="bg-gray-800 hidden text-white p-2">
+                                  Action for the user - {user.username}
+                                </p>
+                                <button
+                                  className="closed bg-gray-800 text-white"
+                                  onClick={() =>
+                                    user._id && handleToggle(user._id)
+                                  }
                                 >
-                                  <BorderColorIcon /> Deposit Chips
-                                </a>
-                                <a
-                                  className="border-b pb-2"
-                                  style={{ color: "#007bff" }}
-                                  onClick={() => {
-                                    openModal("w");
-                                    getUserDetail(user);
-                         
-                                  }}
-                                >
-                                  <BorderColorIcon /> Withdrawl Chips
-                                </a>
-
-                                {/* {isAdmin(user) && */}
-                                { userState?.user?.role == RoleType.admin && (
-                                <a
-                                  className="border-b pb-2"
-                                  style={{ color: "#28a745" }}
-                                  onClick={() => {
-                                    openModal("e");
-                                    getUserDetail(user);
-                                    setModalType("EXP");
-                                  }}
-                                >
-                                  <BorderColorIcon /> Exposer Limit
-                                </a>
-                                 )}
-                                {/* isAdmin(user) && */}
-                                {userState?.user?.role == RoleType.admin && (
-                                <a
-                                  className="border-b  pb-2"
-                                  style={{ color: "#28a745" }}
-                                  onClick={() => {
-                                    openModal("e");
-                                    getUserDetail(user);
-                                    setModalType("CRD");
-                                  }}
-                                >
-                                  <BorderColorIcon /> Number Limit Withdrawl
-                                </a>
-                                )}
-                                {/* {isAdmin(user) &&
-                                  user.role !== RoleType.admin && ( */}
-                                <a
-                                  className="border-b pb-2"
-                                  onClick={() => {
-                                    openModal("p");
-                                    getUserDetail(user);
-                                  }}
-                                >
-                                  <BorderColorIcon /> Change Password
-                                </a>
-                                {/* )} */}
-                                {/* {isAdmin(user) &&
-                                  user.role !== RoleType.admin && ( */}
-                                <a
-                                  className="border-b pb-2"
-                                  style={{ color: "#007bff" }}
-                                  onClick={() => {
-                                    openModal("s");
-                                    getUserDetail(user);
-                                  }}
-                                >
-                                  <BorderColorIcon /> Edit{" "}
-                                  {`(${user.username})`}
-                                </a>
-
-                                {userState?.user?.role == RoleType.admin && (
+                                  <CloseButton className="text-white" />
+                                </button>
+                                <div className="actions-container shadow  py-2 px-2">
                                   <a
+                                    className="hover:text-white   pb-2"
                                     onClick={() => {
-                                      openModal("dt");
+                                      openModal("d");
                                       getUserDetail(user);
                                     }}
-                                    style={{ color: "red" }}
-                                    className={`${user?.role !== RoleType.admin  ? "d-block" : "d-none"}`}
                                   >
-                                    <PersonRemoveIcon /> Deactivate{" "}
-                                    {`(${user.username})`}
+                                    Deposit
                                   </a>
-                                )}
-
-                                {/* )}  */}
-                                {userState?.user?.role == RoleType.admin && (
-                                <a
-                                  className="border-b pb-2"
-                                  // style={{ display: "none" }}
-                                  onClick={() => {
-                                    openModal("gs");
-                                    getUserDetail(user);
-                                  }}
-                                >
-                                  <BorderColorIcon /> Min Max Detail
-                                </a>
-                                )}
-
-                                <CustomLink
-                                  to={`/accountstatement/${user?._id}`}
-                                  style={{ color: "#1e1e1e" }}
-                                  className="border-b pb-2"
-                                  onClick={() => {
-                                    openModal("");
-                                    getUserDetail(user);
-                                  }}
-                                >
-                                  <BorderColorIcon /> Account Statement
-                                </CustomLink>
-
-
-                                <CustomLink
-                                  to={`/accountstatement-deposit/${user?._id}`}
-                                  style={{ color: "#1e1e1e" }}
-                                  className="border-b pb-2"
-                                  onClick={() => {
-                                    openModal("");
-                                    getUserDetail(user);
-                                  }}
-                                >
-                                  <BorderColorIcon /> Limit Update Details
-                                </CustomLink>
-
-                                <CustomLink
-                                  to={`/operation/${user?.username}`}
-                                  style={{ color: "#1e1e1e" }}
-                                  className="border-b pb-2"
-                                  onClick={() => {
-                                    openModal("");
-                                    getUserDetail(user);
-                                  }}
-                                >
-                                  <BorderColorIcon /> Account Operation
-                                </CustomLink>
-
-                                {lockshow ? (
-                                  <div
-                                    style={{ width: "100%", height: "100%" }}
-                                    className="absolute top-0 left-0 p-1   max-w-mkd bg-white border rounded-md bg-opacity- f z-50"
+                                  <a
+                                    className=" pb-2"
+                                    onClick={() => {
+                                      openModal("w");
+                                      getUserDetail(user);
+                                    }}
                                   >
-                                    {/* <div 
+                                    Withdrawn
+                                  </a>
+
+                                  {/* {isAdmin(user) && */}
+                                  {userState?.user?.role == RoleType.admin && (
+                                    <a
+                                      className=" pb-2"
+                                      onClick={() => {
+                                        openModal("e");
+                                        getUserDetail(user);
+                                        setModalType("EXP");
+                                      }}
+                                    >
+                                      Exposer Limit
+                                    </a>
+                                  )}
+                                  {/* isAdmin(user) && */}
+                                  {userState?.user?.role == RoleType.admin && (
+                                    <a
+                                      className="  pb-2"
+                                      onClick={() => {
+                                        openModal("e");
+                                        getUserDetail(user);
+                                        setModalType("CRD");
+                                      }}
+                                    >
+                                      Number Limit Withdrawl
+                                    </a>
+                                  )}
+                                  {/* {isAdmin(user) &&
+                                  user.role !== RoleType.admin && ( */}
+
+                                  {/* )} */}
+                                  {/* {isAdmin(user) &&
+                                  user.role !== RoleType.admin && ( */}
+                                  <a
+                                    className=" pb-2 fw-bold"
+                                    onClick={() => {
+                                      openModal("s");
+                                      getUserDetail(user);
+                                    }}
+                                  >
+                                    Edit {`(${user.username})`}
+                                  </a>
+
+                                  {userState?.user?.role == RoleType.admin && (
+                                    <a
+                                      onClick={() => {
+                                        openModal("dt");
+                                        getUserDetail(user);
+                                      }}
+                                      style={{ color: "red" }}
+                                      className={`${
+                                        user?.role !== RoleType.admin
+                                          ? "d-block"
+                                          : "d-none"
+                                      }`}
+                                    >
+                                      Deactivate {`(${user.username})`}
+                                    </a>
+                                  )}
+
+                                  {/* )}  */}
+                                  {userState?.user?.role == RoleType.admin && (
+                                    <a
+                                      className=" pb-2"
+                                      // style={{ display: "none" }}
+                                      onClick={() => {
+                                        openModal("gs");
+                                        getUserDetail(user);
+                                      }}
+                                    >
+                                      Min Max Detail
+                                    </a>
+                                  )}
+
+                                  <CustomLink
+                                    to={`/accountstatement/${user?._id}`}
+                                    style={{ color: "#1e1e1e" }}
+                                    className=" pb-2 fw-bold"
+                                    onClick={() => {
+                                      openModal("");
+                                      getUserDetail(user);
+                                    }}
+                                  >
+                                    Account Statement
+                                  </CustomLink>
+
+                                  <CustomLink
+                                    to={`/accountstatement-deposit/${user?._id}`}
+                                    style={{ color: "#1e1e1e" }}
+                                    className=" pb-2 fw-bold"
+                                    onClick={() => {
+                                      openModal("");
+                                      getUserDetail(user);
+                                    }}
+                                  >
+                                    Limit Update Details
+                                  </CustomLink>
+
+                                  <CustomLink
+                                    to={`/operation/${user?.username}`}
+                                    style={{ color: "#1e1e1e" }}
+                                    className=" pb-2 fw-bold"
+                                    onClick={() => {
+                                      openModal("");
+                                      getUserDetail(user);
+                                    }}
+                                  >
+                                    Account Operation
+                                  </CustomLink>
+
+                                  <a
+                                    className=" pb-2"
+                                    onClick={() => {
+                                      openModal("p");
+                                      getUserDetail(user);
+                                    }}
+                                  >
+                                    Reset Password
+                                  </a>
+
+                                  {lockshow ? (
+                                    <div
+                                      style={{ width: "100%", height: "100%" }}
+                                      className="absolute top-0 left-0 p-1   max-w-mkd bg-white border rounded-md bg-opacity- f z-50"
+                                    >
+                                      {/* <div 
     className="bg-gray-300 text-black rounded-t-lg  p-6
            transform translate-y-full animate-slide-up"
   > */}
 
-                                    <div className="col-12 mb-2 col-md-12 text-center">
-                                      <table className="table table-striped  table-bordered  lenden len">
-                                        <thead>
-                                          <tr>
-                                            <td>id</td>
-                                            <td>Game</td>
-                                            <td>Action</td>
-                                          </tr>
-                                        </thead>
-                                        <tbody>
-                                          <tr>
-                                            <td>1</td>
-                                            <td>Casino</td>
-                                            <td>
-                                              <button
-                                                onClick={() =>
-                                                  updateStatus(
-                                                    index,
-                                                    !user?.betLock,
-                                                    "bet"
-                                                  )
-                                                }
-                                                className={`btn ${
-                                                  user?.betLock
-                                                    ? "btn-primary"
-                                                    : "btn-danger"
-                                                }`}
-                                              >
-                                                {user?.betLock
-                                                  ? "Lock"
-                                                  : "Unlock"}
-                                              </button>
-                                            </td>
-                                          </tr>
+                                      <div className="col-12 mb-2 col-md-12 text-center">
+                                        <table className="table table-striped  table-bordered  lenden len">
+                                          <thead>
+                                            <tr>
+                                              <td>id</td>
+                                              <td>Game</td>
+                                              <td>Action</td>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr>
+                                              <td>1</td>
+                                              <td>Casino</td>
+                                              <td>
+                                                <button
+                                                  onClick={() =>
+                                                    updateStatus(
+                                                      index,
+                                                      !user?.betLock,
+                                                      "bet"
+                                                    )
+                                                  }
+                                                  className={`btn ${
+                                                    user?.betLock
+                                                      ? "btn-primary"
+                                                      : "btn-danger"
+                                                  }`}
+                                                >
+                                                  {user?.betLock
+                                                    ? "Lock"
+                                                    : "Unlock"}
+                                                </button>
+                                              </td>
+                                            </tr>
 
-                                          <tr>
-                                            <td>2</td>
-                                            <td>Cricket</td>
-                                            <td>
-                                              <button
-                                                onClick={() =>
-                                                  updateStatus(
-                                                    index,
-                                                    !user?.betLock2,
-                                                    "bet2"
-                                                  )
-                                                }
-                                                className={`btn ${
-                                                  user?.betLock2
-                                                    ? "btn-primary"
-                                                    : "btn-danger"
-                                                }`}
-                                              >
-                                                {user?.betLock2
-                                                  ? "Lock"
-                                                  : "Unlock"}
-                                              </button>
-                                            </td>
-                                          </tr>
-                                        </tbody>
-                                      </table>
+                                            <tr>
+                                              <td>2</td>
+                                              <td>Cricket</td>
+                                              <td>
+                                                <button
+                                                  onClick={() =>
+                                                    updateStatus(
+                                                      index,
+                                                      !user?.betLock2,
+                                                      "bet2"
+                                                    )
+                                                  }
+                                                  className={`btn ${
+                                                    user?.betLock2
+                                                      ? "btn-primary"
+                                                      : "btn-danger"
+                                                  }`}
+                                                >
+                                                  {user?.betLock2
+                                                    ? "Lock"
+                                                    : "Unlock"}
+                                                </button>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                      </div>
+
+                                      <button
+                                        onClick={() => setLockshow(!lockshow)}
+                                        className=" btn btn-danger text-white  rounded"
+                                      >
+                                        Close
+                                      </button>
+                                      {/* </div> */}
                                     </div>
+                                  ) : (
+                                    ""
+                                  )}
 
-                                    <button
+                                  {user.role !== RoleType.admin && (
+                                    <a
+                                      className=" pb-2"
                                       onClick={() => setLockshow(!lockshow)}
-                                      className=" btn btn-danger text-white  rounded"
                                     >
-                                      Close
-                                    </button>
-                                    {/* </div> */}
-                                  </div>
-                                ) : (
-                                  ""
-                                )}
+                                      <VisibilityIcon /> Block Games
+                                    </a>
+                                  )}
 
-                                {user.role !== RoleType.admin && (
-                                  <a
-                                    className="border-b pb-2"
-                                    onClick={() => setLockshow(!lockshow)}
-                                  >
-                                    <VisibilityIcon /> Block Games
-                                  </a>
-                                )}
-
-                                {/* {isAdmin(user) && (
+                                  {/* {isAdmin(user) && (
                                   <a
                                     onClick={() => {
                                       resetTxnPassword(user);
                                     }}
                                   >
-                                 <BorderColorIcon />    Transaction Password
+                                    Transaction Password
                                   </a>
                                 )} */}
+                                </div>
                               </div>
-                            </div>
-                          </td>
-
-                          <td>{user?.code}</td>
-
-                          <td className="">
-                            {user.role !== RoleType.user && (
-                              <CustomLink
-                                className="text-blue"
-                                // to={`/list-clients/${user.username}`}
-                                to={`/list-clients/${user.username}/${
-                                  user.role === "admin"
-                                    ? "sadmin"
-                                    : user.role === "sadmin"
-                                    ? "suadmin" 
-                                    : user.role === "suadmin" 
-                                    ? "smdl"
-                                    : user.role === "smdl"
-                                    ? "mdl"
-                                    : user.role === "mdl"
-                                    ? "dl"
-                                    : user.role === "dl"
-                                    ? "user"
-                                    : "user"
-                                }`}
-                              >
-                                <p className="">{user.username}</p>
-                              </CustomLink>
-                            )}
-                            {user.role === RoleType.user && (
-                              <p
-                                style={{ padding: "5px 10px" }}
-                                className="text-blue "
-                              >
-                                {user.username}
-                              </p>
-                            )}
-
-                            
-
-                           
-                          </td>
-
-                          <td></td>
-                          <td>
-                            {urole === "dl" || urole === "mdl" || urole === "smdl" || urole === "suadmin"
-                              ? "******"
-                              : user?.password}
-                          </td>
-
-                          {urole === "dl" || newtype === "user" ? (
-                            ""
-                          ) : (
-                            <td>
-                              {user?.pshare && user.share != null
-                                ? `${user.pshare - user.share}%` 
-                                : "0%"}
                             </td>
-                          )}
 
-                          {urole == "dl" || newtype === "user" ? (
-                            ""
-                          ) : (
-                            <td>{user?.share ? user?.share : "0"}%</td>
-                          )}
+                            <td>{user?.code}</td>
 
-                          {/* <td>
+                            <td className="">
+                              {user.role !== RoleType.user && (
+                                <CustomLink
+                                  className="text-blue"
+                                  // to={`/list-clients/${user.username}`}
+                                  to={`/list-clients/${user.username}/${
+                                    user.role === "admin"
+                                      ? "sadmin"
+                                      : user.role === "sadmin"
+                                      ? "suadmin"
+                                      : user.role === "suadmin"
+                                      ? "smdl"
+                                      : user.role === "smdl"
+                                      ? "mdl"
+                                      : user.role === "mdl"
+                                      ? "dl"
+                                      : user.role === "dl"
+                                      ? "user"
+                                      : "user"
+                                  }`}
+                                >
+                                  <p className="">{user.username}</p>
+                                </CustomLink>
+                              )}
+                              {user.role === RoleType.user && (
+                                <p
+                                  style={{ padding: "5px 10px" }}
+                                  className="text-blue "
+                                >
+                                  {user.username}
+                                </p>
+                              )}
+                            </td>
+
+                            <td></td>
+                            <td>
+                              {urole === "dl" ||
+                              urole === "mdl" ||
+                              urole === "smdl" ||
+                              urole === "suadmin"
+                                ? "******"
+                                : user?.password}
+                            </td>
+
+                            {urole === "dl" || newtype === "user" ? (
+                              ""
+                            ) : (
+                              <td>
+                                {user?.pshare && user.share != null
+                                  ? `${user.pshare - user.share}%`
+                                  : "0%"}
+                              </td>
+                            )}
+
+                            {urole == "dl" || newtype === "user" ? (
+                              ""
+                            ) : (
+                              <td>{user?.share ? user?.share : "0"}%</td>
+                            )}
+
+                            {/* <td>
                             {user?.creditRefrences ? user.creditRefrences : 0}
                           </td> */}
 
-                          { urole === "dl" || newtype === "user" ?  <td>{mainBalanceUser(user).toFixed(2)}</td> : <td>{mainBalance(user).toFixed(2)}</td>   }
-                         
+                            {urole === "dl" || newtype === "user" ? (
+                              <td>{mainBalanceUser(user).toFixed(2)}</td>
+                            ) : (
+                              <td>{mainBalance(user).toFixed(2)}</td>
+                            )}
 
-                          {user.role === "user" ? (
-                            <td>{finalExposer(user?.balance)}</td>
+                            {user.role === "user" ? (
+                              <td>{finalExposer(user?.balance)}</td>
+                            ) : (
+                              <td>{mainBalancechild(user).toFixed(2)}</td>
+                            )}
 
-                          ) : (
-                            <td>{mainBalancechild(user).toFixed(2)}</td>
-                          )}
-
-                          {/* <td
+                            {/* <td
                             className={
                               user?.balance?.profitLoss &&
                               user?.balance?.profitLoss > 0
@@ -1579,7 +1611,7 @@ const ListClients = () => {
                             {user?.balance?.profitLoss?.toFixed(2) || 0}
                           </td> */}
 
-                          {/* <td>
+                            {/* <td>
                             {(
                               (user.balance?.balance || 0) -
                               (user.balance?.exposer || 0) -
@@ -1587,14 +1619,14 @@ const ListClients = () => {
                             ).toFixed(2)}
                           </td> */}
 
-                          {/* <td>{user.exposerLimit ? user.exposerLimit : 0}</td> */}
-                          <td>{user.mcom}%</td>
-                          <td>{user.scom}%</td>
+                            {/* <td>{user.exposerLimit ? user.exposerLimit : 0}</td> */}
+                            <td>{user.mcom}%</td>
+                            <td>{user.scom}%</td>
 
-                          <td>{RoleName[user.role!]}</td>
-                        </tr>
-                      );
-                    })}
+                            <td>{RoleName[user.role!]}</td>
+                          </tr>
+                        );
+                      })}
                   </tbody>
                 </table>
               </div>

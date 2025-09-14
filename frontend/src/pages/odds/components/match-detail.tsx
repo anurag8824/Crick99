@@ -235,24 +235,24 @@ const MatchDetail = (props: any) => {
               </Fragment>
             )}
 
-            <div className='card m-b-10 my-bet'>
-              <div className='card-header'>
-                <h6 className='card-title d-inline-block'>My Bet</h6>
-                <a
+            <div style={{background:"none",  border:"none"}} className='card m-b-10 my-bet'>
+             
+              <h1 className="section-title text-center">OPEN BETS</h1>
+                {/* <a
                   href='#'
                   onClick={showAllBet}
                   className='card-title d-inline-block float-right'
                 >
                   View All
-                </a>
-              </div>
+                </a> */}
+            
               <div className='card-body'>
                 <MyBetComponent />
               </div>
             </div>
 
 
-            <div className='card m-b-10 my-bet'>
+            <div className='card m-b-10 my-bet d-none'>
               {/* <div className='card-header'> */}
               {/* <h6 className='card-title d-inline-block'>Declared Bet</h6> */}
               <h6 className="p-2 w-100 m-0 bg-info text-white text-center">Declared Bets</h6>

@@ -4,6 +4,7 @@ import betService from "../../../services/bet.service";
 import { AxiosResponse } from "axios";
 import { useAppSelector } from "../../../redux/hooks";
 import { selectUserData } from "../../../redux/actions/login/loginSlice";
+import { CustomLink } from "../../../pages/_layout/elements/custom-link";
 
 interface LedgerItem {
   _id: string;
@@ -71,14 +72,19 @@ const MyLedger = () => {
   const processedRows = getProcessedRows();
   const finalBalance = processedRows.length > 0 ? processedRows[0].balance : 0;
   return (
-    <>
-      <p className="text-center bg-secondary tx-12 text-white p-1">
-        {" "}
-        My Ledger{" "}
-      </p>
+    <div className=" body-wrap p-4">
+      <div style={{background:"pink"}}  className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex">
+                                         <span className="text-2xl font-weight-normal gx-text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
+                                         My ledger
+                                         </span>
+                                         <CustomLink to={"/"} type="button" className="btn bg-primary">
+                                           <span>Back</span>
+                                         </CustomLink>
+       </div>
+
       <div>
         <div className="container w-100 mt-2 mb-5">
-          <div className="text-center mb-4"></div>
+   
 
           <div
             id="ledger_wrapper"
@@ -89,6 +95,22 @@ const MyLedger = () => {
               <div className="col-sm-12 col-md-6"></div>
             </div>
 
+
+
+<div className="container py-1">
+  <div className="row text-center">
+    <div className="col-12 col-md-4 py-2">
+      <span className="text-success fw-semibold fs-5">Lena: 0.00</span>
+    </div>
+    <div className="col-12 col-md-4 py-2">
+      <span className="text-danger fw-semibold fs-5">Dena: 0.00</span>
+    </div>
+    <div className="col-12 col-md-4 py-2">
+      <span className="text-success fw-semibold fs-5">Balance: 0.00 (Lena)</span>
+    </div>
+  </div>
+</div>
+
             <div className="row overflow-auto mb-20">
               <div className="col-sm-12">
                 <table
@@ -98,36 +120,48 @@ const MyLedger = () => {
                   role="grid"
                 >
                   <thead className="navbar-bet99 text-dark">
-                    <tr role="row">
+                    <tr role="row" >
                       <th
                         className="p-1 pl-2 small sorting_disabled pr-0"
-                        style={{ minWidth: 170, width: 170 }}
+                        style={{ minWidth: 170, width: 170 , backgroundColor:"pink" }}
                       >
-                        DATE
+                        Date
                       </th>
                       <th
                         className="p-1 small text-center no-sort sorting_disabled"
-                        style={{ width: 81 }}
+                        style={{ width: 81 ,backgroundColor:"pink" }}
                       >
-                        CREDIT
+                        Event Name
                       </th>
                       <th
                         className="p-1 small text-center no-sort sorting_disabled"
-                        style={{ width: 60 }}
+                        style={{ width: 81 ,backgroundColor:"pink" }}
                       >
-                        DEBIT
+                        Credit
+                      </th>
+                      <th
+                        className="p-1 small text-center no-sort sorting_disabled"
+                        style={{ width: 60 ,backgroundColor:"pink" }}
+                      >
+                        Ddebit
                       </th>
                       <th
                         className="p-1 small text-center  no-sort sorting_disabled"
-                        style={{ width: 97 }}
+                        style={{ width: 97 ,backgroundColor:"pink" }}
                       >
-                        BALANCE
+                        Balance
+                      </th>
+                      <th
+                        className="p-1 small text-center  no-sort sorting_disabled"
+                        style={{ width: 97 ,backgroundColor:"pink" }}
+                      >
+                        Type
                       </th>
                       <th
                         className="p-1 small no-sort sorting_disabled"
-                        style={{ width: 654 }}
+                        style={{ width: 127 ,backgroundColor:"pink" }}
                       >
-                        WINNER / Remark
+                   Remark
                       </th>
                     </tr>
                   </thead>
@@ -287,7 +321,7 @@ const MyLedger = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

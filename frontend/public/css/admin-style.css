@@ -57,12 +57,12 @@ body {
   /* row-gap: 15px; */
   margin-top: 48px;
   margin-bottom: 2px;
-  background-color: #424242;
+  background-color: pink;
 
 }
 
 .bg-gray-header{
-  background-color:  #424242;
+  background-color:  pink;
  }
 
 
@@ -623,7 +623,7 @@ input:checked~.checkmark:after {
 }
 
 .modal-header .close {
-  background-color: var(--theme1-bg);
+  /* background-color: var(--theme1-bg); */
   opacity: 1;
   border-radius: 50%;
   padding: 0px;
@@ -979,8 +979,8 @@ input+.slider span:last-child {
 
 /*first level*/
 .btco-hover-menu .collapse ul>li:hover>a {
-  background: var(--theme2-bg);
-  color: var(--secondary-color);
+  /* background: var(--theme2-bg); */
+  color: #fa8c15
 }
 
 /*second level*/
@@ -1524,7 +1524,7 @@ ul.mtree.transit li.mtree-open>a::after {
 /* Actions container (Links) */
 .actions-container {
   display: grid;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
   padding: 2px;
   border-radius: 4px;
   width: fit-content;
@@ -6477,7 +6477,7 @@ button.btn-close::after {
 
 .modal-header {
   padding: 10px;
-  background: var(--theme1-bg);
+  background: var(--pink-bg);
   color: var(--primary-color);
   border-radius: 0;
   border: 0;

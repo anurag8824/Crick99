@@ -2,6 +2,7 @@ import React from "react";
 import "./ledger.css";
 import betService from "../../../services/bet.service";
 import { AxiosResponse } from "axios";
+import { CustomLink } from "../../../pages/_layout/elements/custom-link";
 
 interface LedgerItem {
   commissionlega: number;
@@ -51,13 +52,46 @@ const TotalProfit = () => {
   }, [optionuser]);
 
   return (
-    <>
-      <p className="text-center bg-secondary tx-12 text-white p-1">
-        Total Profit{" "}
-      </p>
+    <div className="body-wrap p-4">
+      <div style={{background:"pink"}}  className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex">
+                                              <span className="text-3xl font-seminbold gx-text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
+                                               Profit Loss
+                                              </span>
+                                              <CustomLink to={"/"} type="button" className="btn bg-primary">
+                                                <span>Back</span>
+                                              </CustomLink>
+            </div>
       <div>
         <div className="container h-full w-100 mt-2 mb-20">
           <div className="text-center mb-4"></div>
+
+          <div className="container d-none py-3">
+  <div className="row align-items-center">
+    <div className="col-12 col-md-4 text-start">
+      <div className="d-inline-block">
+        <small className="d-block text-muted">Start date</small>
+        <span className="fw-semibold">2025-08-12</span>
+        <span className="mx-2">—</span>
+        <small className="d-block text-muted">End date</small>
+        <span className="fw-semibold">2025-09-12</span>
+      </div>
+    </div>
+
+    <div className="col-12 col-md-4 text-center">
+      <div className="d-inline-block">
+        <small className="d-block text-muted">Filter</small>
+        <span className="fw-semibold">All</span>
+      </div>
+    </div>
+
+    <div className="col-12 col-md-4 text-end">
+      <div className="d-inline-block">
+        <small className="d-block text-muted">Total:</small>
+        <span className="fw-semibold text-success">0.00</span>
+      </div>
+    </div>
+  </div>
+</div>
 
           <select
             id="select-tools-sa"
@@ -280,7 +314,7 @@ const TotalProfit = () => {
           </div> */}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

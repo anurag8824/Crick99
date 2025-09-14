@@ -19,6 +19,10 @@ import RejectedBets from './pages/SportsDetail/RejectedBets'
 import ReportBets from './pages/SportsDetail/ReportBets'
 import ClientBetsLedger from './pages/SportsDetail/ClientBetsLedger'
 import CasinoDetail from './pages/SportsDetail/CasinoDetail'
+import ClientTransactions from './pages/ClientTransactions'
+import MainSetting from './pages/settings/MainSetting'
+import SportsCompletedDetails from './pages/SportsDetail/SportsCompletedDetails'
+import LoginReport from './pages/settings/LoginReport'
 
 
 const ActiveMarkets = React.lazy(() => import('../admin-app/pages/active-matches/active-markets'))
@@ -143,6 +147,10 @@ const AdminRoutes = () => {
             { path: "client-bets/:id", element: <ClientBetsLedger />},
 
 
+            {path:"client-transactions", element: <ClientTransactions/>},
+            {path:"main-setting", element: <MainSetting/>},
+
+
            
 
 
@@ -156,7 +164,12 @@ const AdminRoutes = () => {
             {path: "all-client-report", element: <AllReport/>},
             {path:"casino-pl", element:<CasinoPL/>},
             {path: "sports-details", element: <SportsDetails/>},
+            {path: "completed-sports-details", element: <SportsCompletedDetails/>},
+
             {path: "casino-details", element: <CasinoDetail/>},
+
+            {path: "login-report", element: <LoginReport/>},
+
 
             {path: "inplay-games", element: <Inplaygames/>},
             {path:"user-ac", element: <AdminUseras/>},

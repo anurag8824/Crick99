@@ -2,6 +2,7 @@ import React from 'react'
 import accountService from '../../../services/account.service';
 import { AxiosResponse } from 'axios';
 import moment from 'moment';
+import { CustomLink } from '../../../pages/_layout/elements/custom-link';
 
 const CasinoDetail = () => {
 
@@ -53,9 +54,16 @@ const CasinoDetail = () => {
 
 
     return (
-        <div className=' body-wrap'>
+        <div className=' body-wrap p-4'>
 
-            <h2 className="ledger-title">Casino Details</h2>
+            <div style={{background:"pink"}}  className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex">
+                                               <span className="text-2xl font-weight-normal gx-text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
+                                               Casino PandL Detail
+                                               </span>
+                                               <CustomLink to={"/"} type="button" className="btn bg-primary">
+                                                 <span>Back</span>
+                                               </CustomLink>
+                                             </div>
 
 
             <div style={{ fontSize: "12px" }} className="d-flex gap-2 align-items-end mb-3  flex-wrap">
@@ -78,8 +86,8 @@ const CasinoDetail = () => {
                     />
                 </div>
                 <div>
-                    <button className="btn btn-primary" onClick={handleFilter}>
-                        Filter
+                    <button className="btn bg-primary" onClick={handleFilter}>
+                        Submit
                     </button>
                 </div>
             </div>
@@ -154,7 +162,7 @@ const CasinoDetail = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {displayedBets.map((b: any, j: number) => (
+                            {displayedBets?.map((b: any, j: number) => (
                                 <tr key={j} className="text-center align-middle fs-6">
                                     <td>{b?.userName} ({b?.parentNameStr})</td>
                                     <td>{b?.selectionName}</td>

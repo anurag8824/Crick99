@@ -82,7 +82,7 @@ React.useEffect(() => {
 // }
 
   return (
-    <>
+    <div className='items-center'>
         
       {/* <Modal
         isOpen={props.showDialog}
@@ -207,7 +207,7 @@ React.useEffect(() => {
           </form>
         </div>
       {/* </Modal> */}
-    </>
+    </div>
   )
 }
 

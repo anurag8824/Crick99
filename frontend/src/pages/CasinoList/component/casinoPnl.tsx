@@ -17,7 +17,7 @@ const CasinoPnl = (props: any) => {
         {getMarketBook[`${matchId}_${sectionId}`].toLocaleString()}
       </span>
     ) : (
-      <span className={clsName} style={{ color: 'black' }}>0</span>
+      <span className={clsName} style={{ color: 'white' }}>0</span>
     )}
   </p>
   )

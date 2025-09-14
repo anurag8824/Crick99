@@ -138,7 +138,7 @@ const Main = () => {
         )}
       </div>
       <Footer />
-      {/* {welcomeState.status ? <Welcome /> : ""} */}
+      {welcomeState.status ? <Welcome /> : ""}
     </div>
   );
 };

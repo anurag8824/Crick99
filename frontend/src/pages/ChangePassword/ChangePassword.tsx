@@ -59,7 +59,7 @@ const ChangePassword = () => {
       });
   };
 
-  const renderInputBox = (name: string, label: string) => {
+  const renderInputBox = (name: string, label: string , placeholder: string) => {
     const rendbox = [];
     rendbox.push(
       <InputComponent
@@ -69,6 +69,7 @@ const ChangePassword = () => {
         changeHandler={changeHandler}
         errorMsg={errorMsg}
         btnValue={passobj}
+        placeholder={placeholder}
       />
     );
     return rendbox;
@@ -90,13 +91,13 @@ const ChangePassword = () => {
           <h2 className="text-center py-2">Change Password</h2>
           <div style={{ border: "none"  }}  className="card-body p-2">
             <div className="row row5 mb-1">
-              <div className="col-12 col-lg-6 w-full ">
-                {renderInputBox("current_password", "Current Password")}
+              <div className="col-12 col-lg-12 w-full ">
+                {renderInputBox("current_password", "Current Password" , "ENTER CURRENT PASSWORD")}
               </div>
             </div>
             <div className="row row5 mb-1">
-              <div className="col-12 col-lg-6">
-                {renderInputBox("new_password", "New Password")}
+              <div className="col-12 col-lg-12">
+                {renderInputBox("new_password", "New Password" , "ENTER NEW PASSWORD")}
               </div>
               <div className="text-muted small">
                 <span>Password must contain:</span>
@@ -109,8 +110,8 @@ const ChangePassword = () => {
             </div>
 
             <div className="row row5 mb-1">
-              <div className="col-12 col-lg-6">
-                {renderInputBox("confirm_password", "Confirm New  Password")}
+              <div className="col-12 col-lg-12">
+                {renderInputBox("confirm_password", "Confirm New  Password", "CONFIRM NEW PASSWORD")}
               </div>
             </div>
 

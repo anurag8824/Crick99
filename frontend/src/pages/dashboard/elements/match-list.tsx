@@ -54,12 +54,12 @@ const MatchList: React.FC<MatchListProps> = ({
                         alt="tv"
                         src="https://urbet99.com/images/live-tv.png"
                         style={{ width: "25px" }} */}
-                        <LiveTvIcon/>
+                        {/* <LiveTvIcon/> */}
                       
                     </div>
                   </div>
                   <div>
-                    <span className="inplay-btn mobile-show">INPLAY</span>
+                    {/* <span className="inplay-btn mobile-show">INPLAY</span> */}
                   </div>
                 </div>
               </a>

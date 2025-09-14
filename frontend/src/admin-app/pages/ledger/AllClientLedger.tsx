@@ -658,10 +658,17 @@ const AllClientLedger = () => {
 
   return (
     <>
-      <p className="text-center bg-secondary tx-12 text-white p-1">My Ledger</p>
+     
 
       <div className="ledger-container">
-        <h2 className="ledger-title">All Client Ledger</h2>
+      <div style={{background:"pink"}}  className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex">
+                                               <span className="text-2xl font-weight-normal gx-text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
+                                               All Client Ledger
+                                               </span>
+                                               <CustomLink to={"/"} type="button" className="btn bg-primary">
+                                                 <span>Back</span>
+                                               </CustomLink>
+             </div>
 
         <h3>PAYMENT RECEIVING FROM (LENA HAI)</h3>
         <div className="table-section overflow-auto">

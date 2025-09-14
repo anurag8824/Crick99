@@ -47,7 +47,7 @@ const Login = () => {
         return navigate.go('/')
       }
 
-      return isMobile ? navigate.go('/') : navigate.go('/')
+      return isMobile ? navigate.go('/rules') : navigate.go('/rules')
     }
   }, [userState])
 

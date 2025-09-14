@@ -1,7 +1,7 @@
 @import url('https://cdn.jsdelivr.net/npm/tailwindcss@latest/dist/tailwind.min.css');
 
 .nine-x-gray {
-   background-color:#424242;
+   background-color:pink;
 }
 
 @media (min-width: 768px) {
@@ -18,7 +18,7 @@
   /* min-width: 250px; */
   /* max-width: 250px; */
   /* background: #424242; */
-  color: #fff;
+  color: #414141;
   /* transition: all 6.3s; */
 }
 #sidebar.active {
@@ -39,5 +39,15 @@
 }
 
 .bg-active{
-  background-color: #606060;
+  background-color: pink;
+}
+
+.text-active{
+color: #fa8c15;
+}
+
+@media (max-width: 768px) {
+  .hide-on-mobile {
+    display: none !important;
+  }
 }
