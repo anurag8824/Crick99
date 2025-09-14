@@ -506,7 +506,7 @@ const CasinoWrapper = (props: any) => {
   const gameId = gameCode ? gameIdMap?.[gameCode] ?? null : null;
    if(casinoMatchData){
      return(
-      <div>data is loading .....</div>
+      <div>data is loading ..... please wait sometime</div>
      )
    }
 
