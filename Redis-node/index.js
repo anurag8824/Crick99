@@ -37,8 +37,8 @@ let MarketIds = []
 let MatchData = []
 const getMatchid = async () => {
   // const res = await Match.find({active:true})
-  const res = await axios.get(`http://195.110.59.236:3000/allMatchUsingSports/4`)
-  console.log(res.data.data.t1, "response")
+  const res = await axios.get(`http://82.29.164.133:3000/bxpro/v1/allmatch`)
+  console.log(res.data.data, "response")
   MatchData = res?.data?.data?.t1
   MatchIds = res?.data?.data?.t1.map(match => match?.gmid)
   console.log(MatchIds, "MatchIds")
