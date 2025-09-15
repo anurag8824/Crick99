@@ -83,10 +83,11 @@ const ButtonLayout = (props: any) => {
               <div className='row m-t-10'>
                 <div className='col-12 text-center suspendwidth'>
                   <button
+                 
                     className={`text-uppercase btn-theme ${suspend}`}
                     onClick={() => onBet(true, market)}
                   >
-                    <b>{title}</b>
+                    <b style={{color:"white"}}>{title}</b>
                   </button>
                 </div>
               </div>

@@ -53,7 +53,7 @@ const ButtonItem = (props: any) => {
                 <b>{ItemMarket?.b1 || 0.00}</b>
             </div>
         </div>
-        <button className={`text-uppercase btn-theme ${suspend}`} onClick={() => onBet(true, ItemMarket)}><b >{title}</b></button>
+        <button  className={`text-uppercase btn-theme ${suspend}`} onClick={() => onBet(true, ItemMarket)}><b style={{color:"white"}} >{title}</b></button>
     </>
 }
 export default React.memo(ButtonItem)
