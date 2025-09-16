@@ -67,7 +67,7 @@ export function SuperNodeSocket() {
 
          
     const marketData = OddSocket.convertDataToMarket(market as IMarket);
-    console.log(market.marketId)
+    // console.log(market.marketId,"market it here baby")
 
     clientIo.to(market.marketId).emit("getMarketData", {
       ...market,

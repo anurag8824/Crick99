@@ -195,153 +195,80 @@ class SportsController extends ApiController_1.ApiController {
                 return this.fail(res, e);
             }
         });
-        this.getSeriesWithMarket = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            try {
-                const { EventTypeID } = req.query;
-                if (!EventTypeID)
-                    return this.fail(res, 'EventTypeID is required field');
-                const alreadyAdded = yield Match_1.Match.find({ active: true }, { matchId: 1 });
-                const matchIds = alreadyAdded.map((match) => match.matchId);
-                const response = yield api_1.sportsApi
-                    .get(`/get-series-redis/${EventTypeID}`)
-                    .then((series) => __awaiter(this, void 0, void 0, function* () {
-                    console.log(series, "series is here hahhahahahahahaha");
-                    const getMatches = series.data.data.map((s) => __awaiter(this, void 0, void 0, function* () {
-                        return s.match.map((fm) => {
-                            var _a;
-                            fm.series = s.competition;
-                            fm.matchId = fm.event.id;
-                            fm.matchDateTime = fm.event.openDate;
-                            fm.name = fm.event.name;
-                            fm.seriesId = (_a = s.competition) === null || _a === void 0 ? void 0 : _a.id;
-                            fm.sportId = EventTypeID;
-                            fm.active = matchIds.indexOf(parseInt(fm.event.id)) > -1 ? true : false;
-                            return fm;
-                        });
-                    }));
-                    return Promise.all([...getMatches]);
-                }))
-                    .then((m) => {
-                    return m
-                        .filter((element) => {
-                        return !Array.isArray(element) || element.length !== 0;
-                    })
-                        .flat();
-                })
-                    .catch((e) => console.log('error', e));
-                return this.success(res, response, '');
-            }
-            catch (e) {
-                return this.fail(res, e);
-            }
-        });
         // getSeriesWithMarket = async (req: Request, res: Response): Promise<any> => {
         //   try {
         //     const { EventTypeID } = req.query
         //     if (!EventTypeID) return this.fail(res, 'EventTypeID is required field')
         //     const alreadyAdded = await Match.find({ active: true }, { matchId: 1 })
-        //     console.log(alreadyAdded, "Hello  World")
         //     const matchIds = alreadyAdded.map((match: any) => match.matchId)
-        //     // const response = await sportsApi
-        //     //   .get(`/get-series-redis/${EventTypeID}`)
-        //     // const response  = await axios.get(`http://69.62.123.205:7000/api/v/events?id=${EventTypeID}`)
-        //     // .then(async (series: any) => {
-        //     //   console.log(series,"series from api")
-        //     //   const getMatches = series?.data?.competition?.map(async (s: any) => {
-        //     //     // return s.match.map((fm: any) => {
-        //     //     //   fm.series = s.competition
-        //     //     //   fm.matchId = fm.event.id
-        //     //     //   fm.matchDateTime = fm.event.openDate
-        //     //     //   fm.name = fm.event.name
-        //     //     //   fm.seriesId = s.competition?.id
-        //     //     //   fm.sportId = EventTypeID
-        //     //     //   fm.active = matchIds.indexOf(parseInt(fm.event.id)) > -1 ? true : false
-        //     //     //   return fm
-        //     //     // })
-        //     //     const xyz =   s?.markets?.map(async (t:any)=>{
-        //     //       event:{
-        //     //         "id":t.gmid,
-        //     //         "name":t.ename,
-        //     //         "timezone":"GMT",
-        //     //         "openDate":t.stime,
-        //     //       },
-        //     //      series:{
-        //     //       "id":t.cid.toString(),
-        //     //       "name":t.cname,
-        //     //      },
-        //     //      "matchId":t.gmid,
-        //     //      "matchDateTime":t.time,
-        //     //      "name"t.ename,
-        //     //      "seriesId":t.cid.toString(),
-        //     //      "sportId":EventTypeID,
-        //     //      "active ":matchIds.indexOf(parseInt(s.gmid)) > -1 ? true : false
-        //     //       })
-        //     //     // return{  event:{
-        //     //     //     "id":s.gmid,
-        //     //     //     "name":s.ename,
-        //     //     //     "timezone":"GMT",
-        //     //     //     "openDate":s.stime,
-        //     //     //   },
-        //     //     //  series:{
-        //     //     //   "id":s.cid.toString(),
-        //     //     //   "name":s.cname,
-        //     //     //  },
-        //     //     //  "matchId":s.gmid,
-        //     //     //  "matchDateTime":s.time,
-        //     //     //  "name":s.ename,
-        //     //     //  "seriesId":s.cid.toString(),
-        //     //     //  "sportId":EventTypeID,
-        //     //     //  "active ":matchIds.indexOf(parseInt(s.gmid)) > -1 ? true : false
-        //     //     // }
-        //     // })
-        //     //   return Promise.all([...getMatches])
-        //     // })
-        //     // .then((m) => {
-        //     //   return m
-        //     //     .filter((element: any) => {
-        //     //       return !Array.isArray(element) || element.length !== 0
-        //     //     })
-        //     //     .flat()
-        //     // })
-        //     // .catch((e) => console.log('error', e))
-        //     const response = await axios.get(`http://195.110.59.236:3000/allMatchUsingSports/${EventTypeID}`)
+        //     const response = await sportsApi
+        //       .get(`/get-series-redis/${EventTypeID}`)
         //       .then(async (series: any) => {
-        //         console.log(series, "series from api");
-        //         const getMatches = series?.data?.data?.t1?.flatMap((s: any) => {
-        //           return{
-        //             event: {
-        //               id: s.gmid,
-        //               name: s.ename,
-        //               timezone: "GMT",
-        //               openDate: s.stime,
-        //             },
-        //             series: {
-        //               id: s.cid.toString(),
-        //               name: s.cname,
-        //             },
-        //             matchId: s.gmid,
-        //             matchDateTime: s.stime,
-        //             name: s.ename,
-        //             seriesId: s.cid.toString(),
-        //             sportId: EventTypeID,
-        //             active: matchIds.includes(parseInt(s.gmid)),
-        //           }
-        //         }) || [];
-        //         return Promise.all([...getMatches]);
+        //         console.log(series,"series is here hahhahahahahahaha")
+        //         const getMatches = series.data.data.map(async (s: any) => {
+        //           return s.match.map((fm: any) => {
+        //             fm.series = s.competition
+        //             fm.matchId = fm.event.id
+        //             fm.matchDateTime = fm.event.openDate
+        //             fm.name = fm.event.name
+        //             fm.seriesId = s.competition?.id
+        //             fm.sportId = EventTypeID
+        //             fm.active = matchIds.indexOf(parseInt(fm.event.id)) > -1 ? true : false
+        //             return fm
+        //           })
+        //         })
+        //         return Promise.all([...getMatches])
         //       })
-        //       .then((matches) => {
-        //         return matches.filter(Boolean); // remove undefined/null if any
+        //       .then((m) => {
+        //         return m
+        //           .filter((element: any) => {
+        //             return !Array.isArray(element) || element.length !== 0
+        //           })
+        //           .flat()
         //       })
-        //       .catch((e) => {
-        //         console.log('error', e);
-        //         return [];
-        //       });
-        //     console.log(response, "response is here")
+        //       .catch((e) => console.log('error', e))
         //     return this.success(res, response, '')
         //   } catch (e: any) {
         //     return this.fail(res, e)
         //   }
         // }
+        this.getSeriesWithMarket = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            var _b;
+            try {
+                const { EventTypeID } = req.query;
+                if (!EventTypeID)
+                    return this.fail(res, 'EventTypeID is required field');
+                // Get matchIds from DB
+                const alreadyAdded = yield Match_1.Match.find({ active: true }, { matchId: 1 });
+                const matchIds = alreadyAdded.map((match) => match.matchId);
+                // Fetch from external API
+                const response = yield axios_1.default.get(`http://82.29.164.133:3000/bxpro/v1/allmatch`);
+                const seriesData = (_b = response === null || response === void 0 ? void 0 : response.data) === null || _b === void 0 ? void 0 : _b.data;
+                if (!seriesData)
+                    return this.success(res, [], 'No data from API');
+                // Map over series data to format it
+                const getMatches = yield Promise.all(seriesData.map((s) => __awaiter(this, void 0, void 0, function* () {
+                    var _c, _d;
+                    return {
+                        event: s.event,
+                        series: s.series,
+                        matchId: parseInt(s.event.id),
+                        matchDateTime: s.event.opendate,
+                        name: s.event.name,
+                        seriesId: ((_d = (_c = s.competition) === null || _c === void 0 ? void 0 : _c.id) === null || _d === void 0 ? void 0 : _d.toString()) || '',
+                        sportId: 4,
+                        active: matchIds.includes(parseInt(s.event.id)) // consistent with matchId
+                    };
+                })));
+                // Filter out any falsy or empty objects if needed
+                const filteredMatches = getMatches.filter(Boolean);
+                return this.success(res, filteredMatches, '');
+            }
+            catch (e) {
+                console.error('Error in getSeriesWithMarket:', e);
+                return this.fail(res, e.message || e);
+            }
+        });
         this.getSeriesWithMarketWithDate = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const { EventTypeID } = req.query;
@@ -449,6 +376,7 @@ class SportsController extends ApiController_1.ApiController {
             try {
                 const matches = req.body.data;
                 const syncData = req.body.syncData;
+                console.log(matches, "match data");
                 const matchArray = matches.map((match) => match.matchId);
                 let matchData = [];
                 if (matches && Object.keys(matches[0]).length === 1) {
@@ -476,7 +404,7 @@ class SportsController extends ApiController_1.ApiController {
                     console.log(e.response);
                 });
                 yield matchData.map((match) => __awaiter(this, void 0, void 0, function* () {
-                    yield this.marketesData(match, syncData);
+                    // await this.marketesData(match, syncData)
                     const isFancy = yield this.fancyData(match);
                     const isBookMaker = yield this.bookmakermarketesData(match);
                     let isT10 = false;
@@ -504,7 +432,10 @@ class SportsController extends ApiController_1.ApiController {
                     // @ts-ignore
                     if (sportSettings === null || sportSettings === void 0 ? void 0 : sportSettings._id)
                         sportSettings === null || sportSettings === void 0 ? true : delete sportSettings._id;
-                    let saveMatchData = Object.assign(Object.assign({}, match), { isFancy: isT10Fancy || isFancy, isBookMaker, isT10: isT10 || isT10Fancy, resultstring: "" });
+                    let saveMatchData = Object.assign(Object.assign({}, match), { 
+                        // isFancy: isT10Fancy || isFancy,
+                        // isBookMaker,
+                        isT10: isT10 || isT10Fancy, resultstring: "" });
                     if (!syncData) {
                         saveMatchData = Object.assign(Object.assign({}, saveMatchData), sportSettings);
                     }
@@ -652,33 +583,38 @@ class SportsController extends ApiController_1.ApiController {
         var _a, _b;
         return __awaiter(this, void 0, void 0, function* () {
             const markets = yield sports_service_1.default.getBookmakerMarkets(match);
-            console.log(markets, "markets data from backend ibn ths codew sw");
-            if (((_b = (_a = markets === null || markets === void 0 ? void 0 : markets.data) === null || _a === void 0 ? void 0 : _a.sports) === null || _b === void 0 ? void 0 : _b.length) > 0) {
+            console.log((_a = markets === null || markets === void 0 ? void 0 : markets.data) === null || _a === void 0 ? void 0 : _a.sports, "markets data from backend ibn ths codew sw");
+            if ((_b = markets === null || markets === void 0 ? void 0 : markets.data) === null || _b === void 0 ? void 0 : _b.sports) {
                 let i = 0;
-                yield markets.data.sports.map((market) => __awaiter(this, void 0, void 0, function* () {
-                    let marketName = market.marketName;
-                    if (market.marketName === 'Bookmaker') {
-                        i++;
-                        marketName = i > 1 ? `${market.marketName}${i}` : market.marketName;
-                    }
-                    const marketsData = {
-                        seriesId: match.seriesId,
-                        sportId: match.sportId,
-                        matchId: match.matchId,
-                        marketId: market.marketId,
-                        marketName: marketName,
-                        marketStartTime: market.marketStartTime,
-                        runners: market.runners.sort((a, b) => a.sortPriority - b.sortPriority),
-                        isActive: true,
-                        oddsType: Market_1.OddsType.BM,
-                    };
-                    // if()
-                    yield Market_1.Market.findOneAndUpdate({ marketId: market.marketId, matchId: match.matchId }, marketsData, {
-                        new: true,
-                        upsert: true,
-                    });
-                }));
-                return markets.data.sports.length > 0;
+                // await markets.data.sports.map(async (market: any) => {
+                let market = markets.data.sports;
+                let marketName = market.marketName;
+                if (market.marketName === 'Bookmaker') {
+                    i++;
+                    marketName = i > 1 ? `${market.marketName}${i}` : market.marketName;
+                }
+                const marketsData = {
+                    seriesId: match.seriesId,
+                    sportId: match.sportId,
+                    matchId: match.matchId,
+                    marketId: market.marketId,
+                    marketName: marketName,
+                    marketStartTime: market.marketStartTime,
+                    runners: Array.isArray(market.runners)
+                        ? market.runners.sort((a, b) => a.sortPriority - b.sortPriority)
+                        : [],
+                    isActive: true,
+                    oddsType: Market_1.OddsType.BM,
+                };
+                // if()
+                console.log(marketsData, "FGHJKL");
+                const data34 = yield Market_1.Market.findOneAndUpdate({ marketId: market.marketId, matchId: match.matchId }, marketsData, {
+                    new: true,
+                    upsert: true,
+                });
+                console.log("fghjkl", data34);
+                // })
+                // return markets.data.sports.length > 0
             }
             return false;
         });
@@ -713,6 +649,7 @@ class SportsController extends ApiController_1.ApiController {
         var _a, _b;
         return __awaiter(this, void 0, void 0, function* () {
             const fancy = yield sports_service_1.default.getSession(match.matchId, match.sportId);
+            // console.log(fancy.data.sports,"fancy data is here")
             const fancyone = (_b = (_a = fancy === null || fancy === void 0 ? void 0 : fancy.data) === null || _a === void 0 ? void 0 : _a.sports) === null || _b === void 0 ? void 0 : _b.filter((m) => (m.gtype === "session" || m.gtype === "fancy1") &&
                 (m.RunnerName && !m.RunnerName.includes(" run bhav ")) && (m.RunnerName && !m.RunnerName.includes(" Caught out ")) && (m.RunnerName && !m.RunnerName.includes(" ball No ")) && (m.RunnerName && !m.RunnerName.includes(" Run bhav ")) && (m.RunnerName && !m.RunnerName.includes(" run bhav")) && (m.RunnerName.includes(".3 over ")));
             if (fancy.data.sports) {
@@ -739,7 +676,7 @@ class SportsController extends ApiController_1.ApiController {
                         // sportId: match.sportId,
                         matchId: match.matchId,
                         marketId: market.SelectionId,
-                    }, Object.assign(Object.assign({}, fancyData), { active: type != "ballRun" ? false : false }), {
+                    }, Object.assign(Object.assign({}, fancyData), { active: type != "ballRun" ? true : true }), {
                         new: true,
                         upsert: true,
                     });
@@ -947,24 +884,24 @@ class SportsController extends ApiController_1.ApiController {
                     // ...filter,
                 })
                     .sort({ sr_no: 1, marketId: 1 });
-                const priorityOrder = [
-                    ' over runs ',
-                    ' over run ',
-                    ' fall of wicket ',
-                    '  run',
-                    ' boundaries',
-                    ' pship boundaries ',
-                ];
-                // const  fancy = await Fancy.find()
-                // console.log(fancy,"hello worldz")
-                const sortedFancy = fancy.sort((a, b) => {
-                    const indexA = priorityOrder.findIndex((name) => { var _a; return (_a = a === null || a === void 0 ? void 0 : a.fancyName) === null || _a === void 0 ? void 0 : _a.includes(name); });
-                    const indexB = priorityOrder.findIndex((name) => { var _a; return (_a = b === null || b === void 0 ? void 0 : b.fancyName) === null || _a === void 0 ? void 0 : _a.includes(name); });
-                    const rankA = indexA === -1 ? 999 : indexA;
-                    const rankB = indexB === -1 ? 999 : indexB;
-                    return rankA - rankB;
-                });
-                return this.success(res, sortedFancy);
+                // const priorityOrder = [
+                //   ' over runs ',
+                //   ' over run ',
+                //   ' fall of wicket ',
+                //   '  run',
+                //   ' boundaries',
+                //   ' pship boundaries ',
+                // ];
+                // // const  fancy = await Fancy.find()
+                // // console.log(fancy,"hello worldz")
+                // const sortedFancy = fancy.sort((a :any, b:any) => {
+                //   const indexA = priorityOrder.findIndex((name) => a?.fancyName?.includes(name));
+                //   const indexB = priorityOrder.findIndex((name) => b?.fancyName?.includes(name));
+                //   const rankA = indexA === -1 ? 999 : indexA;
+                //   const rankB = indexB === -1 ? 999 : indexB;
+                //   return rankA - rankB;
+                // });
+                return this.success(res, fancy);
             }
             catch (e) {
                 return this.fail(res, e);

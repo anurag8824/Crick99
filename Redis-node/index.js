@@ -16,7 +16,8 @@ const io = new Server(server, {
   }
 });
 // const dsn ="mongodb+srv://365infayou:Jv9lwv6csl7J1Jp5@cluster365.sxln4q8.mongodb.net/infa?retryWrites=true&w=majority&appName=Cluster365&tlsAllowInvalidCertificates=true";
-const dsn = "mongodb://admin:Infayou8824@69.62.123.205:27017/infa?retryWrites=true&authSource=admin&replicaSet=rs0"
+  const dsn = "mongodb+srv://infayou:rahul1234@cluster0.zbf0n.mongodb.net/infa?retryWrites=true&w=majority&appName=Cluster0&tlsAllowInvalidCertificates=true";
+  // const dsn ="mongodb://admin:Infayou8824@69.62.123.205:27017/infa?retryWrites=true&authSource=admin&replicaSet=rs0"
 //  const dsn = "mongodb+srv://infayou:HkrflNhX6UxHLSqC@cluster0.zbf0n.mongodb.net/infa?retryWrites=true&w=majority&appName=Cluster0&tlsAllowInvalidCertificates=true";
 const setConnection = async () => {
   await mongoose.connect(dsn).then(() => {
@@ -40,7 +41,7 @@ const getMatchid = async () => {
   const res = await axios.get(`http://82.29.164.133:3000/bxpro/v1/allmatch`)
   console.log(res.data.data, "response")
   MatchData = res?.data?.data?.t1
-  MatchIds = res?.data?.data?.t1.map(match => match?.gmid)
+  MatchIds = res?.data?.data?.map(match => match?.event?.id)
   console.log(MatchIds, "MatchIds")
   marketIds = []
   for (const m of MatchIds) {
@@ -79,12 +80,9 @@ const FancyData = {}
 const getFancyDataApi = () => {
   if (MatchIds.length > 0) {
     MatchIds.forEach((id) => {
-      axios.get(`http://195.110.59.236:3000/allMatchData/4/${id}`).then((res) => {
-        // ccconsole.log(res.data, "Fancy  data is Here hahaha")
+      axios.get(`http://82.29.164.133:3000/bxpro/v1/session/${id}`).then((res) => {
         FancyData[id] = res.data
-        // console.log(FancyData,"Fancy Data haaha")
       }).catch((err) => {
-        // console.log("error in fetching Fancy data from api",err)
       })
     })
   }
@@ -146,6 +144,134 @@ const getFancyDataApi = () => {
 //     console.log(`Saved fancy-${m} to Redis ✅`);
 //   }
 // };
+
+
+
+
+const formattedFancyData = async () => {
+  for (const m of MatchIds) {
+     const data = FancyData[m];
+    if (!data || !data.fancy || data.fancy.length === 0) continue;
+
+    const fancydata = data.fancy
+      .filter(f => 
+        f.marketType !== "MATCH_ODDS" &&
+        f.marketType !== "The Draw" &&
+        f.marketType !== "BOOKMAKER"
+      )
+      .map(f => ({
+
+
+        BackPrice1: parseInt(f.runsYes),
+        BackPrice2: 0,
+        BackPrice3: 0,
+        BackSize1: parseInt(f.oddsYes),
+        BackSize2: 0,
+        BackSize3: 0,
+        LayPrice1: parseInt(f.runsNo),
+        LayPrice2: 0,
+        LayPrice3: 0,
+        LaySize1: parseInt(f.oddsNo),
+        LaySize2: 0,
+        LaySize3: 0,
+        RunnerName: f.marketName,
+        SelectionId: f?.marketId.toString(),
+        ballsess: "1",
+        gtype:
+          f.catagory === "SESSIONS"
+            ? "session"
+            : f.catagory === "ODD_EVEN"
+            ? "oddeven"
+            : f.catagory?.toLowerCase(),
+        GameStatus:  f?.statusName == "SUSPEND" ? "SUSPENDED":f.statusName == "ACTIVE" ? "":f.statusName, 
+        gtstatus: f?.statusName == "SUSPEND" ? "SUSPENDED":f.statusName,  
+        max: "50000",
+        min: "100",
+        remm: "",
+        srno: f.sortingOrder.toString(),
+        mname:
+          f.catagory === "SESSIONS"
+            ? "session"
+            : f.catagory === "ODD_EVEN"
+            ? "oddeven"
+            : f.catagory?.toLowerCase() === "w/p/xtra"
+            ? "session"
+            : f?.catagory?.toLowerCase(),
+      }));
+
+    const previousFancyStr = await publisher.get(`fancy-${m}`);
+    let pfancy = [];
+
+    if (previousFancyStr) {
+      try {
+        pfancy = JSON.parse(previousFancyStr);
+      } catch (e) {
+        console.error("Invalid JSON for key:", `fancy-${m}`, e);
+      }
+    }
+
+    const currentSelectionIds = new Set(fancydata.map(item => item.SelectionId));
+    const previousSelectionIds = new Set(pfancy.map(item => item.SelectionId));
+
+    for (const item of fancydata) {
+      if (!previousSelectionIds.has(item.SelectionId)) {
+        const fancy = {
+          matchId: m,
+          SelectionId: item.SelectionId,
+          RunnerName: item.RunnerName,
+          gtype: item.gtype,
+          sr_no: item.srno,
+          ballByBall: ""
+        };
+        io.emit("newFancyAdded", { fancy, matchId: m });
+      }
+    }
+
+    // const deactivatedFancies = {};
+
+    // for (const oldItem of pfancy) {
+    //   if (!currentSelectionIds.has(oldItem.SelectionId)) {
+    //     // Group deactivated SelectionIds by matchId
+    //     if (!deactivatedFancies[m]) {
+    //       deactivatedFancies[m] = [];
+    //     }
+    //     deactivatedFancies[m].push(oldItem.SelectionId);
+
+    //     // Emit per-fancy removal to match room
+    //     io.emit("deactivateFancy", {
+    //       marketId: oldItem.SelectionId,
+    //       matchId: m
+    //     });
+
+    //     console.log(`🔴 Fancy deactivated: ${oldItem.SelectionId} for match ${m}`);
+    //   }
+    // }
+    const deactivatedFancies = {};
+
+    // Collect all deactivated SelectionIds for this match
+    for (const oldItem of pfancy) {
+      if (!currentSelectionIds.has(oldItem.SelectionId)) {
+        if (!deactivatedFancies[m]) {
+          deactivatedFancies[m] = [];
+        }
+        deactivatedFancies[m].push(oldItem.SelectionId);
+
+        console.log(`🔴 Fancy deactivated: ${oldItem.SelectionId} for match ${m}`);
+      }
+    }
+
+    // Emit once per match with all deactivated fancies
+    if (deactivatedFancies[m]?.length > 0) {
+      console.log(deactivatedFancies,"GHJKCGHJKLCHJK")
+      io.emit("deactivateFancy", {
+        [m]: deactivatedFancies[m]
+      })
+    }
+      // Save updated data to Redis
+      await publisher.set(`fancy-${m}`, JSON.stringify(fancydata));
+      console.log(`✅ Saved fancy-${m} to Redis`);
+    }
+  };
 
 
 
@@ -302,114 +428,114 @@ const getFancyDataApi = () => {
 
 
 
-const formattedFancyData = async () => {
-  for (const m of MatchIds) {
-    const data = FancyData[m];
-    if (!data || !data?.data || data?.data.length === 0) continue;
+// const formattedFancyData = async () => {
+//   for (const m of MatchIds) {
+//     const data = FancyData[m];
+//     if (!data || !data?.data || data?.data.length === 0) continue;
 
-    const fancydata = data.data
-      .filter(fb => ["Normal", "fancy", "fancy1"].includes(fb.mname))
-      .flatMap(f =>
-        f.section.map(fa => ({
-          BackPrice1: fa.odds[0]?.odds || 0,
-          BackPrice2: 0,
-          BackPrice3: 0,
-          BackSize1: fa.odds[0]?.size || 0,
-          BackSize2: 0,
-          BackSize3: 0,
-          LayPrice1: fa.odds[1]?.odds || 0,
-          LayPrice2: 0,
-          LayPrice3: 0,
-          LaySize1: fa.odds[1]?.size || 0,
-          LaySize2: 0,
-          LaySize3: 0,
-          RunnerName: fa?.nat,
-          SelectionId: fa?.sid,
-          ballsess: "1",
-          gtype: f?.gtype === "fancy" ? "session" : f?.gtype,
-          GameStatus: fa?.gstatus || "",
-          gstatus: fa?.gstatus ,
-          max: "50000",
-          min: "100",
-          remm: "",
-          srno: fa?.sno?.toString(),
-          mname: f?.mname,
-        }))
-      );
+//     const fancydata = data.data
+//       .filter(fb => ["Normal", "fancy", "fancy1"].includes(fb.mname))
+//       .flatMap(f =>
+//         f.section.map(fa => ({
+//           BackPrice1: fa.odds[0]?.odds || 0,
+//           BackPrice2: 0,
+//           BackPrice3: 0,
+//           BackSize1: fa.odds[0]?.size || 0,
+//           BackSize2: 0,
+//           BackSize3: 0,
+//           LayPrice1: fa.odds[1]?.odds || 0,
+//           LayPrice2: 0,
+//           LayPrice3: 0,
+//           LaySize1: fa.odds[1]?.size || 0,
+//           LaySize2: 0,
+//           LaySize3: 0,
+//           RunnerName: fa?.nat,
+//           SelectionId: fa?.sid,
+//           ballsess: "1",
+//           gtype: f?.gtype === "fancy" ? "session" : f?.gtype,
+//           GameStatus: fa?.gstatus || "",
+//           gstatus: fa?.gstatus ,
+//           max: "50000",
+//           min: "100",
+//           remm: "",
+//           srno: fa?.sno?.toString(),
+//           mname: f?.mname,
+//         }))
+//       );
 
-    const previousFancyStr = await publisher.get(`fancy-${m}`);
-    let pfancy = [];
+//     const previousFancyStr = await publisher.get(`fancy-${m}`);
+//     let pfancy = [];
 
-    if (previousFancyStr) {
-      try {
-        pfancy = JSON.parse(previousFancyStr);
-      } catch (e) {
-        console.error("Invalid JSON for key:", `fancy-${m}`, e);
-      }
-    }
+//     if (previousFancyStr) {
+//       try {
+//         pfancy = JSON.parse(previousFancyStr);
+//       } catch (e) {
+//         console.error("Invalid JSON for key:", `fancy-${m}`, e);
+//       }
+//     }
 
-    const currentSelectionIds = new Set(fancydata.map(item => item.SelectionId));
-    const previousSelectionIds = new Set(pfancy.map(item => item.SelectionId));
+//     const currentSelectionIds = new Set(fancydata.map(item => item.SelectionId));
+//     const previousSelectionIds = new Set(pfancy.map(item => item.SelectionId));
 
-    for (const item of fancydata) {
-      if (!previousSelectionIds.has(item.SelectionId)) {
-        const fancy = {
-          matchId: m,
-          SelectionId: item.SelectionId,
-          RunnerName: item.RunnerName,
-          gtype: item.gtype,
-          sr_no: item.srno,
-          ballByBall: ""
-        };
-        io.emit("newFancyAdded", { fancy, matchId: m });
-      }
-    }
+//     for (const item of fancydata) {
+//       if (!previousSelectionIds.has(item.SelectionId)) {
+//         const fancy = {
+//           matchId: m,
+//           SelectionId: item.SelectionId,
+//           RunnerName: item.RunnerName,
+//           gtype: item.gtype,
+//           sr_no: item.srno,
+//           ballByBall: ""
+//         };
+//         io.emit("newFancyAdded", { fancy, matchId: m });
+//       }
+//     }
 
-    // const deactivatedFancies = {};
+//     // const deactivatedFancies = {};
 
-    // for (const oldItem of pfancy) {
-    //   if (!currentSelectionIds.has(oldItem.SelectionId)) {
-    //     // Group deactivated SelectionIds by matchId
-    //     if (!deactivatedFancies[m]) {
-    //       deactivatedFancies[m] = [];
-    //     }
-    //     deactivatedFancies[m].push(oldItem.SelectionId);
+//     // for (const oldItem of pfancy) {
+//     //   if (!currentSelectionIds.has(oldItem.SelectionId)) {
+//     //     // Group deactivated SelectionIds by matchId
+//     //     if (!deactivatedFancies[m]) {
+//     //       deactivatedFancies[m] = [];
+//     //     }
+//     //     deactivatedFancies[m].push(oldItem.SelectionId);
 
-    //     // Emit per-fancy removal to match room
-    //     io.emit("deactivateFancy", {
-    //       marketId: oldItem.SelectionId,
-    //       matchId: m
-    //     });
+//     //     // Emit per-fancy removal to match room
+//     //     io.emit("deactivateFancy", {
+//     //       marketId: oldItem.SelectionId,
+//     //       matchId: m
+//     //     });
 
-    //     console.log(`🔴 Fancy deactivated: ${oldItem.SelectionId} for match ${m}`);
-    //   }
-    // }
-    const deactivatedFancies = {};
+//     //     console.log(`🔴 Fancy deactivated: ${oldItem.SelectionId} for match ${m}`);
+//     //   }
+//     // }
+//     const deactivatedFancies = {};
 
-    // Collect all deactivated SelectionIds for this match
-    for (const oldItem of pfancy) {
-      if (!currentSelectionIds.has(oldItem.SelectionId)) {
-        if (!deactivatedFancies[m]) {
-          deactivatedFancies[m] = [];
-        }
-        deactivatedFancies[m].push(oldItem.SelectionId);
+//     // Collect all deactivated SelectionIds for this match
+//     for (const oldItem of pfancy) {
+//       if (!currentSelectionIds.has(oldItem.SelectionId)) {
+//         if (!deactivatedFancies[m]) {
+//           deactivatedFancies[m] = [];
+//         }
+//         deactivatedFancies[m].push(oldItem.SelectionId);
 
-        console.log(`🔴 Fancy deactivated: ${oldItem.SelectionId} for match ${m}`);
-      }
-    }
+//         console.log(`🔴 Fancy deactivated: ${oldItem.SelectionId} for match ${m}`);
+//       }
+//     }
 
-    // Emit once per match with all deactivated fancies
-    if (deactivatedFancies[m]?.length > 0) {
-      console.log(deactivatedFancies,"GHJKCGHJKLCHJK")
-      io.emit("deactivateFancy", {
-        [m]: deactivatedFancies[m]
-      })
-    }
-      // Save updated data to Redis
-      await publisher.set(`fancy-${m}`, JSON.stringify(fancydata));
-      // console.log(`✅ Saved fancy-${m} to Redis`);
-    }
-  };
+//     // Emit once per match with all deactivated fancies
+//     if (deactivatedFancies[m]?.length > 0) {
+//       console.log(deactivatedFancies,"GHJKCGHJKLCHJK")
+//       io.emit("deactivateFancy", {
+//         [m]: deactivatedFancies[m]
+//       })
+//     }
+//       // Save updated data to Redis
+//       await publisher.set(`fancy-${m}`, JSON.stringify(fancydata));
+//       // console.log(`✅ Saved fancy-${m} to Redis`);
+//     }
+//   };
 
 
 
@@ -495,120 +621,207 @@ const formattedFancyData = async () => {
 
 
   // BookMaker Market Odds Mangment 
-  const BookMakerOddsData = async () => {
-    const promises = MatchIds.map(id =>
-      axios.get(`http://195.110.59.236:3000/allMatchData/4/${id}`)
-        .then(res => ({ status: 'fulfilled', data: res.data, marketId: id }))
-        .catch(err => ({ status: 'rejected', error: err.message, marketId: id }))
-    );
+  // const BookMakerOddsData = async () => {
+  //   const promises = MatchIds.map(id =>
+  //     axios.get(`http://82.29.164.133:3000/bxpro/v1/session/${id}`)
+  //       .then(res => ({ status: 'fulfilled', data: res.data, marketId: id }))
+  //       .catch(err => ({ status: 'rejected', error: err.message, marketId: id }))
+  //   );
 
-    const results = await Promise.allSettled(promises);
+  //   const results = await Promise.allSettled(promises);
 
-    results.forEach(async (result, index) => {
-      if (result.status === 'fulfilled') {
-        const { marketId, data } = result.value;
-        // console.log(data,"data is ")
-        const fData = data?.data.filter((m) => m.mname == "Bookmaker")
-        const Data = fData?.[0]
-        // console.log(Data, "Data is here ")
+  //   results.forEach(async (result, index) => {
+  //     if (result.status === 'fulfilled') {
+  //       const { marketId, data } = result.value;
+  //       console.log(data,"data is ")
+  //       const fData = data?.data.filter((m) => m.mname == "Bookmaker")
+  //       // const Data = fData?.[0]
+  //       // console.log(Data, "Data is here ")
 
 
-        if (Data) {
-          // const jsonMessage = JSON.stringify(Data);
-          // console.log(Data.runners[0].ex.availableToBack,Data,"jsonMessage")
+  //       if (Data) {
+  //         // const jsonMessage = JSON.stringify(Data);
+  //         // console.log(Data.runners[0].ex.availableToBack,Data,"jsonMessage")
 
-          // const adjustMarketData = (market) => {
-          //   if (!market.runners) return market;
+  //         // const adjustMarketData = (market) => {
+  //         //   if (!market.runners) return market;
 
-          //   market.runners = market.runners.map((runner) => {
-          //     if (!runner.ex) return runner;
+  //         //   market.runners = market.runners.map((runner) => {
+  //         //     if (!runner.ex) return runner;
 
-          //     // Adjust back prices: Decrease by 0.3
-          //     runner.ex.availableToBack = (runner.ex.availableToBack || []).map(b => ({
-          //       price: (parseFloat((b.price - 0.3))),
-          //       size: b.size
-          //     }));
+  //         //     // Adjust back prices: Decrease by 0.3
+  //         //     runner.ex.availableToBack = (runner.ex.availableToBack || []).map(b => ({
+  //         //       price: (parseFloat((b.price - 0.3))),
+  //         //       size: b.size
+  //         //     }));
 
-          //     // Adjust lay prices: Increase by 0.3
-          //     runner.ex.availableToLay = (runner.ex.availableToLay || []).map(l => ({
-          //       price: (parseFloat((l.price + 0.3))),
-          //       size: l.size
-          //     }));
+  //         //     // Adjust lay prices: Increase by 0.3
+  //         //     runner.ex.availableToLay = (runner.ex.availableToLay || []).map(l => ({
+  //         //       price: (parseFloat((l.price + 0.3))),
+  //         //       size: l.size
+  //         //     }));
 
-          //     return runner;
-          //   });
+  //         //     return runner;
+  //         //   });
 
-          //   return market;
-          // };
-          //  const dataone = adjustMarketData(Data)
-          // console.log(dataone,"xyz zyz")
+  //         //   return market;
+  //         // };
+  //         //  const dataone = adjustMarketData(Data)
+  //         // console.log(dataone,"xyz zyz")
 
-          const transformRunners = (inputRunners) => {
+  //         const transformRunners = (inputRunners) => {
+  //           return {
+  //             runners: inputRunners.map(runner => {
+  //               // Filter out zero-priced odds
+  //               // console.log(runner,"runner is here")
+  //               const backOdds = runner.odds.filter(odd => odd.otype == "back");
+  //               const layOdds = runner.odds.filter(odd => odd.otype == "lay");
+
+  //               const backoddsmain = backOdds.reverse().map((m) => {
+  //                 return {
+  //                   size: m.size,
+  //                   price: m.odds
+  //                 }
+  //               })
+
+  //               const layoddsmain = layOdds.map((m) => {
+  //                 return {
+  //                   size: m.size,
+  //                   price: m.odds
+  //                 }
+  //               })
+  //               // console.log(layoddsmain, backoddsmain, "FGHJ")
+
+  //               // Estimate lastPriceTraded as midpoint between best back and lay
+  //               let lastPriceTraded = null;
+  //               if (backOdds.length > 0 && layOdds.length > 0) {
+  //                 lastPriceTraded = (backOdds[0].price + layOdds[0].price) / 2;
+  //               }
+
+  //               return {
+  //                 selectionId: runner.sid,
+  //                 status: runner.gstatus,
+  //                 lastPriceTraded: lastPriceTraded,
+  //                 runnerName: runner.nat,
+  //                 totalMatched: 0,
+  //                 ex: {
+  //                   availableToBack: backoddsmain,
+  //                   availableToLay: layoddsmain
+  //                 }
+  //               };
+  //             })
+  //           };
+  //         };
+  //         const output = transformRunners(Data?.section)
+  //         // console.log(output.runners, "output")
+  //         Data.runners = output.runners
+  //         Data.marketName = "Bookmaker"
+  //         Data.marketId = Data.mid.toString();
+  //         Data.matchId = Data.gmid.toString();
+
+  //         const jsonMessage = JSON.stringify(Data);
+
+
+  //         await publisher.set(`odds-market-${Data.marketId}`, jsonMessage);
+
+
+  //         publisher.publish("getMarketData", jsonMessage);
+  //         // console.log("📤 Published:", jsonMessage);
+  //       }
+
+  //     } else {
+  //       const { marketId, error } = result.reason || result;
+  //       // console.error(`❌ Failed to fetch Market ID ${marketId}:`, error);
+  //     }
+  //   });
+  // };
+
+
+
+const BookMakerOddsData = async () => {
+  console.log("📢 BookMakerOddsData started...");
+
+  const pollInterval = 10 * 1000; // 10 seconds
+
+  while (true) {
+    try {
+      const matchIds = [...MatchIds]; // fresh copy if MatchIds updates elsewhere
+
+      for (const id of matchIds) {
+        try {
+          const res = await axios.get(`http://82.29.164.133:3000/bxpro/v1/session/${id}`);
+          const runners = res?.data?.bookMaker;
+
+          if (!Array.isArray(runners) || runners.length === 0) continue;
+
+          const marketId = runners[0].marketId?.toString() || "unknown";
+          const matchId = parseInt(id); // since you passed it
+          const marketName = runners[0].marketName || "Bookmaker";
+
+          const transformedRunners = runners.map(runner => {
+            const availableToBack = runner.backOdds > 0 ? [{
+              price: parseFloat((runner.backOdds + 100)/100),
+              size: 1000 // default size, change if needed
+            }] : [];
+
+            const availableToLay = runner.layOdds > 0 ? [{
+              price: parseFloat((runner.layOdds+100)/100),
+              size: 1000 // default size, change if needed
+            }] : [];
+
+            let lastPriceTraded = null;
+            if (availableToBack.length && availableToLay.length) {
+              lastPriceTraded = (availableToBack[0].price + availableToLay[0].price) / 2;
+            }
+
             return {
-              runners: inputRunners.map(runner => {
-                // Filter out zero-priced odds
-                // console.log(runner,"runner is here")
-                const backOdds = runner.odds.filter(odd => odd.otype == "back");
-                const layOdds = runner.odds.filter(odd => odd.otype == "lay");
-
-                const backoddsmain = backOdds.reverse().map((m) => {
-                  return {
-                    size: m.size,
-                    price: m.odds
-                  }
-                })
-
-                const layoddsmain = layOdds.map((m) => {
-                  return {
-                    size: m.size,
-                    price: m.odds
-                  }
-                })
-                // console.log(layoddsmain, backoddsmain, "FGHJ")
-
-                // Estimate lastPriceTraded as midpoint between best back and lay
-                let lastPriceTraded = null;
-                if (backOdds.length > 0 && layOdds.length > 0) {
-                  lastPriceTraded = (backOdds[0].price + layOdds[0].price) / 2;
-                }
-
-                return {
-                  selectionId: runner.sid,
-                  status: runner.gstatus,
-                  lastPriceTraded: lastPriceTraded,
-                  runnerName: runner.nat,
-                  totalMatched: 0,
-                  ex: {
-                    availableToBack: backoddsmain,
-                    availableToLay: layoddsmain
-                  }
-                };
-              })
+              selectionId: runner.selectionId,
+              status: runner.selectionStatus || 'ACTIVE',
+              lastPriceTraded,
+              runnerName: runner.selectionName,
+              sortPriority:runner.sortPeriority,
+              totalMatched: 0,
+              ex: {
+                availableToBack,
+                availableToLay
+              }
             };
+          });
+
+          const marketData = {
+            marketId,
+            marketName,
+            matchId,
+            runners: transformedRunners
           };
-          const output = transformRunners(Data?.section)
-          // console.log(output.runners, "output")
-          Data.runners = output.runners
-          Data.marketName = "Bookmaker"
-          Data.marketId = Data.mid.toString();
-          Data.matchId = Data.gmid.toString();
 
-          const jsonMessage = JSON.stringify(Data);
+          const jsonMessage = JSON.stringify(marketData);
+          console.log(jsonMessage,"json Message")
 
-
-          await publisher.set(`odds-market-${Data.marketId}`, jsonMessage);
-
+          await publisher.set(`odds-market-${marketId}`, jsonMessage);
+          await publisher.set(`getMarketList-bm-${matchId}`,jsonMessage)
+        // const data =  await publisher.get(`getMarketList-bm-${id}`)
+        // console.log("marketdata ",data)
 
           publisher.publish("getMarketData", jsonMessage);
-          // console.log("📤 Published:", jsonMessage);
-        }
 
-      } else {
-        const { marketId, error } = result.reason || result;
-        // console.error(`❌ Failed to fetch Market ID ${marketId}:`, error);
+          console.log(`✅ Processed Market: ${marketId} with ${runners.length} runners`);
+
+        } catch (err) {
+          console.warn(`⚠️ Error processing matchId ${id}:`, err.message);
+        }
       }
-    });
-  };
+
+    } catch (err) {
+      console.error("❌ Unexpected error in BookMakerOddsData loop:", err.message);
+    }
+
+    // Wait before next polling
+    await new Promise((resolve) => setTimeout(resolve, pollInterval));
+  }
+};
+
+
 
   setInterval(getFancyDataApi, 1000)
 
@@ -616,7 +829,8 @@ const formattedFancyData = async () => {
 
   setInterval(formattedFancyData, 2000)
 
-  setInterval(BookMakerOddsData, 20000)
+  // setInterval(BookMakerOddsData, 20000)
+  BookMakerOddsData();
 
 
   // Fancy Result Hahahahahah
@@ -691,16 +905,16 @@ const formattedFancyData = async () => {
     }
   };
 
-  const getFancyList = async () => {
-    const res = await axios.get('https://api.9xbro.com/api/get-business-fancy-list')
-    console.log(res.data.data.list, "Fancy List is Here")
-    FancyList = res.data?.data?.list
-  }
+  // const getFancyList = async () => {
+  //   const res = await axios.get('https://api.9xbro.com/api/get-business-fancy-list')
+  //   console.log(res.data.data.list, "Fancy List is Here")
+  //   FancyList = res.data?.data?.list
+  // }
 
-  setInterval(getFancyList, 3000 );
+  // setInterval(getFancyList, 3000 );
 
   // setInterval(setFancyData, 1000 )
-  setInterval(FancyResult,3000)
+  // setInterval(FancyResult,3000)
 
 
   publisher.on('connect', () => {
@@ -729,6 +943,12 @@ const formattedFancyData = async () => {
   })
 
 
+
+  app.get("/get-sessions",async(req,res)=>{
+    const id = req.query.MatchId;
+   const resd = await  axios.get(`http://82.29.164.133:3000/bxpro/v1/session/${id}`)
+   let data = res.fancy
+  })
 
 
   const PORT = 3030;
