@@ -727,9 +727,11 @@ const ListClients = () => {
             <div className="listing-grid">
               <div className="detail-row ">
                 <div className=" row">
-
-                  <div style={{background:"pink"}}  className="bg-grey flex item-center justify-between px-5 py-3 gx-bg-flex">
-                    <span className="text-2xl font-weight-normal gx-text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
+                  <div
+                    style={{ background: "#0f2327" }}
+                    className="bg-grey flex item-center justify-between px-5 py-3 gx-bg-flex"
+                  >
+                    <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
                       Client Details
                     </span>
                     <button type="button" className="btn bg-primary">
@@ -992,45 +994,47 @@ const ListClients = () => {
                       </th> */}
 
                       <th
-                        style={{ backgroundColor: "pink" }}
+                        style={{ backgroundColor: "#0f2327" ,color:"white" }}
                         className="noExport"
                       >
                         U St
                       </th>
                       {/* <th className="noExport">B St</th> */}
                       {/* <th></th> */}
-                      <th style={{ backgroundColor: "pink" }}></th>
+                      <th style={{ backgroundColor: "#0f2327",color:"white" }}></th>
 
-                      <th style={{ backgroundColor: "pink" }}>Name</th>
-                      <th style={{ backgroundColor: "pink" }}>Code</th>
-                      <th style={{ backgroundColor: "pink" }}>Mobile</th>
-                      <th style={{ backgroundColor: "pink" }}>Password</th>
+                      <th style={{ backgroundColor: "#0f2327",color:"white" }}>Name</th>
+                      <th style={{ backgroundColor: "#0f2327",color:"white" }}>Code</th>
+                      {/* <th style={{ backgroundColor: "#0f2327",color:"white" }}>Mobile</th> */}
+                      <th style={{ backgroundColor: "#0f2327",color:"white" }}>PWD</th>
 
                       {urole !== "dl" && newtype !== "user" && (
-                        <th style={{ backgroundColor: "pink" }}>
+                        <th style={{ backgroundColor: "#0f2327" ,color:"white" }}>
                           {upper?.first} Share %
                         </th>
                       )}
                       {urole !== "dl" && newtype !== "user" && (
-                        <th style={{ backgroundColor: "pink" }}>
+                        <th style={{ backgroundColor: "#0f2327" ,color:"white" }}>
                           {upper?.second} Share %
                         </th>
                       )}
 
                       {/* <th>SuperShare Limit</th> */}
-                      <th style={{ backgroundColor: "pink" }}>Current</th>
+                      <th style={{ backgroundColor: "#0f2327" ,color:"white" }}>C.Chip</th>
                       {/* <th>Client (P/L)</th> */}
-                      <th style={{ backgroundColor: "pink" }}>
+                      <th style={{ backgroundColor: "#0f2327" ,color:"white" }}>
                         {newtype === "user" ? "Engaged" : "Agent"}
                       </th>
                       {/* <th>Available Balance</th> */}
 
                       {/* <th>Engaged</th> */}
-                      <th style={{ backgroundColor: "pink" }}>Match %</th>
-                      <th style={{ backgroundColor: "pink" }}>Session %</th>
+                      <th style={{ backgroundColor: "#0f2327" ,color:"white" }}>Match Comm. %</th>
+                      <th style={{ backgroundColor: "#0f2327" ,color:"white" }}>Session Comm. %</th>
 
-                      <th style={{ backgroundColor: "pink" }}>Account Type</th>
-                      {/* <th className="noExport">Actions</th> */}
+                      <th style={{ backgroundColor: "#0f2327" ,color:"white" }}>
+                        Account Type
+                      </th>
+                      <th style={{ backgroundColor: "#0f2327" ,color:"white" }}>Status</th>
                     </tr>
                   </thead>
                   <tbody style={{ marginBottom: "87px" }}>
@@ -1558,7 +1562,7 @@ const ListClients = () => {
                               )}
                             </td>
 
-                            <td></td>
+                            {/* <td></td> */}
                             <td>
                               {urole === "dl" ||
                               urole === "mdl" ||
@@ -1624,6 +1628,7 @@ const ListClients = () => {
                             <td>{user.scom}%</td>
 
                             <td>{RoleName[user.role!]}</td>
+                            <th>{user?.isLogin  ? "Active" : "Inactive"}</th>
                           </tr>
                         );
                       })}

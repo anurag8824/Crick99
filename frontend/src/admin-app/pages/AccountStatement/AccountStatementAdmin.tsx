@@ -23,9 +23,7 @@ import { CustomLink } from "../../../pages/_layout/elements/custom-link";
 const AccountStatementAdmin = () => {
   const loadingState = useAppSelector(selectLoader);
 
-  const myuser = useParams().name
-
-  
+  const myuser = useParams().name;
 
   const [accountStmt, setAccountStmt] = React.useState<any>({});
   const [parseAccountStmt, setparseAccountStmt] = React.useState<any>([]);
@@ -142,18 +140,16 @@ const AccountStatementAdmin = () => {
 
   const handleSubmitform = (event: any) => {
     event.preventDefault();
-   submitAccountStatement();
+    submitAccountStatement();
   };
 
   const onSuggestionsFetchRequested = ({ value }: any) => {
     return userService.getUserListSuggestion({ username: value });
   };
 
-
   // React.useEffect(()=>{
   //   submitAccountStatement();
   // },[myuser])
-
 
   React.useEffect(() => {
     if (myuser) {
@@ -167,18 +163,12 @@ const AccountStatementAdmin = () => {
     }
   }, [filterdata.userId]);
 
-
   // const onSelectUser = () => {
 
   //   // console.log(user._id,"user id")
 
   //   setfilterdata({ ...filterdata, userId: myuser });
   // };
-
-
-
-
-
 
   const handlePageClickBets = (event: any) => {
     getBetsData(selectedStmt, event.selected + 1);
@@ -221,7 +211,7 @@ const AccountStatementAdmin = () => {
         closingbalance = closingbalance + stmt.amount;
         return (
           <tr key={`${stmt._id}${index}`}>
-            <td>{stmt.sr_no}</td>
+            {/* <td>{stmt.sr_no}</td> */}
             <td className="wnwrap">{stmt.date}</td>
             <td className="green wnwrap">
               {stmt.credit >= 0 && stmt.credit.toFixed(2)}
@@ -230,8 +220,8 @@ const AccountStatementAdmin = () => {
               {stmt.credit < 0 && stmt.credit.toFixed(2)}
             </td>
             <td className="green wnwrap">{stmt.closing}</td>
-            <td>{stmt.stmt.txnBy}</td>
-            <td
+            {/* <td>{stmt.stmt.txnBy}</td> */}
+            {/* <td
               onClick={(e: MouseEvent<HTMLTableCellElement>) =>
                 getBets(e, stmt.stmt)
               }
@@ -239,13 +229,12 @@ const AccountStatementAdmin = () => {
               <span className={stmt.type == "pnl" ? "label-buttonccc" : ""}>
                 {stmt.narration}
               </span>
-            </td>
+            </td> */}
           </tr>
         );
       });
     return achtml;
   };
-
 
   const calculateTotal = (casino: number, sports: number) => {
     return casino + sports;
@@ -256,154 +245,218 @@ const AccountStatementAdmin = () => {
       {/* {mobileSubheader.subheaderdesktopadmin("Account Statements")} */}
       <div className="container-fluid p-4">
         <div className="row">
-
-
-        <div style={{background:"pink"}}  className="bg-grey flex item-center justify-between px-5 py-3 gx-bg-flex">
-                    <span className="text-2xl font-weight-normal gx-text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
-                    List Of All Transactions
-                    </span>
-                    <CustomLink to={"/"} type="button" className="btn bg-primary">
-                      <span>Back</span>
-                    </CustomLink>
-                  </div>
+          <div
+            style={{ background: "#0f2327" }}
+            className="bg-grey flex item-center justify-between px-5 py-3 gx-bg-flex"
+          >
+            <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
+              List Of All Transactions
+            </span>
+            <CustomLink to={"/"} type="button" className="btn bg-primary">
+              <span>Back</span>
+            </CustomLink>
+          </div>
           <div
             className={
               !isMobile ? "col-md-12 mt-1" : "col-md-12 padding-custom"
             }
           >
-            <div className='card-body p15 bg-gray mb-20'>
+            <div className="card-body p15 bg-gray mb-20">
               <form
-                className='ng-pristine ng-valid ng-touched mb-0'
-                method='post'
+                className="ng-pristine ng-valid ng-touched mb-0"
+                method="post"
                 onSubmit={handleSubmitform}
               >
                 {/* <div className='row row5'> oldd */}
-                <div className='row row2'>
-
-                  <div className='col-6 col-lg-2 mbc-5 d-none'>
-                    <label className='label'>User</label>
+                <div className="row row2">
+                  <div className="col-6 col-lg-2 mbc-5 d-none">
+                    <label className="label">User</label>
                     <CustomAutoComplete
                       onSuggestionsFetchRequested={onSuggestionsFetchRequested}
                       // onSelectUser={onSelectUser}
                     />
                   </div>
-                  <div className='col-6 col-lg-2 mbc-5 '>
-                    <div className='form-group mb-0'>
-                      <label className='label'>Start Date</label>
-                      <div className='mx-datepicker'>
-                        <div className='mx-input-wrapper'>
+                  <div className="col-6 col-lg-2 mbc-5 ">
+                    <div className="form-group mb-0">
+                      <label className="label">Start Date</label>
+                      <div className="mx-datepicker">
+                        <div className="mx-input-wrapper">
                           <input
-                            name='startDate'
-                            type='date'
-                            autoComplete='off'
+                            name="startDate"
+                            type="date"
+                            autoComplete="off"
                             onChange={handleformchange}
                             defaultValue={filterdata.startDate}
-                            placeholder='Select Date'
-                            className='mx-input ng-pristine ng-valid ng-touched'
+                            placeholder="Select Date"
+                            className="mx-input ng-pristine ng-valid ng-touched"
                           />
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className='col-6 col-lg-2 mbc-5'>
-                    <div className='form-group mb-0'>
-                      <label className='label'>End Date</label>
-                      <div className='mx-datepicker'>
-                        <div className='mx-input-wrapper'>
+                  <div className="col-6 col-lg-2 mbc-5">
+                    <div className="form-group mb-0">
+                      <label className="label">End Date</label>
+                      <div className="mx-datepicker">
+                        <div className="mx-input-wrapper">
                           <input
-                            name='endDate'
-                            type='date'
-                            autoComplete='off'
+                            name="endDate"
+                            type="date"
+                            autoComplete="off"
                             defaultValue={filterdata.endDate}
                             onChange={handleformchange}
-                            placeholder='Select Date'
-                            className='mx-input ng-untouched ng-pristine ng-valid'
+                            placeholder="Select Date"
+                            className="mx-input ng-untouched ng-pristine ng-valid"
                           />
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div className='col-12 col-lg-2 mbc-5'>
-                    <div className='form-group mb-0'>
-                      <label className='label'>Type</label>
+                  <div className="col-12 col-lg-2 mbc-5">
+                    <div className="form-group mb-0">
+                      <label className="label">Type</label>
                       <select
-                        name='reportType'
+                        name="reportType"
                         onChange={handleformchange}
-                        className='custom-select ng-untouched ng-pristine ng-valid'
+                        className="custom-select ng-untouched ng-pristine ng-valid"
                       >
-                        <option value='ALL'>All </option>
-                        <option value='chip'>Deposit/Withdraw </option>
-                        <option value='game'>Game Report </option>
+                        <option value="ALL">All </option>
+                        <option value="chip">Deposit/Withdraw </option>
+                        <option value="game">Game Report </option>
                       </select>
                     </div>
                   </div>
-                  <div className='col-12 col-lg-1 mbc-5'>
-                    <label className='label'>&nbsp;</label>
-                    <button type='submit' className='btn bg-primary btn-block'>
+                  <div className="col-12 col-lg-1 mbc-5">
+                    <label className="label">&nbsp;</label>
+                    <button type="submit" className="btn bg-primary btn-block">
                       Submit
                     </button>
                   </div>
                 </div>
               </form>
             </div>
-            <div className='card-body'>
-              <div className='table-responsive'>
-                <table className='text-center' id='customers1'>
+            <div className="card-body">
+              <div className="table-responsive">
+                <table className="text-center" id="customers1">
                   <thead>
                     <tr>
-                      <th  style={{ width: '10%', background:"pink", textAlign: 'center', whiteSpace: 'nowrap' }}>
+                      {/* <th
+                        style={{
+                          width: "10%",
+                          background: "#0f2327",
+                          textAlign: "center",
+                          whiteSpace: "nowrap",
+                          color: "white",
+                        }}
+                      >
                         Sr No.
+                      </th> */}
+                      <th
+                        style={{
+                          width: "20%",
+                          background: "#0f2327",
+                          textAlign: "center",
+                          whiteSpace: "nowrap",
+                          color: "white",
+                        }}
+                      >
+                        Date{" "}
                       </th>
-                      <th  style={{ width: '20%', background:"pink", textAlign: 'center', whiteSpace: 'nowrap' }}>
-                        Date{' '}
+                      <th
+                        style={{
+                          width: "10%",
+                          background: "#0f2327",
+                          textAlign: "center",
+                          color: "white",
+                        }}
+                      >
+                        CR{" "}
                       </th>
-                      <th  style={{ width: '10%', background:"pink", textAlign: 'center' }}>Credit </th>
-                      <th  style={{ width: '10%', background:"pink", textAlign: 'center' }}>Debit</th>
-                      <th  style={{ width: '10%', background:"pink", textAlign: 'center' }}>Balance</th>
-                      <th  style={{ width: '10%', background:"pink", textAlign: 'center' }}>From</th>
-                      <th  style={{ width: '45%', background:"pink", textAlign: 'center' }}>Remark</th>
+                      <th
+                        style={{
+                          width: "10%",
+                          background: "#0f2327",
+                          textAlign: "center",
+                          color: "white",
+                        }}
+                      >
+                        DR
+                      </th>
+                      <th
+                        style={{
+                          width: "10%",
+                          background: "#0f2327",
+                          textAlign: "center",
+                          color: "white",
+                        }}
+                      >
+                        Balance
+                      </th>
+                      {/* <th
+                        style={{
+                          width: "10%",
+                          background: "#0f2327",
+                          textAlign: "center",
+                          color: "white",
+                        }}
+                      >
+                        From
+                      </th> */}
+                      {/* <th
+                        style={{
+                          width: "45%",
+                          background: "#0f2327",
+                          textAlign: "center",
+                          color: "white",
+                        }}
+                      >
+                        Remark
+                      </th> */}
                     </tr>
                   </thead>
                   <tbody>
                     {parseAccountStmt.length <= 0 ||
-                      (parseAccountStmt.length > 0 && parseAccountStmt.length <= 0 && (
-                        <tr>
-                          <td colSpan={8} className='text-center'>
-                            No Result Found
+                      (parseAccountStmt.length > 0 &&
+                        parseAccountStmt.length <= 0 && (
+                          <tr>
+                            <td colSpan={8} className="text-center">
+                              No Result Found
+                            </td>
+                          </tr>
+                        ))}
+                    {parseAccountStmt.length > 0 &&
+                      parseAccountStmt.length > 0 &&
+                      page == 0 && (
+                        <tr key={parseAccountStmt[0]._id}>
+                          <td>-</td>
+                          <td className="wnwrap">
+                            {moment(parseAccountStmt[0].createdAt).format(
+                              dateFormat
+                            )}
                           </td>
+                          <td>-</td>
+                          <td>-</td>
+                          <td className="wnwrap">{openBalance}</td>
+                          <td className="wnwrap">Opening Balance</td>
                         </tr>
-                      ))}
-                    {parseAccountStmt.length > 0 && parseAccountStmt.length > 0 && page == 0 && (
-                      <tr key={parseAccountStmt[0]._id}>
-                        <td>-</td>
-                        <td className='wnwrap'>
-                          {moment(parseAccountStmt[0].createdAt).format(dateFormat)}
-                        </td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td className='wnwrap'>{openBalance}</td>
-                        <td className='wnwrap'>Opening Balance</td>
-                      </tr>
-                    )}
+                      )}
 
                     {getAcHtml()}
                   </tbody>
                 </table>
               </div>
               <ReactPaginate
-                breakLabel='...'
-                nextLabel='>'
+                breakLabel="..."
+                nextLabel=">"
                 onPageChange={handlePageClick}
                 pageRangeDisplayed={5}
                 pageCount={pageCount}
-                containerClassName={'pagination'}
-                activeClassName={'active'}
-                previousLabel={'<'}
-                breakClassName={'break-me'}
+                containerClassName={"pagination"}
+                activeClassName={"active"}
+                previousLabel={"<"}
+                breakClassName={"break-me"}
               />
             </div>
-
-            
           </div>
         </div>
       </div>

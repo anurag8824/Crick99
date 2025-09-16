@@ -7,7 +7,7 @@ import { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { CustomLink } from "../../../pages/_layout/elements/custom-link";
 
-const CasinoList = () => {
+const InplayCasino = () => {
   const [casinoList, setCasinoList] = React.useState<ICasinoMatch[]>([]);
 
   React.useEffect(() => {
@@ -54,8 +54,8 @@ const CasinoList = () => {
             <td style={{ color: "#1890ff" }} className="text-center">
               {item.title}
             </td>
-            <td className="text-center wnwrap">{item.slug}</td>
-            {/* <td className="text-center wnwrap">
+            {/* <td className='text-center wnwrap'>{item.slug}</td> */}
+            <td className="text-center wnwrap">
               {new Date().toLocaleString("en-IN", {
                 year: "numeric",
                 month: "2-digit",
@@ -66,14 +66,21 @@ const CasinoList = () => {
                 hour12: true, // 👈 ensures AM/PM
                 timeZone: "Asia/Kolkata", // 👈 force IST timezone
               })}
-            </td> */}
+            </td>
 
-            <td className={`text-center wnwrap flex items-center gap-2`}>
-              <input
+            <td className={`text-right wnwrap flex items-center gap-2`}>
+              {/* <input
                 type={"checkbox"}
                 checked={item.isDisable}
                 onClick={(e) => onChecked(e, item, index)}
-              />
+              /> */}
+              <CustomLink
+                to={`/casino/${item.slug}`}
+                className="btn bg-primary"
+              >
+                View
+              </CustomLink>
+              <button className="btn bg-outline border">Display Games</button>
             </td>
           </tr>
         );
@@ -93,7 +100,7 @@ const CasinoList = () => {
           className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex"
         >
           <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
-            Casino List
+            Match Ledger
           </span>
           <CustomLink to={"/"} type="button" className="btn bg-primary">
             <span>Back</span>
@@ -112,31 +119,26 @@ const CasinoList = () => {
                     <thead>
                       <tr>
                         <th
-                          style={{ backgroundColor: "#0f2327" }}
+                          style={{ backgroundColor: "#0f2327" , color:"white" }}
                           className="text-center wnwrap"
                         >
                           Code
                         </th>
                         <th
-                          style={{ backgroundColor: "#0f2327" }}
+                          style={{ backgroundColor: "#0f2327", color:"white" }}
                           className="text-center wnwrap"
                         >
                           Name
                         </th>
+                        {/* <th style={{backgroundColor:"#0f2327"}} className='text-center wnwrap'>Slug</th> */}
                         <th
-                          style={{ backgroundColor: "#0f2327" }}
-                          className="text-center wnwrap"
-                        >
-                          Slug
-                        </th>
-                        {/* <th
-                          style={{ backgroundColor: "#0f2327" }}
+                          style={{ backgroundColor: "#0f2327" , color:"white"}}
                           className="text-center wnwrap"
                         >
                           Date
-                        </th> */}
+                        </th>
                         <th
-                          style={{ backgroundColor: "#0f2327" }}
+                          style={{ backgroundColor: "#0f2327", color:"white" }}
                           className="text-center wnwrap"
                         >
                           Action
@@ -154,4 +156,4 @@ const CasinoList = () => {
     </>
   );
 };
-export default CasinoList;
+export default InplayCasino;

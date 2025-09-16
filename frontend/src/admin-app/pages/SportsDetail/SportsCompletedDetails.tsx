@@ -7,7 +7,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { CustomLink } from "../../../pages/_layout/elements/custom-link";
 import { useAppSelector } from "../../../redux/hooks";
 import { selectUserData } from "../../../redux/actions/login/loginSlice";
-import {CloseButton, } from "react-bootstrap";
+import { CloseButton } from "react-bootstrap";
 import moment from "moment";
 import { dateFormat } from "../../../utils/helper";
 import userService from "../../../services/user.service";
@@ -20,7 +20,6 @@ interface LedgerItem {
 
 interface MatchItem {
   ledgers: LedgerItem[];
-
 }
 
 const SportsCompletedDetails = () => {
@@ -31,21 +30,21 @@ const SportsCompletedDetails = () => {
   console.log(userState, "dffdfdfdf");
 
   const [shared, setShared] = React.useState<any>();
-  
+
   React.useEffect(() => {
     // const userState = useAppSelector<{ user: User }>(selectUserData);
     const username: any = userState?.user?.username;
 
     console.log(username, "testagentmaster");
-    userService.getParentUserDetail(username).then(
-      (res: AxiosResponse<any>) => {
+    userService
+      .getParentUserDetail(username)
+      .then((res: AxiosResponse<any>) => {
         console.log(res, "check balance for parent");
         const thatb = res.data?.data[0];
         // setDetail(thatb)
         // setNewbalance(thatb.balance.balance);
         setShared(thatb?.share);
-      }
-    );
+      });
   }, [userState]);
 
   React.useEffect(() => {
@@ -59,41 +58,49 @@ const SportsCompletedDetails = () => {
     accountService.matchdetail().then((res: AxiosResponse) => {
       console.log(res, "marketffffff data");
       // setmarketData(res.data.data.matches ? res.data.data.matches.reverse() : []);
-      setmarketData(res?.data?.data?.matches ? res?.data?.data?.matches?.filter((match:any) => match?.bets && match?.bets?.length > 0).reverse()
+      setmarketData(
+        res?.data?.data?.matches
+          ? res?.data?.data?.matches
+              ?.filter((match: any) => match?.bets && match?.bets?.length > 0)
+              .reverse()
           : []
       );
-      
     });
-
   }, []);
-
 
   const grandUpdown = React.useMemo(() => {
     if (!marketData || !Array.isArray(marketData)) return 0;
-  
-    return marketData.reduce((total, match,) => {
-      const matchTotal = match.ledgers
-        ?.filter((l) => l?.parentName === userState.user.username && l?.updown !== undefined)
-        ?.reduce((sum:any, l:any) => sum + l.updown, 0) || 0;
-  
+
+    return marketData.reduce((total, match) => {
+      const matchTotal =
+        match.ledgers
+          ?.filter(
+            (l) =>
+              l?.parentName === userState.user.username &&
+              l?.updown !== undefined
+          )
+          ?.reduce((sum: any, l: any) => sum + l.updown, 0) || 0;
+
       return total + matchTotal;
     }, 0);
   }, [marketData, userState.user.username]);
 
   const grandpl = React.useMemo(() => {
     if (!marketData || !Array.isArray(marketData)) return 0;
-  
-    return marketData.reduce((total, match,) => {
-      const matchTotal = match.ledgers
-        ?.filter((l) => l?.parentName === userState.user.username && l?.profit !== undefined)
-        ?.reduce((sum:any, l:any) => sum + l.profit, 0) || 0;
-  
+
+    return marketData.reduce((total, match) => {
+      const matchTotal =
+        match.ledgers
+          ?.filter(
+            (l) =>
+              l?.parentName === userState.user.username &&
+              l?.profit !== undefined
+          )
+          ?.reduce((sum: any, l: any) => sum + l.profit, 0) || 0;
+
       return total + matchTotal;
     }, 0);
   }, [marketData, userState.user.username]);
-
-
- 
 
   // const dropdownRef = React.useRef<HTMLDivElement>(null);
   const tdRef = React.useRef<HTMLTableDataCellElement | null>(null);
@@ -242,19 +249,19 @@ const SportsCompletedDetails = () => {
     });
   };
 
-
- 
-
   return (
     <div className="container-fluid p-4">
-       <div style={{background:"pink"}}  className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex">
-                                   <span className="text-2xl font-weight-normal gx-text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
-                                   Completed Sports Details
-                                   </span>
-                                   <CustomLink to={"/"} type="button" className="btn bg-primary">
-                                     <span>Back</span>
-                                   </CustomLink>
-                                 </div>
+      <div
+        style={{ background: "#0f2327" }}
+        className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex"
+      >
+        <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
+          Completed Sports Details
+        </span>
+        <CustomLink to={"/"} type="button" className="btn bg-primary">
+          <span>Back</span>
+        </CustomLink>
+      </div>
 
       <div style={{ overflowX: "auto", width: "100%" }} className="">
         <table className="table table">
@@ -280,7 +287,7 @@ const SportsCompletedDetails = () => {
               className="sorting_disabled"
               rowSpan={1}
               colSpan={1}
-              style={{ width: "8px",  background:"pink",  }}
+              style={{ width: "8px", background: "#0f2327" ,  color:"white" }}
             >
               -
             </th>
@@ -288,7 +295,7 @@ const SportsCompletedDetails = () => {
               className="sorting_disabled"
               rowSpan={1}
               colSpan={1}
-              style={{ width: "63px",  background:"pink",  }}
+              style={{ width: "63px",  background:"#0f2327",  }}
             >
              Code
             </th> */}
@@ -296,17 +303,16 @@ const SportsCompletedDetails = () => {
               className="sorting_disabled"
               rowSpan={1}
               colSpan={1}
-              style={{ width: "205px" , background:"pink",  }}
+              style={{ width: "205px", background: "#0f2327" ,  color:"white" }}
             >
               Name
             </th>
 
-            
             <th
               className="sorting_disabled"
               rowSpan={1}
               colSpan={1}
-              style={{ width: "63px",  background:"pink",  }}
+              style={{ width: "63px", background: "#0f2327"  ,  color:"white" }}
             >
               Time
             </th>
@@ -315,18 +321,16 @@ const SportsCompletedDetails = () => {
               className="sorting_disabled"
               rowSpan={1}
               colSpan={1}
-              style={{ width: "63px",  background:"pink",  }}
+              style={{ width: "63px", background: "#0f2327",  color:"white" }}
             >
-             Declared Date
+              Declared Date
             </th>
-
-            
 
             <th
               className="sorting_disabled"
               rowSpan={1}
               colSpan={1}
-              style={{ width: "63px",  background:"pink",  }}
+              style={{ width: "63px", background: "#0f2327" ,  color:"white" }}
             >
               Competition
             </th>
@@ -334,7 +338,7 @@ const SportsCompletedDetails = () => {
               className="sorting_disabled"
               rowSpan={1}
               colSpan={1}
-              style={{ width: "63px",  background:"pink",  }}
+              style={{ width: "63px", background: "#0f2327" ,  color:"white" }}
             >
               Won By
             </th>
@@ -342,7 +346,7 @@ const SportsCompletedDetails = () => {
               className="sorting_disabled"
               rowSpan={1}
               colSpan={1}
-              style={{ width: "63px",  background:"pink",  }}
+              style={{ width: "63px", background: "#0f2327" ,  color:"white" }}
             >
               P/L
             </th>
@@ -350,7 +354,7 @@ const SportsCompletedDetails = () => {
               className="sorting_disabled"
               rowSpan={1}
               colSpan={1}
-              style={{ width: "174px" , background:"pink",  }}
+              style={{ width: "174px" , background:"#0f2327",  }}
             >
               Winner
             </th> */}
@@ -358,7 +362,7 @@ const SportsCompletedDetails = () => {
               className="sorting_disabled"
               rowSpan={1}
               colSpan={1}
-              style={{ width: "60px" , background:"pink",  }}
+              style={{ width: "60px" , background:"#0f2327",  }}
             >
               My Share P/L
             </th> */}
@@ -366,7 +370,7 @@ const SportsCompletedDetails = () => {
               className="sorting_disabled"
               rowSpan={1}
               colSpan={1}
-              style={{ width: "53px" , background:"pink",  }}
+              style={{ width: "53px" , background:"#0f2327",  }}
             >
               Total P/L
             </th> */}
@@ -498,18 +502,21 @@ const SportsCompletedDetails = () => {
                       willChange: "transform",
                     }}
                   >
+                    <button
+                      onClick={() => handleToggle(item._id)}
+                      className="-right-2.5 -top-2.5 position-absolute bg-gray-800 p-0 rounded-full "
+                    >
+                      <CloseButton className="text-white " />
+                    </button>
 
-<button onClick={() => handleToggle(item._id)} className="-right-2.5 -top-2.5 position-absolute bg-gray-800 p-0 rounded-full "><CloseButton className="text-white " />
-</button>
-
-<CustomLink
+                    <CustomLink
                       className="dropdown-item  text-lg  text-white call-event navbar-bet99"
                       to={`/report-bets/${item.matchId}`}
                     >
-                      <i className="fa fa-futbol"></i> Match and Session Position
-                      Minus
+                      <i className="fa fa-futbol"></i> Match and Session
+                      Position Minus
                     </CustomLink>
-                   
+
                     <CustomLink
                       className="dropdown-item  text-lg  text-white call-event navbar-bet99"
                       to={`/report-bets/${item.matchId}`}
@@ -553,7 +560,6 @@ const SportsCompletedDetails = () => {
                       <i className="fa fa-eye"></i>Completed Fancies
                     </CustomLink>
 
-
                     <CustomLink
                       className="dropdown-item text-lg text-white call-event navbar-bet99"
                       to={`/match-bets/${item.matchId}`}
@@ -574,23 +580,29 @@ const SportsCompletedDetails = () => {
                     >
                       <i className="fa fa-eye"></i>Agent Plus Minus
                     </CustomLink>
-
                   </div>
                 )}
               </td>
               <td className="ng-scope">
                 {/* {new Date(item.matchDateTime).toLocaleString()} */}
-                        {moment(item.matchDateTime).format(dateFormat)}
-                
+                {moment(item.matchDateTime).format(dateFormat)}
               </td>
               <td className="ng-scope">
                 {/* {new Date(item.matchDateTime).toLocaleString()} */}
-                        {moment(item.matchDateTime).format(dateFormat)}
-                
+                {moment(item.matchDateTime).format(dateFormat)}
               </td>
-              <td className="ng-scope">{moment(item.matchDateTime).format(dateFormat)}</td>
               <td className="ng-scope">
-                <CustomLink className="flex align-items-center gap-2 text-blue-500" to={`${item?.active ? `/odds/${item?.matchId}/${shared}` : `/client-bets/${item.matchId}` }`}>
+                {moment(item.matchDateTime).format(dateFormat)}
+              </td>
+              <td className="ng-scope">
+                <CustomLink
+                  className="flex align-items-center gap-2 text-blue-500"
+                  to={`${
+                    item?.active
+                      ? `/odds/${item?.matchId}/${shared}`
+                      : `/client-bets/${item.matchId}`
+                  }`}
+                >
                   <img
                     style={{ maxWidth: "100%", height: "20px" }}
                     src="/imgs/default-4.png"
@@ -598,18 +610,27 @@ const SportsCompletedDetails = () => {
                   {item.name}
                 </CustomLink>
               </td>
-              <td className="ng-scope "><span className="badge p-2 badge-primary" style={{fontSize:"xx-small"}}>  <i className="fas fa-trophy"></i>  </span> {item?.resultstring ? item?.resultstring : ""}</td>
+              <td className="ng-scope ">
+                <span
+                  className="badge p-2 badge-primary"
+                  style={{ fontSize: "xx-small" }}
+                >
+                  {" "}
+                  <i className="fas fa-trophy"></i>{" "}
+                </span>{" "}
+                {item?.resultstring ? item?.resultstring : ""}
+              </td>
               <td className="ng-scope">
                 <span className="pt-2 pb-1 text-warning">
                   {(() => {
                     const total =
                       item.ledgers
                         ?.filter(
-                          (l:any) =>
+                          (l: any) =>
                             l?.parentName === userState.user.username &&
                             l?.updown !== undefined
                         )
-                        ?.reduce((sum: any, l:any) => sum + l.updown, 0) || 0;
+                        ?.reduce((sum: any, l: any) => sum + l.updown, 0) || 0;
                     return (
                       <span
                         className={`pt-2 pb-1 ${
@@ -628,11 +649,11 @@ const SportsCompletedDetails = () => {
                     const total =
                       item.ledgers
                         ?.filter(
-                          (l:any) =>
+                          (l: any) =>
                             l?.parentName === userState.user.username &&
                             l?.profit !== undefined
                         )
-                        ?.reduce((sum: any, l:any) => sum + l.profit, 0) || 0;
+                        ?.reduce((sum: any, l: any) => sum + l.profit, 0) || 0;
                     return (
                       <span
                         className={`pt-2 pb-1 ${
@@ -653,12 +674,18 @@ const SportsCompletedDetails = () => {
             <td colSpan={4} className="text-right font-weight-bold">
               Total
             </td>
-            <td className=" font-weight-bold"><span className={grandUpdown >= 0 ? "text-success" : "text-danger"}>
-    {grandUpdown.toFixed(2)}
-  </span></td>
-  <td className=" font-weight-bold"><span className={grandpl >= 0 ? "text-success" : "text-danger"}>
-    {grandUpdown.toFixed(2)}
-  </span></td>
+            <td className=" font-weight-bold">
+              <span
+                className={grandUpdown >= 0 ? "text-success" : "text-danger"}
+              >
+                {grandUpdown.toFixed(2)}
+              </span>
+            </td>
+            <td className=" font-weight-bold">
+              <span className={grandpl >= 0 ? "text-success" : "text-danger"}>
+                {grandUpdown.toFixed(2)}
+              </span>
+            </td>
           </tr>
         </tbody>
       </table>

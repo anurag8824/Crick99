@@ -1,6 +1,7 @@
 import { AxiosResponse } from "axios";
 import React from "react";
 import betService from "../../../services/bet.service";
+import { CustomLink } from "../../../pages/_layout/elements/custom-link";
 
 const CasinoPL = () => {
 
@@ -55,13 +56,20 @@ const CasinoPL = () => {
   return (
     <div>
       <div  className="">
-        <div className="container ng-scope">
+        <div className="container ng-scope p-4">
            <div className="row">
       <div className="col">
-        <div style={{ textAlign: "center", padding: "10px" }}>
-          <h4>Casino Profit Loss</h4>
-          {/* <a className="btn btn-secondary btn-sm">Today P/L</a> */}
-        </div>
+        <div
+                 style={{ background: "#0f2327" }}
+                 className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex"
+               >
+                 <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
+                 Casino PandL Detail
+                 </span>
+                 <CustomLink to={"/"} type="button" className="btn bg-primary">
+                   <span>Back</span>
+                 </CustomLink>
+               </div>
         <div className="overflow-auto">
         <table className="table table-striped table-bordered lenden len ng-scope">
           <thead>

@@ -88,10 +88,10 @@ React.useEffect(() => {
       >
         <div className='modal-content'>
           <div className='modal-header'>
-            <h4 className='modal-title'>Deposit</h4>
+            <h4 className='modal-title text-white'>Deposit</h4>
             <button
               type='button'
-              className='close'
+              className='close text-white'
               data-dismiss='modal'
               onClick={() => {
                 props.closeModal('d')
@@ -104,7 +104,7 @@ React.useEffect(() => {
           <form id='DepositForm' method='post' autoComplete='off' onSubmit={onSubmit}>
             <div className='modal-body'>
               <div className='container-fluid'>
-                <div className='row m-b-20'>
+                <div className='row m-b-20 hidden'>
                   <div className='col-md-4'>
                     <label className='deposite-user-first'>
                       {props.depositUser?.parent?.username}
@@ -125,7 +125,9 @@ React.useEffect(() => {
                 </div>
                 <div className='row m-b-20'>
                   <div className='col-md-4'>
-                    <label className='deposite-user-second'>{props.depositUser?.username}</label>
+                    {/* <label className='deposite-user-second'>{props.depositUser?.username}</label> */}
+                    <label className='deposite-user-second'>Curr. Coins:</label>
+
                   </div>
                   <div className='col-md-8'>
                     <span className='popup-box' id='deposite-second'>
@@ -133,17 +135,17 @@ React.useEffect(() => {
                         ? props.depositUser?.balance?.balance?.toFixed(2)
                         : 0}
                     </span>
-                    <span className='popup-box' id='deposite-second-diff'>
+                    {/* <span className='popup-box' id='deposite-second-diff'>
                       {props.depositUser?.balance?.balance && watch('amount')
                         ? (props.depositUser?.balance?.balance + +watch('amount'))?.toFixed(2)
                         : 0}
-                    </span>
+                    </span> */}
                   </div>
                 </div>
                 <div className='row m-b-20'>
-                  <div className='col-md-4'>
+                  {/* <div className='col-md-4'>
                     <label>Amount</label>
-                  </div>
+                  </div> */}
                   <div className='col-md-8'>
                     <input
                       type='number'
@@ -156,7 +158,7 @@ React.useEffect(() => {
                     {errors?.amount && <span className='error'>{errors.amount.message}</span>}
                   </div>
                 </div>
-                <div className='row m-b-20'>
+                <div className='row m-b-20 hidden'>
                   <div className='col-md-4'>
                     <label>Remark</label>
                   </div>
@@ -182,19 +184,19 @@ React.useEffect(() => {
               <input type='hidden' name='uid' id='uid' />
               <button
                 type='button'
-                className='btn btn-back'
+                className='btn btn-back bg-primary'
                 data-dismiss='modal'
                 onClick={() => {
                   props.closeModal('d')
                   reset()
                 }}
               >
-                <i className='fas fa-undo' />
+                {/* <i className='fas fa-undo ' /> */}
                 Back
               </button>
-            { loader ? <SubmitButton type='submit' className='btn btn-submit'>
+            { loader ? <SubmitButton type='submit' className='btn btn-submit bg-primary'>
                 Submit
-                <i className='fas fa-sign-in-alt' />
+                {/* <i className='fas fa-sign-in-alt' /> */}
               </SubmitButton>:""}
             </div>
           </form>

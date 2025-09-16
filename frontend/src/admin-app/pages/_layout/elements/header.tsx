@@ -705,7 +705,7 @@ const [userList, setUserList] = React.useState<any>({});
                 <ul className="list-unstyled navbar-nav md:pl-4 navbar-new grid space-y-4">
                   
 
-                  <li className={`nav-item md:pl-5   md:w-60 w-fit ${activeMenu === "Dashboard" ? "text-active" : ""}`}>
+                  <li className={`nav-item md:pl-5   md:w-60 w-fit ${activeMenu === "Dashboard" ? "text-active" : "text-white"}`}>
                     <CustomLink
                       onClick={() => { toggleDrawer(); setActiveMenu("Dashboard");}}
                       className="md:flex gap-2 py-2 md:flex-row flex flex-col items-center"
@@ -713,7 +713,7 @@ const [userList, setUserList] = React.useState<any>({});
                     >
                     
                       <img className="h-6 w-auto"  src="imgs/layout.png"  />
-                      <b className={`md:text-lg text-xs font-medium  ${activeMenu === "Dashboard" ? "text-active" : ""} `}>
+                      <b className={`md:text-lg text-xs font-medium  ${activeMenu === "Dashboard" ? "text-active" : "text-white"} `}>
                         Dashboard
                       </b>
                     </CustomLink>
@@ -728,10 +728,10 @@ const [userList, setUserList] = React.useState<any>({});
                       onClick={() => {setDropdownOpen(!dropdownOpen); setActiveMenu("User");}}
                      
                     >
-                      <i className={`fa fa-angle-down hide-on-mobile ${activeMenu === "User" ? "text-active" : ""}`} />
+                      <i className={`fa fa-angle-down hide-on-mobile ${activeMenu === "User" ? "text-active" : "text-white"}`} />
 
                       <img className="h-6 w-auto"  src="imgs/user.png"  />
-                      <b className={`md:text-lg  text-xs font-medium  ${activeMenu === "User" ? "text-active" : ""} `}>
+                      <b className={`md:text-lg  text-xs font-medium  ${activeMenu === "User" ? "text-active" : "text-white"} `}>
                         {/* {userState?.user?.role  === 'mdl' ? 'Agent Master' : "" } */}
                         {userState?.user?.role === "admin"
                           ? "Super Admin"
@@ -763,7 +763,7 @@ const [userList, setUserList] = React.useState<any>({});
                             onClick={() => { toggleDrawer(); setDropdownOpen(!dropdownOpen) ; setActiveMenu("User");}}
                             className="dropdown-item hover:bg-gray-400"
                           >
-                            <b className=" mobile-style md:text-lg text-xs  md:flex md:flex-row flex flex-col items-center gap-1">
+                            <b className=" mobile-style md:text-lg text-xs text-white  md:flex md:flex-row flex flex-col items-center gap-1">
                               {/* <ListIcon className="text-yellow-600" /> */}
                               {role.label}
                               {/* ({userList?.items?.filter((i: any) => i.role === `${role.key}`)?.length}) */}
@@ -795,10 +795,10 @@ const [userList, setUserList] = React.useState<any>({});
 
                   <li className={`nav-item dropdown  md:w-60 ${activeMenu === "Sports" ? "bg-active" : ""}`}>
                     <a   onClick={() => {setDropdownOpen2(!dropdownOpen2); setActiveMenu("Sports");}} className={`md:flex py-2  md:flex-row flex flex-col gap-2 items-center `}>
-                    <i className="fa fa-angle-down hide-on-mobile " />
+                    <i className="fa fa-angle-down hide-on-mobile text-white " />
                      
                     <img style={{transform: "rotate(45deg)"}} className="h-6 w-auto "  src="imgs/price-tag.png"  />
-                    <b className={`md:text-lg text-xs font-medium  ${activeMenu === "Sports" ? "text-active" : ""} `}>
+                    <b className={`md:text-lg text-xs font-medium  ${activeMenu === "Sports" ? "text-active" : "text-white"} `}>
                        Sports Detail
                       </b>{" "}
                     </a>
@@ -814,7 +814,7 @@ const [userList, setUserList] = React.useState<any>({});
                           to="/sports-details"
                           className={`dropdown-item ${activeMenu === "AG" ? "bg-active" : ""}`}
                         >
-                          <b className=" md:text-lg text-xs md:flex md:flex-row flex flex-col items-center gap-1">
+                          <b className=" md:text-lg text-xs md:flex md:flex-row flex flex-col items-center gap-1 text-white">
                             {/* <ListIcon className="text-yellow-600" /> */}
                             Active Games
                           </b>
@@ -828,7 +828,7 @@ const [userList, setUserList] = React.useState<any>({});
                           onClick={() => {toggleDrawer() ; setActiveMenu("All");}}
                           className={`dropdown-item ${activeMenu === "FG" ? "bg-active" : ""}`}
                         >
-                          <b className=" md:text-lg text-xs md:flex md:flex-row flex flex-col items-center gap-1">
+                          <b className=" md:text-lg text-xs md:flex md:flex-row flex flex-col items-center gap-1 text-white">
                             {/* <ListIcon className="text-yellow-600" /> */}
                            Finished Games
                           </b>
@@ -866,10 +866,10 @@ const [userList, setUserList] = React.useState<any>({});
 
                   <li className={`nav-item dropdown  md:w-60 ${activeMenu === "Cass" ? "bg-active" : ""}`}>
                     <a   onClick={() => {setDropdownOpen5(!dropdownOpen5); setActiveMenu("Cass");}} className={`md:flex py-2  md:flex-row flex flex-col gap-2 items-center `}>
-                    <i className="fa fa-angle-down hide-on-mobile " />
+                    <i className="fa fa-angle-down hide-on-mobile text-white " />
                      
                     <img className="h-6 w-auto"  src="imgs/compass.png"  />
-                    <b className={`md:text-lg text-xs font-medium  ${activeMenu === "Cass" ? "text-active" : ""} `}>
+                    <b className={`md:text-lg text-xs font-medium  ${activeMenu === "Cass" ? "text-active" : "text-white"} `}>
                     Casino Betting
                       </b>{" "}
                     </a>
@@ -882,10 +882,10 @@ const [userList, setUserList] = React.useState<any>({});
                         <CustomLink
                         //  onClick={() => setDropdownOpen3(!dropdownOpen3)}
                         onClick={() => {toggleDrawer() ; setActiveMenu("ICN");}}
-                          to="/casino-list"
+                          to="/in-play-casino"
                           className={`dropdown-item ${activeMenu === "ICN" ? "bg-active" : ""}`}
                         >
-                          <b className=" md:text-lg text-xs md:flex md:flex-row flex flex-col items-center gap-1">
+                          <b className=" md:text-lg text-xs md:flex md:flex-row text-white flex flex-col items-center gap-1">
                             {/* <ListIcon className="text-yellow-600" /> */}
                            Inplay Casino
                           </b>
@@ -894,12 +894,12 @@ const [userList, setUserList] = React.useState<any>({});
 
                       <li>
                         <CustomLink
-                           to="/casino-details"
+                           to="/casino-pl"
                           // onClick={() => setDropdownOpen3(!dropdownOpen3)}
                           onClick={() => {toggleDrawer() ; setActiveMenu("CCC");}}
                           className={`dropdown-item ${activeMenu === "CCC" ? "bg-active" : ""}`}
                         >
-                          <b className=" md:text-lg text-xs md:flex md:flex-row flex flex-col items-center gap-1">
+                          <b className=" md:text-lg text-xs md:flex md:flex-row flex flex-col items-center gap-1 text-white">
                             {/* <ListIcon className="text-yellow-600" /> */}
                             Completed Casino
                           </b>
@@ -913,7 +913,7 @@ const [userList, setUserList] = React.useState<any>({});
                           onClick={() => {toggleDrawer() ; setActiveMenu("CD");}}
                           className={`dropdown-item ${activeMenu === "CD" ? "bg-active" : ""}`}
                         >
-                          <b className=" md:text-lg text-xs md:flex md:flex-row flex flex-col items-center gap-1">
+                          <b className=" md:text-lg text-xs md:flex md:flex-row text-white flex flex-col items-center gap-1">
                             {/* <ListIcon className="text-yellow-600" /> */}
                             Casino Details 
                           </b>
@@ -927,7 +927,7 @@ const [userList, setUserList] = React.useState<any>({});
                           onClick={() => {toggleDrawer() ; setActiveMenu("IC");}}
                           className={`dropdown-item ${activeMenu === "IC" ? "bg-active" : ""}`}
                         >
-                          <b className=" md:text-lg text-xs md:flex md:flex-row flex flex-col items-center gap-1">
+                          <b className=" md:text-lg text-xs md:flex md:flex-row text-white flex flex-col items-center gap-1">
                             {/* <ListIcon className="text-yellow-600" /> */}
                           International Casino  
                           </b>
@@ -957,10 +957,10 @@ const [userList, setUserList] = React.useState<any>({});
 
                   <li className={`nav-item dropdown  md:w-60 ${activeMenu === "Ledger" ? "bg-active" : ""}`}>
                     <a   onClick={() => {setDropdownOpen3(!dropdownOpen3); setActiveMenu("Ledger");}} className={`md:flex py-2  md:flex-row flex flex-col gap-2 items-center `}>
-                    <i className="fa fa-angle-down hide-on-mobile " />
+                    <i className="fa fa-angle-down hide-on-mobile text-white " />
                      
                     <img className="h-6 w-auto"  src="imgs/copy.png"  />
-                    <b className={`md:text-lg text-xs font-medium  ${activeMenu === "Ledger" ? "text-active" : ""} `}>
+                    <b className={`md:text-lg text-xs font-medium  ${activeMenu === "Ledger" ? "text-active" : "text-white"} `}>
                         Ledger
                       </b>{" "}
                     </a>
@@ -969,6 +969,22 @@ const [userList, setUserList] = React.useState<any>({});
                       aria-labelledby="navbarDropdownMenuLink"
                       // style={{background:"#424242"}}
                     >
+
+                       <li>
+                        <CustomLink
+                          to="/total-profit"
+                          // onClick={() => setDropdownOpen3(!dropdownOpen3)}
+                          onClick={() => {toggleDrawer() ; setActiveMenu("Total");}}
+                          className={`dropdown-item ${activeMenu === "Total" ? "bg-active" : ""}`}
+
+                        >
+                          <b className=" md:text-lg text-xs md:flex md:flex-row text-white flex flex-col items-center gap-1">
+                            {/* <ListIcon className="text-yellow-600" /> */}
+                             Profit Loss
+                          </b>
+                        </CustomLink>
+                      </li>
+
                       <li>
                         <CustomLink
                         //  onClick={() => setDropdownOpen3(!dropdownOpen3)}
@@ -976,7 +992,7 @@ const [userList, setUserList] = React.useState<any>({});
                           to="/my-ledger"
                           className={`dropdown-item ${activeMenu === "My" ? "bg-active" : ""}`}
                         >
-                          <b className=" md:text-lg text-xs md:flex md:flex-row flex flex-col items-center gap-1">
+                          <b className=" md:text-lg text-xs md:flex md:flex-row flex flex-col text-white items-center gap-1">
                             {/* <ListIcon className="text-yellow-600" /> */}
                             {"My Ledger"}
                           </b>
@@ -990,7 +1006,7 @@ const [userList, setUserList] = React.useState<any>({});
                           onClick={() => {toggleDrawer() ; setActiveMenu("All");}}
                           className={`dropdown-item ${activeMenu === "All" ? "bg-active" : ""}`}
                         >
-                          <b className=" md:text-lg text-xs md:flex md:flex-row flex flex-col items-center gap-1">
+                          <b className=" md:text-lg text-xs md:flex md:flex-row flex text-white flex-col items-center gap-1">
                             {/* <ListIcon className="text-yellow-600" /> */}
                             {" "}
                             {userState?.user?.role === RoleType.dl
@@ -1001,20 +1017,7 @@ const [userList, setUserList] = React.useState<any>({});
                         </CustomLink>
                       </li>
 
-                      <li>
-                        <CustomLink
-                          to="/total-profit"
-                          // onClick={() => setDropdownOpen3(!dropdownOpen3)}
-                          onClick={() => {toggleDrawer() ; setActiveMenu("Total");}}
-                          className={`dropdown-item ${activeMenu === "Total" ? "bg-active" : ""}`}
-
-                        >
-                          <b className=" md:text-lg text-xs md:flex md:flex-row flex flex-col items-center gap-1">
-                            {/* <ListIcon className="text-yellow-600" /> */}
-                             Profit Loss
-                          </b>
-                        </CustomLink>
-                      </li>
+                      
 
                       <li className="hidden">
                         <CustomLink
@@ -1023,7 +1026,7 @@ const [userList, setUserList] = React.useState<any>({});
                           onClick={() => {toggleDrawer() ; setActiveMenu("ALedger");}}
                           className={`dropdown-item ${activeMenu === "ALedger" ? "bg-active" : ""}`}
                         >
-                          <b className=" md:text-lg text-xs md:flex md:flex-row flex flex-col items-center gap-1">
+                          <b className=" md:text-lg text-xs md:flex md:flex-row text-white flex flex-col items-center gap-1">
                             {/* <ListIcon className="text-yellow-600" /> */}
                             {userState?.user?.role === RoleType.dl
                               ? "Client"
@@ -1041,7 +1044,7 @@ const [userList, setUserList] = React.useState<any>({});
                             to="/commision-len-den"
                             className={`dropdown-item ${activeMenu === "Comm" ? "bg-active" : ""}`}
                             >
-                            <b className=" md:text-lg text-xs md:flex md:flex-row flex flex-col items-center gap-1">
+                            <b className=" md:text-lg text-xs md:flex md:flex-row text-white flex flex-col items-center gap-1">
                               {/* <ListIcon className="text-yellow-600" /> */}
                               {"कमीशन लेन देन"}
                             </b>
@@ -1059,10 +1062,10 @@ const [userList, setUserList] = React.useState<any>({});
 
                   <li className={`nav-item dropdown  md:w-60 ${activeMenu === "CashT" ? "bg-active" : ""}`}>
                     <a   onClick={() => {setDropdownOpen6(!dropdownOpen6); setActiveMenu("CashT");}} className={`md:flex py-2  md:flex-row flex flex-col gap-2 items-center `}>
-                    <i className="fa fa-angle-down hide-on-mobile " />
+                    <i className="fa fa-angle-down hide-on-mobile text-white " />
                      
                     <img className="h-6 w-auto"  src="imgs/checklist 2.png"  />
-                    <b className={`md:text-lg text-xs font-medium  ${activeMenu === "CashT" ? "text-active" : ""} `}>
+                    <b className={`md:text-lg text-xs font-medium  ${activeMenu === "CashT" ? "text-active" : "text-white"} `}>
                     Cash Transaction
                       </b>{" "}
                     </a>
@@ -1078,7 +1081,7 @@ const [userList, setUserList] = React.useState<any>({});
                           to="/client-transactions"
                           className={`dropdown-item ${activeMenu === "DCDC" ? "bg-active" : ""}`}
                         >
-                          <b className=" md:text-lg text-xs md:flex md:flex-row flex flex-col items-center gap-1">
+                          <b className=" md:text-lg text-xs md:flex md:flex-row flex text-white flex-col items-center gap-1">
                             {/* <ListIcon className="text-yellow-600" /> */}
                             (C) Debit/Credit Entry
                           </b>
@@ -1097,7 +1100,7 @@ const [userList, setUserList] = React.useState<any>({});
                        to={"/commision-len-den"}
                     >
                         <img className="h-6 w-auto"  src="imgs/keyboard.png"  />
-                      <b className={`md:text-lg text-xs font-medium  ${activeMenu === "ComReport" ? "text-active" : ""} `}>
+                      <b className={`md:text-lg text-xs font-medium  ${activeMenu === "ComReport" ? "text-active" : "text-white"} `}>
                        Comm. Report
                       </b>
                     </CustomLink>
@@ -1106,10 +1109,10 @@ const [userList, setUserList] = React.useState<any>({});
 
                   <li className={`nav-item dropdown  md:w-60 ${activeMenu === "RPTS" ? "bg-active" : ""}`}>
                     <a   onClick={() => {setDropdownOpen7(!dropdownOpen7); setActiveMenu("RPTS");}} className={`md:flex py-2  md:flex-row flex flex-col gap-2 items-center `}>
-                    <i className="fa fa-angle-down hide-on-mobile " />
+                    <i className="fa fa-angle-down text-white hide-on-mobile " />
                      
                     <img className="h-6 w-auto"  src="imgs/report.png"  />
-                    <b className={`md:text-lg text-xs font-medium  ${activeMenu === "RPTS" ? "text-active" : ""} `}>
+                    <b className={`md:text-lg text-xs font-medium  ${activeMenu === "RPTS" ? "text-active" : "text-white"} `}>
                     Reports
                       </b>
                     </a>
@@ -1125,7 +1128,7 @@ const [userList, setUserList] = React.useState<any>({});
                           to="/login-report"
                           className={`dropdown-item ${activeMenu === "Logr" ? "bg-active" : ""}`}
                         >
-                          <b className=" md:text-lg text-xs md:flex md:flex-row flex flex-col items-center gap-1">
+                          <b className=" md:text-lg text-xs md:flex md:flex-row text-white flex flex-col items-center gap-1">
                             {/* <ListIcon className="text-yellow-600" /> */}
                             Login Report
                           </b>
@@ -1139,7 +1142,7 @@ const [userList, setUserList] = React.useState<any>({});
                           to="/client-transactions"
                           className={`dropdown-item ${activeMenu === "SCR" ? "bg-active" : ""}`}
                         >
-                          <b className=" md:text-lg text-xs md:flex md:flex-row flex flex-col items-center gap-1">
+                          <b className=" md:text-lg text-xs md:flex md:flex-row text-white flex flex-col items-center gap-1">
                             {/* <ListIcon className="text-yellow-600" /> */}
                             Secure Code Report
                           </b>
@@ -1152,31 +1155,29 @@ const [userList, setUserList] = React.useState<any>({});
 
                   {/* {userState?.user?.role === RoleType.admin &&  (  */}
                     
-                    <li className={`nav-item md:pl-5  md:w-60 w-fit ${activeMenu === "ComReport" ? "bg-active" : ""} `}>
+                    <li className={`nav-item md:pl-5  md:w-60 w-fit ${activeMenu === "BXPRO99" ? "bg-active" : ""} `}>
                     <CustomLink
                       // onClick={toggleDrawer}
-                      onClick={() => { toggleDrawer(); setActiveMenu("ComReport");}}
+                      onClick={() => { toggleDrawer(); setActiveMenu("BXPRO99");}}
                       
                       className="md:flex gap-2 py-2 md:flex-row flex flex-col items-center"
                        to={"/main-setting"}
                     >
                           <img className="h-6 w-auto"  src="imgs/setting.png"  />
-                      <b className={`md:text-lg text-xs font-medium  ${activeMenu === "ComReport" ? "text-active" : ""} `}>
+                      <b className={`md:text-lg text-xs font-medium  ${activeMenu === "BXPRO99" ? "text-active" : "text-white"} `}>
                      BXPRO99'Setting
                       </b>
                     </CustomLink>
                   </li>
                 
                 {/* )} */}
-
-                 
                   {userState?.user?.role === RoleType.admin && (
-                    <li className={`nav-item dropdown hidden md:w-60 w-fit ${activeMenu === "Setting" ? "bg-active" : ""}`}>
+                    <li className={`nav-item dropdown md:w-60 w-fit ${activeMenu === "Setting" ? "bg-active" : ""}`}>
                       <a onClick={() => {setDropdownOpen4(!dropdownOpen4); setActiveMenu("Setting");}} className="md:flex py-2  md:flex-row flex flex-col gap-1 items-center">
-                      <i className="fa fa-angle-down hide-on-mobile " />
+                      <i className="fa fa-angle-down hide-on-mobile text-white " />
                       <img className="h-6 w-auto"  src="imgs/setting.png"  />
 
-                        <b className={`md:text-lg text-xs font-medium  ${activeMenu === "Setting" ? "text-active" : ""} `}>
+                        <b className={`md:text-lg text-xs font-medium  ${activeMenu === "Setting" ? "text-active" : "text-white"} `}>
                           Settings
                         </b>{" "}
                       </a>
@@ -1195,7 +1196,7 @@ const [userList, setUserList] = React.useState<any>({});
                                 to={"/matches/4"}
                                 className={`dropdown-item ${activeMenu === "Adm" ? "bg-active" : ""}`}
                               >
-                                <b className=" md:text-lg text-xs md:flex md:flex-row flex flex-col gap-1 items-center">
+                                <b className=" md:text-lg text-xs md:flex md:flex-row text-white flex flex-col gap-1 items-center">
                                   {/* <TuneIcon className="text-yellow-600" /> */}
                                   Add Match List
                                 </b>
@@ -1209,7 +1210,7 @@ const [userList, setUserList] = React.useState<any>({});
                                 to='/casino-list'
                                 className={`dropdown-item ${activeMenu === "CS" ? "bg-active" : ""}`}
                               >
-                                <b className=" md:text-lg text-xs md:flex md:flex-row flex flex-col gap-1 items-center">
+                                <b className=" md:text-lg text-xs md:flex md:flex-row text-white flex flex-col gap-1 items-center">
                                   {/* <TuneIcon className="text-yellow-600" /> */}
                                   Casino List
                                 </b>
@@ -1225,7 +1226,7 @@ const [userList, setUserList] = React.useState<any>({});
                                 to="/active-matches/4"
                                 className={`dropdown-item ${activeMenu === "BM" ? "bg-active" : ""}`}
                               >
-                                <b className=" md:text-lg text-xs md:flex md:flex-row flex flex-col gap-1 items-center">
+                                <b className=" md:text-lg text-xs md:flex md:flex-row text-white flex flex-col gap-1 items-center">
                                   {/* <TuneIcon className="text-yellow-600" /> */}
                                   {"Block Markets"}
                                 </b>
@@ -1239,7 +1240,7 @@ const [userList, setUserList] = React.useState<any>({});
                                 to="/unsettledbet"
                                 className={`dropdown-item ${activeMenu === "DB" ? "bg-active" : ""}`}
                               >
-                                <b className=" md:text-lg text-xs md:flex md:flex-row flex flex-col items-center gap-1">
+                                <b className=" md:text-lg text-xs md:flex md:flex-row text-white flex flex-col items-center gap-1">
                                   {/* <DeleteIcon className="text-yellow-600" /> */}
                                   Deleted Bets
                                 </b>
@@ -1253,9 +1254,9 @@ const [userList, setUserList] = React.useState<any>({});
                             to="/deleted-bets"
                             className="dropdown-item"
                           >
-                            <b className=" md:text-lg text-xs md:flex md:flex-row flex flex-col items-center gap-1">
+                            <b className=" md:text-lg text-xs md:flex md:flex-row flex text-white flex-col items-center gap-1">
                               {/* <ListIcon className="text-yellow-600" /> */}
-                              Deleted Bets History
+                              Deleted Bets His
                             </b>
                           </CustomLink>
                         </li>
@@ -1268,7 +1269,7 @@ const [userList, setUserList] = React.useState<any>({});
                                 to="/notice"
                                 className={`dropdown-item ${activeMenu === "NC" ? "bg-active" : ""}`}
                               >
-                                <b className=" md:text-lg text-xs md:flex md:flex-row flex flex-col items-center gap-1">
+                                <b className=" md:text-lg text-xs md:flex md:flex-row text-white flex flex-col items-center gap-1">
                                   {/* <ListIcon className="text-yellow-600" /> */}
                                   Notice
                                 </b>
@@ -1288,6 +1289,9 @@ const [userList, setUserList] = React.useState<any>({});
                       </div> : ""}
                     </li>
                   )}
+
+
+
 
                  
 

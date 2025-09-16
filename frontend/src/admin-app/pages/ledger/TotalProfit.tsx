@@ -25,7 +25,7 @@ const TotalProfit = () => {
     betService.oneledger().then((res: AxiosResponse<any>) => {
       const allData = res.data?.data || [];
       // const dataToUse =  allData[1] ? allData[1] : allData[0]  || [];
-      const dataToUse = allData[0]
+      const dataToUse = allData[0];
 
       setTableData2(dataToUse);
       // setTabledata(res.data.data);
@@ -37,11 +37,11 @@ const TotalProfit = () => {
           : dataToUse.filter((item: any) => item.username === optionuser);
 
       const total = filteredData.reduce((sum: number, item: any) => {
-        console.log(sum,item,"sum and item hahahahhahha")
-        return sum + ( item?.profit);
+        console.log(sum, item, "sum and item hahahahhahha");
+        return sum + item?.profit;
       }, 0);
 
-      console.log(filteredData,)
+      console.log(filteredData);
 
       setTableData(filteredData);
 
@@ -53,45 +53,48 @@ const TotalProfit = () => {
 
   return (
     <div className="body-wrap p-4">
-      <div style={{background:"pink"}}  className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex">
-                                              <span className="text-3xl font-seminbold gx-text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
-                                               Profit Loss
-                                              </span>
-                                              <CustomLink to={"/"} type="button" className="btn bg-primary">
-                                                <span>Back</span>
-                                              </CustomLink>
-            </div>
+      <div
+        style={{ background: "#0f2327" }}
+        className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex"
+      >
+        <span className="text-3xl font-seminbold text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
+          Profit Loss
+        </span>
+        <CustomLink to={"/"} type="button" className="btn bg-primary">
+          <span>Back</span>
+        </CustomLink>
+      </div>
       <div>
         <div className="container h-full w-100 mt-2 mb-20">
           <div className="text-center mb-4"></div>
 
           <div className="container d-none py-3">
-  <div className="row align-items-center">
-    <div className="col-12 col-md-4 text-start">
-      <div className="d-inline-block">
-        <small className="d-block text-muted">Start date</small>
-        <span className="fw-semibold">2025-08-12</span>
-        <span className="mx-2">—</span>
-        <small className="d-block text-muted">End date</small>
-        <span className="fw-semibold">2025-09-12</span>
-      </div>
-    </div>
+            <div className="row align-items-center">
+              <div className="col-12 col-md-4 text-start">
+                <div className="d-inline-block">
+                  <small className="d-block text-muted">Start date</small>
+                  <span className="fw-semibold">2025-08-12</span>
+                  <span className="mx-2">—</span>
+                  <small className="d-block text-muted">End date</small>
+                  <span className="fw-semibold">2025-09-12</span>
+                </div>
+              </div>
 
-    <div className="col-12 col-md-4 text-center">
-      <div className="d-inline-block">
-        <small className="d-block text-muted">Filter</small>
-        <span className="fw-semibold">All</span>
-      </div>
-    </div>
+              <div className="col-12 col-md-4 text-center">
+                <div className="d-inline-block">
+                  <small className="d-block text-muted">Filter</small>
+                  <span className="fw-semibold">All</span>
+                </div>
+              </div>
 
-    <div className="col-12 col-md-4 text-end">
-      <div className="d-inline-block">
-        <small className="d-block text-muted">Total:</small>
-        <span className="fw-semibold text-success">0.00</span>
-      </div>
-    </div>
-  </div>
-</div>
+              <div className="col-12 col-md-4 text-end">
+                <div className="d-inline-block">
+                  <small className="d-block text-muted">Total:</small>
+                  <span className="fw-semibold text-success">0.00</span>
+                </div>
+              </div>
+            </div>
+          </div>
 
           <select
             id="select-tools-sa"
@@ -137,39 +140,40 @@ const TotalProfit = () => {
                     <tr role="row">
                       <th
                         className="p-1 pl-2 small sorting_disabled pr-0"
-                        style={{ minWidth: 170, width: 170 }}
+                        style={{ minWidth: 70, width: 100 , backgroundColor:"#0f2327" , color:"white" }}
                       >
                         DATE
                       </th>
                       <th
+                        className="p-1 small no-sort sorting_disabled"
+                        style={{ width: 154, backgroundColor:"#0f2327" , color:"white" }}
+                      >
+                        Event Name
+                      </th>
+                      <th
                         className="p-1 small text-center no-sort sorting_disabled"
-                        style={{ width: 81 }}
+                        style={{ width: 81, backgroundColor:"#0f2327" , color:"white" }}
                       >
                         CREDIT
                       </th>
                       <th
                         className="p-1 small text-center no-sort sorting_disabled"
-                        style={{ width: 60 }}
+                        style={{ width: 60, backgroundColor:"#0f2327" , color:"white" }}
                       >
                         DEBIT
                       </th>
-                      <th
+                      {/* <th
                         className="p-1 small text-center  no-sort sorting_disabled"
                         style={{ width: 97 }}
                       >
                         BALANCE
-                      </th>
-                      <th
-                        className="p-1 small no-sort sorting_disabled"
-                        style={{ width: 654 }}
-                      >
-                        WINNER / Remark
-                      </th>
+                      </th> */}
+                      
                     </tr>
                   </thead>
 
                   <tbody>
-                    {tableData.map((row:any, index) => (
+                    {tableData.map((row: any, index) => (
                       <tr
                         key={row._id}
                         role="row"
@@ -186,21 +190,6 @@ const TotalProfit = () => {
                           })}
                         </td>
                         <td>
-                          <span className="text-success">
-                          {(row.profit <0 ? 0 : row.profit).toFixed()} 
-                          </span>
-                        </td>
-                        <td>
-                          {/* <span className="text-danger">0</span> */}
-                          {(row.profit< 0 ? row.profit :0).toFixed()} 
-
-                        </td>
-                        <td>
-                          <span className={"text-danger text-danger"}>
-                            { (row.profit).toFixed()} 
-                          </span>
-                        </td>
-                        <td>
                           <span
                             className="badge badge-primary p-1"
                             style={{ fontSize: "xx-small" }}
@@ -211,6 +200,22 @@ const TotalProfit = () => {
                             {row.narration}
                           </span>
                         </td>
+                        <td>
+                          {/* <span className="text-danger">0</span> */}
+                          {(row.profit < 0 ? row.profit : 0).toFixed()}
+                        </td>
+                        <td>
+                          <span className="text-success">
+                            {(row.profit < 0 ? 0 : row.profit).toFixed()}
+                          </span>
+                        </td>
+                        
+                        {/* <td>
+                          <span className={"text-danger text-danger"}>
+                            {row.profit.toFixed()}
+                          </span>
+                        </td> */}
+                       
                       </tr>
                     ))}
                   </tbody>

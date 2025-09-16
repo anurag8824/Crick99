@@ -16,9 +16,7 @@ const LoginReport = () => {
   const [tableData, setTableData] = React.useState<LedgerItem[]>([]);
   const userState = useAppSelector(selectUserData);
 
-  console.log(userState, "myledgererr")
-
-
+  console.log(userState, "myledgererr");
 
   React.useEffect(() => {
     betService.oneledger().then((res: AxiosResponse<any>) => {
@@ -72,19 +70,20 @@ const LoginReport = () => {
   const finalBalance = processedRows.length > 0 ? processedRows[0].balance : 0;
   return (
     <div className=" body-wrap p-4">
-      <div style={{background:"pink"}}  className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex">
-                                         <span className="text-2xl font-weight-normal gx-text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
-                                        Login Report
-                                         </span>
-                                         <CustomLink to={"/"} type="button" className="btn bg-primary">
-                                           <span>Back</span>
-                                         </CustomLink>
-       </div>
+      <div
+        style={{ background: "#0f2327" }}
+        className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex"
+      >
+        <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
+          Login Report
+        </span>
+        <CustomLink to={"/"} type="button" className="btn bg-primary">
+          <span>Back</span>
+        </CustomLink>
+      </div>
 
       <div>
         <div className="container w-100 mt-2 mb-5">
-   
-
           <div
             id="ledger_wrapper"
             className="dataTables_wrapper dt-bootstrap4 no-footer"
@@ -93,7 +92,6 @@ const LoginReport = () => {
               <div className="col-sm-12 col-md-6"></div>
               <div className="col-sm-12 col-md-6"></div>
             </div>
-
 
             <div className="row overflow-auto mb-20">
               <div className="col-sm-12">
@@ -104,36 +102,41 @@ const LoginReport = () => {
                   role="grid"
                 >
                   <thead className="navbar-bet99 text-dark">
-                    <tr role="row" >
+                    <tr role="row">
                       <th
                         className="p-1 pl-2 small sorting_disabled pr-0"
-                        style={{ minWidth: 170, width: 170 , backgroundColor:"pink" }}
+                        style={{
+                          minWidth: 170,
+                          width: 170,
+                          backgroundColor: "#0f2327",
+                          color: "white",
+                        }}
                       >
-                       COUNTRY
+                        COUNTRY
                       </th>
                       <th
                         className="p-1 small text-center no-sort sorting_disabled"
-                        style={{ width: 81 ,backgroundColor:"pink" }}
+                        style={{ width: 81, backgroundColor: "#0f2327" , color: "white", }}
                       >
-                       REGION
+                        REGION
                       </th>
                       <th
                         className="p-1 small text-center no-sort sorting_disabled"
-                        style={{ width: 81 ,backgroundColor:"pink" }}
+                        style={{ width: 81, backgroundColor: "#0f2327" , color: "white", }}
                       >
                         ISP
                       </th>
                       <th
                         className="p-1 small text-center no-sort sorting_disabled"
-                        style={{ width: 60 ,backgroundColor:"pink" }}
+                        style={{ width: 60, backgroundColor: "#0f2327" , color: "white", }}
                       >
                         IP-ADDRESS
                       </th>
                       <th
                         className="p-1 small text-center  no-sort sorting_disabled"
-                        style={{ width: 97 ,backgroundColor:"pink" }}
+                        style={{ width: 97, backgroundColor: "#0f2327" , color: "white", }}
                       >
-                      LOGIN DATE
+                        LOGIN DATE
                       </th>
                     </tr>
                   </thead>
@@ -155,10 +158,14 @@ const LoginReport = () => {
                           })}
                         </td>
                         <td>
-                          <span className="text-success">{row.credit.toFixed(2)}</span>
+                          <span className="text-success">
+                            {row.credit.toFixed(2)}
+                          </span>
                         </td>
                         <td>
-                          <span className="text-danger">{row.debit.toFixed(2)}</span>
+                          <span className="text-danger">
+                            {row.debit.toFixed(2)}
+                          </span>
                         </td>
                         <td>
                           <span
@@ -166,10 +173,16 @@ const LoginReport = () => {
                               row.balance >= 0 ? "text-danger" : "text-danger"
                             }
                           >
-                            {(row.balance).toFixed(2)}
+                            {row.balance.toFixed(2)}
                           </span>
                         </td>
-                        <td className={row.narration === "Settlement" ? "bg-yellow-400" : ""}>
+                        <td
+                          className={
+                            row.narration === "Settlement"
+                              ? "bg-yellow-400"
+                              : ""
+                          }
+                        >
                           <span
                             className="badge badge-primary p-1"
                             style={{ fontSize: "xx-small" }}
@@ -246,12 +259,12 @@ const LoginReport = () => {
               TOTAL
             </div>
             <div
-              className={`pt-2 pr-1 pl-1 col-7 with-commission btn btn-sm ${finalBalance >= 0 ? "btn-success" : "btn-danger"
-                }`}
+              className={`pt-2 pr-1 pl-1 col-7 with-commission btn btn-sm ${
+                finalBalance >= 0 ? "btn-success" : "btn-danger"
+              }`}
             >
               {finalBalance.toFixed(2)}
             </div>
-
           </div>
 
           {/* Modal */}

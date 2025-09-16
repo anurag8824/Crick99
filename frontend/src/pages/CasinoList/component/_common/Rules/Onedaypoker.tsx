@@ -7,7 +7,7 @@ const OnedaypokerRules = () => {
         </h6>
     </div>
     <div className="card-body" >
-        <table className="table table-bordered rules-table">
+        <table className="table table-dark text-light table-bordered rules-table">
             <tbody>
                 <tr className="text-center">
                     <th colSpan={2}>Bonus 1 (2 Cards Bonus)</th>

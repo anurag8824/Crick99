@@ -11,14 +11,14 @@ const Onedaypoker = (props: any) => {
     const clsnamename = isMobile?'box-3':'box-2'
     const heightdata = ''
     return (
-      <table className='table coupon-table table table-bordered'>
+      <table className='table table-dark  coupon-table table table-bordered'>
         <thead style={{ borderBottom: "0px" }}>
           <tr>
-            <th className={clsnamehead} style={{paddingLeft:"5px"}}>
+            <th className={clsnamehead} style={{paddingLeft:"5px" , color:"white"}}>
               <Limitinfo nameString={'lbmarket'} min={100} max={50000} />
             </th>
-            <th className={`back ${clsnamename}`}>BACK</th>
-            <th className={`lay-color ${clsnamename}`}>LAY</th>
+            <th className={`back ${clsnamename} text-light`}>BACK</th>
+            <th className={`lay-color ${clsnamename} text-light`}>LAY</th>
           </tr>
         </thead>
         <tbody>
@@ -47,14 +47,14 @@ const Onedaypoker = (props: any) => {
     const clsnamename = 'box-3'
     const heightdata = ''
     return (
-      <table className='table coupon-table table table-bordered'>
+      <table className='table table-dark  coupon-table table table-bordered'>
         <thead style={{ borderBottom: "0px" }}>
           <tr>
-            <th className={clsnamehead} style={{paddingLeft:"5px"}}>
+            <th className={clsnamehead} style={{paddingLeft:"5px", color:"white"}}>
               <Limitinfo nameString={'lbmarket'} min={100} max={50000} />
             </th>
-            <th className={`back ${clsnamename}`}>BACK</th>
-            <th className={`back ${clsnamename}`}>BACK</th>
+            <th className={`back ${clsnamename} text-light`}>BACK</th>
+            <th className={`back ${clsnamename} text-light`}>BACK</th>
           </tr>
         </thead>
         <tbody>

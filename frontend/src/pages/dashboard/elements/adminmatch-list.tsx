@@ -12,24 +12,24 @@ const MatchList2: React.FC<MatchListProps> = ({ matchList, currentMatch }) => {
   return (
     <div className="container-fluid mt-3 mb-4 rounded ">
       {/* Title above table */}
-      <div className="p-4  text-left rounded-top" style={{ backgroundColor: "pink" }}>
-        <h5 className="m-0 text-dark fs-5 ">Active Matches</h5>
+      <div className="p-4  text-left rounded-top" style={{ backgroundColor: "#0f2327" }}>
+        <h5 className="m-0 text-light fs-5 ">Active Matches</h5>
       </div>
 
-      <div className="table-responsivke" style={{overflowX:"scroll" , width:"100%"}}>
+      <div className="table-responsivke" style={{overflowX:"scroll" , width:"100%" }}>
         <table className="table table-bordered table-striped align-middle text-left">
-          <thead style={{ backgroundColor: "pink" }}>
+          <thead style={{ backgroundColor: "#0f2327" , color:"white" }}>
             <tr>
-            <th style={{ backgroundColor: "pink" }}>Sr.</th>
-              <th style={{ backgroundColor: "pink" }}>Name</th>
-              <th style={{ backgroundColor: "pink" }}>Open Date</th>
-              <th style={{ backgroundColor: "pink" }}>Compitition</th>
-              <th style={{ backgroundColor: "pink" }}>Inplay</th>
-              <th style={{ backgroundColor: "pink" }}>Details</th>
+            <th style={{ backgroundColor: "#0f2327"  , color:"white"  }}>Sr.</th>
+              <th style={{ backgroundColor: "#0f2327"  , color:"white"  }}>Name</th>
+              <th style={{ backgroundColor: "#0f2327"  , color:"white"  }}>Open Date</th>
+              <th style={{ backgroundColor: "#0f2327"  , color:"white"  }}>Compitition</th>
+              <th style={{ backgroundColor: "#0f2327"  , color:"white"  }}>Inplay</th>
+              <th style={{ backgroundColor: "#0f2327"  , color:"white"  }}>Details</th>
 
 
 
-              {/* <th style={{ backgroundColor: "pink" }}>Declared</th> */}
+              {/* <th style={{ backgroundColor: "#0f2327" }}>Declared</th> */}
             </tr>
           </thead>
           <tbody>

@@ -1336,8 +1336,8 @@ footer {
 
 .login .form-group i {
   position: absolute;
-  right: 10px;
-  top: 8px;
+  left: 10px;
+  top: 10px;
 }
 
 /*Tabs*/
@@ -3379,7 +3379,8 @@ marquee.casino-remark {
 }
 
 .table-row {
-  background-color: #424242;
+  background-color: #ffffff;
+  color: black;
 }
 
 .fancy-market .table-row {
@@ -3491,9 +3492,45 @@ marquee.casino-remark {
 
 .fancy-market .box-6 {
   width: 54%;
-  min-width: 54%;
+  min-width: 60%;
   max-width: 54%;
 }
+
+
+
+
+.text_blink {
+  animation: blink 1s linear infinite;
+  text-align: left;
+}
+
+@keyframes blink {
+  0% {
+      color: #c2e884
+  }
+
+  20% {
+      color: #c2e884
+  }
+
+  40% {
+      color: #ff7f00
+  }
+
+  60% {
+      color: #ff7f00
+  }
+
+  80% {
+      color: #36cb3b
+  }
+
+  to {
+      color: #36cb3b
+  }
+}
+
+
 
 .fancy-market .box-1 {
   width: 13%;

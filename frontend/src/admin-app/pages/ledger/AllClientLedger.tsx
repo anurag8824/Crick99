@@ -10,7 +10,6 @@
 // import { Link } from "react-router-dom";
 // import { CustomLink } from "../../../pages/_layout/elements/custom-link";
 
-
 // interface LedgerEntry {
 //   settled: any;
 //   ChildId: string;
@@ -36,7 +35,6 @@
 //   const userState = useAppSelector(selectUserData);
 
 //   console.log(userState, "fffff")
-
 
 //   const [showModal, setShowModal] = React.useState(false);
 //   const [selectedEntry, setSelectedEntry] = React.useState<GroupedEntry | null>(
@@ -78,20 +76,16 @@
 //     data: LedgerEntry[][]
 //   ): { lenaArray: GroupedEntry[]; denaArray: GroupedEntry[] } => {
 
-
-
 //     // userState.user.role === "admin"
 
-//     // const flatData = [...(data[0] || []), ...(data[1] || [])]; //old wala hai 
+//     // const flatData = [...(data[0] || []), ...(data[1] || [])]; //old wala hai
 
 //     // const flatData = [...(data[0] || []), ...(data[0] || [])]; // ye naye wala hai for other than superadmin
-
 
 //     const flatData =
 //       userState.user.role === "admin"
 //         ? data[0] // for admin
 //         : data[0]; // for others
-
 
 //     const settledMap: Record<string, number> = {};
 //     flatData.forEach((entry: any) => {
@@ -110,21 +104,13 @@
 //         const id = entry.ChildId;
 //         const username = entry.username + " (" + entry.cname + ")";
 
-
 //         // Compute money based on role
 //         // const money = userState.user.role === "dl" ? entry.money - entry.commissiondega : entry.money;
-
-
-
 
 //         const commission = userState.user.role === "dl" ? entry.commissiondega : 0;
 //         const money = entry.money - commission;
 
-
-
-
 //         // const money =  entry.money + entry.commissiondega ;
-
 
 //         if (!activeMap[id]) {
 //           activeMap[id] = { username, positive: 0, negative: 0 };
@@ -147,7 +133,6 @@
 //         const settledAmount = settledMap[ChildId] || 0;
 //         const netFinal = Math.max(0, Math.abs(rawAmount - settledAmount));
 //         // const netFinal = Math.abs(rawAmount - settledAmount);
-
 
 //         const baseData = {
 //           agent: username,
@@ -226,7 +211,6 @@
 //                     <td>{row.settled}</td>
 //                     <td className="bg-final text-white">{row.final.toFixed(2)}</td>
 //                     <td className="small">
-
 
 //                       <button
 //                         onClick={() => {
@@ -324,7 +308,6 @@
 //                       </div>
 //                     )}
 
-
 //                   </tr>
 //                 ))}
 //                 <tr className="font-weight-bold bg-light">
@@ -365,9 +348,7 @@
 //                     <td>{row.settled.toFixed(2)}</td>
 //                     <td className="bg-final2 text-white">{row?.final?.toFixed(2)}</td>
 
-
 //                     <td className="small">
-
 
 //                       <button
 
@@ -488,13 +469,11 @@
 
 // export default AllClientLedger;
 
-
-
 import betService from "../../../services/bet.service";
 import { AxiosResponse } from "axios";
 import React from "react";
 import "./ClientLedger.css";
-import PaymentsIcon from '@mui/icons-material/Payments';
+import PaymentsIcon from "@mui/icons-material/Payments";
 import { useAppSelector } from "../../../redux/hooks";
 import { selectUserData } from "../../../redux/actions/login/loginSlice";
 import { CustomLink } from "../../../pages/_layout/elements/custom-link";
@@ -507,7 +486,7 @@ interface LedgerEntry {
   commissiondega: number;
   money: number;
   narration: string;
-  cname: string; 
+  cname: string;
   _id: string;
 }
 
@@ -523,10 +502,14 @@ const AllClientLedger = () => {
   const userState = useAppSelector(selectUserData);
 
   const [showModal, setShowModal] = React.useState(false);
-  const [selectedEntry, setSelectedEntry] = React.useState<GroupedEntry | null>(null);
+  const [selectedEntry, setSelectedEntry] = React.useState<GroupedEntry | null>(
+    null
+  );
   const [inputAmount, setInputAmount] = React.useState<number>(0);
   const [remark, setRemark] = React.useState<string>("");
-  const [modalType, setModalType] = React.useState<"lena" | "dena" | null>(null);
+  const [modalType, setModalType] = React.useState<"lena" | "dena" | null>(
+    null
+  );
 
   const [lena, setLena] = React.useState<GroupedEntry[]>([]);
   const [dena, setDena] = React.useState<GroupedEntry[]>([]);
@@ -554,27 +537,22 @@ const AllClientLedger = () => {
   const processLedgerData = (
     data: LedgerEntry[][]
   ): { lenaArray: GroupedEntry[]; denaArray: GroupedEntry[] } => {
-
-
-
     // userState.user.role === "admin"
 
-    // const flatData = [...(data[0] || []), ...(data[1] || [])]; //old wala hai 
+    // const flatData = [...(data[0] || []), ...(data[1] || [])]; //old wala hai
 
     // const flatData = [...(data[0] || []), ...(data[0] || [])]; // ye naye wala hai for other than superadmin
-
 
     const flatData =
       userState.user.role === "admin"
         ? data[0] // for admin
         : data[0]; // for others
 
-
     const settledMap: Record<string, number> = {};
     flatData.forEach((entry: any) => {
       if (entry.settled) {
         if (!settledMap[entry.ChildId]) settledMap[entry.ChildId] = 0;
-        settledMap[entry.ChildId] += (entry.money);
+        settledMap[entry.ChildId] += entry.money;
       }
     });
 
@@ -587,21 +565,14 @@ const AllClientLedger = () => {
         const id = entry.ChildId;
         const username = entry.username + " (" + entry.cname + ")";
 
-
         // Compute money based on role
         // const money = userState.user.role === "dl" ? entry.money - entry.commissiondega : entry.money;
 
-
-
-
-        const commission = userState.user.role === "dl" ? entry.commissiondega : 0;
+        const commission =
+          userState.user.role === "dl" ? entry.commissiondega : 0;
         const money = entry.money - commission;
 
-
-
-
         // const money =  entry.money + entry.commissiondega ;
-
 
         if (!activeMap[id]) {
           activeMap[id] = { username, positive: 0, negative: 0 };
@@ -621,12 +592,12 @@ const AllClientLedger = () => {
     Object.entries(activeMap).forEach(
       ([ChildId, { username, positive, negative }]) => {
         const rawAmount = positive - negative;
-        console.log(positive,negative,rawAmount,username)
+        console.log(positive, negative, rawAmount, username);
         const settledAmount = settledMap[ChildId] || 0;
         // const netFinal = Math.max(0, Math.abs(rawAmount  + settledAmount));
         const netFinal = rawAmount + settledAmount;
 
-        console.log(netFinal ,settledAmount,'GHJK',username)
+        console.log(netFinal, settledAmount, "GHJK", username);
         const baseData = {
           agent: username,
           amount: rawAmount,
@@ -635,11 +606,11 @@ const AllClientLedger = () => {
           ChildId,
         };
 
-        console.log(rawAmount - settledAmount, "raww amountt")
+        console.log(rawAmount - settledAmount, "raww amountt");
 
-        if (netFinal>=0 ) {
+        if (netFinal >= 0) {
           lenaArray.push(baseData);
-        }else{
+        } else {
           denaArray.push(baseData);
         }
       }
@@ -649,26 +620,29 @@ const AllClientLedger = () => {
   };
 
   React.useEffect(() => {
-    betService.oneledger().then((res: AxiosResponse<{ data: LedgerEntry[][] }>) => {
-      const { lenaArray, denaArray } = processLedgerData(res.data.data);
-      setLena(lenaArray);
-      setDena(denaArray);
-    });
+    betService
+      .oneledger()
+      .then((res: AxiosResponse<{ data: LedgerEntry[][] }>) => {
+        const { lenaArray, denaArray } = processLedgerData(res.data.data);
+        setLena(lenaArray);
+        setDena(denaArray);
+      });
   }, [userState]);
 
   return (
     <>
-     
-
       <div className="ledger-container">
-      <div style={{background:"pink"}}  className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex">
-                                               <span className="text-2xl font-weight-normal gx-text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
-                                               All Client Ledger
-                                               </span>
-                                               <CustomLink to={"/"} type="button" className="btn bg-primary">
-                                                 <span>Back</span>
-                                               </CustomLink>
-             </div>
+        <div
+          style={{ background: "#0f2327" }}
+          className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex"
+        >
+          <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
+            All Client Ledger
+          </span>
+          <CustomLink to={"/"} type="button" className="btn bg-primary">
+            <span>Back</span>
+          </CustomLink>
+        </div>
 
         <h3>PAYMENT RECEIVING FROM (LENA HAI)</h3>
         <div className="table-section overflow-auto">
@@ -678,17 +652,28 @@ const AllClientLedger = () => {
                 <th>AGENT</th>
                 <th className="final-amount">AMOUNT</th>
                 <th className="final-amount">SETTLED</th>
-                <th className="final-amount text-white bg-final bg-green" style={{ background: "green" }}>FINAL</th>
+                <th
+                  className="final-amount text-white bg-final bg-green"
+                  style={{ background: "green" }}
+                >
+                  FINAL
+                </th>
                 <th>ACTION</th>
               </tr>
             </thead>
             <tbody>
               {lena.map((row) => (
                 <tr key={row.ChildId}>
-                  <td><CustomLink to={`/all-settlement/${row.ChildId}`}>{row.agent}</CustomLink></td>
+                  <td>
+                    <CustomLink to={`/all-settlement/${row.ChildId}`}>
+                      {row.agent}
+                    </CustomLink>
+                  </td>
                   <td>{row.amount.toFixed(2)}</td>
                   <td>{row.settled.toFixed(2)}</td>
-                  <td className="bg-final text-white">{row.final.toFixed(2)}</td>
+                  <td className="bg-final text-white">
+                    {row.final.toFixed(2)}
+                  </td>
                   <td>
                     <button
                       className="btn btn-warning btn-sm"
@@ -709,7 +694,9 @@ const AllClientLedger = () => {
                 <td>LENA HAI</td>
                 <td>{lenaTotals.amount.toFixed(2)}</td>
                 <td>{lenaTotals.settled.toFixed(2)}</td>
-                <td className="bg-final text-white">{lenaTotals.final.toFixed(2)}</td>
+                <td className="bg-final text-white">
+                  {lenaTotals.final.toFixed(2)}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -723,17 +710,28 @@ const AllClientLedger = () => {
                 <th>AGENT</th>
                 <th className="final-amount">AMOUNT</th>
                 <th className="final-amount">SETTLED</th>
-                <th className="final-amount text-white bg-final" style={{ background: "#dc3545" }}>FINAL</th>
+                <th
+                  className="final-amount text-white bg-final"
+                  style={{ background: "#dc3545" }}
+                >
+                  FINAL
+                </th>
                 <th>ACTION</th>
               </tr>
             </thead>
             <tbody>
               {dena.map((row) => (
                 <tr key={row.ChildId}>
-                  <td><CustomLink to={`/all-settlement/${row.ChildId}`}>{row.agent}</CustomLink></td>
+                  <td>
+                    <CustomLink to={`/all-settlement/${row.ChildId}`}>
+                      {row.agent}
+                    </CustomLink>
+                  </td>
                   <td>{row.amount.toFixed(2)}</td>
                   <td>{row.settled.toFixed(2)}</td>
-                  <td className="bg-final2 text-white">{row.final.toFixed(2)}</td>
+                  <td className="bg-final2 text-white">
+                    {row.final.toFixed(2)}
+                  </td>
                   <td>
                     <button
                       className="btn btn-warning btn-sm"
@@ -754,7 +752,9 @@ const AllClientLedger = () => {
                 <td>DENA HAI</td>
                 <td>{denaTotals.amount.toFixed(2)}</td>
                 <td>{denaTotals.settled.toFixed(2)}</td>
-                <td className="bg-final2 text-white">{denaTotals.final.toFixed(2)}</td>
+                <td className="bg-final2 text-white">
+                  {denaTotals.final.toFixed(2)}
+                </td>
               </tr>
             </tbody>
           </table>
@@ -770,7 +770,11 @@ const AllClientLedger = () => {
 
               <div className="form-group">
                 <label>Settle Amount (Fixed): {modalType}</label>
-                <input type="number" value={selectedEntry.final.toFixed(2)} readOnly />
+                <input
+                  type="number"
+                  value={selectedEntry.final.toFixed(2)}
+                  readOnly
+                />
               </div>
 
               <div className="form-group">
@@ -780,7 +784,9 @@ const AllClientLedger = () => {
                 <input
                   type="number"
                   value={inputAmount}
-                  onChange={(e) => setInputAmount(Math.abs(Number(e.target.value)))}
+                  onChange={(e) =>
+                    setInputAmount(Math.abs(Number(e.target.value)))
+                  }
                 />
               </div>
 
@@ -799,16 +805,23 @@ const AllClientLedger = () => {
                   onClick={async () => {
                     if (!selectedEntry || !modalType) return;
 
-
-                    if (inputAmount > Number(Math.abs(selectedEntry.final).toFixed(2))
+                    if (
+                      inputAmount >
+                      Number(Math.abs(selectedEntry.final).toFixed(2))
                     ) {
-                      console.log(inputAmount,Math.abs(selectedEntry.final),"account statements settelements")
+                      console.log(
+                        inputAmount,
+                        Math.abs(selectedEntry.final),
+                        "account statements settelements"
+                      );
                       alert("Settlement amount cannot exceed Settle Amount.");
                       return;
                     }
 
                     const settleamount =
-                      modalType === "lena" ? -Math.abs(inputAmount) : Math.abs(inputAmount);
+                      modalType === "lena"
+                        ? -Math.abs(inputAmount)
+                        : Math.abs(inputAmount);
 
                     const data: any = {
                       ChildId: selectedEntry.ChildId,
@@ -821,7 +834,9 @@ const AllClientLedger = () => {
                       await betService.postsettelement(data);
                       setShowModal(false);
                       const res = await betService.oneledger();
-                      const { lenaArray, denaArray } = processLedgerData(res.data.data);
+                      const { lenaArray, denaArray } = processLedgerData(
+                        res.data.data
+                      );
                       setLena(lenaArray);
                       setDena(denaArray);
                     } catch (err) {
@@ -832,7 +847,10 @@ const AllClientLedger = () => {
                 >
                   Submit
                 </button>
-                <button className="btn btn-danger" onClick={() => setShowModal(false)}>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => setShowModal(false)}
+                >
                   Close
                 </button>
               </div>

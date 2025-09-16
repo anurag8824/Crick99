@@ -69,10 +69,10 @@ const WithdrawModal = (props: any) => {
       >
         <div className='modal-content'>
           <div className='modal-header'>
-            <h4 className='modal-title'>Withdraw</h4>
+            <h4 className='modal-title text-white'>Withdraw</h4>
             <button
               type='button'
-              className='close'
+              className='close text-white'
               data-dismiss='modal'
               onClick={() => {
                 props.closeModal('w')
@@ -85,7 +85,7 @@ const WithdrawModal = (props: any) => {
           <form action='' id='WithdrawForm' method='post' autoComplete='off' onSubmit={onSubmit}>
             <div className='modal-body'>
               <div className='container-fluid'>
-                <div className='row m-b-20'>
+                <div className='row m-b-20 hidden'>
                   <div className='col-md-4'>
                     <label className='withdraw-user-first'>
                       {' '}
@@ -107,7 +107,9 @@ const WithdrawModal = (props: any) => {
                 </div>
                 <div className='row m-b-20'>
                   <div className='col-md-4'>
-                    <label className='withdraw-user-second'>{props.userDetails?.username}</label>
+                    {/* <label className='withdraw-user-second'>{props.userDetails?.username}</label> */}
+                    <label className='withdraw-user-second'>Curr. Coins:</label>
+
                   </div>
                   <div className='col-md-8'>
                     <span className='popup-box' id='withdraw-second'>
@@ -115,17 +117,17 @@ const WithdrawModal = (props: any) => {
                         ? (props.userDetails?.balance?.balance).toFixed(2)
                         : 0}
                     </span>
-                    <span className='popup-box' id='withdraw-second-diff'>
+                    {/* <span className='popup-box' id='withdraw-second-diff'>
                       {props.userDetails?.balance?.balance && watch('amount')
                         ? (props.userDetails?.balance?.balance  - +watch('amount'))?.toFixed(2)
                         : 0}
-                    </span>
+                    </span> */}
                   </div>
                 </div>
                 <div className='row m-b-20'>
-                  <div className='col-md-4'>
+                  {/* <div className='col-md-4'>
                     <label>Amount</label>
-                  </div>
+                  </div> */}
                   <div className='col-md-8'>
                     <input
                       type='number'
@@ -138,7 +140,7 @@ const WithdrawModal = (props: any) => {
                     {errors?.amount && <span className='error'>{errors.amount.message}</span>}
                   </div>
                 </div>
-                <div className='row m-b-20'>
+                <div className='row m-b-20 hidden'>
                   <div className='col-md-4'>
                     <label>Remark</label>
                   </div>
@@ -164,19 +166,19 @@ const WithdrawModal = (props: any) => {
               <input type='hidden' name='uid' id='withdraw-uid' />
               <button
                 type='button'
-                className='btn btn-back'
+                className='btn btn-back bg-primary'
                 data-dismiss='modal'
                 onClick={() => {
                   props.closeModal('w')
                   reset()
                 }}
               >
-                <i className='fas fa-undo' />
+                {/* <i className='fas fa-undo' /> */}
                 Back
               </button>
-              <SubmitButton type='submit' className='btn btn-submit'>
+              <SubmitButton type='submit' className='btn btn-submit bg-primary'>
                 Submit
-                <i className='fas fa-sign-in-alt' />
+                {/* <i className='fas fa-sign-in-alt' /> */}
               </SubmitButton>
             </div>
           </form>

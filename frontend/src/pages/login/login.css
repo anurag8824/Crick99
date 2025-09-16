@@ -1,0 +1,85 @@
+.login-title {
+    color: #333;
+    font-size: 1.5rem;
+    margin: 0.5rem 0;
+  }
+  
+  .login-subtitle {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 0;
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #555;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  
+  .input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    
+  }
+  
+  .input-icon {
+    position: absolute;
+    left: 15px;
+    color: #777;
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 12px 15px 12px 45px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: all 0.3s;
+    font-variant: all-petite-caps;
+    padding-left: 35px !important;
+  }
+  
+  .form-input:focus {
+    border-color:  var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(110, 142, 251, 0.2);
+    outline: none;
+  }
+  
+  .form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+ 
+.custom-input2::placeholder {
+    color: #b0b0b0; /* whitish gray */
+    opacity: 1;
+  }
+  
+  /* Chrome autofill ke liye */
+  .custom-input2:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px #3c424b inset !important;
+    -webkit-text-fill-color: white !important;
+  }
+
+  .custom-input2 {
+    background: #3c424b !important;
+    color: white;
+  }
+  
+  .custom-input2:focus,
+  .custom-input2:active {
+    background: #3c424b !important;
+    color: white !important;
+    outline: none; /* border highlight hata dega */
+    box-shadow: none; /* bootstrap shadow remove */
+  }

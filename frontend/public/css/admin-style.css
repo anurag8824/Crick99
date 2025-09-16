@@ -57,12 +57,12 @@ body {
   /* row-gap: 15px; */
   margin-top: 48px;
   margin-bottom: 2px;
-  background-color: pink;
+  background-color: #0f2327;
 
 }
 
 .bg-gray-header{
-  background-color:  pink;
+  background-color:  #0f2327;
  }
 
 
@@ -6477,7 +6477,7 @@ button.btn-close::after {
 
 .modal-header {
   padding: 10px;
-  background: var(--pink-bg);
+  background: var( --theme2-bg);
   color: var(--primary-color);
   border-radius: 0;
   border: 0;

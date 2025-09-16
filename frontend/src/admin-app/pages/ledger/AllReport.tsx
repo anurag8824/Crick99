@@ -141,28 +141,29 @@ const AllReport = () => {
   //   });
   // }, []);
 
-  const handleDateFilter =  async (isFilterApplied = false) => {
+  const handleDateFilter = async (isFilterApplied = false) => {
     try {
       const res = await betService.twoledger();
       console.log(res, "maatchh commsion report");
       // const rawData = res.data?.data || [];
-      const rawData = (res.data?.data || [])?.filter((item: any) => item?.settled !== true);
+      const rawData = (res.data?.data || [])?.filter(
+        (item: any) => item?.settled !== true
+      );
 
-      const filteredData = isFilterApplied ?  rawData?.filter((item: any) => {
-        const createdAt = new Date(item.createdAt);
-        const from = startDate ? new Date(startDate) : null;
-        const to = endDate ? new Date(endDate) : null;
-  
-        return (
-          (!from || createdAt >= from) &&
-          (!to || createdAt <= to)
-        );
-      }) : rawData;
+      const filteredData = isFilterApplied
+        ? rawData?.filter((item: any) => {
+            const createdAt = new Date(item.createdAt);
+            const from = startDate ? new Date(startDate) : null;
+            const to = endDate ? new Date(endDate) : null;
+
+            return (!from || createdAt >= from) && (!to || createdAt <= to);
+          })
+        : rawData;
 
       const grouped: Record<string, GroupedLedger & { updownTotal: number }> =
         {};
 
-        filteredData.forEach((item: any) => {
+      filteredData.forEach((item: any) => {
         const childId: string = item.ChildId ? item.ChildId : item.ParentId;
         const isFancy: boolean = item.Fancy;
         const money: number = Number(item.fammount) || 0;
@@ -280,19 +281,21 @@ const AllReport = () => {
   React.useEffect(() => {
     handleDateFilter(false); // no date filter
   }, []);
-  
 
   return (
     <div className=" body-wrap p-4">
       <div className="relative">
-        <div style={{background:"pink"}}  className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex">
-                                                      <span className="text-2xl font-weight-normal gx-text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
-                                                      All Client Ledger
-                                                      </span>
-                                                      <CustomLink to={"/"} type="button" className="btn bg-primary">
-                                                        <span>Back</span>
-                                                      </CustomLink>
-                    </div>
+        <div
+          style={{ background: "#0f2327" }}
+          className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex"
+        >
+          <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
+            All Client Ledger
+          </span>
+          <CustomLink to={"/"} type="button" className="btn bg-primary">
+            <span>Back</span>
+          </CustomLink>
+        </div>
       </div>
 
       <div className="control-group mt-2 container-fluid selectize-control single">
@@ -318,7 +321,10 @@ const AllReport = () => {
             />
           </div>
           <div className="col-4 mt-2" style={{ paddingTop: 20 }}>
-            <button className="btn btn-info" onClick={() => handleDateFilter(true)}>
+            <button
+              className="btn btn-info"
+              onClick={() => handleDateFilter(true)}
+            >
               Submit
             </button>
           </div>
@@ -501,13 +507,19 @@ const AllReport = () => {
                       </td>
 
                       <td className="ng-scope">
-                        <span className="text-danger">{row.mCom.toFixed(2)}</span>
+                        <span className="text-danger">
+                          {row.mCom.toFixed(2)}
+                        </span>
                       </td>
                       <td className="ng-scope">
-                        <span className="text-danger">{row.sCom.toFixed(2)}</span>
+                        <span className="text-danger">
+                          {row.sCom.toFixed(2)}
+                        </span>
                       </td>
                       <td className="ng-scope">
-                        <span className="text-danger">{row.tCom.toFixed(2)}</span>
+                        <span className="text-danger">
+                          {row.tCom.toFixed(2)}
+                        </span>
                       </td>
 
                       <td className="ng-scope">

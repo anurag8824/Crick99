@@ -311,7 +311,7 @@ class Fancy extends React.Component<
 
   fancyMenu = (fancyType: string) => {
     const menus = [
-      { type: 'session', label: 'Fancy', width: isMobile ? '19%' : '11%' },
+      { type: 'session', label: 'Fancy', width: isMobile ? '19%' : '19%' },
       // { type: 'fancy1', label: 'Fancy1', width: isMobile ? '19%' : '11%' },
       // { type: 'meter', label: 'Meter', width: isMobile ? '19%' : '10%' },
       // { type: 'khado', label: 'Khado', width: isMobile ? '19%' : '10%' },
@@ -347,16 +347,16 @@ class Fancy extends React.Component<
   fancyheader = (title: string) => {
     return (
       <div className='table-header text-dark'>
-        <div style={{fontSize:"18px" ,backgroundColor:"#76d68f", }} className={`float-left ${isMobile ? 'bg-theme text-dark' : ' text-dark'} country-name box-6`}>
-          {isMobile ? title : ''}<p style={{fontSize:"18px" ,backgroundColor:"#76d68f", }} >Session</p>
+        <div style={{fontSize:"18px" ,backgroundColor:"#0f2326", }} className={`float-left ${isMobile ? 'bg-theme text-dark' : ' text-dark'} country-name box-6`}>
+          {isMobile ? title : title}<p className='text_blink' style={{fontSize:"18px" }} >Session</p>
         </div>
-        <div style={{fontSize:"18px" ,backgroundColor:"#76d68f", }}className={`${isMobile ? 'box-2' : 'box-1'} float-left lay text-center`}>
+        <div style={{fontSize:"18px" ,backgroundColor:"#0f2326", color:"white" }}className={`${isMobile ? 'box-2' : 'box-2'} float-right lay text-center`}>
           <b>KHAI</b>
         </div>
-        <div style={{fontSize:"18px" ,backgroundColor:"#76d68f", }} className={`${isMobile ? 'box-2' : 'box-1'} float-left back text-center`}>
+        <div style={{fontSize:"18px" ,backgroundColor:"#0f2326",  color:"white" }} className={`${isMobile ? 'box-2' : 'box-2'} float-right back text-center`}>
           <b>LAGAI</b>
         </div>
-        {!isMobile && <div className='box-2 float-left' />}
+        {/* {!isMobile && <div className='box-2 float-left' />} */}
       </div>
     )
   }

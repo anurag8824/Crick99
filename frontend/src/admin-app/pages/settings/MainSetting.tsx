@@ -15,16 +15,16 @@ const MainSetting = () => {
           <div className="col ">
             <CustomLink to={`/accountstatement/${userState?.user?._id}`}>
               <div
-                style={{ backgroundColor: "pink", border: "none" }}
+                style={{ backgroundColor: "#0f2327", border: "none",color:"white" }}
                 className="card text-white py-2 rounded"
               >
                 <div className="card-body d-flex justify-content-center">
-                  <h2
+                  <p
                     className="fs-5 fw-light mb-0"
                     style={{ whiteSpace: "nowrap" }}
                   >
                     Statements
-                  </h2>
+                  </p>
                 </div>
               </div>
             </CustomLink>
@@ -34,16 +34,16 @@ const MainSetting = () => {
           <div className="col">
             <CustomLink to={`/operation/${userState?.user?.username}`}>
               <div
-                style={{ backgroundColor: "pink", border: "none" }}
+                style={{ backgroundColor: "#0f2327", border: "none" ,color:"white"}}
                 className="card  text-white py-2 rounded"
               >
                 <div className="card-body d-flex justify-content-center">
-                  <h2
+                  <p
                     className="fs-5 fw-light mb-0"
                     style={{ whiteSpace: "nowrap" }}
                   >
                     A/c Operations
-                  </h2>
+                  </p>
                 </div>
               </div>
             </CustomLink>
@@ -53,16 +53,16 @@ const MainSetting = () => {
           <div className="col">
             <CustomLink to="/total-profit">
               <div
-                style={{ backgroundColor: "pink", border: "none" }}
+                style={{ backgroundColor: "#0f2327", border: "none",color:"white" }}
                 className="card  text-white py-2 rounded"
               >
                 <div className="card-body d-flex justify-content-center">
-                  <h2
+                  <p
                     className="fs-5 fw-light mb-0"
                     style={{ whiteSpace: "nowrap" }}
                   >
                     Profit and Loss
-                  </h2>
+                  </p>
                 </div>
               </div>
             </CustomLink>
@@ -72,16 +72,16 @@ const MainSetting = () => {
           <div className="col">
             <CustomLink to="/casino-details">
               <div
-                style={{ backgroundColor: "pink", border: "none" }}
+                style={{ backgroundColor: "#0f2327", border: "none" ,color:"white" }}
                 className="card text-white py-2 rounded"
               >
                 <div className="card-body d-flex justify-content-center">
-                  <h2
+                  <p
                     className="fs-5 fw-light mb-0"
                     style={{ whiteSpace: "nowrap" }}
                   >
                     Casino Profit &amp; Loss
-                  </h2>
+                  </p>
                 </div>
               </div>
             </CustomLink>
@@ -91,16 +91,16 @@ const MainSetting = () => {
           <div className="col">
             <CustomLink to="/change-password">
               <div
-                style={{ backgroundColor: "pink", border: "none" }}
+                style={{ backgroundColor: "#0f2327", border: "none",color:"white" }}
                 className="card text-white py-2 rounded"
               >
                 <div className="card-body d-flex justify-content-center">
-                  <h2
+                  <p
                     className="fs-5 fw-light mb-0"
                     style={{ whiteSpace: "nowrap" }}
                   >
                     Change Password
-                  </h2>
+                  </p>
                 </div>
               </div>
             </CustomLink>

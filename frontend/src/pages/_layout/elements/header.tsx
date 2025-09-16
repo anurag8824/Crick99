@@ -230,7 +230,7 @@ const Header = () => {
                 <div className="offcanvas-body bg-theme text-white">
                   <ul className="list-unstyled  ">
                     {/* In Play */}
-                    <li className="mb-3 ">
+                    <li className="mb-4">
                       <a
                         href="/match/4"
                         className="d-flex align-items-center nav-link text-white"
@@ -241,7 +241,7 @@ const Header = () => {
                     </li>
 
                     {/* Profile */}
-                    <li className="mb-3">
+                    <li className="mb-4">
                       <a
                         href="/profile"
                         className="d-flex align-items-center nav-link text-white"
@@ -251,7 +251,7 @@ const Header = () => {
                     </li>
 
                     {/* Statement */}
-                    <li className="mb-3">
+                    <li className="mb-4">
                       <a
                         href="/accountstatement"
                         className="d-flex align-items-center nav-link text-white"
@@ -261,7 +261,7 @@ const Header = () => {
                     </li>
 
                     {/* Password */}
-                    <li className="mb-3">
+                    <li className="mb-4">
                       <a
                         href="/changepassword"
                         className="d-flex align-items-center nav-link text-white"
@@ -271,7 +271,7 @@ const Header = () => {
                     </li>
 
                     {/* Rules */}
-                    <li className="mb-3">
+                    <li className="mb-4">
                       <a
                         href="/rules"
                         className="d-flex align-items-center nav-link text-white"
@@ -281,7 +281,7 @@ const Header = () => {
                     </li>
 
                     {/* My Ledger */}
-                    <li className="mb-3">
+                    <li className="mb-4">
                       <a
                         href="/new-accountstatement"
                         className="d-flex align-items-center nav-link text-white"
@@ -291,7 +291,7 @@ const Header = () => {
                     </li>
 
                     {/* Casino */}
-                    <li className="mb-3">
+                    <li className="mb-4">
                       <a
                         href="/casino-in/live-dmd"
                         className="d-flex align-items-center nav-link text-white"
@@ -303,7 +303,7 @@ const Header = () => {
 
 
                     {/* Logout */}
-                    <li className="mb-3">
+                    <li className="mb-4">
                       <a
                              onClick={logoutUser}
                         className="d-flex align-items-center nav-link text-white"

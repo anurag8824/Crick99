@@ -23,6 +23,7 @@ import ClientTransactions from './pages/ClientTransactions'
 import MainSetting from './pages/settings/MainSetting'
 import SportsCompletedDetails from './pages/SportsDetail/SportsCompletedDetails'
 import LoginReport from './pages/settings/LoginReport'
+import InplayCasino from './pages/casino-list/InplayCasino'
 
 
 const ActiveMarkets = React.lazy(() => import('../admin-app/pages/active-matches/active-markets'))
@@ -77,6 +78,8 @@ const AuthLayout = React.lazy(() => import('../pages/_layout/AuthLayout'))
 const Login = React.lazy(() => import('./pages/login/login'))
 const CasinoWrapper = React.lazy(() => import('../pages/CasinoList/CasinoWrapper'))
 const CasinoList = React.lazy(() => import('./pages/casino-list/casino-list'))
+const InPlayCasino = React.lazy(() => import('./pages/casino-list/InplayCasino'))
+
 const GameReportAdmin = React.lazy(() => import('./pages/GameReports/GameReportAdmin'))
 
 
@@ -133,6 +136,9 @@ const AdminRoutes = () => {
 
             { path: 'casino/:gameCode', element: <CasinoWrapper /> },
             { path: 'casino-list', element: <CasinoList /> },
+
+            { path: 'in-play-casino', element: <InPlayCasino /> },
+            
             { path: 'game-reports', element: <GameReportAdmin /> },
             { path: 'depositstatement', element: <DepositStatementAdmin /> },
             { path: 'withdrawstatement', element: <WithdrawStatementAdmin /> },
