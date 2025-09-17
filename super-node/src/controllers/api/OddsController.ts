@@ -795,7 +795,7 @@ public static async fancyData(
     if (!MatchID) throw Error("MatchID is required field");
 
     let response: any = await redisReplica.get(`fancy-${MatchID}`);
-    console.log(response,"response Hahahah")
+    // console.log(response,"response Hahahah")
     response = response ? { data: JSON.parse(response) } : { data: [] };
 
     return res.json({

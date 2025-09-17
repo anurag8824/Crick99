@@ -432,10 +432,7 @@ class SportsController extends ApiController_1.ApiController {
                     // @ts-ignore
                     if (sportSettings === null || sportSettings === void 0 ? void 0 : sportSettings._id)
                         sportSettings === null || sportSettings === void 0 ? true : delete sportSettings._id;
-                    let saveMatchData = Object.assign(Object.assign({}, match), { 
-                        // isFancy: isT10Fancy || isFancy,
-                        // isBookMaker,
-                        isT10: isT10 || isT10Fancy, resultstring: "" });
+                    let saveMatchData = Object.assign(Object.assign({}, match), { isFancy: isT10Fancy || isFancy, isBookMaker, isT10: isT10 || isT10Fancy, resultstring: "" });
                     if (!syncData) {
                         saveMatchData = Object.assign(Object.assign({}, saveMatchData), sportSettings);
                     }

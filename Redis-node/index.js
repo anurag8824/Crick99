@@ -216,7 +216,7 @@ const formattedFancyData = async () => {
     for (const item of fancydata) {
       if (!previousSelectionIds.has(item.SelectionId)) {
         const fancy = {
-          matchId: m,
+          matchId: parseInt(m),
           SelectionId: item.SelectionId,
           RunnerName: item.RunnerName,
           gtype: item.gtype,
@@ -264,7 +264,7 @@ const formattedFancyData = async () => {
     if (deactivatedFancies[m]?.length > 0) {
       console.log(deactivatedFancies,"GHJKCGHJKLCHJK")
       io.emit("deactivateFancy", {
-        [m]: deactivatedFancies[m]
+        [parseInt(m)]: deactivatedFancies[m]
       })
     }
       // Save updated data to Redis
@@ -620,208 +620,169 @@ const formattedFancyData = async () => {
 
 
 
-  // BookMaker Market Odds Mangment 
-  // const BookMakerOddsData = async () => {
-  //   const promises = MatchIds.map(id =>
-  //     axios.get(`http://82.29.164.133:3000/bxpro/v1/session/${id}`)
-  //       .then(res => ({ status: 'fulfilled', data: res.data, marketId: id }))
-  //       .catch(err => ({ status: 'rejected', error: err.message, marketId: id }))
-  //   );
-
-  //   const results = await Promise.allSettled(promises);
-
-  //   results.forEach(async (result, index) => {
-  //     if (result.status === 'fulfilled') {
-  //       const { marketId, data } = result.value;
-  //       console.log(data,"data is ")
-  //       const fData = data?.data.filter((m) => m.mname == "Bookmaker")
-  //       // const Data = fData?.[0]
-  //       // console.log(Data, "Data is here ")
-
-
-  //       if (Data) {
-  //         // const jsonMessage = JSON.stringify(Data);
-  //         // console.log(Data.runners[0].ex.availableToBack,Data,"jsonMessage")
-
-  //         // const adjustMarketData = (market) => {
-  //         //   if (!market.runners) return market;
-
-  //         //   market.runners = market.runners.map((runner) => {
-  //         //     if (!runner.ex) return runner;
-
-  //         //     // Adjust back prices: Decrease by 0.3
-  //         //     runner.ex.availableToBack = (runner.ex.availableToBack || []).map(b => ({
-  //         //       price: (parseFloat((b.price - 0.3))),
-  //         //       size: b.size
-  //         //     }));
-
-  //         //     // Adjust lay prices: Increase by 0.3
-  //         //     runner.ex.availableToLay = (runner.ex.availableToLay || []).map(l => ({
-  //         //       price: (parseFloat((l.price + 0.3))),
-  //         //       size: l.size
-  //         //     }));
-
-  //         //     return runner;
-  //         //   });
-
-  //         //   return market;
-  //         // };
-  //         //  const dataone = adjustMarketData(Data)
-  //         // console.log(dataone,"xyz zyz")
-
-  //         const transformRunners = (inputRunners) => {
-  //           return {
-  //             runners: inputRunners.map(runner => {
-  //               // Filter out zero-priced odds
-  //               // console.log(runner,"runner is here")
-  //               const backOdds = runner.odds.filter(odd => odd.otype == "back");
-  //               const layOdds = runner.odds.filter(odd => odd.otype == "lay");
-
-  //               const backoddsmain = backOdds.reverse().map((m) => {
-  //                 return {
-  //                   size: m.size,
-  //                   price: m.odds
-  //                 }
-  //               })
-
-  //               const layoddsmain = layOdds.map((m) => {
-  //                 return {
-  //                   size: m.size,
-  //                   price: m.odds
-  //                 }
-  //               })
-  //               // console.log(layoddsmain, backoddsmain, "FGHJ")
-
-  //               // Estimate lastPriceTraded as midpoint between best back and lay
-  //               let lastPriceTraded = null;
-  //               if (backOdds.length > 0 && layOdds.length > 0) {
-  //                 lastPriceTraded = (backOdds[0].price + layOdds[0].price) / 2;
-  //               }
-
-  //               return {
-  //                 selectionId: runner.sid,
-  //                 status: runner.gstatus,
-  //                 lastPriceTraded: lastPriceTraded,
-  //                 runnerName: runner.nat,
-  //                 totalMatched: 0,
-  //                 ex: {
-  //                   availableToBack: backoddsmain,
-  //                   availableToLay: layoddsmain
-  //                 }
-  //               };
-  //             })
-  //           };
-  //         };
-  //         const output = transformRunners(Data?.section)
-  //         // console.log(output.runners, "output")
-  //         Data.runners = output.runners
-  //         Data.marketName = "Bookmaker"
-  //         Data.marketId = Data.mid.toString();
-  //         Data.matchId = Data.gmid.toString();
-
-  //         const jsonMessage = JSON.stringify(Data);
-
-
-  //         await publisher.set(`odds-market-${Data.marketId}`, jsonMessage);
-
-
-  //         publisher.publish("getMarketData", jsonMessage);
-  //         // console.log("📤 Published:", jsonMessage);
-  //       }
-
-  //     } else {
-  //       const { marketId, error } = result.reason || result;
-  //       // console.error(`❌ Failed to fetch Market ID ${marketId}:`, error);
-  //     }
-  //   });
-  // };
 
 
 
-const BookMakerOddsData = async () => {
-  console.log("📢 BookMakerOddsData started...");
+// const BookMakerOddsData = async () => {
+//   console.log("📢 BookMakerOddsData started...");
 
-  const pollInterval = 10 * 1000; // 10 seconds
+//   const pollInterval = 10 * 1000; // 10 seconds
 
+//   while (true) {
+//     try {
+//       const matchIds = [...MatchIds]; // fresh copy if MatchIds updates elsewhere
+
+//       for (const id of matchIds) {
+//         try {
+//           const res = await axios.get(`http://82.29.164.133:3000/bxpro/v1/session/${id}`);
+//           const runners = res?.data?.bookMaker;
+
+//           if (!Array.isArray(runners) || runners.length === 0) continue;
+
+//           const marketId = runners[0].marketId?.toString() || "unknown";
+//           const matchId = parseInt(id); // since you passed it
+//           const marketName = runners[0].marketName || "Bookmaker";
+
+//           const transformedRunners = runners.map(runner => {
+//             const availableToBack = runner.backOdds >= 0 ? [{
+//               price: parseFloat((runner.backOdds + 100)/100),
+//               size: 1000 // default size, change if needed
+//             }] : [];
+
+//             const availableToLay = runner.layOdds >= 0 ? [{
+//               price: parseFloat((runner.layOdds+100)/100),
+//               size: 1000 // default size, change if needed
+//             }] : [];
+
+//             let lastPriceTraded = null;
+//             if (availableToBack.length && availableToLay.length) {
+//               lastPriceTraded = (availableToBack[0].price + availableToLay[0].price) / 2;
+//             }
+
+//             return {
+//               selectionId: runner.selectionId,
+//               status: runner.selectionStatus  == "OFFLINE"  || runner.selectionStatus  == "SUSPEND"  || runner.selectionStatus == "BALL_RUN" ? "SUSPENDED" : "OPEN"|| 'ACTIVE',
+//               lastPriceTraded,
+//               runnerName: runner.selectionName,
+//               sortPriority:runner.sortPeriority,
+//               totalMatched: 0,
+//               ex: {
+//                 availableToBack,
+//                 availableToLay
+//               }
+//             };
+//           });
+
+//           const marketData = {
+//             marketId,
+//             marketName,
+//             matchId,
+//             runners: transformedRunners
+//           };
+
+//           const jsonMessage = JSON.stringify(marketData);
+//           console.log(jsonMessage,"json Message")
+
+//           await publisher.set(`odds-market-${marketId}`, jsonMessage);
+//           await publisher.set(`getMarketList-bm-${matchId}`,jsonMessage)
+//         // const data =  await publisher.get(`getMarketList-bm-${id}`)
+//         // console.log("marketdata ",data)
+
+//           publisher.publish("getMarketData", jsonMessage);
+
+//           console.log(`✅ Processed Market: ${marketId} with ${runners.length} runners`);
+
+//         } catch (err) {
+//           console.warn(`⚠️ Error processing matchId ${id}:`, err.message);
+//         }
+//       }
+
+//     } catch (err) {
+//       console.error("❌ Unexpected error in BookMakerOddsData loop:", err.message);
+//     }
+
+//     // Wait before next polling
+//     await new Promise((resolve) => setTimeout(resolve, pollInterval));
+//   }
+// };
+
+
+const startPolling = async () => {
   while (true) {
-    try {
-      const matchIds = [...MatchIds]; // fresh copy if MatchIds updates elsewhere
+    const matchIds = [...MatchIds];
 
-      for (const id of matchIds) {
-        try {
-          const res = await axios.get(`http://82.29.164.133:3000/bxpro/v1/session/${id}`);
-          const runners = res?.data?.bookMaker;
+    await Promise.allSettled(
+      matchIds.map(id => handleBookmakerForMatch(id))
+    );
 
-          if (!Array.isArray(runners) || runners.length === 0) continue;
-
-          const marketId = runners[0].marketId?.toString() || "unknown";
-          const matchId = parseInt(id); // since you passed it
-          const marketName = runners[0].marketName || "Bookmaker";
-
-          const transformedRunners = runners.map(runner => {
-            const availableToBack = runner.backOdds > 0 ? [{
-              price: parseFloat((runner.backOdds + 100)/100),
-              size: 1000 // default size, change if needed
-            }] : [];
-
-            const availableToLay = runner.layOdds > 0 ? [{
-              price: parseFloat((runner.layOdds+100)/100),
-              size: 1000 // default size, change if needed
-            }] : [];
-
-            let lastPriceTraded = null;
-            if (availableToBack.length && availableToLay.length) {
-              lastPriceTraded = (availableToBack[0].price + availableToLay[0].price) / 2;
-            }
-
-            return {
-              selectionId: runner.selectionId,
-              status: runner.selectionStatus || 'ACTIVE',
-              lastPriceTraded,
-              runnerName: runner.selectionName,
-              sortPriority:runner.sortPeriority,
-              totalMatched: 0,
-              ex: {
-                availableToBack,
-                availableToLay
-              }
-            };
-          });
-
-          const marketData = {
-            marketId,
-            marketName,
-            matchId,
-            runners: transformedRunners
-          };
-
-          const jsonMessage = JSON.stringify(marketData);
-          console.log(jsonMessage,"json Message")
-
-          await publisher.set(`odds-market-${marketId}`, jsonMessage);
-          await publisher.set(`getMarketList-bm-${matchId}`,jsonMessage)
-        // const data =  await publisher.get(`getMarketList-bm-${id}`)
-        // console.log("marketdata ",data)
-
-          publisher.publish("getMarketData", jsonMessage);
-
-          console.log(`✅ Processed Market: ${marketId} with ${runners.length} runners`);
-
-        } catch (err) {
-          console.warn(`⚠️ Error processing matchId ${id}:`, err.message);
-        }
-      }
-
-    } catch (err) {
-      console.error("❌ Unexpected error in BookMakerOddsData loop:", err.message);
-    }
-
-    // Wait before next polling
-    await new Promise((resolve) => setTimeout(resolve, pollInterval));
+    await new Promise(resolve => setTimeout(resolve, 200)); // small pause
   }
 };
 
 
+const handleBookmakerForMatch = async (id) => {
+  try {
+    const res = await axios.get(`http://82.29.164.133:3000/bxpro/v1/session/${id}`);
+    const runners = res?.data?.bookMaker;
+
+    if (!Array.isArray(runners) || runners.length === 0) return;
+
+    const marketId = runners[0].marketId?.toString() ;
+    const matchId = parseInt(id);
+    const marketName = runners[0].marketName || "Bookmaker";
+
+    const transformedRunners = runners.map(runner => {
+      const availableToBack = runner.backOdds >= 0 ? [{
+        price: parseFloat((runner.backOdds + 100) / 100),
+        size: 1000
+      }] : [];
+
+      const availableToLay = runner.layOdds >= 0 ? [{
+        price: parseFloat((runner.layOdds + 100) / 100),
+        size: 1000
+      }] : [];
+
+      let lastPriceTraded = null;
+      if (availableToBack.length && availableToLay.length) {
+        lastPriceTraded = (availableToBack[0].price + availableToLay[0].price) / 2;
+      }
+
+      return {
+        selectionId: runner.selectionId,
+        status: ["OFFLINE", "SUSPEND", "BALL_RUN"].includes(runner.selectionStatus)
+          ? "SUSPENDED"
+          : "OPEN",
+        lastPriceTraded,
+        runnerName: runner.selectionName,
+        sortPriority: runner.sortPeriority,
+        totalMatched: 0,
+        ex: {
+          availableToBack,
+          availableToLay
+        }
+      };
+    });
+
+    const marketData = {
+      marketId,
+      marketName,
+      matchId,
+      runners: transformedRunners
+    };
+
+    const jsonMessage = JSON.stringify(marketData);
+     publisher.publish("getMarketData", jsonMessage);
+
+    await publisher.set(`odds-market-${marketId}`, jsonMessage);
+    await publisher.set(`getMarketList-bm-${matchId}`, jsonMessage);
+
+    console.log(`✅ Bookmaker processed for Match ${matchId} - ${marketId}`);
+  } catch (error) {
+    console.warn(`❌ Match ${id} failed:`, error.message);
+  }
+};
+
+startPolling();
 
   setInterval(getFancyDataApi, 1000)
 
@@ -830,7 +791,7 @@ const BookMakerOddsData = async () => {
   setInterval(formattedFancyData, 2000)
 
   // setInterval(BookMakerOddsData, 20000)
-  BookMakerOddsData();
+  // BookMakerOddsData();
 
 
   // Fancy Result Hahahahahah

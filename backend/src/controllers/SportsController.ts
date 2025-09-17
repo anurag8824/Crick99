@@ -126,8 +126,8 @@ class SportsController extends ApiController {
         if (sportSettings?._id) delete sportSettings?._id
         let saveMatchData = {
           ...match,
-          // isFancy: isT10Fancy || isFancy,
-          // isBookMaker,
+          isFancy: isT10Fancy || isFancy,
+          isBookMaker,
           isT10: isT10 || isT10Fancy,
           resultstring: ""
         }

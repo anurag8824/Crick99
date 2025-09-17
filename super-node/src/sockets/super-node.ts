@@ -63,7 +63,7 @@ export function SuperNodeSocket() {
   redisReplicaSub.subscribe("getMarketData", (m: any) => {
     const market = JSON.parse(m);
     // const market = marketone[0]
-    // console.log(market,'market')
+    console.log(market,'market')
 
          
     const marketData = OddSocket.convertDataToMarket(market as IMarket);
