@@ -13,11 +13,11 @@ from flask import jsonify
 from datetime import datetime
 
 
-# superNodeUrl = "http://localhost:3025/api/"
-# casinoNodeUrl = "http://localhost:3025/api/"
-
 superNodeUrl = "http://localhost:3025/api/"
 casinoNodeUrl = "http://localhost:3025/api/"
+
+# superNodeUrl = "http://localhost:3025/api/"
+# casinoNodeUrl = "http://localhost:3025/api/"
 
 defaultRatio: any = {
     "ownRatio": 100,
