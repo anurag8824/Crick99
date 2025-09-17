@@ -121,7 +121,7 @@ export const FancyList = React.memo(
                           <div
                             style={{ display: "flex", flexDirection: "column" }}
                           >
-                            <span>{fancy.fancyName}</span>
+                            <span style={{fontSize:"16px" , fontWeight:"500" , textTransform:"uppercase"}} >{fancy.fancyName}</span>
                             <Limitinfo
                               nameString={fancy.marketId}
                               min={
@@ -172,13 +172,13 @@ export const FancyList = React.memo(
                         {/* {updatedFancy?.rem && <p className='tx-red'>{updatedFancy?.rem}</p>} */}
                       </p>
 
-                      <p className="p5">
+                      <span className="">
                         {" "}
                         <PnlCalculate
                           marketId={fancy.marketId}
                           selectionId={updatedFancy.SelectionId}
                         />
-                      </p>
+                      </span>
                     </div>
 
                     <div

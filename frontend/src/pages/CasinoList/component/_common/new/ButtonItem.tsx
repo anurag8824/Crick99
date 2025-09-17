@@ -48,7 +48,7 @@ const ButtonItem = (props: any) => {
     const ItemMarket: any = lastOdds?.[selectionid] || {}
     const suspend = !ItemMarket.gstatus || ItemMarket.gstatus == 0 || ItemMarket.gstatus == "SUSPENDED" || ItemMarket.gstatus == "CLOSED" ? 'suspended' : '';
     return <>
-        <div className='row m-b-10 text-white'>
+        <div className='row m-b-10 text-success'>
             <div className='col-12 text-center'>
                 <b>{ItemMarket?.b1 || 0.00}</b>
             </div>

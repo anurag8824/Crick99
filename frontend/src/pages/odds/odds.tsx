@@ -188,9 +188,9 @@ const Odds = () => {
           {!isMobile ? (
             <div className='card-header'>
               <h6 onClick={() => setIsTvShow(!isTvShow)} className='card-title'>
-                Live Match
+                Live Match Tv
                 <span className='float-right'>
-                  <i className='fa fa-tv' /> live stream started
+                  <i className='fa fa-tv' />
                 </span>
               </h6>
             </div>

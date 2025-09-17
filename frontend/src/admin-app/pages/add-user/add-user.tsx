@@ -1046,7 +1046,7 @@ const AddUser = () => {
                 <div className="row m-t-20">
                   <div className="col-md-12">
                     <div className="float-right">
-                      <SubmitButton className="btn btn-submit" type="submit" disabled={loading}>
+                      <SubmitButton className="btn btn-submit bg-dark text-light" type="submit" disabled={loading}>
                         {loading ? "Creating..." : "Create User"}
                       </SubmitButton>
                     </div>

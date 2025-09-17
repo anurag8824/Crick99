@@ -514,41 +514,59 @@ const CasinoWrapper = (props: any) => {
     <>
       
         <div
-          className={` mtc-5 row5  mt-4 casino-container-box ${
+          className={` mtc-5 row5  mt-4 casino-container-box  ${
             gameCode === "cricket2020" ? "cc-20" : ""
           }`}
-          style={{ background: "#121a2a" }}
+          style={{ background: "#121a2a" , maxWidth: "1200px" , margin: "0 auto" ,borderRadius: "10px" }}
         >
           <div
           
             className="col-12 col-lg-12  rounded "
           >
             <div className="cards m-b-10 my-bet">
-              <div style={{background :"#121a2a" , border:"none" ,  borderBottom : ".5px solid gray", paddingTop:"3px" }} className="card-heade mb-2 px-2 py-3 text-white casino d-flex justify-between items-center">
-                {/* Left side - Title */}
-                <h6 className="card-title m-0">{liveMatchData?.title || ""}</h6>
+            <div
+  style={{
+    background: "#121a2a",
+    border: "none",
+    borderBottom: ".5px solid gray",
+    paddingTop: "3px",
+  }}
+  className="card-heade mb-2 px-2 py-3 text-white casino d-flex flex-column flex-md-row justify-content-between align-items-center"
+>
+  {/* Left side - Title */}
+  <h6 style={{color: "gold",
+    fontSize: "1.8rem",
+    margin: "0"}} className="card-title m-0 text-center text-md-start">
+    {liveMatchData?.title || ""}
+  </h6>
 
-                {/* Right side - Grid (Round ID & Rules) */}
-                <div
-                  className="text-right"
-                  style={{ display: "grid", gap: "4px" ,width: "50%"}}
-                >
-                  <span className=" text-center">Round ID: {casinoMatchData?.match_id ? casinoMatchData?.match_id  : "3495634563948563"}</span>
-                  <span
-                    className="fw-12 bg-secondary text-center rounded  text-underline cursor-pointer"
-                    onClick={showRules}
-                  >
-                    RULES
-                  </span>
-                </div>
-              </div>
+  {/* Right side - Grid (Round ID & Rules) */}
+  <div
+    className="d-grid text-center text-md-end mt-2 mt-md-0"
+    style={{ gap: "4px", width: "100%", maxWidth: "250px" }}
+  >
+    <span className="fw-12 bg-secondary text-center rounded text-underline cursor-pointer">
+      Round ID:{" "}
+      {casinoMatchData?.match_id
+        ? casinoMatchData?.match_id
+        : "3495634563948563"}
+    </span>
+    <span
+      className="fw-12 bg-secondary text-center rounded text-underline cursor-pointer"
+      onClick={showRules}
+    >
+      RULES
+    </span>
+  </div>
+</div>
+
 
               <div
                 className={`card-body ${gameCode}`}
                 style={{
                   padding: "0px",
                   position: "relative",
-                  minHeight: "400px",
+                  // minHeight: "400px",
                 }}
               >
                 {!isMobile && casinoMatchData && casinoMatchData.scoreCard ? (
@@ -560,7 +578,7 @@ const CasinoWrapper = (props: any) => {
                   style={{
                     padding: "0px",
                     position: "relative",
-                    minHeight: "400px",
+                    height: `${isMobile ? "220" : "420"}`,
                     background: "#000",
                   }}
                 >
@@ -610,7 +628,7 @@ const CasinoWrapper = (props: any) => {
               (liveMatchData?.event_data?.remark != "" &&
                 liveMatchData?.slug != "Superover" &&
                 liveMatchData?.slug != "fivewicket") ? (
-                <div className="notice-casino-odds">
+                <div className="notice-casino-odds d-none">
                   <div className="marqueeN">
                     <p>
                       {liveMatchData?.remark ||

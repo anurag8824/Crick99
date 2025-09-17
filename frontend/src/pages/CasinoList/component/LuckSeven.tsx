@@ -14,7 +14,7 @@ const LuckSeven = (props: any) => {
         const market2: any = eventData?.[1]?.Runners?.[0] || {}
         console.log(market2,"market 2")
 
-        return <div className="card-content text-white lucky-seven-content m-b-10 col-12">
+        return <div className="card-content text-white lucky-seven-content m-b-10 col-12 rounded-3">
             <div className="row m-t-10">
                 <div className="col-5 text-center">
                     <ButtonItem selectionid={market.SelectionId} title={market.RunnerName} lastOdds={lastOdds} liveMatchData={liveMatchData} />
@@ -42,7 +42,7 @@ const LuckSeven = (props: any) => {
         let title2 = market2.RunnerName == 'Red' ? <span className="card-icon"> <span className={"card-red"}>{"[{"}</span> </span> : market2.RunnerName;
         title2 = market2.RunnerName == 'Black' ? <span className="card-icon"> <span className={"card-black"}>{"]}"}</span> </span> : title2;
 
-        return <div className="lucky-seven-content m-b-10 col-6" style={{ padding: '10px' }}>
+        return <div className="lucky-seven-content m-b-10 col-6 rounded-3" style={{ padding: '10px' }}>
            
             <div className="row m-t-10">
                 <div className="col-6 text-center">

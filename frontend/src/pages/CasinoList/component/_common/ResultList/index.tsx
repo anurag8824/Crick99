@@ -137,7 +137,7 @@ const ResultList = (props: any) => {
                     </div>
                   </div>
                 </div>
-                <div className='col-6 col-lg-2 mbc-5'>
+                <div className='col-6 col-lg-2 mbc-5 d-none'>
                   <div className='form-group mb-0'>
                     <div className='mx-datepicker'>
                       <div className='mx-input-wrapper'>

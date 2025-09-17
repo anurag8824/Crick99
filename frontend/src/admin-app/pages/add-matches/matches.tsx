@@ -171,7 +171,7 @@ const MatchesPage = () => {
                       {/* // <td>{new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(new Date(match?.matchDateTime))}</td>  */}
 
                       {/* <td>{moment(match?.matchDateTime).format(dateFormat)}</td> univ */}
-                      <td>{convertUTCtoIST(match?.matchDateTime)}</td>
+                      <td>{convertUTCtoIST(match?.event?.openDate)}</td>
                       
                       
                       <td>

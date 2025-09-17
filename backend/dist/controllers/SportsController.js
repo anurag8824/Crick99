@@ -253,7 +253,7 @@ class SportsController extends ApiController_1.ApiController {
                         event: s.event,
                         series: s.series,
                         matchId: parseInt(s.event.id),
-                        matchDateTime: s.event.opendate,
+                        matchDateTime: s.event.openDate,
                         name: s.event.name,
                         seriesId: ((_d = (_c = s.competition) === null || _c === void 0 ? void 0 : _c.id) === null || _d === void 0 ? void 0 : _d.toString()) || '',
                         sportId: 4,

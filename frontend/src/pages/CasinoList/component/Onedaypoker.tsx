@@ -81,7 +81,7 @@ const Onedaypoker = (props: any) => {
   }
   return (
     <div className='container '>
-      <div className='row casino-32A '>
+      <div className='row casino-32A rounded-3  '>
         <div className='col-lg-6 m-b-10 main-market  bg-gray' style={{ padding: '0px' }}>
           <div className='live-poker'>{laybacklayout(0)}</div>
         </div>

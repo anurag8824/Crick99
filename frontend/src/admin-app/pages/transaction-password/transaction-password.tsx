@@ -136,7 +136,7 @@ const TransactionPassword = () => {
                       <SubmitButton
                         type='submit'
                         disabled={loading}
-                        className='btn btn-submit btn-login'
+                        className='btn btn-submit bg-dark text-light btn-login'
                       >
                         Submit
                         {loading ? (

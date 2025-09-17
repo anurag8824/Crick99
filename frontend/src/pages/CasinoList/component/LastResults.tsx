@@ -507,8 +507,8 @@ const LastResults = (props: any) => {
   }
   return (
     <>
-      <div className='card m-b-10 my-bet mt-10'>
-        <div className='card-header casino'>
+      <div style={{background:"121a2a"}} className='cardddd m-b-10 my-bet mt-10 '>
+        <div className='card-header casino d-none'>
           <h6 className='card-title d-inline-block'>
             {'Last Result'}
             <span
@@ -521,9 +521,17 @@ const LastResults = (props: any) => {
             </span>
           </h6>
         </div>
-        <div className='card-body' style={{ padding: '5px', textAlign: 'right' }}>
-          {lastResult && lastResult.results && lastResult.results.data && datamap()}
-          {lastResult && lastResult.results && !lastResult.results.data && datamapnew()}
+        <div className='card-bodyyyyy d-flex flex-column flex-md-row flex-wrap justify-content-center align-items-center ' style={{ padding: '5px', textAlign: 'center' ,background:"#121a2a" , border:"none" }}>
+         <div>{lastResult && lastResult.results && lastResult.results.data && datamap()}
+          {lastResult && lastResult.results && !lastResult.results.data && datamapnew()}</div> 
+          <span
+              className='float-center text-white mt-2 mt-md-0 ms-md-3 cursor-pointer'
+              onClick={() => {
+                navigate(`/casino/result/${gameId}`)
+              }}
+            >
+              View All{' '}
+            </span>
         </div>
       </div>
       <CasinoResultDetail

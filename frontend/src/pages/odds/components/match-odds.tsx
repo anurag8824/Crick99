@@ -8,7 +8,6 @@ import { betPopup } from '../../../redux/actions/bet/betSlice'
 import { connect } from 'react-redux'
 import PnlCalculate from './pnl-calculate'
 // import { checkoddslength } from '../../../utils/helper'
-// import { isMobile } from 'react-device-detect'
 import BookPopup from './fancy/book-popup'
 import IMatch from '../../../models/IMatch'
 import { setRules } from '../../../redux/actions/common/commonSlice'
@@ -30,7 +29,6 @@ interface Props {
   shared: any
 }
 
-// const isMobile = true
 
 
 
@@ -178,7 +176,7 @@ class MatchOdds extends React.PureComponent<
             if (!setVisibleMarketStatus) return null
             return (
               <div style={{ border: "1px", borderColor: "gray", borderStyle: "solid" }} className='' key={market._id}>
-                <div className='market-title'>
+                <div className='market-title d-none'>
                   {market.marketName}
                   <a
                     href='#Bookmaker-market'
@@ -203,8 +201,9 @@ class MatchOdds extends React.PureComponent<
                   </span>
                 </div>
                 <div className='table-header'>
-                  <div style={{ fontSize: "18px", backgroundColor: "#76d68f", }} className={`float-left country-name ${classforheadingfirst} min-max`}>
-                    <b />Team
+                  <div style={{ fontSize: "18px", backgroundColor: "#0f2326", }} className={`float-left country-name ${classforheadingfirst} min-max`}>
+                    <b /><span className='text_blink'>  Max:{this?.props?.userState?.user?.userSetting ? this?.props?.userState?.user?.userSetting[1]?.maxBet : `${this.offplaylimit(market)}`}</span>
+
                   </div>
                   {/* {(market.oddsType != OddsType.BM) ||
                     market.oddsType == OddsType.BM ? (
@@ -225,11 +224,11 @@ class MatchOdds extends React.PureComponent<
                     ''
                   )} */}
 
-                  <div style={{ backgroundColor: "#76d68f", borderColor: "#76d68f", }} className={`back ${classforheading} float-left text-center`}>
-                    <b>Back</b>
+                  <div style={{ backgroundColor: "#0f2326", borderColor: "black", color:"white" }} className={`back ${classforheading} float-left text-center`}>
+                    <b>LAGAI</b>
                   </div>
-                  <div style={{ backgroundColor: "#76d68f", borderColor: "#76d68f", }} className={`lay ${classforheading} float-left text-center`}>
-                    <b>Lay</b>
+                  <div style={{ backgroundColor: "#0f2326", borderColor: "black", color:"white" }} className={`lay ${classforheading} float-left text-center`}>
+                    <b>KHAI</b>
                   </div>
                   {/* {  (
                     <>
@@ -255,9 +254,9 @@ class MatchOdds extends React.PureComponent<
                           >
                             <div style={{ backgroundColor: "#e2dddd" }} className={`  country-name ${classforheadingfirst}`}>
                               <span className='team-name '>
-                                <b style={{ color: "black", }}>{runner.runnerName}</b>
+                                <b style={{ color: "black", fontSize:"16px" , fontWeight:"500" }}>{runner.runnerName}</b>
                               </span>
-                              <p>
+                              <div>
                                 {getMarketBook && getMarketBook[`${market.marketId}_${runner.selectionId}`] ? (
                                   <span
                                     // className={
@@ -291,7 +290,7 @@ class MatchOdds extends React.PureComponent<
                                   marketId={market.marketId}
                                   selectionId={runner.selectionId}
                                 />
-                              </p>
+                              </div>
                             </div>
 
                             {/* <div style={{backgroundColor:"#e2dddd" , border:"none"}} className='box-1 float-left border-0' /> */}

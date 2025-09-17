@@ -1123,7 +1123,7 @@ class SportsController extends ApiController {
             event: s.event,
             series: s.series,
             matchId: parseInt(s.event.id), // make sure this is the right field
-            matchDateTime: s.event.opendate,
+            matchDateTime: s.event.openDate,
             name: s.event.name,
             seriesId: s.competition?.id?.toString() || '',  // fixed typo 'ompetition'
             sportId: 4,

@@ -16,22 +16,45 @@ import { useWebsocketUser } from '../../../context/webSocketUser'
 import MyBetComponent22 from './my-bet-component22'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
+import MatchList from '../../dashboard/elements/match-list'
+import AllEventListInMatch from '../../dashboard/detailallevent'
 
 const MatchDetail = (props: any) => {
   const userState = useAppSelector(selectUserData)
   const { socketUser } = useWebsocketUser()
   const [show, setShow] = React.useState(false)
+  const [showevent, setShowevent] = React.useState(false)
+  console.log(showevent,"showevent")              
+
   const navigate = useNavigateCustom()
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
-  const showAllBet = (e: MouseEvent<HTMLAnchorElement>) => {
+
+  const handleCloseEvent = () => setShowevent(false)
+  const handleShowEvent = () => setShowevent(true)
+
+
+  const showAllBet = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault()
     if (userState.user.role !== RoleType.user) {
       handleShow()
       return
     }
-    navigate.go('/unsettledbet')
+    // navigate.go('/unsettledbet')
   }
+
+
+  const showAllEvent = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault()
+    if (userState.user.role !== RoleType.user) {
+      setShowevent(!showevent)
+      return
+    }
+    // navigate.go('/unsettledbet')
+  }
+
+
+
   //   const filteredFancies = props.fancies.filter((item: { gtype: string }) => item.gtype === "match");
   // console.log(filteredFancies, "filtered fancy");
 
@@ -256,18 +279,22 @@ const MatchDetail = (props: any) => {
               {/* <div className='card-header'> */}
               {/* <h6 className='card-title d-inline-block'>Declared Bet</h6> */}
               <h6 className="p-2 w-100 m-0 bg-info text-white text-center">Declared Bets</h6>
-              {/* <a
-                      href='#'
+              <a
+                      // href='#'
                       onClick={showAllBet}
                       className='card-title d-inline-block float-right'
                     >
                       View All
-                    </a> */}
+                    </a>
               {/* </div> */}
               <div className='card-body'>
                 <MyBetComponent22 />
               </div>
             </div>
+
+            <div className='text-center'><a   onClick={() => setShowevent(!showevent)} style={{width:"100px"}} className="btn btn-primary btn-sm rounded-3">All Events</a></div>
+
+
           </div>
           {/* tab here */}
 
@@ -279,6 +306,15 @@ const MatchDetail = (props: any) => {
         </Modal.Header>
         <Modal.Body>
           <UnsetteleBetHistoryAdmin matchId={props.matchId!} hideHeader={true} />
+        </Modal.Body>
+      </Modal>
+
+      <Modal show={showevent} onHide={handleCloseEvent} size={'lg'}>
+        <Modal.Header closeButton>
+          <Modal.Title>All Events</Modal.Title>
+        </Modal.Header>
+        <Modal.Body >
+        <AllEventListInMatch />
         </Modal.Body>
       </Modal>
     </>

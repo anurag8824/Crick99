@@ -77,7 +77,7 @@ const DragonTigerA = (props: any) => {
 
   return (
     <div>
-      <div className='d-t-box m-b-10 buttonsuspended'>
+      <div className='d-t-box m-b-10 buttonsuspended rounded-3'>
         <div className='row row6'>
           {buttonLayout('col-lg-3 col-4', [0, 1, 2])}
           {buttonLayout('col-lg-3 col-12', [3])}
@@ -94,7 +94,7 @@ const DragonTigerA = (props: any) => {
       </div> : ""}
       <div className='row row5'>
         {isMobile && activeTab === "dragon" || !isMobile ? <div className='col-lg-6 col-12'>
-          <div className='d-t-box m-b-10 buttonsuspended'>
+          <div className='d-t-box m-b-10 buttonsuspended rounded-3'>
             <div className='row row6'>
               <div className='col-12'>
                 <h4 className='m-b-0 text-center text-uppercase text-light'>Dragon</h4>
@@ -108,8 +108,8 @@ const DragonTigerA = (props: any) => {
         </div> : ""}
         {isMobile && activeTab === "tiger" || !isMobile ?
           <div className='col-lg-6 col-12'>
-            <div className='d-t-box m-b-10 buttonsuspended'>
-              <div className='row '>info-icon collapsed
+            <div className='d-t-box m-b-10 buttonsuspended rounded-3'>
+              <div className='row '>
                 <div className='col-12'>
                   <h4 className='m-b-0 text-center text-uppercase text-light'>Tiger</h4>
                 </div>
