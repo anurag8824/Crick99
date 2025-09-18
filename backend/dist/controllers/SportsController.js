@@ -577,11 +577,11 @@ class SportsController extends ApiController_1.ApiController {
         });
     }
     bookmakermarketesData(match) {
-        var _a, _b;
+        var _a;
         return __awaiter(this, void 0, void 0, function* () {
             const markets = yield sports_service_1.default.getBookmakerMarkets(match);
-            console.log((_a = markets === null || markets === void 0 ? void 0 : markets.data) === null || _a === void 0 ? void 0 : _a.sports, "markets data from backend ibn ths codew sw");
-            if ((_b = markets === null || markets === void 0 ? void 0 : markets.data) === null || _b === void 0 ? void 0 : _b.sports) {
+            // console.log(markets?.data?.sports, "markets data from backend ibn ths codew sw")
+            if ((_a = markets === null || markets === void 0 ? void 0 : markets.data) === null || _a === void 0 ? void 0 : _a.sports) {
                 let i = 0;
                 // await markets.data.sports.map(async (market: any) => {
                 let market = markets.data.sports;
@@ -604,14 +604,14 @@ class SportsController extends ApiController_1.ApiController {
                     oddsType: Market_1.OddsType.BM,
                 };
                 // if()
-                console.log(marketsData, "FGHJKL");
+                // console.log(marketsData, "FGHJKL")
                 const data34 = yield Market_1.Market.findOneAndUpdate({ marketId: market.marketId, matchId: match.matchId }, marketsData, {
                     new: true,
                     upsert: true,
                 });
-                console.log("fghjkl", data34);
+                // console.log("fghjkl", data34)
                 // })
-                // return markets.data.sports.length > 0
+                return true;
             }
             return false;
         });
@@ -646,11 +646,12 @@ class SportsController extends ApiController_1.ApiController {
         var _a, _b;
         return __awaiter(this, void 0, void 0, function* () {
             const fancy = yield sports_service_1.default.getSession(match.matchId, match.sportId);
-            // console.log(fancy.data.sports,"fancy data is here")
+            console.log(fancy.data.sports, "fancy data is here");
             const fancyone = (_b = (_a = fancy === null || fancy === void 0 ? void 0 : fancy.data) === null || _a === void 0 ? void 0 : _a.sports) === null || _b === void 0 ? void 0 : _b.filter((m) => (m.gtype === "session" || m.gtype === "fancy1") &&
                 (m.RunnerName && !m.RunnerName.includes(" run bhav ")) && (m.RunnerName && !m.RunnerName.includes(" Caught out ")) && (m.RunnerName && !m.RunnerName.includes(" ball No ")) && (m.RunnerName && !m.RunnerName.includes(" Run bhav ")) && (m.RunnerName && !m.RunnerName.includes(" run bhav")) && (m.RunnerName.includes(".3 over ")));
             if (fancy.data.sports) {
-                yield fancyone.map((market) => __awaiter(this, void 0, void 0, function* () {
+                console.log("hello world", fancyone);
+                yield fancy.data.sports.map((market) => __awaiter(this, void 0, void 0, function* () {
                     let type = '';
                     if (market.RunnerName.includes(' ball run ')) {
                         type = 'ballRun';
@@ -669,7 +670,8 @@ class SportsController extends ApiController_1.ApiController {
                         sr_no: market.sr_no ? market.sr_no : market.srno ? parseInt(market.srno) : 1,
                         ballByBall: type,
                     };
-                    yield Fancy_1.Fancy.findOneAndUpdate({
+                    console.log(fancyData, "fancy data is here two");
+                    const data = yield Fancy_1.Fancy.findOneAndUpdate({
                         // sportId: match.sportId,
                         matchId: match.matchId,
                         marketId: market.SelectionId,
@@ -677,6 +679,7 @@ class SportsController extends ApiController_1.ApiController {
                         new: true,
                         upsert: true,
                     });
+                    console.log(data, "fancy data is here two");
                 }));
                 return fancy.data.sports.length > 0;
             }

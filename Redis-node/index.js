@@ -36,18 +36,26 @@ app.use(express.json());
 let MatchIds = []
 let MarketIds = []
 let MatchData = []
+let diamondIds = {}
+let MatchName = []
 const getMatchid = async () => {
   // const res = await Match.find({active:true})
   const res = await axios.get(`http://82.29.164.133:3000/bxpro/v1/allmatch`)
   console.log(res.data.data, "response")
   MatchData = res?.data?.data?.t1
   MatchIds = res?.data?.data?.map(match => match?.event?.id)
+  MatchName = res?.data?.data?.map(match =>match?.event?.name)
   console.log(MatchIds, "MatchIds")
   marketIds = []
-  for (const m of MatchIds) {
-    const markets = await Market.find({ matchId: m });
-    const marketIdsForMatch = markets.map(match => match.marketId);
-    MarketIds.push(...marketIdsForMatch); // Spread and push all market IDs
+  // for (const m of MatchIds) {
+  //   const markets = await Market.find({ matchId: m });
+  //   const marketIdsForMatch = markets.map(match => match.marketId);
+  //   MarketIds.push(...marketIdsForMatch); // Spread and push all market IDs
+  // }
+   console.log(MatchName,"Match Name")
+  for (const m of MatchName) {
+   const resmatch = await axios.post("http://82.29.164.133:3000/bxpro/v1/bettodia",{matchname:m})
+  //  console.log(resmatch,"res match Id")
   }
 
   return res;
@@ -80,7 +88,7 @@ const FancyData = {}
 const getFancyDataApi = () => {
   if (MatchIds.length > 0) {
     MatchIds.forEach((id) => {
-      axios.get(`https://betfairapi.turnkeyxgaming.com/api/GetSession?eventid=${id}`,{ headers: {
+      axios.get(`http://82.29.164.133:3000/bxpro/v1/session/${id}`,{ headers: {
         'x-turnkeyxgaming-key': '68c56ccbed10db48a50adc82',
         },}).then((res) => {
         FancyData[id] = res.data
@@ -186,7 +194,7 @@ const formattedFancyData = async () => {
             ? "session"
             : f.catagory === "ODD_EVEN"
             ? "oddeven"
-            : f.catagory?.toLowerCase(),
+            : f.catagory == "w/p/xtra" ? "session":f.catagory?.toLowerCase(),
         GameStatus:  f?.statusName == "SUSPEND" ? "SUSPENDED":f.statusName == "ACTIVE" ? "":f.statusName, 
         gtstatus: f?.statusName == "SUSPEND" ? "SUSPENDED":f.statusName,  
         max: "50000",
@@ -726,11 +734,11 @@ const startPolling = async () => {
 
 const handleBookmakerForMatch = async (id) => {
   try {
-    const res =  await axios.get(`https://betfairapi.turnkeyxgaming.com/api/GetSession?eventid=${id}`,{ headers: {
-      'x-turnkeyxgaming-key': '68c56ccbed10db48a50adc82',
-      },})
+    // const res =  await axios.get(`https://betfairapi.turnkeyxgaming.com/api/GetSession?eventid=${id}`,{ headers: {
+    //   'x-turnkeyxgaming-key': '68c56ccbed10db48a50adc82',
+    //   },})
     
-    // await axios.get(`http://82.29.164.133:3000/bxpro/v1/session/${id}`);
+    const res = await axios.get(`http://82.29.164.133:3000/bxpro/v1/session/${id}`);
 
     const runners = res?.data?.bookMaker;
 

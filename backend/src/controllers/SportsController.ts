@@ -299,7 +299,7 @@ class SportsController extends ApiController {
 
   async bookmakermarketesData(match: IMatch) {
     const markets = await sportsService.getBookmakerMarkets(match)
-    console.log(markets?.data?.sports, "markets data from backend ibn ths codew sw")
+    // console.log(markets?.data?.sports, "markets data from backend ibn ths codew sw")
     if (markets?.data?.sports) {
 
       let i = 0
@@ -324,7 +324,7 @@ class SportsController extends ApiController {
         oddsType: OddsType.BM,
       }
       // if()
-      console.log(marketsData, "FGHJKL")
+      // console.log(marketsData, "FGHJKL")
       const data34 = await Market.findOneAndUpdate(
         { marketId: market.marketId, matchId: match.matchId },
         marketsData,
@@ -333,10 +333,10 @@ class SportsController extends ApiController {
           upsert: true,
         },
       )
-      console.log("fghjkl", data34)
+      // console.log("fghjkl", data34)
 
       // })
-      // return markets.data.sports.length > 0
+      return true
     }
     return false
   }
@@ -372,14 +372,15 @@ class SportsController extends ApiController {
 
   async fancyData(match: IMatch) {
     const fancy = await sportsService.getSession(match.matchId, match.sportId)
-    // console.log(fancy.data.sports,"fancy data is here")
+    console.log(fancy.data.sports,"fancy data is here")
     const fancyone = fancy?.data?.sports?.filter((m: any) =>
       (m.gtype === "session" || m.gtype === "fancy1") &&
       (m.RunnerName && !m.RunnerName.includes(" run bhav ")) && (m.RunnerName && !m.RunnerName.includes(" Caught out ")) && (m.RunnerName && !m.RunnerName.includes(" ball No ")) && (m.RunnerName && !m.RunnerName.includes(" Run bhav ")) && (m.RunnerName && !m.RunnerName.includes(" run bhav")) && (m.RunnerName.includes(".3 over "))
     )
 
     if (fancy.data.sports) {
-      await fancyone.map(async (market: any) => {
+      console.log("hello world",fancyone)
+      await fancy.data.sports.map(async (market: any) => {
         let type = ''
         if (market.RunnerName.includes(' ball run ')) {
           type = 'ballRun'
@@ -400,7 +401,9 @@ class SportsController extends ApiController {
           sr_no: market.sr_no ? market.sr_no : market.srno ? parseInt(market.srno) : 1,
           ballByBall: type,
         }
-        await Fancy.findOneAndUpdate(
+      console.log(fancyData,"fancy data is here two")
+
+       const data = await Fancy.findOneAndUpdate(
           {
             // sportId: match.sportId,
             matchId: match.matchId,
@@ -412,6 +415,7 @@ class SportsController extends ApiController {
             upsert: true,
           },
         )
+        console.log(data,"fancy data is here two")
       })
       return fancy.data.sports.length > 0
     }

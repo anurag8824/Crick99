@@ -1814,7 +1814,7 @@ export default class CasinoController extends ApiController {
                 templateRunner.RunnerName === "High Card" ||
                 templateRunner.RunnerName === "Low Card"
               ) {
-                bhav = parseFloat(bhav) - 0.03;
+                bhav = parseFloat(bhav) - 0.05;
               } else if (templateRunner.RunnerName === "Even") {
                 bhav = parseFloat(bhav) - 0.13;
               } else if (templateRunner.RunnerName == "Odd") {
@@ -2037,7 +2037,7 @@ export default class CasinoController extends ApiController {
           singleMarket?.nat === "High Card" ||
           singleMarket?.nat === "Low Card"
         ) {
-          bhav = parseFloat(bhav) - 0.03;
+          bhav = parseFloat(bhav) - 0.05;
         } else if (singleMarket?.nat === "Even") {
           bhav = parseFloat(bhav) - 0.13; // ✅ updated from 0.05 → 0.13
         } else if (singleMarket?.nat === "Odd") {
@@ -2052,7 +2052,7 @@ export default class CasinoController extends ApiController {
       } else if (type === "dt20") {
         let name = singleMarket?.nat;
         if (name === "Dragon" || name === "Tiger") {
-          bhav = parseFloat(bhav) - 0.03;
+          bhav = parseFloat(bhav) - 0.05;
         } else if (name === "Dragon Even") {
           bhav = parseFloat(bhav) - 0.15; // ✅ updated from 0.04 → 0.15
         } else if (name === "Dragon Odd") {
@@ -2070,7 +2070,7 @@ export default class CasinoController extends ApiController {
       else if (type === "teen20"){
         let name = singleMarket?.nat;
         if(name == "Player A"){
-          bhav = parseFloat(bhav) - 0.03;
+          bhav = parseFloat(bhav) - 0.05;
         }else if( name == "Player B"){
           bhav = parseFloat(bhav) - 0.05;
       }
