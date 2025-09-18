@@ -36,7 +36,7 @@ body {
   font-family: 'Roboto Condensed', sans-serif;
   /*font-family: Tahoma, Helvetica, sans-serif;*/
   color: #1e1e1e;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 15px;
   background-color: var(--primary-bg);
 }
@@ -404,7 +404,7 @@ p {
   display: block;
   position: fixed;
   z-index: 9999;
-  background-image: url('../../public/imgs/loading.gif');
+  background-image: url('../../public/imgs/loading.svg');
   background-color: #666;
   opacity: 0.4;
   background-repeat: no-repeat;

@@ -55,7 +55,11 @@ const CasinoDetail = () => {
         <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
           Casino PandL Detail
         </span>
-        <CustomLink to={"/"} type="button" className="btn bg-primary">
+        <CustomLink
+          to={"/"}
+          type="button"
+          className="btn bg-primary text-white"
+        >
           <span>Back</span>
         </CustomLink>
       </div>
@@ -83,7 +87,7 @@ const CasinoDetail = () => {
           />
         </div>
         <div>
-          <button className="btn bg-primary" onClick={handleFilter}>
+          <button className="btn bg-primary text-white" onClick={handleFilter}>
             Submit
           </button>
         </div>

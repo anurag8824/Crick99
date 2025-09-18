@@ -734,7 +734,7 @@ const ListClients = () => {
                     <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
                       Client Details
                     </span>
-                    <button type="button" className="btn bg-primary">
+                    <button type="button" className="btn bg-primary text-white">
                       <span>Back</span>
                     </button>
                   </div>
@@ -858,14 +858,14 @@ const ListClients = () => {
                           {username ? (
                             <CustomLink
                               to={`/add-user/${username}/${newtype}`}
-                              className="btn bg-primary"
+                              className="btn bg-primary text-white"
                             >
                               <PersonAddIcon /> Create
                             </CustomLink>
                           ) : (
                             <CustomLink
                               to={`/add-user/${newtype}`}
-                              className="btn bg-primary"
+                              className="btn bg-primary text-white"
                             >
                               <PersonAddIcon /> Create
                             </CustomLink>
@@ -874,11 +874,17 @@ const ListClients = () => {
 
                         <p className="text-right">
                           {username ? (
-                            <CustomLink to={`#`} className="btn bg-primary">
+                            <CustomLink
+                              to={`#`}
+                              className="btn bg-primary text-white"
+                            >
                               Update Limit
                             </CustomLink>
                           ) : (
-                            <CustomLink to={`#`} className="btn bg-primary">
+                            <CustomLink
+                              to={`#`}
+                              className="btn bg-primary text-white"
+                            >
                               Update Limit
                             </CustomLink>
                           )}
@@ -994,47 +1000,85 @@ const ListClients = () => {
                       </th> */}
 
                       <th
-                        style={{ backgroundColor: "#0f2327" ,color:"white" }}
+                        style={{ backgroundColor: "#0f2327", color: "white" }}
                         className="noExport"
                       >
                         U St
                       </th>
                       {/* <th className="noExport">B St</th> */}
                       {/* <th></th> */}
-                      <th style={{ backgroundColor: "#0f2327",color:"white" }}></th>
+                      <th
+                        style={{ backgroundColor: "#0f2327", color: "white" }}
+                      ></th>
 
-                      <th style={{ backgroundColor: "#0f2327",color:"white" }}>Name</th>
-                      <th style={{ backgroundColor: "#0f2327",color:"white" }}>Code</th>
+                      <th
+                        style={{ backgroundColor: "#0f2327", color: "white" }}
+                      >
+                        Name
+                      </th>
+                      <th
+                        style={{ backgroundColor: "#0f2327", color: "white" }}
+                      >
+                        Code
+                      </th>
                       {/* <th style={{ backgroundColor: "#0f2327",color:"white" }}>Mobile</th> */}
-                      <th style={{ backgroundColor: "#0f2327",color:"white" }}>PWD</th>
+                      <th
+                        style={{ backgroundColor: "#0f2327", color: "white" }}
+                      >
+                        PWD
+                      </th>
 
                       {urole !== "dl" && newtype !== "user" && (
-                        <th style={{ backgroundColor: "#0f2327" ,color:"white" }}>
+                        <th
+                          style={{ backgroundColor: "#0f2327", color: "white" }}
+                        >
                           {upper?.first} Share %
                         </th>
                       )}
                       {urole !== "dl" && newtype !== "user" && (
-                        <th style={{ backgroundColor: "#0f2327" ,color:"white" }}>
+                        <th
+                          style={{ backgroundColor: "#0f2327", color: "white" }}
+                        >
                           {upper?.second} Share %
                         </th>
                       )}
 
                       {/* <th>SuperShare Limit</th> */}
-                      <th style={{ backgroundColor: "#0f2327" ,color:"white" }}>C.Chip</th>
+                      <th
+                        style={{ backgroundColor: "#0f2327", color: "white" }}
+                      >
+                        C.Chip
+                      </th>
                       {/* <th>Client (P/L)</th> */}
-                      <th style={{ backgroundColor: "#0f2327" ,color:"white" }}>
+                      <th
+                        style={{ backgroundColor: "#0f2327", color: "white" }}
+                      >
                         {newtype === "user" ? "Engaged" : "Agent"}
                       </th>
                       {/* <th>Available Balance</th> */}
 
                       {/* <th>Engaged</th> */}
-                      <th style={{ backgroundColor: "#0f2327" ,color:"white" }}>Match Comm. %</th>
-                      <th style={{ backgroundColor: "#0f2327" ,color:"white" }}>Session Comm. %</th>
+                      <th
+                        style={{ backgroundColor: "#0f2327", color: "white" }}
+                      >
+                        Match Comm. %
+                      </th>
+                      <th
+                        style={{ backgroundColor: "#0f2327", color: "white" }}
+                      >
+                        Session Comm. %
+                      </th>
 
-                      <th style={{ backgroundColor: "#0f2327" ,color:"white" }}>
+                      <th
+                        style={{ backgroundColor: "#0f2327", color: "white" }}
+                      >
                         Account Type
                       </th>
-                      <th style={{ backgroundColor: "#0f2327" ,color:"white" }}>Status</th>
+                      <th
+                        style={{ backgroundColor: "#0f2327", color: "white" }}
+                      >
+                        Status
+                      </th>
                     </tr>
                   </thead>
                   <tbody style={{ marginBottom: "87px" }}>
@@ -1628,7 +1672,7 @@ const ListClients = () => {
                             <td>{user.scom}%</td>
 
                             <td>{RoleName[user.role!]}</td>
-                            <th>{user?.isLogin  ? "Active" : "Inactive"}</th>
+                            <th>{user?.isLogin ? "Active" : "Inactive"}</th>
                           </tr>
                         );
                       })}

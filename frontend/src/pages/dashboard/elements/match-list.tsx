@@ -55,12 +55,31 @@ const MatchList: React.FC<MatchListProps> = ({
                         src="https://urbet99.com/images/live-tv.png"
                         style={{ width: "25px" }} */}
                         {/* <LiveTvIcon/> */}
+
+                        <div>
+  {moment().isSame(moment(match.matchDateTime), "day") && 
+   moment().isAfter(moment(match.matchDateTime)) ? (
+      <img alt="tv" src="https://crick99.in/static/media/tvicon.b04990837933546a0683.png" style={{width: "25px"}}/>
+
+  ) : (
+    ""
+  )}
+</div>
                       
                     </div>
                   </div>
                   <div>
-                    {/* <span className="inplay-btn mobile-show">INPLAY</span> */}
-                  </div>
+  {moment().isSame(moment(match.matchDateTime), "day") && 
+   moment().isAfter(moment(match.matchDateTime)) ? (
+    <span className="inplay-btn mobile-show rounded-pill text-white bg-success p-2">
+      INPLAY
+    </span>
+  ) : (
+    ""
+  )}
+</div>
+
+
                 </div>
               </a>
 

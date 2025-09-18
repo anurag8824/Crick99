@@ -258,7 +258,11 @@ const SportsCompletedDetails = () => {
         <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
           Completed Sports Details
         </span>
-        <CustomLink to={"/"} type="button" className="btn bg-primary">
+        <CustomLink
+          to={"/"}
+          type="button"
+          className="btn bg-primary text-white"
+        >
           <span>Back</span>
         </CustomLink>
       </div>
@@ -287,7 +291,7 @@ const SportsCompletedDetails = () => {
               className="sorting_disabled"
               rowSpan={1}
               colSpan={1}
-              style={{ width: "8px", background: "#0f2327" ,  color:"white" }}
+              style={{ width: "8px", background: "#0f2327", color: "white" }}
             >
               -
             </th>
@@ -303,7 +307,7 @@ const SportsCompletedDetails = () => {
               className="sorting_disabled"
               rowSpan={1}
               colSpan={1}
-              style={{ width: "205px", background: "#0f2327" ,  color:"white" }}
+              style={{ width: "205px", background: "#0f2327", color: "white" }}
             >
               Name
             </th>
@@ -312,7 +316,7 @@ const SportsCompletedDetails = () => {
               className="sorting_disabled"
               rowSpan={1}
               colSpan={1}
-              style={{ width: "63px", background: "#0f2327"  ,  color:"white" }}
+              style={{ width: "63px", background: "#0f2327", color: "white" }}
             >
               Time
             </th>
@@ -321,7 +325,7 @@ const SportsCompletedDetails = () => {
               className="sorting_disabled"
               rowSpan={1}
               colSpan={1}
-              style={{ width: "63px", background: "#0f2327",  color:"white" }}
+              style={{ width: "63px", background: "#0f2327", color: "white" }}
             >
               Declared Date
             </th>
@@ -330,7 +334,7 @@ const SportsCompletedDetails = () => {
               className="sorting_disabled"
               rowSpan={1}
               colSpan={1}
-              style={{ width: "63px", background: "#0f2327" ,  color:"white" }}
+              style={{ width: "63px", background: "#0f2327", color: "white" }}
             >
               Competition
             </th>
@@ -338,7 +342,7 @@ const SportsCompletedDetails = () => {
               className="sorting_disabled"
               rowSpan={1}
               colSpan={1}
-              style={{ width: "63px", background: "#0f2327" ,  color:"white" }}
+              style={{ width: "63px", background: "#0f2327", color: "white" }}
             >
               Won By
             </th>
@@ -346,7 +350,7 @@ const SportsCompletedDetails = () => {
               className="sorting_disabled"
               rowSpan={1}
               colSpan={1}
-              style={{ width: "63px", background: "#0f2327" ,  color:"white" }}
+              style={{ width: "63px", background: "#0f2327", color: "white" }}
             >
               P/L
             </th>

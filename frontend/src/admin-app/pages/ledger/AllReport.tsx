@@ -292,7 +292,11 @@ const AllReport = () => {
           <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
             All Client Ledger
           </span>
-          <CustomLink to={"/"} type="button" className="btn bg-primary">
+          <CustomLink
+            to={"/"}
+            type="button"
+            className="btn bg-primary text-white"
+          >
             <span>Back</span>
           </CustomLink>
         </div>

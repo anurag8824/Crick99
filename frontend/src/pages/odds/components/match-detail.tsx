@@ -24,6 +24,9 @@ const MatchDetail = (props: any) => {
   const { socketUser } = useWebsocketUser()
   const [show, setShow] = React.useState(false)
   const [showevent, setShowevent] = React.useState(false)
+  const [showallbets, setShowallbets] = React.useState(false)
+
+
   console.log(showevent,"showevent")              
 
   const navigate = useNavigateCustom()
@@ -32,6 +35,11 @@ const MatchDetail = (props: any) => {
 
   const handleCloseEvent = () => setShowevent(false)
   const handleShowEvent = () => setShowevent(true)
+
+  const handleCloseAllbets = () => setShowallbets(false)
+  const handleShowAllbets = () => setShowallbets(true)
+
+
 
 
   const showAllBet = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -53,6 +61,16 @@ const MatchDetail = (props: any) => {
     // navigate.go('/unsettledbet')
   }
 
+  const showAllAllbets = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault()
+    if (userState.user.role !== RoleType.user) {
+      setShowallbets(!showallbets)
+      return
+    }
+    // navigate.go('/unsettledbet')
+  }
+
+ 
 
 
   //   const filteredFancies = props.fancies.filter((item: { gtype: string }) => item.gtype === "match");
@@ -294,6 +312,9 @@ const MatchDetail = (props: any) => {
 
             <div className='text-center'><a   onClick={() => setShowevent(!showevent)} style={{width:"100px"}} className="btn btn-primary btn-sm rounded-3">All Events</a></div>
 
+            <div className='text-center'><a   onClick={() => setShowallbets(!showallbets)} style={{width:"100px"}} className="btn btn-primary mt-2 btn-sm rounded-3">Completed Bets</a></div>
+
+
 
           </div>
           {/* tab here */}
@@ -317,6 +338,19 @@ const MatchDetail = (props: any) => {
         <AllEventListInMatch />
         </Modal.Body>
       </Modal>
+
+      <Modal show={showallbets} onHide={handleCloseAllbets} size={'lg'}>
+        <Modal.Header closeButton>
+          <Modal.Title>Completed Bets</Modal.Title>
+        </Modal.Header>
+        <Modal.Body >
+                <MyBetComponent22 />
+              
+        </Modal.Body>
+      </Modal>
+
+
+     
     </>
   )
 }

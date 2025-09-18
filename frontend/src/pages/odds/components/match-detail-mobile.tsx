@@ -33,7 +33,7 @@ const shared = useParams().share
   return (
     <>
       <div className='prelative'>
-        <Tabs>
+        <Tabs className='d-none'>
           <Tab eventKey='home' title='ODDS'>
             <div className='game-heading clsforellipse mb-1'>
               <span className='card-header-title giveMeEllipsis'>{props.currentMatch?.name}</span>

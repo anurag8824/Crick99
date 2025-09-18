@@ -374,6 +374,9 @@ import betService from "../../../../services/bet.service";
 import DeleteIcon from '@mui/icons-material/Delete';
 import GroupIcon from '@mui/icons-material/Group';
 import { useParams } from "react-router-dom";
+import { Menu } from "@mui/material";
+
+
 const Header = () => {
   const userState = useAppSelector<{ user: User }>(selectUserData);
   const dispatch = useAppDispatch();
@@ -615,10 +618,9 @@ const [userList, setUserList] = React.useState<any>({});
           <div
             className="side-menu-buttonn md:hidden ml-2 "
             onClick={toggleDrawer}
+           
           >
-            <div className="bar1" />
-            <div className="bar2" />
-            <div className="bar3" />
+          <i className="fa-solid fa-bars text-white"></i>
           </div>
 
           <div
@@ -628,9 +630,7 @@ const [userList, setUserList] = React.useState<any>({});
             } font-bold text-white md:hidden`}
             onClick={toggleDrawer}
           >
-           <div className="bar1" />
-            <div className="bar2" />
-            <div className="bar3" />
+          <i className="fa-solid fa-bars text-white"></i>
           </div>
 
 

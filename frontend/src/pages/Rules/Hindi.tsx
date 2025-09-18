@@ -3,14 +3,14 @@ import React from 'react'
 const Hindi = () => {
   return (
     <div>  <div className="rules hindi">
-    <h2 style={{color:"#000"}}>
+    <h2 style={{color:"#000" ,}}>
       कृपया नियमों को समझने के लिए यहां कुछ मिनट दें, और अपने अनुसार समझ
       लें।
     </h2>
     <p>NOTE:</p>
     <div>
       <table>
-        <tbody>
+        <tbody className='bg-white p-2'>
           <tr>
             <td>
               <ul>
@@ -89,7 +89,7 @@ const Hindi = () => {
       </span>
     </h1>
     <table>
-      <tbody>
+      <tbody className='bg-white p-2'>
         <tr>
           <td>
             <ul>
@@ -179,7 +179,7 @@ const Hindi = () => {
       </span>
     </h1>
     <table>
-      <tbody>
+      <tbody className='bg-white p-2'>
         <tr>
           <td>
             <ul>
@@ -207,7 +207,7 @@ const Hindi = () => {
       </span>
     </h2>
     <table>
-      <tbody>
+      <tbody className='bg-white p-2'>
         <tr>
           <td>
             <ul>

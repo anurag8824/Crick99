@@ -14,7 +14,7 @@ const English = () => {
           </li>
         </ul>
         <table>
-          <tbody>
+          <tbody className='bg-white p-2'>
             <tr>
               <td>
                 <ul>
@@ -126,7 +126,7 @@ const English = () => {
           </li>
         </ul>
         <table>
-          <tbody>
+          <tbody style={{fontSize:"10px"}} className='bg-white p-2'>
             <tr>
               <td>
                 <ul>

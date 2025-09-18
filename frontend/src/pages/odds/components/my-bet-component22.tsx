@@ -79,19 +79,19 @@ const MyBetComponent22 = () => {
       <table className='table coupon-table scorall mybet'>
         <thead>
           <tr style={{background:"#76d68f"}}>
-            <th> Sr. </th>
-            {userState.user.role !== RoleType.user && <th>Username</th>}
-            <th className='text-center'> Narration</th>
-            <th> Rate</th>
-            <th> Amount</th>
-            <th> Run</th>
-            <th> Mode</th>
+            <th style={{background:"#0f2326" , border:"none" , color:"white"}}> Sr. </th>
+            {userState.user.role !== RoleType.user && <th style={{background:"#0f2326" , border:"none" , color:"white"}}>Username</th>}
+            <th style={{background:"#0f2326" , border:"none" , color:"white"}} className='text-center'> Narration</th>
+            <th style={{background:"#0f2326" , border:"none" , color:"white"}}> Rate</th>
+            <th style={{background:"#0f2326" , border:"none" , color:"white"}}> Amount</th>
+            <th style={{background:"#0f2326" , border:"none" , color:"white"}}> Run</th>
+            <th style={{background:"#0f2326" , border:"none" , color:"white"}}> Mode</th>
 
 
             {/* {!isMobile && <th style={{background:"#76d68f"}}> Place Date</th>} */}
             {/* {!isMobile && <th style={{background:"#76d68f"}}> Match Date</th>} */}
-            <th className='text-center'> Dec</th>
-            {userState.user.role !== RoleType.user && <th> Date</th>}
+            <th style={{background:"#0f2326" , border:"none" , color:"white"}} className='text-center'> Dec</th>
+            {userState.user.role !== RoleType.user && <th style={{background:"#0f2326" , border:"none" , color:"white"}}> Date</th>}
           </tr>
         </thead>
         <tbody className='scorall'>

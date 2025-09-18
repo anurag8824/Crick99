@@ -36,8 +36,7 @@ const Rules = (props: any) => {
   };
 
   return (
-    <>
-      {mobileSubheader.subheader("Rules")}
+    <div style={{marginLeft:"20px", marginRight:"20px"}}>
 
       <CustomLink
       to={"/"}
@@ -112,7 +111,7 @@ const Rules = (props: any) => {
       {/* Conditional Render */}
       {activeTab === "Hindi" && <Hindi />}
       {activeTab === "English" && <English />}
-    </>
+    </div>
   );
 };
 export default React.memo(Rules);

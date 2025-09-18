@@ -202,7 +202,17 @@ class MatchOdds extends React.PureComponent<
                 </div>
                 <div className='table-header'>
                   <div style={{ fontSize: "18px", backgroundColor: "#0f2326", }} className={`float-left country-name ${classforheadingfirst} min-max`}>
-                    <b /><span className='text_blink'>  Max:{this?.props?.userState?.user?.userSetting ? this?.props?.userState?.user?.userSetting[1]?.maxBet : `${this.offplaylimit(market)}`}</span>
+                    <b /><span className='text_blink'>
+  Max: {
+    (() => {
+      const value = this?.props?.userState?.user?.userSetting 
+        ? this?.props?.userState?.user?.userSetting[1]?.maxBet 
+        : this.offplaylimit(market);
+      return value >= 1000 ? (value / 1000).toFixed(0) + 'K' : value;
+    })()
+  }
+</span>
+
 
                   </div>
                   {/* {(market.oddsType != OddsType.BM) ||
@@ -254,7 +264,7 @@ class MatchOdds extends React.PureComponent<
                           >
                             <div style={{ backgroundColor: "#e2dddd" }} className={`  country-name ${classforheadingfirst}`}>
                               <span className='team-name '>
-                                <b style={{ color: "black", fontSize:"16px" , fontWeight:"500" }}>{runner.runnerName}</b>
+                                <b style={{ color: "black", fontSize:"13px" , fontWeight:"500" }}>{runner.runnerName}</b>
                               </span>
                               <div>
                                 {getMarketBook && getMarketBook[`${market.marketId}_${runner.selectionId}`] ? (

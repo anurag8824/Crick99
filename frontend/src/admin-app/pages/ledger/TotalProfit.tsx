@@ -60,7 +60,11 @@ const TotalProfit = () => {
         <span className="text-3xl font-seminbold text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
           Profit Loss
         </span>
-        <CustomLink to={"/"} type="button" className="btn bg-primary">
+        <CustomLink
+          to={"/"}
+          type="button"
+          className="btn bg-primary text-white"
+        >
           <span>Back</span>
         </CustomLink>
       </div>
@@ -140,25 +144,42 @@ const TotalProfit = () => {
                     <tr role="row">
                       <th
                         className="p-1 pl-2 small sorting_disabled pr-0"
-                        style={{ minWidth: 70, width: 100 , backgroundColor:"#0f2327" , color:"white" }}
+                        style={{
+                          minWidth: 70,
+                          width: 100,
+                          backgroundColor: "#0f2327",
+                          color: "white",
+                        }}
                       >
                         DATE
                       </th>
                       <th
                         className="p-1 small no-sort sorting_disabled"
-                        style={{ width: 154, backgroundColor:"#0f2327" , color:"white" }}
+                        style={{
+                          width: 154,
+                          backgroundColor: "#0f2327",
+                          color: "white",
+                        }}
                       >
                         Event Name
                       </th>
                       <th
                         className="p-1 small text-center no-sort sorting_disabled"
-                        style={{ width: 81, backgroundColor:"#0f2327" , color:"white" }}
+                        style={{
+                          width: 81,
+                          backgroundColor: "#0f2327",
+                          color: "white",
+                        }}
                       >
                         CREDIT
                       </th>
                       <th
                         className="p-1 small text-center no-sort sorting_disabled"
-                        style={{ width: 60, backgroundColor:"#0f2327" , color:"white" }}
+                        style={{
+                          width: 60,
+                          backgroundColor: "#0f2327",
+                          color: "white",
+                        }}
                       >
                         DEBIT
                       </th>
@@ -168,7 +189,6 @@ const TotalProfit = () => {
                       >
                         BALANCE
                       </th> */}
-                      
                     </tr>
                   </thead>
 
@@ -209,13 +229,12 @@ const TotalProfit = () => {
                             {(row.profit < 0 ? 0 : row.profit).toFixed()}
                           </span>
                         </td>
-                        
+
                         {/* <td>
                           <span className={"text-danger text-danger"}>
                             {row.profit.toFixed()}
                           </span>
                         </td> */}
-                       
                       </tr>
                     ))}
                   </tbody>

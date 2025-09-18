@@ -347,13 +347,13 @@ class Fancy extends React.Component<
   fancyheader = (title: string) => {
     return (
       <div className='table-header text-dark'>
-        <div style={{fontSize:"18px" ,backgroundColor:"#0f2326", }} className={`float-left ${isMobile ? 'bg-theme text-dark' : ' text-dark'} country-name box-6`}>
-          {isMobile ? title : title}<span className='text_blink' style={{fontSize:"18px" }} >SESSION (commission)</span>
+        <div style={{fontSize:"13px" ,backgroundColor:"#0f2326", }} className={`float-left ${isMobile ? 'bg-theme' : 'bg-theme'} country-name box-6`}>
+         <span className='text_blink' style={{fontSize:"13px" , }} >SESSION (commission)</span>
         </div>
-        <div style={{fontSize:"18px" ,backgroundColor:"#0f2326", color:"white" }}className={`${isMobile ? 'box-2' : 'box-2'} float-right lay text-center`}>
+        <div style={{fontSize:"13px" ,backgroundColor:"#0f2326", color:"white" }}className={`${isMobile ? 'box-2' : 'box-2'} float-right lay text-center`}>
           <b>NOT</b>
         </div>
-        <div style={{fontSize:"18px" ,backgroundColor:"#0f2326",  color:"white" }} className={`${isMobile ? 'box-2' : 'box-2'} float-right back text-center`}>
+        <div style={{fontSize:"13px" ,backgroundColor:"#0f2326",  color:"white" }} className={`${isMobile ? 'box-2' : 'box-2'} float-right back text-center`}>
           <b>YES</b>
         </div>
         {/* {!isMobile && <div className='box-2 float-left' />} */}

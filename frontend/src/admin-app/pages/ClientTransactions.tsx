@@ -16,7 +16,11 @@ const ClientTransactions = () => {
                   <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
                     Client Transactions
                   </span>
-                  <CustomLink to={"/"} type="button" className="btn bg-primary">
+                  <CustomLink
+                    to={"/"}
+                    type="button"
+                    className="btn bg-primary text-white"
+                  >
                     <span>Back</span>
                   </CustomLink>
                 </div>
@@ -145,7 +149,10 @@ const ClientTransactions = () => {
 
                     {/* Submit Button */}
                     <div className="col-12">
-                      <button type="submit" className="btn bg-primary">
+                      <button
+                        type="submit"
+                        className="btn bg-primary text-white"
+                      >
                         Submit
                       </button>
                     </div>

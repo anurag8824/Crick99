@@ -17,9 +17,15 @@ if (rootElement) {
   root.render(
     <Suspense
       fallback={
-        <div className='suspense-loading'>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',   
+          alignItems: 'center',       
+          height: '100vh',            
+          flexDirection: 'column',   
+        }} className='suspense-loading d-flex justify-center align-center flex-column'>
           {/* <img src='/imgs/logo.png' width={200} /> Prevoius Loader */}
-          <img src='/imgs/loading.gif' width={200} /> 
+          <img src='/imgs/loading.svg' width={50} /> 
 
         </div>
       }

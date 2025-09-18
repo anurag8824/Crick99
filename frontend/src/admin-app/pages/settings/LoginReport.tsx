@@ -77,7 +77,11 @@ const LoginReport = () => {
         <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
           Login Report
         </span>
-        <CustomLink to={"/"} type="button" className="btn bg-primary">
+        <CustomLink
+          to={"/"}
+          type="button"
+          className="btn bg-primary text-white"
+        >
           <span>Back</span>
         </CustomLink>
       </div>
@@ -116,25 +120,41 @@ const LoginReport = () => {
                       </th>
                       <th
                         className="p-1 small text-center no-sort sorting_disabled"
-                        style={{ width: 81, backgroundColor: "#0f2327" , color: "white", }}
+                        style={{
+                          width: 81,
+                          backgroundColor: "#0f2327",
+                          color: "white",
+                        }}
                       >
                         REGION
                       </th>
                       <th
                         className="p-1 small text-center no-sort sorting_disabled"
-                        style={{ width: 81, backgroundColor: "#0f2327" , color: "white", }}
+                        style={{
+                          width: 81,
+                          backgroundColor: "#0f2327",
+                          color: "white",
+                        }}
                       >
                         ISP
                       </th>
                       <th
                         className="p-1 small text-center no-sort sorting_disabled"
-                        style={{ width: 60, backgroundColor: "#0f2327" , color: "white", }}
+                        style={{
+                          width: 60,
+                          backgroundColor: "#0f2327",
+                          color: "white",
+                        }}
                       >
                         IP-ADDRESS
                       </th>
                       <th
                         className="p-1 small text-center  no-sort sorting_disabled"
-                        style={{ width: 97, backgroundColor: "#0f2327" , color: "white", }}
+                        style={{
+                          width: 97,
+                          backgroundColor: "#0f2327",
+                          color: "white",
+                        }}
                       >
                         LOGIN DATE
                       </th>

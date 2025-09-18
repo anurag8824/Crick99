@@ -285,6 +285,27 @@ const AdminDashboard = () => {
     navigate.go(`/odds/${match.matchId}`);
   };
 
+  const [sports, setSports] = React.useState(false);
+
+  const handleSports = () => {
+    setSports(!sports);
+  };
+
+  const dashbaordItems = [
+    { id: "1", name: "Sports Detail", items:[{
+       0: {title:"Active Games", link:"/admin/sports-details" , icon:"fa fa-futbol"},
+       1: {title:"Finished Games", link:"/admin/inplay-sports" ,icon:"fa fa-futbol"}
+    }] },
+    {
+      id: "2",name:"Ledger" , items:[{
+        0:{title:"Profit/Loss", link:"/admin/profit-loss" ,icon:"fa fa-chart-line"},
+        1:{title:"My Ledger", link:"/admin/ledger-home" ,icon:"fa fa-book"},
+        2:{title:"Agent Ledger", link:"/admin/chips-report" ,icon:"fa fa-coins"},
+      }]
+    }
+    
+  ];
+
   return (
     <>
       {/* {mobileSubheader.subheaderdesktopadmin(
@@ -489,7 +510,10 @@ const AdminDashboard = () => {
               </div>
 
               {/* Sport's Details */}
-              <div className="col-6 col-lg-3 text-white">
+              <button
+                onClick={handleSports}
+                className="col-6 col-lg-3 text-white"
+              >
                 <div
                   className="card p-3 d-flex flex-row align-items-center"
                   style={{
@@ -507,7 +531,7 @@ const AdminDashboard = () => {
                     <p className="fw-bold mb-1">Sport's Details</p>
                   </div>
                 </div>
-              </div>
+              </button>
 
               {/* Ledger */}
               <div className="col-6 col-lg-3">
@@ -746,6 +770,81 @@ const AdminDashboard = () => {
           />
         </div>
       </div>
+
+      {sports && (
+        <div
+          className="fixed left-1/2 transform -translate-x-1/2"
+          style={{
+            top: "80px", // slightly below top
+            zIndex: 50,
+            backgroundColor: "white",
+            color: "white",
+            padding: "20px 30px",
+            boxShadow: "0 5px 15px rgba(0,0,0,0.3)",
+            minWidth: "300px",
+            textAlign: "center",
+          }}
+        >
+          <span
+            onClick={handleSports}
+            className="text-dark absolute right-0 top-0 z-10 btn-close"
+          ></span>
+          <div className="row g-3">
+            <div className="col-12 col-md-6">
+              <div
+                className="card p-3 d-flex flex-row align-items-center"
+                style={{
+                  backgroundColor: "#0f2327",
+                  borderRadius: "15px",
+                  height: "100px",
+                  color: "white",
+                }}
+              >
+                <i
+                  className="fas fa-tag fa-2x me-3"
+                  style={{ transform: "rotate(135deg)" }}
+                ></i>
+                <div>
+                  <p className="fw-bold mb-1">Active Games</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-12 col-md-6">
+              <CustomLink to={"dffd"}
+                className="card p-3 d-flex flex-row align-items-center"
+                style={{
+                  backgroundColor: "#0f2327",
+                  borderRadius: "15px",
+                  height: "100px",
+                  color: "white",
+                }}
+              >
+                <i
+                  className="fas fa-tag fa-2x me-3"
+                  style={{ transform: "rotate(135deg)" }}
+                ></i>
+                <div>
+                  <p className="fw-bold mb-1">Finished Games</p>
+                </div>
+              </CustomLink>
+            </div>
+
+
+            <div
+              style={{ borderTop: "1px solid #e8e8e8", padding: "10 16" }}
+              className="text-right"
+            >
+              <button
+                onClick={handleSports}
+                className="btn bg-primary rounded-0 text-white"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

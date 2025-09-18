@@ -18,6 +18,7 @@ import authService from "../../../../services/auth.service";
 import Limitinfo from "../../../CasinoList/component/_common/limitinfo";
 import PnlCalculate from "../pnl-calculate";
 import { OddsType } from "../../../../models/IMarket";
+import { Modal } from "react-bootstrap";
 
 // const isMobile = true
 
@@ -78,9 +79,25 @@ export const FancyList = React.memo(
     };
 
     // console.log(fancies.length,"hello world in this fancylist")
+    const [showladder, setShowladder] = React.useState(false)
+
+
+      const handleCloseLadder = () => setShowladder(false)
+      const handleShowLadder = () => setShowladder(true)
+    
+
+    const showAllLadder = (e: React.MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault()
+      if (userState.user.role !== RoleType.user) {
+        setShowladder(!showladder)
+        return
+      }
+      // navigate.go('/unsettledbet')
+    }
+  
 
     return (
-      <div className="table-body">
+      <><div className="table-body">
         {/* <div>Hello world this debug side</div> */}
         {fancies?.length > 0 &&
           fancies.map((fancy: LFancy) => {
@@ -91,17 +108,14 @@ export const FancyList = React.memo(
             }
             //  console.log("hello world i am inside mmap function")
             // if (updatedFancy.LayPrice1 === undefined) return null
-
             return (
               <div key={fancy._id}>
                 <div className="fancy-tripple fancy-tripple-box">
                   <div
                     data-title={updatedFancy.GameStatus || fancy.GameStatus}
-                    className={`table-row ${
-                      fancy.isSuspend || updatedFancy.GameStatus
+                    className={`table-row ${fancy.isSuspend || updatedFancy.GameStatus
                         ? "suspended"
-                        : ""
-                    }`}
+                        : ""}`}
                   >
                     <div
                       className="float-left country-name box-6"
@@ -121,26 +135,20 @@ export const FancyList = React.memo(
                           <div
                             style={{ display: "flex", flexDirection: "column" }}
                           >
-                            <span style={{fontSize:"16px" , fontWeight:"500" , textTransform:"uppercase"}} >{fancy.fancyName}</span>
+                            <span style={{ fontSize: "13px", fontWeight: "500", textTransform: "uppercase" }}>{fancy.fancyName}</span>
                             <Limitinfo
                               nameString={fancy.marketId}
-                              min={
-                                userState?.user?.userSetting?.[2]?.minBet ??
-                                "N/A"
-                              }
-                              max={
-                                userState?.user?.userSetting?.[2]?.maxBet ??
-                                "N/A"
-                              }
-                            />
+                              min={userState?.user?.userSetting?.[2]?.minBet ??
+                                "N/A"}
+                              max={userState?.user?.userSetting?.[2]?.maxBet ??
+                                "N/A"} />
                           </div>
 
                           {/* RIGHT SIDE */}
-                          <button>
+                          <button  onClick={() => setShowladder(!showladder)}>
                             <img
                               src="/imgs/ladder.svg"
-                              style={{ height: "20px" }}
-                            />
+                              style={{ height: "20px" }} />
                           </button>
                         </span>
                         {getMarketBook && (
@@ -159,12 +167,10 @@ export const FancyList = React.memo(
                                   marketName: fancy.fancyName,
                                 })
                               );
-                            }}
-                            className={
-                              getMarketBook[fancy.marketId] >= 0
-                                ? "green"
-                                : "red"
-                            }
+                            } }
+                            className={getMarketBook[fancy.marketId] >= 0
+                              ? "green"
+                              : "red"}
                           >
                             {getMarketBook[fancy.marketId]}
                           </span>
@@ -176,18 +182,13 @@ export const FancyList = React.memo(
                         {" "}
                         <PnlCalculate
                           marketId={fancy.marketId}
-                          selectionId={updatedFancy.SelectionId}
-                        />
+                          selectionId={updatedFancy.SelectionId} />
                       </span>
                     </div>
 
                     <div
-                      className={`${
-                        isMobile ? "box-2" : "box-2"
-                      } lay float-left text-center`}
-                      onClick={() =>
-                        onBet(false, { ...fancy, ...updatedFancy })
-                      }
+                      className={`${isMobile ? "box-2" : "box-2"} lay float-left text-center`}
+                      onClick={() => onBet(false, { ...fancy, ...updatedFancy })}
                     >
                       <span className="odd d-block">
                         {updatedFancy.LayPrice1 ? updatedFancy.LayPrice1 : "0"}
@@ -195,9 +196,7 @@ export const FancyList = React.memo(
                       <span>{updatedFancy.LaySize1}</span>
                     </div>
                     <div
-                      className={`${
-                        isMobile ? "box-2" : "box-2"
-                      } back float-left text-center`}
+                      className={`${isMobile ? "box-2" : "box-2"} back float-left text-center`}
                       onClick={() => onBet(true, { ...fancy, ...updatedFancy })}
                     >
                       <span className="odd d-block">
@@ -229,7 +228,14 @@ export const FancyList = React.memo(
             <i className="mx-5 fas fa-spinner fa-spin"></i>
           </div>
         )}
-      </div>
+      </div><Modal show={showladder} onHide={handleCloseLadder} size={'lg'}>
+          <Modal.Header closeButton>
+            <Modal.Title>Ladder</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div>Ladder</div>
+          </Modal.Body>
+        </Modal></>
     );
   }
 );

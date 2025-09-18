@@ -76,7 +76,7 @@ const InplayCasino = () => {
               /> */}
               <CustomLink
                 to={`/casino/${item.slug}`}
-                className="btn bg-primary"
+                className="btn bg-primary text-white"
               >
                 View
               </CustomLink>
@@ -102,7 +102,11 @@ const InplayCasino = () => {
           <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
             Match Ledger
           </span>
-          <CustomLink to={"/"} type="button" className="btn bg-primary">
+          <CustomLink
+            to={"/"}
+            type="button"
+            className="btn bg-primary text-white"
+          >
             <span>Back</span>
           </CustomLink>
         </div>
@@ -119,26 +123,26 @@ const InplayCasino = () => {
                     <thead>
                       <tr>
                         <th
-                          style={{ backgroundColor: "#0f2327" , color:"white" }}
+                          style={{ backgroundColor: "#0f2327", color: "white" }}
                           className="text-center wnwrap"
                         >
                           Code
                         </th>
                         <th
-                          style={{ backgroundColor: "#0f2327", color:"white" }}
+                          style={{ backgroundColor: "#0f2327", color: "white" }}
                           className="text-center wnwrap"
                         >
                           Name
                         </th>
                         {/* <th style={{backgroundColor:"#0f2327"}} className='text-center wnwrap'>Slug</th> */}
                         <th
-                          style={{ backgroundColor: "#0f2327" , color:"white"}}
+                          style={{ backgroundColor: "#0f2327", color: "white" }}
                           className="text-center wnwrap"
                         >
                           Date
                         </th>
                         <th
-                          style={{ backgroundColor: "#0f2327", color:"white" }}
+                          style={{ backgroundColor: "#0f2327", color: "white" }}
                           className="text-center wnwrap"
                         >
                           Action

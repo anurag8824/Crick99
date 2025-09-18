@@ -88,7 +88,7 @@ const FancyData = {}
 const getFancyDataApi = () => {
   if (MatchIds.length > 0) {
     MatchIds.forEach((id) => {
-      axios.get(`http://82.29.164.133:3000/bxpro/v1/session/${id}`,{ headers: {
+       axios.get(`https://betfairapi.turnkeyxgaming.com/api/GetSession?eventid=${id}`,{ headers: {
         'x-turnkeyxgaming-key': '68c56ccbed10db48a50adc82',
         },}).then((res) => {
         FancyData[id] = res.data
@@ -734,11 +734,11 @@ const startPolling = async () => {
 
 const handleBookmakerForMatch = async (id) => {
   try {
-    // const res =  await axios.get(`https://betfairapi.turnkeyxgaming.com/api/GetSession?eventid=${id}`,{ headers: {
-    //   'x-turnkeyxgaming-key': '68c56ccbed10db48a50adc82',
-    //   },})
+    const res =  await axios.get(`https://betfairapi.turnkeyxgaming.com/api/GetSession?eventid=${id}`,{ headers: {
+      'x-turnkeyxgaming-key': '68c56ccbed10db48a50adc82',
+      },})
     
-    const res = await axios.get(`http://82.29.164.133:3000/bxpro/v1/session/${id}`);
+    // const res = await axios.get(`http://82.29.164.133:3000/bxpro/v1/session/${id}`);
 
     const runners = res?.data?.bookMaker;
 

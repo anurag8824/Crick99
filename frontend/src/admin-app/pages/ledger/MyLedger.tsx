@@ -78,7 +78,11 @@ const MyLedger = () => {
         <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
           My ledger
         </span>
-        <CustomLink to={"/"} type="button" className="btn bg-primary">
+        <CustomLink
+          to={"/"}
+          type="button"
+          className="btn bg-primary text-white"
+        >
           <span>Back</span>
         </CustomLink>
       </div>
@@ -137,37 +141,61 @@ const MyLedger = () => {
                       </th>
                       <th
                         className="p-1 small text-center no-sort sorting_disabled"
-                        style={{ width: 81, backgroundColor: "#0f2327" , color: "white" }}
+                        style={{
+                          width: 81,
+                          backgroundColor: "#0f2327",
+                          color: "white",
+                        }}
                       >
                         Event Name
                       </th>
                       <th
                         className="p-1 small text-center no-sort sorting_disabled"
-                        style={{ width: 81, backgroundColor: "#0f2327"  , color: "white" }}
+                        style={{
+                          width: 81,
+                          backgroundColor: "#0f2327",
+                          color: "white",
+                        }}
                       >
                         Credit
                       </th>
                       <th
                         className="p-1 small text-center no-sort sorting_disabled"
-                        style={{ width: 60, backgroundColor: "#0f2327" , color: "white" }}
+                        style={{
+                          width: 60,
+                          backgroundColor: "#0f2327",
+                          color: "white",
+                        }}
                       >
                         Ddebit
                       </th>
                       <th
                         className="p-1 small text-center  no-sort sorting_disabled"
-                        style={{ width: 97, backgroundColor: "#0f2327"  , color: "white" }}
+                        style={{
+                          width: 97,
+                          backgroundColor: "#0f2327",
+                          color: "white",
+                        }}
                       >
                         Balance
                       </th>
                       <th
                         className="p-1 small text-center  no-sort sorting_disabled"
-                        style={{ width: 97, backgroundColor: "#0f2327" , color: "white"  }}
+                        style={{
+                          width: 97,
+                          backgroundColor: "#0f2327",
+                          color: "white",
+                        }}
                       >
                         Type
                       </th>
                       <th
                         className="p-1 small no-sort sorting_disabled"
-                        style={{ width: 127, backgroundColor: "#0f2327" , color: "white" }}
+                        style={{
+                          width: 127,
+                          backgroundColor: "#0f2327",
+                          color: "white",
+                        }}
                       >
                         Remark
                       </th>
