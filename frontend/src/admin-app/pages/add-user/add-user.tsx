@@ -133,7 +133,7 @@ const AddUser = () => {
       fword = "A";
       break;
     case "user":
-      fword = "C";
+      fword = "CL";
       break;
     default:
       fword = "";
