@@ -38,32 +38,92 @@ let MarketIds = []
 let MatchData = []
 let diamondIds = {}
 let MatchName = []
+
+const publisher = new Redis({
+  host: "127.0.0.1",
+  port: 6379,
+  // password: "yourpassword", // if Redis is secured
+});
+// const getMatchid = async () => {
+//   // const res = await Match.find({active:true})
+//   const res = await axios.get(`http://82.29.164.133:3000/bxpro/v1/allmatch`)
+//   // console.log(res.data.data, "response")
+//   MatchData = res?.data?.data?.t1
+//   MatchIds = res?.data?.data?.map(async (match) => {
+//   await publisher.set(`match-data-${match?.event?.id}`,JSON.stringify(match))
+//    return match?.event?.id
+//   })
+//   MatchName = res?.data?.data?.map(match =>match?.event?.name)
+//   // console.log(MatchIds, "MatchIds")
+//   marketIds = []
+//   // for (const m of MatchIds) {
+//   //   const markets = await Market.find({ matchId: m });
+//   //   const marketIdsForMatch = markets.map(match => match.marketId);
+//   //   MarketIds.push(...marketIdsForMatch); // Spread and push all market IDs
+//   // }
+//   //  console.log(MatchName,"Match Name")
+//   for (const m of MatchName) {
+//    const resmatch = await axios.post("http://82.29.164.133:3000/bxpro/v1/bettodia",{matchname:m})
+//   //  console.log(resmatch,"res match Id")
+//   }
+
+//   return res;
+
+// }
+const matchDataStore = {}; // { matchId: matchData }
+    
+
 const getMatchid = async () => {
-  // const res = await Match.find({active:true})
-  const res = await axios.get(`http://82.29.164.133:3000/bxpro/v1/allmatch`)
-  console.log(res.data.data, "response")
-  MatchData = res?.data?.data?.t1
-  MatchIds = res?.data?.data?.map(match => match?.event?.id)
-  MatchName = res?.data?.data?.map(match =>match?.event?.name)
-  console.log(MatchIds, "MatchIds")
-  marketIds = []
-  // for (const m of MatchIds) {
-  //   const markets = await Market.find({ matchId: m });
-  //   const marketIdsForMatch = markets.map(match => match.marketId);
-  //   MarketIds.push(...marketIdsForMatch); // Spread and push all market IDs
-  // }
-   console.log(MatchName,"Match Name")
-  for (const m of MatchName) {
-   const resmatch = await axios.post("http://82.29.164.133:3000/bxpro/v1/bettodia",{matchname:m})
-  //  console.log(resmatch,"res match Id")
+  try {
+    // 1️⃣ Fetch all matches
+    const res = await axios.get(`http://82.29.164.133:3000/bxpro/v1/allmatch`);
+    const matches = res?.data?.data || [];
+
+
+
+    // 2️⃣ Populate in-memory object
+    for (const match of matches) {
+      const matchId = parseInt(match?.event?.id);
+
+      // Only update if new or changed
+      const existing = matchDataStore[matchId];
+      if (!existing || JSON.stringify(existing) !== JSON.stringify(match)) {
+        matchDataStore[parseInt(matchId)] = match;
+        console.log(`✅ Updated in-memory match data for matchId ${matchId}`);
+      } else {
+        console.log(`⏩ No changes for matchId ${matchId}`);
+      }
+
+      MatchIds.push(matchId);
+      MatchName.push(match?.event?.name);
+    }
+
+    // 3️⃣ Fetch "bettodia" data for each match (optional)
+    for (const m of MatchName) {
+      try {
+        const resmatch = await axios.post(
+          "http://82.29.164.133:3000/bxpro/v1/bettodia",
+          { matchname: m }
+        );
+        console.log(`Fetched bettodia for ${m}`);
+        // Optionally store inside the same object
+        // matchDataStore[matchId].bettodia = resmatch.data;
+      } catch (err) {
+        console.error(`Error fetching bettodia for ${m}:`, err.message);
+      }
+    }
+
+    return res;
+  } catch (error) {
+    console.error("Error in getMatchid:", error.message);
+    throw error;
   }
-
-  return res;
-
-}
+};
 
 
-setInterval(getMatchid, 1000 * 60 * 5)
+
+
+setInterval(getMatchid, 100000 * 60 * 5)
 getMatchid().then((res) => {
   // console.log(res,"response is here",res.length)
   // console.log(MatchIds,MarketIds,"MatchIds is here ")
@@ -76,11 +136,7 @@ getMatchid().then((res) => {
 
 // connnection for publisher hahha 
 
-const publisher = new Redis({
-  host: "127.0.0.1",
-  port: 6379,
-  // password: "yourpassword", // if Redis is secured
-});
+
 
 
 const FancyData = {}
@@ -160,20 +216,146 @@ const getFancyDataApi = () => {
 
 
 
+// const formattedFancyData = async () => {
+//   for (const m of MatchIds) {
+//      const data = FancyData[m];
+//     if (!data || !data.fancy || data.fancy.length === 0) continue;
+
+//     const fancydata = data.fancy
+//       .filter(f => 
+//         f.marketType !== "MATCH_ODDS" &&
+//         f.marketType !== "The Draw" &&
+//         f.marketType !== "BOOKMAKER"
+//       )
+//       .map(f => ({
+
+
+//         BackPrice1: parseInt(f.runsYes),
+//         BackPrice2: 0,
+//         BackPrice3: 0,
+//         BackSize1: parseInt(f.oddsYes),
+//         BackSize2: 0,
+//         BackSize3: 0,
+//         LayPrice1: parseInt(f.runsNo),
+//         LayPrice2: 0,
+//         LayPrice3: 0,
+//         LaySize1: parseInt(f.oddsNo),
+//         LaySize2: 0,
+//         LaySize3: 0,
+//         RunnerName: f.marketName,
+//         SelectionId: f?.marketId.toString(),
+//         ballsess: "1",
+//         gtype:
+//           f.catagory === "SESSIONS"
+//             ? "session"
+//             : f.catagory === "ODD_EVEN"
+//             ? "oddeven"
+//             : f.catagory == "w/p/xtra" ? "session":f.catagory?.toLowerCase(),
+//         GameStatus:  f?.statusName == "SUSPEND" ? "SUSPENDED":f.statusName == "ACTIVE" ? "":f.statusName, 
+//         gtstatus: f?.statusName == "SUSPEND" ? "SUSPENDED":f.statusName,  
+//         max: "50000",
+//         min: "100",
+//         remm: "",
+//         srno: f.sortingOrder.toString(),
+//         mname:
+//           f.catagory === "SESSIONS"
+//             ? "session"
+//             : f.catagory === "ODD_EVEN"
+//             ? "oddeven"
+//             : f.catagory?.toLowerCase() === "w/p/xtra"
+//             ? "session"
+//             : f?.catagory?.toLowerCase(),
+//       }));
+
+//     const previousFancyStr = await publisher.get(`fancy-${m}`);
+//     let pfancy = [];
+
+//     if (previousFancyStr) {
+//       try {
+//         pfancy = JSON.parse(previousFancyStr);
+//       } catch (e) {
+//         console.error("Invalid JSON for key:", `fancy-${m}`, e);
+//       }
+//     }
+
+//     const currentSelectionIds = new Set(fancydata.map(item => item.SelectionId));
+//     const previousSelectionIds = new Set(pfancy.map(item => item.SelectionId));
+
+//     for (const item of fancydata) {
+//       if (!previousSelectionIds.has(item.SelectionId)) {
+//         const fancy = {
+//           matchId: parseInt(m),
+//           SelectionId: item.SelectionId,
+//           RunnerName: item.RunnerName,
+//           gtype: item.gtype,
+//           sr_no: item.srno,
+//           ballByBall: ""
+//         };
+//         io.emit("newFancyAdded", { fancy, matchId: m });
+//       }
+//     }
+
+//     // const deactivatedFancies = {};
+
+//     // for (const oldItem of pfancy) {
+//     //   if (!currentSelectionIds.has(oldItem.SelectionId)) {
+//     //     // Group deactivated SelectionIds by matchId
+//     //     if (!deactivatedFancies[m]) {
+//     //       deactivatedFancies[m] = [];
+//     //     }
+//     //     deactivatedFancies[m].push(oldItem.SelectionId);
+
+//     //     // Emit per-fancy removal to match room
+//     //     io.emit("deactivateFancy", {
+//     //       marketId: oldItem.SelectionId,
+//     //       matchId: m
+//     //     });
+
+//     //     console.log(`🔴 Fancy deactivated: ${oldItem.SelectionId} for match ${m}`);
+//     //   }
+//     // }
+//     const deactivatedFancies = {};
+
+//     // Collect all deactivated SelectionIds for this match
+//     for (const oldItem of pfancy) {
+//       if (!currentSelectionIds.has(oldItem.SelectionId)) {
+//         if (!deactivatedFancies[m]) {
+//           deactivatedFancies[m] = [];
+//         }
+//         deactivatedFancies[m].push(oldItem.SelectionId);
+
+//         console.log(`🔴 Fancy deactivated: ${oldItem.SelectionId} for match ${m}`);
+//       }
+//     }
+
+//     // Emit once per match with all deactivated fancies
+//     if (deactivatedFancies[m]?.length > 0) {
+//       console.log(deactivatedFancies,"GHJKCGHJKLCHJK")
+//       io.emit("deactivateFancy", {
+//         [parseInt(m)]: deactivatedFancies[m]
+//       })
+//     }
+//       // Save updated data to Redis
+//       await publisher.set(`fancy-${m}`, JSON.stringify(fancydata));
+//       console.log(`✅ Saved fancy-${m} to Redis`);
+//     }
+//   };
+
+
 const formattedFancyData = async () => {
   for (const m of MatchIds) {
-     const data = FancyData[m];
+    const data = FancyData[m];
     if (!data || !data.fancy || data.fancy.length === 0) continue;
 
+    // 🔹 Normalize fancy data
     const fancydata = data.fancy
-      .filter(f => 
-        f.marketType !== "MATCH_ODDS" &&
-        f.marketType !== "The Draw" &&
-        f.marketType !== "BOOKMAKER"
+      .filter(
+        f =>
+          f.marketType !== "MATCH_ODDS" &&
+          f.marketType !== "The Draw" &&
+          f.marketType !== "BOOKMAKER"
       )
       .map(f => ({
-
-
         BackPrice1: parseInt(f.runsYes),
         BackPrice2: 0,
         BackPrice3: 0,
@@ -194,9 +376,16 @@ const formattedFancyData = async () => {
             ? "session"
             : f.catagory === "ODD_EVEN"
             ? "oddeven"
-            : f.catagory == "w/p/xtra" ? "session":f.catagory?.toLowerCase(),
-        GameStatus:  f?.statusName == "SUSPEND" ? "SUSPENDED":f.statusName == "ACTIVE" ? "":f.statusName, 
-        gtstatus: f?.statusName == "SUSPEND" ? "SUSPENDED":f.statusName,  
+            : f.catagory?.toLowerCase() === "w/p/xtra"
+            ? "session"
+            : f.catagory?.toLowerCase(),
+        GameStatus:
+          f?.statusName === "SUSPEND"
+            ? "SUSPENDED"
+            : f.statusName === "ACTIVE"
+            ? ""
+            : f.statusName,
+        gtstatus: f?.statusName === "SUSPEND" ? "SUSPENDED" : f.statusName,
         max: "50000",
         min: "100",
         remm: "",
@@ -211,20 +400,22 @@ const formattedFancyData = async () => {
             : f?.catagory?.toLowerCase(),
       }));
 
-    const previousFancyStr = await publisher.get(`fancy-${m}`);
+    // 🔹 Fetch previous state
+    const key = `fancy-${m}`;
+    const previousFancyStr = await publisher.get(key);
     let pfancy = [];
-
     if (previousFancyStr) {
       try {
         pfancy = JSON.parse(previousFancyStr);
       } catch (e) {
-        console.error("Invalid JSON for key:", `fancy-${m}`, e);
+        console.error("❌ Invalid JSON for key:", key, e);
       }
     }
 
     const currentSelectionIds = new Set(fancydata.map(item => item.SelectionId));
     const previousSelectionIds = new Set(pfancy.map(item => item.SelectionId));
 
+    // 🔹 New fancy detection
     for (const item of fancydata) {
       if (!previousSelectionIds.has(item.SelectionId)) {
         const fancy = {
@@ -233,57 +424,40 @@ const formattedFancyData = async () => {
           RunnerName: item.RunnerName,
           gtype: item.gtype,
           sr_no: item.srno,
-          ballByBall: ""
+          ballByBall: "",
         };
         io.emit("newFancyAdded", { fancy, matchId: m });
+        console.log(`🟢 New fancy added: ${item.SelectionId} for match ${m}`);
       }
     }
 
-    // const deactivatedFancies = {};
-
-    // for (const oldItem of pfancy) {
-    //   if (!currentSelectionIds.has(oldItem.SelectionId)) {
-    //     // Group deactivated SelectionIds by matchId
-    //     if (!deactivatedFancies[m]) {
-    //       deactivatedFancies[m] = [];
-    //     }
-    //     deactivatedFancies[m].push(oldItem.SelectionId);
-
-    //     // Emit per-fancy removal to match room
-    //     io.emit("deactivateFancy", {
-    //       marketId: oldItem.SelectionId,
-    //       matchId: m
-    //     });
-
-    //     console.log(`🔴 Fancy deactivated: ${oldItem.SelectionId} for match ${m}`);
-    //   }
-    // }
-    const deactivatedFancies = {};
-
-    // Collect all deactivated SelectionIds for this match
+    // 🔹 Deactivated fancy detection
+    const deactivated = [];
     for (const oldItem of pfancy) {
       if (!currentSelectionIds.has(oldItem.SelectionId)) {
-        if (!deactivatedFancies[m]) {
-          deactivatedFancies[m] = [];
-        }
-        deactivatedFancies[m].push(oldItem.SelectionId);
-
+        deactivated.push(oldItem.SelectionId);
         console.log(`🔴 Fancy deactivated: ${oldItem.SelectionId} for match ${m}`);
       }
     }
 
-    // Emit once per match with all deactivated fancies
-    if (deactivatedFancies[m]?.length > 0) {
-      console.log(deactivatedFancies,"GHJKCGHJKLCHJK")
+    if (deactivated.length > 0) {
       io.emit("deactivateFancy", {
-        [parseInt(m)]: deactivatedFancies[m]
-      })
+        matchId: parseInt(m),
+        marketIds: deactivated,
+      });
     }
-      // Save updated data to Redis
-      await publisher.set(`fancy-${m}`, JSON.stringify(fancydata));
-      console.log(`✅ Saved fancy-${m} to Redis`);
+
+    // 🔹 Save only if data actually changed
+    const newStr = JSON.stringify(fancydata);
+    if (!previousFancyStr || previousFancyStr !== newStr) {
+      await publisher.set(key, newStr);
+      console.log(`✅ Updated ${key} in Redis`);
+    } else {
+      console.log(`⏩ Skipped ${key}, no changes`);
     }
-  };
+  }
+};
+
 
 
 
@@ -820,17 +994,30 @@ startPolling();
     await Promise.all(
       FancyList.map(async (f) => {
         if (!f) return;
-      const fileterMatch = MatchData.filter((M)=>M.gmid == f.matchId)
+      // const fileterMatch = MatchData.filter((M)=>M.gmid == f.matchId)
+      console.log(f.matchId,"FGHJKL")
+      const id = f.matchId
+      console.log(id)
+   const matchdata =  matchDataStore[id.toString()]
+   console.log(matchdata,matchdata?.event?.name,"matchdata")
+//     const keys = await publisher.keys("match-data-all-*");
+// console.log(keys);
         try {
-            const res = await axios.post(`https://api.cricketid.xyz/placed_bets?key=newdiamond36iuyIug9898&sid=4`, {
-            event_id: f?.matchId,
-            market_id:f?.selectionId + 2000,
-            event_name: fileterMatch[0]?.ename,
-            market_name: f?.selectionName,
-            market_type: "FANCY",
-          });
+             const res = await axios.post(`http://82.29.164.133:3000/bxpro/v1/fancy-list`, {
+               source: 'BETFAIR',
+              eventId: f?.matchId.toString(),
+              marketId: f?.rmid.toString(),
+              sport: 'CRICKET',
+              // event_name: fileterMatch[0]?.ename,
+             marketName: f?.selectionName,
+             marketType: 'Fancy',
+             matchName: matchdata?.event?.name,
+             sid:f?.selectionId
+             
+
+            });
   
-          console.log(`Response for ${f?.selectionName}:`, res.data);
+         1 // console.log(`Response for ${f?.selectionName}:`, res.data);
         } catch (error) {
           console.error(`Error posting for ${f?.selectionName}:`, error?.response?.data || error.message);
         }
@@ -840,59 +1027,123 @@ startPolling();
   
   // https://api.cricketid.xyz/get-result?key=newdiamond36iuyIug9898
 
-  const FancyResult = async () => {
-    try {
+  // const FancyResult = async () => {
+  //   try {
       
-      await Promise.all(
-        FancyList.map(async (f) => {
-          if (!f) return;
-        const fileterMatch = MatchData.filter((M)=>M.gmid == f.matchId)
+  //     await Promise.all(
+  //      MatchIds.map(async (f) => {
+  //         if (!f) return;
         
-          try {
-              const res = await axios.post(`https://api.cricketid.xyz/get-result?key=newdiamond36iuyIug9898&sid=4`, {
-              event_id: f?.matchId,
-              market_id: f?.rmid,
-              event_name: fileterMatch[0]?.ename,
-              market_name: f?.selectionName,
-              market_type: "FANCY",
-            });
+  //         try {
+  //             const res = await axios.post(`http://82.29.164.133:3000/bxpro/v1/fancy-result/${f}`);
     
-            // console.log(`Response for ${f?.selectionName}:`, res.data);
-            if(res.data?.final_result != ""){
-           const data=  { 
-              message:"ok",
-              result:res?.data?.final_result,
-              isRollback:res.data?.is_roleback,
-              runnerName:res.data?.market_name,
-              matchId:res.data?.event_id
-            }
-              console.log(data,"after is if")
-              const resData = await axios.post("https://api.9xbro.com/api/update-fancy-result",data)
-              // console.log(resData,"FGHJKL")
-            }
+  //           console.log(`Response for ${f?.selectionName}:`, res.data);
+  //           if(res.data && res.data.data.length>0){
+  //             res.data.data.map(async (fdata)=>{
+  //               if(fdata.status){
+  //                  const data=  { 
+  //             message:"ok",
+  //             result:fdata?.winnerId,
+  //             isRollback:fdata.rollBack,
+  //             runnerName:fdata.marketName,
+  //             matchId:parseInt(fdata.eventId)
+  //           }
+  //             console.log(data,"after is if")
+  //             const resData = await axios.post("http://localhost:3010/api/update-fancy-result",data)
+  //             console.log(resData,"FGHJKL") 
+  //               }
+  //             })
+          
+  //           }
             
-          } catch (error) {
-            console.error(`Error posting for ${f?.selectionName}:`, error?.response?.data || error.message);
-          }
-        })
-      );
+  //         } catch (error) {
+  //           console.error(`Error posting for ${f?.selectionName}:`, error?.response?.data || error.message);
+  //         }
+  //       })
+  //     );
 
-      // console.log("All market results processed successfully.");
-    } catch (error) {
-      console.error("Error in FancyResult cron job:", error);
-    }
-  };
+  //     // console.log("All market results processed successfully.");
+  //   } catch (error) {
+  //     console.error("Error in FancyResult cron job:", error);
+  //   }
+  // };
 
-  // const getFancyList = async () => {
-  //   const res = await axios.get('https://api.9xbro.com/api/get-business-fancy-list')
-  //   console.log(res.data.data.list, "Fancy List is Here")
-  //   FancyList = res.data?.data?.list
-  // }
 
-  // setInterval(getFancyList, 3000 );
+  const FancyResult = async () => {
+  try {
+    await Promise.all(
+      MatchIds.filter(Boolean).map(async (matchId) => {
+        try {
+          const res = await axios.get(
+            `http://82.29.164.133:3000/bxpro/v1/fancy-result/${matchId}`
+          );
 
-  // setInterval(setFancyData, 1000 )
-  // setInterval(FancyResult,3000)
+          const results = res?.data.data|| [];
+          console.log(results,"sdfghjklsdfghjikopdfghjk")
+          if (!results.length) return;
+
+          await Promise.all(
+            results
+              .filter((fdata) => fdata?.status=="Settle") // only if status is true
+              .map(async (fdata) => {
+                const payload = {
+                  message: "ok",
+                  result: fdata?.winnerId,
+                  isRollback: fdata?.rollBack.toLowerCase() === "false" ?false:true,
+                  runnerName: fdata?.marketName,
+                  matchId: parseInt(fdata?.eventId),
+                };
+
+                console.log("➡️ Sending update payload:", payload);
+
+                try {
+                  const resData = await axios.post(
+                    "http://localhost:3010/api/update-fancy-result",
+                    payload
+                  );
+                  console.log(
+                    `✅ Updated fancy result for ${payload.runnerName} (matchId: ${payload.matchId})`,
+                    resData.data
+                  );
+                } catch (err) {
+                  console.error(
+                    `❌ Error updating fancy result for ${payload.runnerName}:`,
+                    err?.response?.data || err.message
+                  );
+                }
+              })
+          );
+        } catch (err) {
+          console.error(
+            `❌ Error fetching fancy-result for matchId ${matchId}:`,
+            err?.response?.data || err.message
+          );
+        }
+      })
+    );
+
+    console.log("🎉 All fancy results processed successfully");
+  } catch (error) {
+    console.error("🔥 Error in FancyResult cron job:", error.message);
+  }
+};
+
+
+  const getFancyList = async () => {
+   try {
+     const res = await axios.get('http://localhost:3010/api/get-business-fancy-list')
+     console.log(res.data.data.list, "Fancy List is Here")
+     FancyList = res.data?.data?.list
+     setFancyData()
+   } catch (error) {
+    console.log(error,"error in fancy list")
+   }
+  }
+
+  setInterval(getFancyList, 15000 );
+
+  //  setInterval(setFancyData, 1000 )
+  setInterval(FancyResult,30000)
 
 
   publisher.on('connect', () => {

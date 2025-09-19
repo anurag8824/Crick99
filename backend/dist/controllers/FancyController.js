@@ -341,12 +341,15 @@ class FancyController extends ApiController_1.ApiController {
         this.updatefancyresultapi = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const data = req.body;
+                console.log(data, "data inside fncy result");
                 if (data.result != "" && data.message == "ok") {
                     const findFancy = yield Fancy_1.Fancy.findOne({
                         fancyName: data.runnerName,
                         matchId: data.matchId,
                     });
+                    console.log(findFancy, "FGHJKL:");
                     if ((findFancy === null || findFancy === void 0 ? void 0 : findFancy._id) && !data.isRollback) {
+                        console.log("hahahhahahhahah");
                         this.declarefancyresultAuto({
                             matchId: findFancy.matchId,
                             marketId: findFancy.marketId,
