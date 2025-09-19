@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React, { Fragment } from 'react'
-import { Tabs, Tab } from 'react-bootstrap'
+import { Tabs, Tab, Modal } from 'react-bootstrap'
 import MyBetComponent from './my-bet.component'
 import moment from 'moment'
 import MatchOdds from './match-odds'
@@ -13,6 +13,8 @@ import MyBetComponent22 from './my-bet-component22'
 import { selectUserData } from '../../../redux/actions/login/loginSlice'
 import axios from 'axios'
 import { useParams } from 'react-router-dom'
+import AllEventListInMatch from '../../dashboard/detailallevent'
+import { RoleType } from '../../../models/User'
 
 const MatchDetailWrapper = (props: any) => {
   const dispatch = useAppDispatch()
@@ -28,6 +30,35 @@ const MatchDetailWrapper = (props: any) => {
   //   }
   // }, [])
 const shared = useParams().share
+
+  const [showevent, setShowevent] = React.useState(false)
+  const [showallbets, setShowallbets] = React.useState(false)
+
+  const showAllEvent = (e: React.MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault()
+      if (userState.user.role !== RoleType.user) {
+        setShowevent(!showevent)
+        return
+      }
+      // navigate.go('/unsettledbet')
+    }
+  
+    const showAllAllbets = (e: React.MouseEvent<HTMLAnchorElement>) => {
+      e.preventDefault()
+      if (userState.user.role !== RoleType.user) {
+        setShowallbets(!showallbets)
+        return
+      }
+      // navigate.go('/unsettledbet')
+    }
+
+    const handleCloseEvent = () => setShowevent(false)
+  const handleShowEvent = () => setShowevent(true)
+
+  const handleCloseAllbets = () => setShowallbets(false)
+  const handleShowAllbets = () => setShowallbets(true)
+  
+   
 
 
   return (
@@ -213,6 +244,12 @@ const shared = useParams().share
               </div>
             </div>
             {props.marketDataList.stake && <PlaceBetBox stake={props.marketDataList.stake} />}
+
+            <div className='text-center'><a   onClick={() => setShowevent(!showevent)} style={{width:"100px"}} className="btn btn-primary btn-sm rounded-3">All Events</a></div>
+
+<div className='text-center'><a   onClick={() => setShowallbets(!showallbets)} style={{width:"100px"}} className="btn btn-primary mt-2 btn-sm rounded-3">Completed Bets</a></div>
+
+
           </Tab>
           {/* <Tab eventKey='profile' title={`PLACED BET (${betCount})`}>
             <div className='card m-b-10 my-bet'>
@@ -231,6 +268,25 @@ const shared = useParams().share
           </span>
         </div>
       </div>
+
+      <Modal show={showevent} onHide={handleCloseEvent} size={'lg'}>
+        <Modal.Header closeButton>
+          <Modal.Title>All Events</Modal.Title>
+        </Modal.Header>
+        <Modal.Body >
+        <AllEventListInMatch />
+        </Modal.Body>
+      </Modal>
+
+      <Modal show={showallbets} onHide={handleCloseAllbets} size={'lg'}>
+        <Modal.Header closeButton>
+          <Modal.Title>Completed Bets</Modal.Title>
+        </Modal.Header>
+        <Modal.Body >
+                <MyBetComponent22 />
+              
+        </Modal.Body>
+      </Modal>
     </>
   )
 }

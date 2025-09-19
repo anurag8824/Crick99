@@ -217,7 +217,7 @@ const Header = () => {
                       src="/imgs/logo.png"
                       alt="Logo"
                       className="img-fluid"
-                      style={{ maxHeight: "40px", marginTop: "7px" }}
+                      style={{ maxHeight: "35px", marginTop: "7px" }}
                     />
                   </h5>
                   <button

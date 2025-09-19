@@ -3,6 +3,7 @@ import "./ClientLedger.css"; // Import the CSS file
 import betService from "../../../services/bet.service";
 import { AxiosResponse } from "axios";
 import { CustomLink } from "../../../pages/_layout/elements/custom-link";
+import { DatePicker } from "antd";
 
 interface CommissionRow {
   name: string;
@@ -24,6 +25,7 @@ const CommisionLenden: React.FC = () => {
 
   const [startDate, setStartDate] = React.useState<string>("");
   const [endDate, setEndDate] = React.useState<string>("");
+  const { RangePicker } = DatePicker;
 
   React.useEffect(() => {
     betService.oneledger().then((res: AxiosResponse<any>) => {
@@ -135,20 +137,18 @@ const CommisionLenden: React.FC = () => {
     return result;
   };
 
+  const [rangeValue, setRangeValue] = useState<any>(null);
+
   const handleDateFilter = () => {
-    if (!startDate || !endDate) return;
+    if (!rangeValue) return;
 
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    end.setHours(23, 59, 59, 999); // Include full end day
-
+    const [start, end] = rangeValue;
     const filteredData =
       allEntries[0]?.filter((entry: any) => {
         const entryDate = new Date(entry.createdAt);
-        return entryDate >= start && entryDate <= end;
+        return entryDate >= start.toDate() && entryDate <= end.toDate();
       }) || [];
 
-    // Reprocess only with filtered entries
     const updatedCommissionData = processCommissionTable([filteredData]);
     setCommissionData(updatedCommissionData);
   };
@@ -249,12 +249,12 @@ const CommisionLenden: React.FC = () => {
   };
 
   return (
-    <div className=" body-wrap p-4">
+    <div style={{backgroundColor:"white"}} className=" shadow body-wrap p-md-4 pt-2 ">
       <div
         style={{ background: "#0f2327" }}
         className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex"
       >
-        <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
+        <span className="text-4xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
           Commision Len Den
         </span>
         <CustomLink
@@ -266,56 +266,57 @@ const CommisionLenden: React.FC = () => {
         </CustomLink>
       </div>
 
-      <div className="row p-4">
-        <div className="col-6 mt-1">
-          <label className="small"> Start Date</label>
-          {/* <input type="date" className="form-control start_date "  name="start_date"/> */}
-          <input
-            type="date"
-            className="form-control start_date"
-            name="start_date"
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-          />
-        </div>
-        <div className="col-6 mt-1">
-          <label className="small"> End Date</label>
-          {/* <input type="date" className="form-control end_date "  name="end_date"/> */}
-          <input
-            type="date"
-            className="form-control end_date"
-            name="end_date"
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-          />
-        </div>
+      <div className="container py-3">
+        <div className="row align-items-end">
+          {/* Left Side: Date Picker + Client Select */}
+          <div className="col-12 col-md-8 d-flex flex-column flex-md-row gap-2">
+            {/* RangePicker */}
+            <div className="w-100 w-md-auto mb-2 mb-md-0">
+              <RangePicker
+                className="form-control"
+                value={rangeValue}
+                onChange={(dates) => setRangeValue(dates)}
+                style={{ width: "100%" }}
+              />
+            </div>
 
-        <div className="col-6 text-center">
-          <button
-            style={{ backgroundColor: " rgb(170, 74, 68)" }}
-            className="btn bt-primary mt-2 mx-3"
-            onClick={handleDateFilter}
-          >
-            Apply
-          </button>
+            {/* Client Select */}
+            <div className="w-100 w-md-auto mb-2 mb-md-0">
+              <select
+                id="select-tools-sa"
+                className="form-select"
+                value={optionuser}
+                onChange={(e) => setOptionuser(e.target.value)}
+              >
+                <option value="all">All Clients</option>
+                {commissionData
+                  ?.filter(
+                    (row, index, self) =>
+                      index === self.findIndex((r) => r.name === row.name)
+                  )
+                  .map((row: any, index) => (
+                    <option key={index} value={row.name}>
+                      {row.name}
+                    </option>
+                  ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Right Side: Apply Button */}
+          <div className="col-12 col-md-4 d-flex justify-content-start justify-content-md-end mt-2 mt-md-0">
+            <button
+              style={{ backgroundColor: "rgb(170, 74, 68)" }}
+              className="btn bt-primary text-white"
+              onClick={handleDateFilter}
+            >
+              Apply
+            </button>
+          </div>
         </div>
       </div>
 
-      <select
-        id="select-tools-sa"
-        className="selectized mx-4 selectize-input ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched"
-        value={optionuser}
-        onChange={(e) => setOptionuser(e.target.value)}
-      >
-        <option value="all">All Clients</option>
-        {commissionData?.map((row: any, index) => (
-          <option key={index} value={row.client}>
-            {row.name}
-          </option>
-        ))}
-      </select>
-
-      <div className="table-container">
+      <div className="w-100">
         <div className="table-wrapper">
           <table className="commission-table">
             <thead>
@@ -323,42 +324,177 @@ const CommisionLenden: React.FC = () => {
                 <>
                   <tr>
                     <th
+                      colSpan={5}
                       style={{
-                        borderRightColor: "#424242",
-                        borderRightWidth: "20px",
+                        background: "#0f2327",
+                        color: "white",
+                        fontSize: "13px",
+                        fontWeight: "normal",
                       }}
-                      colSpan={4}
                     >
-                      MILA HAI
+                      Mila Hai
                     </th>
-                    <th colSpan={4}>DENA HAI</th>
-                  </tr>
-                  <tr>
-                    <th>Name</th>
-                    <th>M Comm</th>
-                    <th>S Comm</th>
                     <th
                       style={{
-                        borderRightColor: "#424242",
-                        borderRightWidth: "20px",
+                        background: "#0f2327",
+                        color: "white",
+                        fontSize: "13px",
+                        fontWeight: "normal",
+                      }}
+                      colSpan={5}
+                    >
+                      Dena Hai
+                    </th>
+                  </tr>
+                  <tr>
+                    <th
+                      style={{
+                        background: "#0f2327",
+                        color: "white",
+                        fontSize: "13px",
+                        fontWeight: "normal",
                       }}
                     >
-                      Total Comm
+                      Name
                     </th>
-                    <th>M Comm</th>
-                    <th>S Comm</th>
-                    <th>Total Comm</th>
+                    <th
+                      style={{
+                        background: "#0f2327",
+                        color: "white",
+                        fontSize: "13px",
+                        fontWeight: "normal",
+                      }}
+                    >
+                      M. Comm.
+                    </th>
+                    <th
+                      style={{
+                        background: "#0f2327",
+                        color: "white",
+                        fontSize: "13px",
+                        fontWeight: "normal",
+                      }}
+                    >
+                      S. Comm.
+                    </th>
+                    <th
+                      style={{
+                        background: "#0f2327",
+                        color: "white",
+                        fontSize: "13px",
+                        fontWeight: "normal",
+                      }}
+                    >
+                      {" "}
+                      T. Comm.
+                    </th>
+                    <th
+                      style={{
+                        background: "#0f2327",
+                        color: "white",
+                        fontSize: "13px",
+                        fontWeight: "normal",
+                      }}
+                    >
+                      Action
+                    </th>
+
+                    <th
+                      style={{
+                        background: "#0f2327",
+                        color: "white",
+                        fontSize: "13px",
+                        fontWeight: "normal",
+                      }}
+                    >
+                      M. Comm.
+                    </th>
+                    <th
+                      style={{
+                        background: "#0f2327",
+                        color: "white",
+                        fontSize: "13px",
+                        fontWeight: "normal",
+                      }}
+                    >
+                      S. Comm.
+                    </th>
+                    <th
+                      style={{
+                        background: "#0f2327",
+                        color: "white",
+                        fontSize: "13px",
+                        fontWeight: "normal",
+                      }}
+                    >
+                      {" "}
+                      T. Comm
+                    </th>
                   </tr>
                 </>
               ) : (
                 <>
                   <tr>
-                    <th>Date</th>
-                    <th>Narration</th>
-                    <th>M Mila</th>
-                    <th>S Mila</th>
-                    <th>M Dena</th>
-                    <th>S Dena</th>
+                    <th
+                      style={{
+                        background: "#0f2327",
+                        color: "white",
+                        fontSize: "13px",
+                        fontWeight: "normal",
+                      }}
+                    >
+                      Date
+                    </th>
+                    <th
+                      style={{
+                        background: "#0f2327",
+                        color: "white",
+                        fontSize: "13px",
+                        fontWeight: "normal",
+                      }}
+                    >
+                      Narration
+                    </th>
+                    <th
+                      style={{
+                        background: "#0f2327",
+                        color: "white",
+                        fontSize: "13px",
+                        fontWeight: "normal",
+                      }}
+                    >
+                      M Mila
+                    </th>
+                    <th
+                      style={{
+                        background: "#0f2327",
+                        color: "white",
+                        fontSize: "13px",
+                        fontWeight: "normal",
+                      }}
+                    >
+                      S Mila
+                    </th>
+                    <th
+                      style={{
+                        background: "#0f2327",
+                        color: "white",
+                        fontSize: "13px",
+                        fontWeight: "normal",
+                      }}
+                    >
+                      M Dena
+                    </th>
+                    <th
+                      style={{
+                        background: "#0f2327",
+                        color: "white",
+                        fontSize: "13px",
+                        fontWeight: "normal",
+                      }}
+                    >
+                      S Dena
+                    </th>
                   </tr>
                 </>
               )}
@@ -372,9 +508,22 @@ const CommisionLenden: React.FC = () => {
                     )
                     ?.map((row) => (
                       <tr key={row.name}>
-                        <td className="">
+                        <td style={{ fontSize: "13px" }} className="">
                           {row.name}
                           {`(${row.cname})`}
+                        </td>
+                        <td style={{ fontSize: "13px" }} className="">
+                          {row.milaCasinoComm.toFixed(2)}
+                        </td>
+                        <td style={{ fontSize: "13px" }}>
+                          {row.milaSportsComm.toFixed(2)}
+                        </td>
+
+                        <td style={{ fontSize: "13px" }}>
+                          {row.milaTotalComm.toFixed(2)}
+                        </td>
+                        <td style={{ fontSize: "13px" }}>
+                          {" "}
                           <button
                             onClick={() => settled(row.name)}
                             className="bg-yellow-400 mt-1.5 px-2 py-1.5 rounded-md"
@@ -382,19 +531,15 @@ const CommisionLenden: React.FC = () => {
                             Reset
                           </button>
                         </td>
-                        <td className="">{row.milaCasinoComm.toFixed(2)}</td>
-                        <td>{row.milaSportsComm.toFixed(2)}</td>
-                        <td
-                          style={{
-                            borderRightColor: "#424242",
-                            borderRightWidth: "20px",
-                          }}
-                        >
-                          {row.milaTotalComm.toFixed(2)}
+                        <td style={{ fontSize: "13px" }}>
+                          {row.denaCasinoComm.toFixed(2)}
                         </td>
-                        <td>{row.denaCasinoComm.toFixed(2)}</td>
-                        <td>{row.denaSportsComm.toFixed(2)}</td>
-                        <td>{row.denaTotalComm.toFixed(2)}</td>
+                        <td style={{ fontSize: "13px" }}>
+                          {row.denaSportsComm.toFixed(2)}
+                        </td>
+                        <td style={{ fontSize: "13px" }}>
+                          {row.denaTotalComm.toFixed(2)}
+                        </td>
                       </tr>
                     ))
                 : renderUserDetails(optionuser)}

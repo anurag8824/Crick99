@@ -51,7 +51,7 @@ const MatchList2: React.FC<MatchListProps> = ({ matchList, currentMatch }) => {
 
                   {/* Status */}
                   <td className="">
-                    <span className="text-dark fs-6  bg-primary rounded p-2 text-nowrap">
+                    <span className="text-white fs-6  bg-primary rounded p-2 text-nowrap">
                       {/* <i className="fas fa-circle fa-xs me-1"></i> */}
                       IN PLAY
                     </span>

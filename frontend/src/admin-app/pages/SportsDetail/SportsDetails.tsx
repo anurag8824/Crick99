@@ -397,7 +397,7 @@ const SportsDetails = () => {
                   ></a>
                   <div className="dropdown-menu">
                     <a
-                      className="dropdown-item small text-white call-event navbar-bet99"
+                      className="dropdown-item small text-blackcall-event font-semibold "
                     //   href="/plus-minus-report/34160852"
                     >
                       <svg
@@ -415,12 +415,12 @@ const SportsDetails = () => {
                           d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zm-48 0l-.003-.282-26.064 22.741-62.679-58.5 16.454-84.355 34.303 3.072c-24.889-34.216-60.004-60.089-100.709-73.141l13.651 31.939L256 139l-74.953-41.525 13.651-31.939c-40.631 13.028-75.78 38.87-100.709 73.141l34.565-3.073 16.192 84.355-62.678 58.5-26.064-22.741-.003.282c0 43.015 13.497 83.952 38.472 117.991l7.704-33.897 85.138 10.447 36.301 77.826-29.902 17.786c40.202 13.122 84.29 13.148 124.572 0l-29.902-17.786 36.301-77.826 85.138-10.447 7.704 33.897C442.503 339.952 456 299.015 456 256zm-248.102 69.571l-29.894-91.312L256 177.732l77.996 56.527-29.622 91.312h-96.476z"
                         ></path>
                       </svg>
-                      <i className="fa fa-futbol"></i> Match &amp; Session Plus
+                       Match &amp; Session Plus
                       Minus
                     </a>
                     <div className="dropdown-divider"></div>
                     <a
-                      className="dropdown-item small text-white call-event navbar-bet99"
+                      className="dropdown-item small text-blackcall-event font-semibold "
                       href="/session-bets/34160852"
                     >
                       <svg
@@ -438,11 +438,11 @@ const SportsDetails = () => {
                           d="M569.354 231.631C512.969 135.949 407.81 72 288 72 168.14 72 63.004 135.994 6.646 231.631a47.999 47.999 0 0 0 0 48.739C63.031 376.051 168.19 440 288 440c119.86 0 224.996-63.994 281.354-159.631a47.997 47.997 0 0 0 0-48.738zM288 392c-75.162 0-136-60.827-136-136 0-75.162 60.826-136 136-136 75.162 0 136 60.826 136 136 0 75.162-60.826 136-136 136zm104-136c0 57.438-46.562 104-104 104s-104-46.562-104-104c0-17.708 4.431-34.379 12.236-48.973l-.001.032c0 23.651 19.173 42.823 42.824 42.823s42.824-19.173 42.824-42.823c0-23.651-19.173-42.824-42.824-42.824l-.032.001C253.621 156.431 270.292 152 288 152c57.438 0 104 46.562 104 104z"
                         ></path>
                       </svg>
-                      <i className="fa fa-eye"></i> completed Bet
+                       completed Bet
                     </a>
                     <div className="dropdown-divider"></div>
                     <a
-                      className="dropdown-item small text-white call-event navbar-bet99"
+                      className="dropdown-item small text-blackcall-event font-semibold "
                       href="/rejected-bets/34160852"
                     >
                       <svg
@@ -460,7 +460,7 @@ const SportsDetails = () => {
                           d="M569.354 231.631C512.969 135.949 407.81 72 288 72 168.14 72 63.004 135.994 6.646 231.631a47.999 47.999 0 0 0 0 48.739C63.031 376.051 168.19 440 288 440c119.86 0 224.996-63.994 281.354-159.631a47.997 47.997 0 0 0 0-48.738zM288 392c-75.162 0-136-60.827-136-136 0-75.162 60.826-136 136-136 75.162 0 136 60.826 136 136 0 75.162-60.826 136-136 136zm104-136c0 57.438-46.562 104-104 104s-104-46.562-104-104c0-17.708 4.431-34.379 12.236-48.973l-.001.032c0 23.651 19.173 42.823 42.824 42.823s42.824-19.173 42.824-42.823c0-23.651-19.173-42.824-42.824-42.824l-.032.001C253.621 156.431 270.292 152 288 152c57.438 0 104 46.562 104 104z"
                         ></path>
                       </svg>
-                      <i className="fa fa-eye"></i> Display Rejected Bet
+                       Display Rejected Bet
                     </a>
                   </div>
                 </li>
@@ -508,79 +508,76 @@ const SportsDetails = () => {
                       onClick={() => handleToggle(item._id)}
                       className="-right-2.5 -top-2.5 position-absolute bg-gray-800 p-0 rounded-full "
                     >
-                      <CloseButton className="text-white " />
+                      <CloseButton className="text-white" />
                     </button>
 
                     <CustomLink
-                      className="dropdown-item  text-lg  text-white call-event navbar-bet99"
+                      className="dropdown-item  text-lg  text-blackcall-event font-semibold "
                       to={`/report-bets/${item.matchId}`}
                     >
-                      <i className="fa fa-futbol"></i> Match and Session
+                       Match and Session
                       Position Minus
                     </CustomLink>
 
                     <CustomLink
-                      className="dropdown-item  text-lg  text-white call-event navbar-bet99"
+                      className="dropdown-item  text-lg  text-blackcall-event font-semibold"
                       to={`/report-bets/${item.matchId}`}
                     >
-                      <i className="fa fa-futbol"></i> Match and Session Plus
+                       Match and Session Plus
                       Minus
                     </CustomLink>
                     <CustomLink
-                      className="dropdown-item  text-lg  text-white call-event navbar-bet99"
+                      className="dropdown-item  text-lg  text-black all-event font-semibold "
                       to={`/report-bets/${item.matchId}`}
                     >
-                      <i className="fa fa-futbol"></i> Match and Session Plus 2
+                       Match and Session Plus 2
                       Minus
                     </CustomLink>
-                    <div className="dropdown-divider"></div>
                     <CustomLink
-                      className="dropdown-item  text-lg  text-white call-event navbar-bet99"
+                      className="dropdown-item  text-lg  text-black call-event font-semibold "
                       to={`/session-bets/${item.matchId}`}
                     >
-                      <i className="fa fa-eye"></i> Display Match Bets
+                       Display Match Bets
                     </CustomLink>
-                    <div className="dropdown-divider"></div>
+                  
                     <CustomLink
-                      className="dropdown-item text-lg text-white call-event navbar-bet99"
+                      className="dropdown-item text-lg text-black call-event font-semibold "
                       to={`/match-bets/${item.matchId}`}
                     >
-                      <i className="fa fa-eye"></i> Display Session Bets
+                       Display Session Bets
                     </CustomLink>
-                    <div className="dropdown-divider"></div>
                     <CustomLink
-                      className="dropdown-item text-lg text-white call-event navbar-bet99"
+                      className="dropdown-item text-lg text-black call-event font-semibold "
                       to={`/match-bets/${item.matchId}`}
                     >
-                      <i className="fa fa-eye"></i> Match and Session Bet
+                       Match and Session Bet
                     </CustomLink>
-                    <div className="dropdown-divider"></div>
                     <CustomLink
-                      className="dropdown-item text-lg text-white call-event navbar-bet99"
+                      className="dropdown-item text-lg text-black call-event font-semibold "
                       to={`/match-bets/${item.matchId}`}
                     >
-                      <i className="fa fa-eye"></i>Completed Fancies
+                      Completed Fancies
                     </CustomLink>
 
                     <CustomLink
-                      className="dropdown-item text-lg text-white call-event navbar-bet99"
+                      className="dropdown-item text-lg text-black call-event font-semibold "
                       to={`/match-bets/${item.matchId}`}
                     >
-                      <i className="fa fa-eye"></i>Rejected Bets
+                      Rejected Bets
                     </CustomLink>
 
                     <CustomLink
-                      className="dropdown-item text-lg text-white call-event navbar-bet99"
+                      className="dropdown-item text-lg text-black call-event font-semibold "
                       to={`/match-bets/${item.matchId}`}
                     >
-                      <i className="fa fa-eye"></i>Rejected Match Bets
+                      Rejected Match Bets
                     </CustomLink>
 
                     <CustomLink
-                      className="dropdown-item text-lg text-white call-event navbar-bet99"
+                      className="dropdown-item text-lg text-black call-event font-semibold "
                       to={`/match-bets/${item.matchId}`}
                     >
-                      <i className="fa fa-eye"></i>Agent Plus Minus
+                      Agent Plus Minus
                     </CustomLink>
                   </div>
                 )}

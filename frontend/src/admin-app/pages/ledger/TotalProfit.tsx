@@ -3,6 +3,7 @@ import "./ledger.css";
 import betService from "../../../services/bet.service";
 import { AxiosResponse } from "axios";
 import { CustomLink } from "../../../pages/_layout/elements/custom-link";
+import { DatePicker } from "antd";
 
 interface LedgerItem {
   commissionlega: number;
@@ -51,8 +52,10 @@ const TotalProfit = () => {
     });
   }, [optionuser]);
 
+  const { RangePicker } = DatePicker;
+
   return (
-    <div className="body-wrap p-4">
+    <div className="body-wrap p-md-4 bg-white shadow">
       <div
         style={{ background: "#0f2327" }}
         className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex"
@@ -72,65 +75,56 @@ const TotalProfit = () => {
         <div className="container h-full w-100 mt-2 mb-20">
           <div className="text-center mb-4"></div>
 
-          <div className="container d-none py-3">
-            <div className="row align-items-center">
-              <div className="col-12 col-md-4 text-start">
-                <div className="d-inline-block">
-                  <small className="d-block text-muted">Start date</small>
-                  <span className="fw-semibold">2025-08-12</span>
-                  <span className="mx-2">—</span>
-                  <small className="d-block text-muted">End date</small>
-                  <span className="fw-semibold">2025-09-12</span>
+          <div className="container py-3">
+            <div className="row align-items-start">
+              {/* Left Side (Date + Select) */}
+              <div className="col-10 col-md-8 d-flex flex-column flex-md-row gap-2">
+                <div className="w-100 w-md-auto mb-2 mb-md-0">
+                  <RangePicker />
+                </div>
+                <div className="w-100 w-md-auto">
+                  <select
+                    id="select-tools-sa"
+                    className="form-select"
+                    value={optionuser}
+                    onChange={(e) => setOptionuser(e.target.value)}
+                  >
+                    <option value="all">All</option>
+                    {Array.from(
+                      tableData2
+                        .reduce((map: Map<string, any>, row: any) => {
+                          if (!map.has(row.username)) {
+                            map.set(row.username, row);
+                          }
+                          return map;
+                        }, new Map())
+                        .values()
+                    ).map((row: any, index) => (
+                      <option key={index} value={row.client}>
+                        {row.username}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
-              <div className="col-12 col-md-4 text-center">
+              {/* Right Side (Total) */}
+              <div className="col-2 col-md-4 text-end">
                 <div className="d-inline-block">
-                  <small className="d-block text-muted">Filter</small>
-                  <span className="fw-semibold">All</span>
-                </div>
-              </div>
-
-              <div className="col-12 col-md-4 text-end">
-                <div className="d-inline-block">
-                  <small className="d-block text-muted">Total:</small>
-                  <span className="fw-semibold text-success">0.00</span>
+                  <small className="d-block text-2xl text-muted">Total:</small>
+                  <span className="fw-semibold text-success">
+                    {totalCommission.toLocaleString()}
+                  </span>
                 </div>
               </div>
             </div>
           </div>
 
-          <select
-            id="select-tools-sa"
-            className="selectized selectize-input ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched"
-            value={optionuser}
-            onChange={(e) => setOptionuser(e.target.value)}
-          >
-            <option value="all">All Clients</option>
-            {Array.from(
-              tableData2
-                .reduce((map: Map<string, any>, row: any) => {
-                  if (!map.has(row.username)) {
-                    map.set(row.username, row);
-                  }
-                  return map;
-                }, new Map())
-                .values()
-            ).map((row: any, index) => (
-              <option key={index} value={row.client}>
-                {row.username}
-              </option>
-            ))}
-          </select>
-
           <div
             id="ledger_wrapper"
             className="dataTables_wrapper dt-bootstrap4 no-footer"
           >
-            <div className="row">
-              <div className="col-sm-12 col-md-6"></div>
-              <div className="col-sm-12 col-md-6"></div>
-            </div>
+          
 
             <div className="row mb-16">
               <div className="col-sm-12 overflow-x-scroll">
@@ -145,8 +139,6 @@ const TotalProfit = () => {
                       <th
                         className="p-1 pl-2 small sorting_disabled pr-0"
                         style={{
-                          minWidth: 70,
-                          width: 100,
                           backgroundColor: "#0f2327",
                           color: "white",
                         }}
@@ -156,7 +148,6 @@ const TotalProfit = () => {
                       <th
                         className="p-1 small no-sort sorting_disabled"
                         style={{
-                          width: 154,
                           backgroundColor: "#0f2327",
                           color: "white",
                         }}
@@ -166,7 +157,6 @@ const TotalProfit = () => {
                       <th
                         className="p-1 small text-center no-sort sorting_disabled"
                         style={{
-                          width: 81,
                           backgroundColor: "#0f2327",
                           color: "white",
                         }}
@@ -176,7 +166,6 @@ const TotalProfit = () => {
                       <th
                         className="p-1 small text-center no-sort sorting_disabled"
                         style={{
-                          width: 60,
                           backgroundColor: "#0f2327",
                           color: "white",
                         }}
@@ -291,12 +280,12 @@ const TotalProfit = () => {
               </span>{" "}
               14,635
             </div> */}
-            <div className="pt-2  col-5 row-title text-center with-commission">
+            {/* <div className="pt-2  col-5 row-title text-center with-commission">
               TOTAL
             </div>
             <div className="pt-2 pr-1 pl-1 col-7 with-commission btn btn-sm btn-success">
               {totalCommission.toLocaleString()}
-            </div>
+            </div> */}
           </div>
 
           {/* Modal */}

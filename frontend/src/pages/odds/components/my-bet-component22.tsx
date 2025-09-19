@@ -76,42 +76,40 @@ const MyBetComponent22 = () => {
 
   return (
     <div className='table-responsive-new' style={{height:"200px", overflowY:"scroll"}}>
-      <table className='table coupon-table scorall mybet'>
+      <table className='table coupon-table scorall mybet table-bordered'>
         <thead>
           <tr style={{background:"#76d68f"}}>
-            <th style={{background:"#0f2326" , border:"none" , color:"white"}}> Sr. </th>
+            <th style={{background:"#0f2326" , border:"" , color:"white"}}>#</th>
             {userState.user.role !== RoleType.user && <th style={{background:"#0f2326" , border:"none" , color:"white"}}>Username</th>}
-            <th style={{background:"#0f2326" , border:"none" , color:"white"}} className='text-center'> Narration</th>
-            <th style={{background:"#0f2326" , border:"none" , color:"white"}}> Rate</th>
-            <th style={{background:"#0f2326" , border:"none" , color:"white"}}> Amount</th>
-            <th style={{background:"#0f2326" , border:"none" , color:"white"}}> Run</th>
-            <th style={{background:"#0f2326" , border:"none" , color:"white"}}> Mode</th>
+            <th style={{background:"#0f2326"  , color:"white"}} className='text-center'> Runner Name</th>
+            <th style={{background:"#0f2326" , border:"" , color:"white"}}> Type</th>
+            <th style={{background:"#0f2326" , border:"" , color:"white"}}> Price</th>
+            <th style={{background:"#0f2326" , border:"" , color:"white"}}> Value</th>
+            <th style={{background:"#0f2326" , border:"" , color:"white"}}> Amount</th>
+            <th style={{background:"#0f2326" , border:"" , color:"white"}} className='text-center'> Result</th>
+            <th style={{background:"#0f2326" , border:"" , color:"white"}} className='text-center'>Status</th>
 
-
-            {/* {!isMobile && <th style={{background:"#76d68f"}}> Place Date</th>} */}
-            {/* {!isMobile && <th style={{background:"#76d68f"}}> Match Date</th>} */}
-            <th style={{background:"#0f2326" , border:"none" , color:"white"}} className='text-center'> Dec</th>
-            {userState.user.role !== RoleType.user && <th style={{background:"#0f2326" , border:"none" , color:"white"}}> Date</th>}
+            {/* {userState.user.role !== RoleType.user && <th style={{background:"#0f2326" , border:"" , color:"white"}}> Status</th>} */}
           </tr>
         </thead>
         <tbody className='scorall'>
           {getMyAllBet.map((bet: any,  index: number) => (
-            // <tr className={bet.isBack ? 'back' : 'lay'} key={bet._id}>
             <tr className={bet.profitLoss?.$numberDecimal < 0 ? 'bg-danger text-white' : 'bg-success'} key={bet._id}>
-
               <td className='no-wrap'> {index + 1} </td>
               {userState.user.role !== RoleType.user && <td>{bet.userName}</td>}
-              <td className='no-wrap'>
+              <td className='no-wrap text-center'>
                 {' '}
                 {bet.selectionName} /{' '}
                 {bet.marketName === 'Fancy' && bet.gtype !== 'fancy1' ? bet.volume.toFixed(2) : bet.odds}{' '}
               </td>
+              <td className='no-wrap text-center'>{bet?.bet_on}</td>
               <td className='no-wrap text-center'> {bet.marketName === 'Fancy' && bet.gtype !== 'fancy1' ? bet.volume.toFixed(2) : bet.odds}</td>
               {/* <td className='no-wrap'>{Math.abs(bet?.profitLoss?.$numberDecimal).toFixed(2)}</td> */}
-              <td className='no-wrap'>{Math.abs(Number(bet?.profitLoss?.$numberDecimal)).toFixed(2)}</td>
 
               <td className='no-wrap text-center' >{bet.marketName === 'Fancy' && bet.gtype !== 'fancy1' ? bet.odds : "-"} </td>
-              <td className='no-wrap text-center' > {bet.isBack ? "Yes" : "No"} </td>
+              <td className='no-wrap'>{Math.abs(Number(bet?.profitLoss?.$numberDecimal)).toFixed(2)}</td>
+
+              {/* <td className='no-wrap text-center' > {bet.isBack ? "Yes" : "No"} </td> */}
 
 
               {/* {!isMobile && (
@@ -122,10 +120,13 @@ const MyBetComponent22 = () => {
               )} */}
 
 <td className='no-wrap text-center' > {bet?.result?.result ? bet?.result?.result :"YES" } </td>
+<td className='no-wrap text-center' > {bet.status} </td>
 
-              {userState.user.role !== RoleType.user && <td className='no-wrap'>{moment.utc(bet.betClickTime).utcOffset('+05:30').format('DD/MM/YYYY hh:mm:ss A')}</td>}
+
+              {/* {userState.user.role !== RoleType.user && <td className='no-wrap'>{moment.utc(bet.betClickTime).utcOffset('+05:30').format('DD/MM/YYYY hh:mm:ss A')}</td>} */}
             </tr>
           ))}
+
         </tbody>
       </table>
     </div>

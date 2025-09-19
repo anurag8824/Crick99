@@ -1426,7 +1426,7 @@ ul.mtree.transit li.mtree-open>a::after {
   padding: 35px 30px 10px;
   box-sizing: border-box;
   margin-top: 15px;
-  background: #eee;
+  background: #ffffff;
   border-radius: 4px;
   box-shadow: 0px 0px 4px #fff;
 }
@@ -6379,7 +6379,7 @@ img.rrotate {
 
 .table td,
 .table th {
-  font-size: 16px;
+  font-size: 13px;
 }
 
 .ReactModal__Overlay {

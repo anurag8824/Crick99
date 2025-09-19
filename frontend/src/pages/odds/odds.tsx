@@ -201,13 +201,14 @@ const Odds = () => {
             <div className='card-body p0'>
               <iframe
                 style={{ width: '100%', height: '250px' }}
+                 sandbox="allow-scripts allow-same-origin allow-popups"
                 // src={`${tvUrl}${currentMatch?.matchId}`}
-                // src={`https://playg3.livestream11.com/user/526414545/unknown/27.0.178.13/c590458e-6d81-450e-8a6d-119bc2234267`}
                 src={
-                  currentMatch?.matchId === 34741173
-                    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=630011375"
-                    : `https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=${currentMatch?.matchId}`
-                }                
+                  currentMatch?.matchId === 34741083
+                    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=805994222"  : currentMatch?.matchId === 34744501    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=562743790"
+                    : "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=566595021"
+                }   
+
               ></iframe>
               LIVE TV 
             </div>
@@ -216,12 +217,14 @@ const Odds = () => {
             <div className='card-body p0'>
               <iframe
                 style={{ width: '100%', height: '250px' }}
+                 sandbox="allow-scripts allow-same-origin allow-popups"
                 // src={`${tvUrl}${currentMatch?.matchId}`}
                 src={
-                  currentMatch?.matchId === 34741173
-                    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=630011375"
-                    : `https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=${currentMatch?.matchId}`
-                } 
+                  currentMatch?.matchId === 34741083
+                    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=805994222"  : currentMatch?.matchId === 34744501    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=562743790"
+                    : "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=566595021"
+                }   
+
               ></iframe>
           
             </div>

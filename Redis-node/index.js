@@ -1140,7 +1140,7 @@ startPolling();
    }
   }
 
-  setInterval(getFancyList, 15000 );
+  setInterval(getFancyList, 3000 );
 
   //  setInterval(setFancyData, 1000 )
   setInterval(FancyResult,30000)

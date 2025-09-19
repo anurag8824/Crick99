@@ -12,6 +12,7 @@ interface LedgerItem {
   narration: string;
   createdAt: string;
   updown: number;
+  
 }
 const MyLedger = () => {
   const [tableData, setTableData] = React.useState<LedgerItem[]>([]);
@@ -39,6 +40,7 @@ const MyLedger = () => {
       balance: number;
       narration: string;
       date: string;
+      Fancy:any;
     }[] = [];
 
     tableData.forEach((item: any) => {
@@ -59,6 +61,7 @@ const MyLedger = () => {
           balance,
           narration: item.narration,
           date: item.createdAt,
+          Fancy:item.Fancy,
         });
       }
     });
@@ -70,7 +73,7 @@ const MyLedger = () => {
   const processedRows = getProcessedRows();
   const finalBalance = processedRows.length > 0 ? processedRows[0].balance : 0;
   return (
-    <div className=" body-wrap p-4">
+    <div className="body-wrap p-md-4 pt-2">
       <div
         style={{ background: "#0f2327" }}
         className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex"
@@ -99,19 +102,25 @@ const MyLedger = () => {
             </div>
 
             <div className="container py-1">
-              <div className="row text-center">
-                <div className="col-12 col-md-4 py-2">
-                  <span className="text-success fw-semibold fs-5">
-                    Lena: 0.00
-                  </span>
+              {/* Desktop aur Mobile dono ke liye */}
+              <div className="d-flex flex-column flex-md-row justify-content-between text-center">
+                {/* Left + Right on Mobile in first row */}
+                <div className="d-flex justify-content-between w-100 w-md-auto mb-2 mb-md-0">
+                  <div className="col-6 col-md-4 text-start text-md-center">
+                    <span className="text-success  fs-3">
+                      Lena: 0.00
+                    </span>
+                  </div>
+                  <div className="col-6 col-md-4 text-end text-md-center">
+                    <span className="text-danger  fs-3">
+                      Dena: 0.00
+                    </span>
+                  </div>
                 </div>
-                <div className="col-12 col-md-4 py-2">
-                  <span className="text-danger fw-semibold fs-5">
-                    Dena: 0.00
-                  </span>
-                </div>
-                <div className="col-12 col-md-4 py-2">
-                  <span className="text-success fw-semibold fs-5">
+
+                {/* Balance row */}
+                <div className="col-12 col-md-4 text-center mt-2 mt-md-0">
+                  <span className="text-success fs-3">
                     Balance: 0.00 (Lena)
                   </span>
                 </div>
@@ -160,7 +169,7 @@ const MyLedger = () => {
                         Credit
                       </th>
                       <th
-                        className="p-1 small text-center no-sort sorting_disabled"
+                        className="p-2 small text-center no-sort sorting_disabled"
                         style={{
                           width: 60,
                           backgroundColor: "#0f2327",
@@ -218,13 +227,16 @@ const MyLedger = () => {
                             hour12: true, // PM/AM format
                           })}
                         </td>
+                        <td className="small p-1 " style={{ zIndex: 2 }}>
+                            {row.narration}
+                          </td>
                         <td>
-                          <span className="text-success">
+                          <span className="text-success p-1">
                             {row.credit.toFixed(2)}
                           </span>
                         </td>
                         <td>
-                          <span className="text-danger">
+                          <span className="text-danger p-1">
                             {row.debit.toFixed(2)}
                           </span>
                         </td>
@@ -237,6 +249,9 @@ const MyLedger = () => {
                             {row.balance.toFixed(2)}
                           </span>
                         </td>
+                        <td className="small p-1 " style={{ zIndex: 2 }}>
+                            {row.Fancy ? "Session" : "Match"}
+                          </td>
                         <td
                           className={
                             row.narration === "Settlement"

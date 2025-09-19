@@ -1809,7 +1809,7 @@ export default class CasinoController extends ApiController {
             let bhav: any = live?.b;
             // console.log(xyz,"inside teen pattu ")
 
-            if (xyz == "lucky7B") {
+            if (xyz == "lucky7B" || xyz == "lucky7") {
               if (
                 templateRunner.RunnerName === "High Card" ||
                 templateRunner.RunnerName === "Low Card"
@@ -2032,7 +2032,7 @@ export default class CasinoController extends ApiController {
       console.log(singleMarket, "singleMarket");
       let bhav: any = singleMarket?.b;
 
-      if (type === "lucky7eu") {
+      if (type === "lucky7eu" || type === "lucky7") {
         if (
           singleMarket?.nat === "High Card" ||
           singleMarket?.nat === "Low Card"

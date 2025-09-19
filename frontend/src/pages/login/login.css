@@ -83,3 +83,15 @@
     outline: none; /* border highlight hata dega */
     box-shadow: none; /* bootstrap shadow remove */
   }
+
+  .custom-success-toast {
+    background-color: #28a745 !important; /* Green */
+    color: #fff !important; /* White text */
+    font-size: 14px; /* Smaller text */
+    padding: 8px 14px !important; /* Reduce height */
+    font-weight: 500; /* Light text weight */
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.7); /* White glow */
+    border-radius: 8px; /* Smooth corners */
+    min-height: auto !important; /* Prevent extra height */
+  }
+  
