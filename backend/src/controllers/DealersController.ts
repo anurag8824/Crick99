@@ -24,6 +24,7 @@ import { FancyController } from './FancyController'
 import UserSocket from '../sockets/user-socket'
 import axios from 'axios';
 import Operation from '../models/Operation';
+import { UserLog } from '../models/UserLog';
 
 export class DealersController extends ApiController {
   constructor() {
@@ -31,6 +32,8 @@ export class DealersController extends ApiController {
     this.signUp = this.signUp.bind(this)
     this.editComm = this.editComm.bind(this)
     this.deleteUser = this.deleteUser.bind(this)
+    this.loginReport = this.loginReport.bind(this)
+
 
 
     this.getUserList = this.getUserList.bind(this)
@@ -157,6 +160,58 @@ async deleteUser(req: Request, res: Response): Promise<Response> {
     await session.commitTransaction();
     session.endSession();
     return this.success(res, {}, "User deleted successfully");
+
+  } catch (e: any) {
+    await session.abortTransaction();
+    session.endSession();
+    return this.fail(res, "Server error: " + e.message);
+  }
+}
+
+
+
+async loginReport(req: Request, res: Response): Promise<Response> {
+  const session = await Database.getInstance().startSession();
+  console.log(req.body, "req.body for loin report");
+
+  try {
+    session.startTransaction();
+    const { _id } = req.body;
+
+    if (!_id) {
+      await session.abortTransaction();
+      session.endSession();
+      return this.fail(res, "User ID is required");
+    }
+
+    // Step 1: Pehle check karo ki user exist karta hai ya nahi
+    const userLoginReport: any = await User.findById(_id).session(session);
+    if (!userLoginReport) {
+      await session.abortTransaction();
+      session.endSession();
+      return this.fail(res, "User not found");
+    }
+
+    // // Step 2: Purane logs delete kar do (before Aug 2025)
+    // await UserLog.deleteMany({
+    //   userId: _id,
+    //   createdAt: { $lt: new Date("2025-09-19T00:00:00Z") }
+    // }).session(session);
+
+    // Step 2: Ab userLogs collection se sab logs le lo
+    const userLogs = await UserLog.find({ userId: _id }).session(session);
+
+    if (!userLogs || userLogs.length === 0) {
+      await session.commitTransaction();
+      session.endSession();
+      return this.success(res, [], "No logs found for this user");
+    }
+
+    await session.commitTransaction();
+    session.endSession();
+
+    // Step 3: Response me logs bhejo
+    return this.success(res, userLogs, "User Login Report fetched successfully");
 
   } catch (e: any) {
     await session.abortTransaction();

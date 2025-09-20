@@ -286,6 +286,18 @@ const shared = useParams().share
                 <MyBetComponent22 />
               
         </Modal.Body>
+
+        <div
+    style={{
+      backgroundColor: "",
+      width: "100%",
+      padding: "10px",
+      textAlign: "right"
+    }}
+  >
+    <button onClick={handleCloseAllbets} className="text-center text-white w-100 rounded-3" style={{marginTop: "15px", background: "rgb(15, 35, 39)"}}><div>Close</div></button>
+  </div>
+        
       </Modal>
     </>
   )

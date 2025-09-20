@@ -11,8 +11,8 @@ export const DrawerProvider: React.FC<DrawerProviderProps> = ({ children }) => {
   const [activeMenu, setActiveMenu] = useState<string>("");
 
   const toggleDrawer = () => {
-    setIsOpen(!isOpen);
-    setIsOpen2(!isOpen2);
+    // setIsOpen(!isOpen);
+    // setIsOpen2(!isOpen2);
     console.log("Toggle Drawer");
   };
 

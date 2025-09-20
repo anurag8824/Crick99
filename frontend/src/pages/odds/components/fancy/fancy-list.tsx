@@ -228,13 +228,25 @@ export const FancyList = React.memo(
             <i className="mx-5 fas fa-spinner fa-spin"></i>
           </div>
         )}
-      </div><Modal show={showladder} onHide={handleCloseLadder} size={'lg'}>
+      </div>
+      
+      <Modal show={showladder} onHide={handleCloseLadder} size={'lg'}>
           <Modal.Header closeButton>
             <Modal.Title>Ladder</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <div>Ladder</div>
           </Modal.Body>
+          <div
+    style={{
+      backgroundColor: "",
+      width: "100%",
+      padding: "10px",
+      textAlign: "right"
+    }}
+  >
+    <button onClick={handleCloseLadder} className="text-center text-white w-100 rounded-3" style={{marginTop: "15px", background: "rgb(15, 35, 39)"}}><div>Close</div></button>
+  </div>
         </Modal></>
     );
   }

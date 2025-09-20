@@ -54,6 +54,13 @@ export class UserRoutes {
     )
 
     this.router.post(
+      '/login-report',
+      Http.validateRequest,
+      Passport.authenticateJWT,
+      this.dealerController.loginReport,
+    )
+
+    this.router.post(
       '/refresh-token',
       refreshTokenValidation,
       Http.validateRequest,

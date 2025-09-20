@@ -31,12 +31,12 @@ export enum RoleType {
 
 export const RoleName: Record<string, string> = {
   admin: 'Super Admin ',
-  sadmin: 'Sub Admin',
-  suadmin: 'Admin',
-  smdl: 'Master Agent',
-  mdl: ' Super Agent Master',
-  dl: 'Agent Master',
-  user: 'Client Master',
+  sadmin: 'Admin',
+  suadmin: 'Sub Admin',
+  smdl: 'Master',
+  mdl: ' Super',
+  dl: 'Agent',
+  user: 'Client',
 }
 
 export default interface User {

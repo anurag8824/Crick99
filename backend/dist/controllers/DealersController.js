@@ -28,6 +28,7 @@ const FancyController_1 = require("./FancyController");
 const user_socket_1 = __importDefault(require("../sockets/user-socket"));
 const axios_1 = __importDefault(require("axios"));
 const Operation_1 = __importDefault(require("../models/Operation"));
+const UserLog_1 = require("../models/UserLog");
 class DealersController extends ApiController_1.ApiController {
     constructor() {
         super();
@@ -98,6 +99,7 @@ class DealersController extends ApiController_1.ApiController {
         this.signUp = this.signUp.bind(this);
         this.editComm = this.editComm.bind(this);
         this.deleteUser = this.deleteUser.bind(this);
+        this.loginReport = this.loginReport.bind(this);
         this.getUserList = this.getUserList.bind(this);
         this.getUserDetail = this.getUserDetail.bind(this);
         this.getParentUserDetail = this.getParentUserDetail.bind(this);
@@ -194,6 +196,49 @@ class DealersController extends ApiController_1.ApiController {
                 yield session.commitTransaction();
                 session.endSession();
                 return this.success(res, {}, "User deleted successfully");
+            }
+            catch (e) {
+                yield session.abortTransaction();
+                session.endSession();
+                return this.fail(res, "Server error: " + e.message);
+            }
+        });
+    }
+    loginReport(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const session = yield Database_1.Database.getInstance().startSession();
+            console.log(req.body, "req.body for loin report");
+            try {
+                session.startTransaction();
+                const { _id } = req.body;
+                if (!_id) {
+                    yield session.abortTransaction();
+                    session.endSession();
+                    return this.fail(res, "User ID is required");
+                }
+                // Step 1: Pehle check karo ki user exist karta hai ya nahi
+                const userLoginReport = yield User_1.User.findById(_id).session(session);
+                if (!userLoginReport) {
+                    yield session.abortTransaction();
+                    session.endSession();
+                    return this.fail(res, "User not found");
+                }
+                // // Step 2: Purane logs delete kar do (before Aug 2025)
+                // await UserLog.deleteMany({
+                //   userId: _id,
+                //   createdAt: { $lt: new Date("2025-09-19T00:00:00Z") }
+                // }).session(session);
+                // Step 2: Ab userLogs collection se sab logs le lo
+                const userLogs = yield UserLog_1.UserLog.find({ userId: _id }).session(session);
+                if (!userLogs || userLogs.length === 0) {
+                    yield session.commitTransaction();
+                    session.endSession();
+                    return this.success(res, [], "No logs found for this user");
+                }
+                yield session.commitTransaction();
+                session.endSession();
+                // Step 3: Response me logs bhejo
+                return this.success(res, userLogs, "User Login Report fetched successfully");
             }
             catch (e) {
                 yield session.abortTransaction();

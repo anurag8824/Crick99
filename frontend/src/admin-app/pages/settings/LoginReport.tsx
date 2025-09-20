@@ -4,72 +4,46 @@ import { AxiosResponse } from "axios";
 import { useAppSelector } from "../../../redux/hooks";
 import { selectUserData } from "../../../redux/actions/login/loginSlice";
 import { CustomLink } from "../../../pages/_layout/elements/custom-link";
+import UserService from "../../../services/user.service";
+import { useNavigate, useParams } from "react-router-dom";
 
-interface LedgerItem {
+interface LoginReportItem {
   _id: string;
-  money: number;
-  narration: string;
+  country: string;
+  region: string;
+  org: string; // ISP
+  ip: string;
   createdAt: string;
-  updown: number;
 }
+
 const LoginReport = () => {
-  const [tableData, setTableData] = React.useState<LedgerItem[]>([]);
-  const userState = useAppSelector(selectUserData);
+  const [tableData, setTableData] = React.useState<LoginReportItem[]>([]);
 
-  console.log(userState, "myledgererr");
-
+  const { id } = useParams();
+  console.log(id, "myledgererrid");
   React.useEffect(() => {
-    betService.oneledger().then((res: AxiosResponse<any>) => {
-      const allData = res.data?.data || [];
-      const dataToUse = allData[0]?.length ? allData[0] : allData[1] || [];
-      // const dataToUse = allData[1]?.length ? allData[1] : allData[0] || [];
-      setTableData(dataToUse);
-      // setTabledata(res.data.data);
-      console.log(res, "res for lena dena jai hind !");
-    });
-  }, []);
+    if (id) {
+      UserService.loginReports({ _id: id }).then((res: AxiosResponse<any>) => {
+        const logs = res.data?.data || [];
 
-  const getProcessedRows = () => {
-    let balance = 0;
-    const result: {
-      id: string;
-      credit: number;
-      debit: number;
-      balance: number;
-      narration: string;
-      date: string;
-    }[] = [];
+        const formatted = logs.map((item: any) => ({
+          _id: item._id,
+          country: item.logs.country,
+          region: item.logs.region,
+          org: item.logs.org,
+          ip: item.logs.ip,
+          createdAt: item.createdAt,
+        }));
 
-    tableData.forEach((item: any) => {
-      const isSettled = item.settled === true;
+        setTableData(formatted);
+      });
+    }
+  }, [id]);
 
-      const isChildMatch = item.ChildId === userState.user._id;
+  const navigate = useNavigate();
 
-      if (!isSettled || (isSettled && isChildMatch)) {
-        const money = item.umoney;
-        const credit = money > 0 ? money : 0;
-        const debit = money < 0 ? money : 0; // keep -ve as-is
-        balance += money;
-
-        result.push({
-          id: item._id,
-          credit,
-          debit,
-          balance,
-          narration: item.narration,
-          date: item.createdAt,
-        });
-      }
-    });
-
-    // Reverse so [0][2] is on top and [0][0] at bottom
-    return result.reverse();
-  };
-
-  const processedRows = getProcessedRows();
-  const finalBalance = processedRows.length > 0 ? processedRows[0].balance : 0;
   return (
-    <div className=" body-wrap p-4">
+    <div style={{ padding: "0" }} className="container-fluid p-md-4 mt-3">
       <div
         style={{ background: "#0f2327" }}
         className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex"
@@ -77,25 +51,22 @@ const LoginReport = () => {
         <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
           Login Report
         </span>
-        <CustomLink
-          to={"/"}
+        <button
+          onClick={() => navigate(-1)}
           type="button"
           className="btn bg-primary text-white"
         >
           <span>Back</span>
-        </CustomLink>
+        </button>
       </div>
 
       <div>
-        <div className="container w-100 mt-2 mb-5">
+        <div className="containerd w-100 mt-2 mb-5">
           <div
             id="ledger_wrapper"
             className="dataTables_wrapper dt-bootstrap4 no-footer"
           >
-            <div className="row">
-              <div className="col-sm-12 col-md-6"></div>
-              <div className="col-sm-12 col-md-6"></div>
-            </div>
+           
 
             <div className="row overflow-auto mb-20">
               <div className="col-sm-12">
@@ -162,165 +133,35 @@ const LoginReport = () => {
                   </thead>
 
                   <tbody>
-                    {processedRows.map((row, index) => (
+                    {tableData.map((row, index) => (
                       <tr
-                        key={row.id}
+                        key={row._id}
                         role="row"
                         className={index % 2 === 0 ? "even" : "odd"}
                       >
-                        <td className="small pl-2 pr-0">
-                          {new Date(row.date).toLocaleString("en-US", {
-                            month: "short", // Apr
-                            day: "2-digit", // 16
-                            hour: "2-digit", // 04
-                            minute: "2-digit", // 09
-                            hour12: true, // PM/AM format
+                        <td className="small pl-2 pr-0">{row.country}</td>
+                        <td>
+                          <span className="">{row.region}</span>
+                        </td>
+                        <td>
+                          <span className="t">{row.org}</span>
+                        </td>
+                        <td>{row.ip}</td>
+
+                        <td>
+                          {new Date(row.createdAt).toLocaleString("en-US", {
+                            year: "numeric",
+                            month: "short",
+                            day: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            hour12: true,
                           })}
-                        </td>
-                        <td>
-                          <span className="text-success">
-                            {row.credit.toFixed(2)}
-                          </span>
-                        </td>
-                        <td>
-                          <span className="text-danger">
-                            {row.debit.toFixed(2)}
-                          </span>
-                        </td>
-                        <td>
-                          <span
-                            className={
-                              row.balance >= 0 ? "text-danger" : "text-danger"
-                            }
-                          >
-                            {row.balance.toFixed(2)}
-                          </span>
-                        </td>
-                        <td
-                          className={
-                            row.narration === "Settlement"
-                              ? "bg-yellow-400"
-                              : ""
-                          }
-                        >
-                          <span
-                            className="badge badge-primary p-1"
-                            style={{ fontSize: "xx-small" }}
-                          >
-                            🏆
-                          </span>
-                          <span className="small p-0 " style={{ zIndex: 2 }}>
-                            {row.narration}
-                          </span>
                         </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-sm-12 col-md-5"></div>
-              <div className="col-sm-12 col-md-7"></div>
-            </div>
-          </div>
-
-          {/* Fixed Bottom Summary */}
-          <div
-            className="row border m-0 mt-2 pb-2 pt-2 w-100"
-            style={{
-              position: "fixed",
-              bottom: 0,
-              zIndex: 50,
-              left: 0,
-              background: "white",
-            }}
-          >
-            <div
-              className="p-1 col-7 without-commission btn btn-sm btn-danger"
-              style={{ display: "none" }}
-            >
-              <span
-                className="badge badge-light"
-                style={{
-                  position: "relative",
-                  bottom: 0,
-                  fontSize: "xx-small",
-                }}
-              >
-                (AMT.)
-              </span>{" "}
-              -13,956
-            </div>
-            <div
-              className="p-1 small col-5 without-commission btn btn-sm btn-success"
-              style={{ display: "none" }}
-            >
-              <span
-                className="badge badge-light"
-                style={{
-                  position: "relative",
-                  bottom: 0,
-                  fontSize: "xx-small",
-                }}
-              >
-                (COMM.)
-              </span>{" "}
-              14,635
-            </div>
-            {/* <div className="pt-2 col-5 row-title text-center with-commission">
-              TOTAL
-            </div>
-            <div className="pt-2 pr-1 pl-1 col-7 with-commission btn btn-sm btn-success">
-              {(finalBalance).toFixed(2)}
-            </div> */}
-            <div className="pt-2 col-5 row-title text-center with-commission">
-              TOTAL
-            </div>
-            <div
-              className={`pt-2 pr-1 pl-1 col-7 with-commission btn btn-sm ${
-                finalBalance >= 0 ? "btn-success" : "btn-danger"
-              }`}
-            >
-              {finalBalance.toFixed(2)}
-            </div>
-          </div>
-
-          {/* Modal */}
-          <div
-            className="modal fade"
-            id="bets-list"
-            tabIndex={-1}
-            role="dialog"
-            aria-labelledby="myModalLabel"
-            aria-hidden="true"
-          >
-            <div className="modal-dialog modal-dialog-centered" role="document">
-              <div className="modal-content form-elegant">
-                <div className="modal-header text-center pb-0">
-                  <h6 style={{ width: "100%" }} className="pt-2">
-                    -
-                  </h6>
-                  <button
-                    type="button"
-                    className="close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">×</span>
-                  </button>
-                </div>
-                <div className="modal-body"></div>
-                <div className="modal-footer pt-2 mb-1 text-center">
-                  <button
-                    type="button"
-                    className="btn btn-info"
-                    data-dismiss="modal"
-                  >
-                    Close ❌
-                  </button>
-                </div>
               </div>
             </div>
           </div>

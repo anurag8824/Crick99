@@ -348,7 +348,7 @@ class Fancy extends React.Component<
     return (
       <div className='table-header text-dark'>
         <div style={{fontSize:"13px" ,backgroundColor:"#0f2326", }} className={`float-left ${isMobile ? 'bg-theme' : 'bg-theme'} country-name box-6`}>
-         <span className='text_blink' style={{fontSize:"13px" , }} >SESSION (commission)</span>
+         <span className='text_blink' style={{fontSize:"13px" , }} >SESSION</span>
         </div>
         <div style={{fontSize:"13px" ,backgroundColor:"#0f2326", color:"white" }}className={`${isMobile ? 'box-2' : 'box-2'} float-right lay text-center`}>
           <b>NOT</b>

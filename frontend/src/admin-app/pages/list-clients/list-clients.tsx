@@ -131,9 +131,9 @@ const ListClients = () => {
   console.log(newtype, "newtype get");
 
   const upper: any = {
-    sadmin: { first: "Super", second: "SubAdmin" },
-    suadmin: { first: "SubAdmin", second: "Admin" },
-    smdl: { first: "Admin", second: "Master" },
+    sadmin: { first: "Super", second: "Admin" },
+    suadmin: { first: "Admin", second: "SubAdmin" },
+    smdl: { first: "SubAdmin", second: "Master" },
     mdl: { first: "Master", second: "Agent" },
     dl: { first: "Super", second: "Agent" },
   }[newtype || "dl"]; // default to 'dl' if undefined
@@ -585,12 +585,12 @@ const ListClients = () => {
 
     const allRoles = {
       admin: "Super Admin",
-      sadmin: "Sub Admin",
-      suadmin: "Admin",
-      smdl: "Master Agent",
-      mdl: "Super Agent Master",
-      dl: "Agent Master",
-      user: "Client Master",
+      sadmin: "Admin",
+      suadmin: "Sub Admin",
+      smdl: "Master",
+      mdl: "Super",
+      dl: "Agent",
+      user: "Client",
     };
 
     const roleMap: Record<RoleType, RoleType[]> = {
@@ -1427,6 +1427,18 @@ const ListClients = () => {
                                     }}
                                   >
                                     Account Statement
+                                  </CustomLink>
+
+                                  <CustomLink
+                                    to={`/login-report/${user?._id}`}
+                                    style={{ color: "#1e1e1e" }}
+                                    className=" pb-2 fw-bold"
+                                    onClick={() => {
+                                      openModal("");
+                                      getUserDetail(user);
+                                    }}
+                                  >
+                                    Login Report
                                   </CustomLink>
 
                                   <CustomLink

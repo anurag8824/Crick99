@@ -42,6 +42,10 @@ class UserService {
     return api.post('/delete-user', data)
   }
 
+  loginReports(data:any){
+    return api.post('/login-report', data)
+  }
+
   updatePassword(data: any) {
     return api.post('/update-user', data)
   }

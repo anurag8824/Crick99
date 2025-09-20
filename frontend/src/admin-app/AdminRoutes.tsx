@@ -174,7 +174,7 @@ const AdminRoutes = () => {
 
             {path: "casino-details", element: <CasinoDetail/>},
 
-            {path: "login-report", element: <LoginReport/>},
+            {path: "login-report/:id", element: <LoginReport/>},
 
 
             {path: "inplay-games", element: <Inplaygames/>},

@@ -118,10 +118,10 @@ const AddUser = () => {
 
   switch (thetype) {
     case "sadmin":
-      fword = "SB";
+      fword = "AD";
       break;
       case "suadmin":
-      fword = "AD";
+      fword = "SB";
       break;
     case "smdl":
       fword = "MA";

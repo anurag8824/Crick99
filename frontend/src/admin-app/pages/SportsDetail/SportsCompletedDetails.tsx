@@ -11,6 +11,8 @@ import { CloseButton } from "react-bootstrap";
 import moment from "moment";
 import { dateFormat } from "../../../utils/helper";
 import userService from "../../../services/user.service";
+import { useNavigate } from "react-router-dom";
+import { DatePicker } from "antd";
 
 interface LedgerItem {
   parentName: string;
@@ -249,8 +251,11 @@ const SportsCompletedDetails = () => {
     });
   };
 
+  const navigate = useNavigate();
+  const { RangePicker } = DatePicker;
+
   return (
-    <div className="container-fluid p-4">
+    <div style={{ padding: "0" }} className="container-fluid p-md-4 mt-3">
       <div
         style={{ background: "#0f2327" }}
         className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex"
@@ -258,44 +263,40 @@ const SportsCompletedDetails = () => {
         <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
           Completed Sports Details
         </span>
-        <CustomLink
-          to={"/"}
+        <button
+          onClick={() => navigate(-1)}
           type="button"
           className="btn bg-primary text-white"
         >
           <span>Back</span>
-        </CustomLink>
+        </button>
       </div>
 
-      <div style={{ overflowX: "auto", width: "100%" }} className="">
-        <table className="table table">
-          <thead>
-            <tr>
-              <th className="" style={{ padding: "10px" }}></th>
-              <th className="" style={{ padding: "10px" }}></th>
-            </tr>
-          </thead>
-          {/* <tbody>{listItem()}</tbody> */}
-        </table>
+      <div className="text-center my-3">
+      <RangePicker />
       </div>
 
-      <table
-        className="table  table-striped bg-white table-bordered account-list dataTable no-footer"
-        style={{ width: "100%" }}
-        id="DataTables_Table_0"
-        role="grid"
+      <div
+        style={{ overflowX: "auto", width: "100%", height: "120vh" }}
+        className=""
       >
-        <thead style={{ width: "100%", overflowX: "auto" }} className="small">
-          <tr role="row">
-            <th
-              className="sorting_disabled"
-              rowSpan={1}
-              colSpan={1}
-              style={{ width: "8px", background: "#0f2327", color: "white" }}
-            >
-              -
-            </th>
-            {/* <th
+        <table
+          className="table  table-striped bg-white table-bordered account-list dataTable no-footer"
+          style={{ width: "100%", overflowX: "scroll" }}
+          id="DataTables_Table_0"
+          role="grid"
+        >
+          <thead style={{ width: "100%", overflowX: "auto" }} className="small">
+            <tr role="row">
+              <th
+                className="sorting_disabled"
+                rowSpan={1}
+                colSpan={1}
+                style={{ width: "8px", background: "#0f2327", color: "white" }}
+              >
+                -
+              </th>
+              {/* <th
               className="sorting_disabled"
               rowSpan={1}
               colSpan={1}
@@ -303,58 +304,62 @@ const SportsCompletedDetails = () => {
             >
              Code
             </th> */}
-            <th
-              className="sorting_disabled"
-              rowSpan={1}
-              colSpan={1}
-              style={{ width: "205px", background: "#0f2327", color: "white" }}
-            >
-              Name
-            </th>
+              <th
+                className="sorting_disabled"
+                rowSpan={1}
+                colSpan={1}
+                style={{
+                  width: "220px",
+                  background: "#0f2327",
+                  color: "white",
+                }}
+              >
+                Name
+              </th>
 
-            <th
-              className="sorting_disabled"
-              rowSpan={1}
-              colSpan={1}
-              style={{ width: "63px", background: "#0f2327", color: "white" }}
-            >
-              Time
-            </th>
+              <th
+                className="sorting_disabled"
+                rowSpan={1}
+                colSpan={1}
+                style={{ width: "63px", background: "#0f2327", color: "white" }}
+              >
+                Time
+              </th>
 
-            <th
-              className="sorting_disabled"
-              rowSpan={1}
-              colSpan={1}
-              style={{ width: "63px", background: "#0f2327", color: "white" }}
-            >
-              Declared Date
-            </th>
+              <th
+                className="sorting_disabled"
+                rowSpan={1}
+                colSpan={1}
+                style={{ width: "63px", background: "#0f2327", color: "white" }}
+              >
+                Declared Date
+              </th>
 
-            <th
-              className="sorting_disabled"
-              rowSpan={1}
-              colSpan={1}
-              style={{ width: "63px", background: "#0f2327", color: "white" }}
-            >
-              Competition
-            </th>
-            <th
-              className="sorting_disabled"
-              rowSpan={1}
-              colSpan={1}
-              style={{ width: "63px", background: "#0f2327", color: "white" }}
-            >
-              Won By
-            </th>
-            <th
-              className="sorting_disabled"
-              rowSpan={1}
-              colSpan={1}
-              style={{ width: "63px", background: "#0f2327", color: "white" }}
-            >
-              P/L
-            </th>
-            {/* <th
+              <th
+                className="sorting_disabled"
+                rowSpan={1}
+                colSpan={1}
+                style={{ width: "63px", background: "#0f2327", color: "white" }}
+              >
+                Competition
+              </th>
+              <th
+                className="sorting_disabled"
+                rowSpan={1}
+                colSpan={1}
+                style={{ width: "63px", background: "#0f2327", color: "white" }}
+              >
+                Won By
+              </th>
+              <th
+                className="sorting_disabled"
+                rowSpan={1}
+                colSpan={1}
+                style={{ width: "63px", background: "#0f2327", color: "white" }}
+              >
+                P/L
+              </th>
+              {/* <th
               className="sorting_disabled"
               rowSpan={1}
               colSpan={1}
@@ -362,7 +367,7 @@ const SportsCompletedDetails = () => {
             >
               Winner
             </th> */}
-            {/* <th
+              {/* <th
               className="sorting_disabled"
               rowSpan={1}
               colSpan={1}
@@ -370,7 +375,7 @@ const SportsCompletedDetails = () => {
             >
               My Share P/L
             </th> */}
-            {/* <th
+              {/* <th
               className="sorting_disabled"
               rowSpan={1}
               colSpan={1}
@@ -378,321 +383,187 @@ const SportsCompletedDetails = () => {
             >
               Total P/L
             </th> */}
-          </tr>
-        </thead>
-        <tbody className="small">
-          {/* <tr role="row" className="odd">
-            <td className="ng-scope">
-              <ul
-                className="nav nav-pills w-100"
-                style={{ fontSize: "xx-large" }}
-              >
-                <li className="nav-item dropdown">
-                  <a
-                    className="nav-link hidden dropdown-toggle p-0"
-                    style={{ height: "20px" }}
-                    data-toggle="dropdown"
-                    // href="javascript:void(0);"
-                    // role="button"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  ></a>
-                  <div className="dropdown-menu">
-                    <a
-                      className="dropdown-item small text-white call-event navbar-bet99"
-                    //   href="/plus-minus-report/34160852"
-                    >
-                      <svg
-                        className="svg-inline--fa fa-futbol fa-w-16"
-                        aria-hidden="true"
-                        data-prefix="fa"
-                        data-icon="futbol"
-                        role="img"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 512 512"
-                        data-fa-i2svg=""
-                      >
-                        <path
-                          fill="currentColor"
-                          d="M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zm-48 0l-.003-.282-26.064 22.741-62.679-58.5 16.454-84.355 34.303 3.072c-24.889-34.216-60.004-60.089-100.709-73.141l13.651 31.939L256 139l-74.953-41.525 13.651-31.939c-40.631 13.028-75.78 38.87-100.709 73.141l34.565-3.073 16.192 84.355-62.678 58.5-26.064-22.741-.003.282c0 43.015 13.497 83.952 38.472 117.991l7.704-33.897 85.138 10.447 36.301 77.826-29.902 17.786c40.202 13.122 84.29 13.148 124.572 0l-29.902-17.786 36.301-77.826 85.138-10.447 7.704 33.897C442.503 339.952 456 299.015 456 256zm-248.102 69.571l-29.894-91.312L256 177.732l77.996 56.527-29.622 91.312h-96.476z"
-                        ></path>
-                      </svg>
-                      <i className="fa fa-futbol"></i> Match &amp; Session Plus
-                      Minus
-                    </a>
-                    <div className="dropdown-divider"></div>
-                    <a
-                      className="dropdown-item small text-white call-event navbar-bet99"
-                      href="/session-bets/34160852"
-                    >
-                      <svg
-                        className="svg-inline--fa fa-eye fa-w-18"
-                        aria-hidden="true"
-                        data-prefix="fa"
-                        data-icon="eye"
-                        role="img"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 576 512"
-                        data-fa-i2svg=""
-                      >
-                        <path
-                          fill="currentColor"
-                          d="M569.354 231.631C512.969 135.949 407.81 72 288 72 168.14 72 63.004 135.994 6.646 231.631a47.999 47.999 0 0 0 0 48.739C63.031 376.051 168.19 440 288 440c119.86 0 224.996-63.994 281.354-159.631a47.997 47.997 0 0 0 0-48.738zM288 392c-75.162 0-136-60.827-136-136 0-75.162 60.826-136 136-136 75.162 0 136 60.826 136 136 0 75.162-60.826 136-136 136zm104-136c0 57.438-46.562 104-104 104s-104-46.562-104-104c0-17.708 4.431-34.379 12.236-48.973l-.001.032c0 23.651 19.173 42.823 42.824 42.823s42.824-19.173 42.824-42.823c0-23.651-19.173-42.824-42.824-42.824l-.032.001C253.621 156.431 270.292 152 288 152c57.438 0 104 46.562 104 104z"
-                        ></path>
-                      </svg>
-                      <i className="fa fa-eye"></i> completed Bet
-                    </a>
-                    <div className="dropdown-divider"></div>
-                    <a
-                      className="dropdown-item small text-white call-event navbar-bet99"
-                      href="/rejected-bets/34160852"
-                    >
-                      <svg
-                        className="svg-inline--fa fa-eye fa-w-18"
-                        aria-hidden="true"
-                        data-prefix="fa"
-                        data-icon="eye"
-                        role="img"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 576 512"
-                        data-fa-i2svg=""
-                      >
-                        <path
-                          fill="currentColor"
-                          d="M569.354 231.631C512.969 135.949 407.81 72 288 72 168.14 72 63.004 135.994 6.646 231.631a47.999 47.999 0 0 0 0 48.739C63.031 376.051 168.19 440 288 440c119.86 0 224.996-63.994 281.354-159.631a47.997 47.997 0 0 0 0-48.738zM288 392c-75.162 0-136-60.827-136-136 0-75.162 60.826-136 136-136 75.162 0 136 60.826 136 136 0 75.162-60.826 136-136 136zm104-136c0 57.438-46.562 104-104 104s-104-46.562-104-104c0-17.708 4.431-34.379 12.236-48.973l-.001.032c0 23.651 19.173 42.823 42.824 42.823s42.824-19.173 42.824-42.823c0-23.651-19.173-42.824-42.824-42.824l-.032.001C253.621 156.431 270.292 152 288 152c57.438 0 104 46.562 104 104z"
-                        ></path>
-                      </svg>
-                      <i className="fa fa-eye"></i> Display Rejected Bet
-                    </a>
-                  </div>
-                </li>
-              </ul>
-            </td>
-            <td className="ng-scope">Apr 11, 9:0 PM</td>
-            <td className="ng-scope">
-              <a href="/live-report/34160852">
-                <img
-                  style={{ maxWidth: "100%", height: "20px" }}
-                  src="assets/images/default-4.png"
-                />
-                Islamabad United v Lahore Qalandars
-              </a>
-            </td>
-            <td className="ng-scope"></td>
-            <td className="ng-scope">
-              <span className="pt-2 pb-1 text-warning">0</span>
-            </td>
-            <td className="ng-scope">
-              <span className="pt-2 pb-1 text-warning">0</span>
-            </td>
-          </tr> */}
+            </tr>
+          </thead>
+          <tbody className="small">
+            {marketData?.map((item: any, index: number) => (
+              <tr key={index}>
+                <td
+                  // ref={tdRef}
+                  className="ng-scope position-relative"
+                >
+                  <button onClick={() => handleToggle(item._id)}>
+                    <ArrowDropDownIcon />
+                  </button>
 
-          {marketData?.map((item: any, index: number) => (
-            <tr key={index}>
-              <td
-                // ref={tdRef}
-                className="ng-scope position-relative"
-              >
-                <button onClick={() => handleToggle(item._id)}>
-                  <ArrowDropDownIcon />
-                </button>
+                  {close === item._id && (
+                    <div
+                      className="dropdown-menu position-relative show rounded-md border position-absolute top-0 start-0 translate-custom"
+                      x-placement="bottom-start"
+                      style={{
+                        transform: "translate3d(0px, 20px, 0px)",
+                        willChange: "transform",
+                      }}
+                    >
+                      <button
+                        onClick={() => handleToggle(item._id)}
+                        className="-right-2.5 -top-2.5 position-absolute bg-gray-800 p-0 rounded-full "
+                      >
+                        <CloseButton className="text-white" />
+                      </button>
 
-                {close === item._id && (
-                  <div
-                    className="dropdown-menu position-relative show rounded-md border position-absolute top-0 start-0 translate-custom"
-                    x-placement="bottom-start"
-                    style={{
-                      transform: "translate3d(0px, 20px, 0px)",
-                      willChange: "transform",
-                    }}
+                      <CustomLink
+                        className="dropdown-item  text-lg  text-blackcall-event font-semibold "
+                        to={`/report-bets/${item.matchId}`}
+                      >
+                        Match and Session Position Minus
+                      </CustomLink>
+
+                      <CustomLink
+                        className="dropdown-item  text-lg  text-blackcall-event font-semibold"
+                        to={`/report-bets/${item.matchId}`}
+                      >
+                        Match and Session Plus Minus
+                      </CustomLink>
+                      <CustomLink
+                        className="dropdown-item  text-lg  text-black all-event font-semibold "
+                        to={`/report-bets/${item.matchId}`}
+                      >
+                        Match and Session Plus 2 Minus
+                      </CustomLink>
+                      <CustomLink
+                        className="dropdown-item  text-lg  text-black call-event font-semibold "
+                        to={`/session-bets/${item.matchId}`}
+                      >
+                        Display Match Bets
+                      </CustomLink>
+
+                      <CustomLink
+                        className="dropdown-item text-lg text-black call-event font-semibold "
+                        to={`/match-bets/${item.matchId}`}
+                      >
+                        Display Session Bets
+                      </CustomLink>
+                      <CustomLink
+                        className="dropdown-item text-lg text-black call-event font-semibold "
+                        to={`/match-bets/${item.matchId}`}
+                      >
+                        Match and Session Bet
+                      </CustomLink>
+                      <CustomLink
+                        className="dropdown-item text-lg text-black call-event font-semibold "
+                        to={`/match-bets/${item.matchId}`}
+                      >
+                        Completed Fancies
+                      </CustomLink>
+
+                      <CustomLink
+                        className="dropdown-item text-lg text-black call-event font-semibold "
+                        to={`/match-bets/${item.matchId}`}
+                      >
+                        Rejected Bets
+                      </CustomLink>
+
+                      <CustomLink
+                        className="dropdown-item text-lg text-black call-event font-semibold "
+                        to={`/match-bets/${item.matchId}`}
+                      >
+                        Rejected Match Bets
+                      </CustomLink>
+
+                      <CustomLink
+                        className="dropdown-item text-lg text-black call-event font-semibold "
+                        to={`/match-bets/${item.matchId}`}
+                      >
+                        Agent Plus Minus
+                      </CustomLink>
+                    </div>
+                  )}
+                </td>
+                <td className="ng-scope">
+                  <CustomLink
+                    className="flex align-items-center gap-2 text-blue-500"
+                    to={`${
+                      item?.active
+                        ? `/odds/${item?.matchId}/${shared}`
+                        : `/client-bets/${item.matchId}`
+                    }`}
                   >
-                    <button
-                      onClick={() => handleToggle(item._id)}
-                      className="-right-2.5 -top-2.5 position-absolute bg-gray-800 p-0 rounded-full "
-                    >
-                      <CloseButton className="text-white " />
-                    </button>
+                    
+                    {item.name}
+                  </CustomLink>
+                </td>
+                <td className="ng-scope">
+                  {/* {new Date(item.matchDateTime).toLocaleString()} */}
+                  {moment(item.matchDateTime).format(dateFormat)}
+                </td>
+                <td className="ng-scope">
+                  {moment(item.matchDateTime).format(dateFormat)}
+                </td>
+                <td className="ng-scope">
+                  <CustomLink
+                    className="flex align-items-center gap-2 text-blue-500"
+                    to={`${
+                      item?.active
+                        ? `/odds/${item?.matchId}/${shared}`
+                        : `/client-bets/${item.matchId}`
+                    }`}
+                  >
+                    {item.name}
+                  </CustomLink>
+                </td>
+                <td className="ng-scope ">
+                  {item?.resultstring ? item?.resultstring : ""}
+                </td>
+                <td className="ng-scope">
+                  <span className="pt-2 pb-1 text-warning">
+                    {(() => {
+                      const total =
+                        item.ledgers
+                          ?.filter(
+                            (l: any) =>
+                              l?.parentName === userState.user.username &&
+                              l?.updown !== undefined
+                          )
+                          ?.reduce((sum: any, l: any) => sum + l.updown, 0) ||
+                        0;
+                      return (
+                        <span
+                          className={`pt-2 pb-1 ${
+                            total >= 0 ? "text-success" : "text-danger"
+                          }`}
+                        >
+                          {total.toFixed(2)}
+                        </span>
+                      );
+                    })()}
+                  </span>
+                </td>
+                
+              </tr>
+            ))}
 
-                    <CustomLink
-                      className="dropdown-item  text-lg  text-white call-event navbar-bet99"
-                      to={`/report-bets/${item.matchId}`}
-                    >
-                      <i className="fa fa-futbol"></i> Match and Session
-                      Position Minus
-                    </CustomLink>
-
-                    <CustomLink
-                      className="dropdown-item  text-lg  text-white call-event navbar-bet99"
-                      to={`/report-bets/${item.matchId}`}
-                    >
-                      <i className="fa fa-futbol"></i> Match and Session Plus
-                      Minus
-                    </CustomLink>
-                    <CustomLink
-                      className="dropdown-item  text-lg  text-white call-event navbar-bet99"
-                      to={`/report-bets/${item.matchId}`}
-                    >
-                      <i className="fa fa-futbol"></i> Match and Session Plus 2
-                      Minus
-                    </CustomLink>
-                    <div className="dropdown-divider"></div>
-                    <CustomLink
-                      className="dropdown-item  text-lg  text-white call-event navbar-bet99"
-                      to={`/session-bets/${item.matchId}`}
-                    >
-                      <i className="fa fa-eye"></i> Display Match Bets
-                    </CustomLink>
-                    <div className="dropdown-divider"></div>
-                    <CustomLink
-                      className="dropdown-item text-lg text-white call-event navbar-bet99"
-                      to={`/match-bets/${item.matchId}`}
-                    >
-                      <i className="fa fa-eye"></i> Display Session Bets
-                    </CustomLink>
-                    <div className="dropdown-divider"></div>
-                    <CustomLink
-                      className="dropdown-item text-lg text-white call-event navbar-bet99"
-                      to={`/match-bets/${item.matchId}`}
-                    >
-                      <i className="fa fa-eye"></i> Match and Session Bet
-                    </CustomLink>
-                    <div className="dropdown-divider"></div>
-                    <CustomLink
-                      className="dropdown-item text-lg text-white call-event navbar-bet99"
-                      to={`/match-bets/${item.matchId}`}
-                    >
-                      <i className="fa fa-eye"></i>Completed Fancies
-                    </CustomLink>
-
-                    <CustomLink
-                      className="dropdown-item text-lg text-white call-event navbar-bet99"
-                      to={`/match-bets/${item.matchId}`}
-                    >
-                      <i className="fa fa-eye"></i>Rejected Bets
-                    </CustomLink>
-
-                    <CustomLink
-                      className="dropdown-item text-lg text-white call-event navbar-bet99"
-                      to={`/match-bets/${item.matchId}`}
-                    >
-                      <i className="fa fa-eye"></i>Rejected Match Bets
-                    </CustomLink>
-
-                    <CustomLink
-                      className="dropdown-item text-lg text-white call-event navbar-bet99"
-                      to={`/match-bets/${item.matchId}`}
-                    >
-                      <i className="fa fa-eye"></i>Agent Plus Minus
-                    </CustomLink>
-                  </div>
-                )}
+            {/* Total Row */}
+            <tr className="d-none">
+              <td colSpan={4} className="text-right font-weight-bold">
+                Total
               </td>
-              <td className="ng-scope">
-                {/* {new Date(item.matchDateTime).toLocaleString()} */}
-                {moment(item.matchDateTime).format(dateFormat)}
-              </td>
-              <td className="ng-scope">
-                {/* {new Date(item.matchDateTime).toLocaleString()} */}
-                {moment(item.matchDateTime).format(dateFormat)}
-              </td>
-              <td className="ng-scope">
-                {moment(item.matchDateTime).format(dateFormat)}
-              </td>
-              <td className="ng-scope">
-                <CustomLink
-                  className="flex align-items-center gap-2 text-blue-500"
-                  to={`${
-                    item?.active
-                      ? `/odds/${item?.matchId}/${shared}`
-                      : `/client-bets/${item.matchId}`
-                  }`}
-                >
-                  <img
-                    style={{ maxWidth: "100%", height: "20px" }}
-                    src="/imgs/default-4.png"
-                  />
-                  {item.name}
-                </CustomLink>
-              </td>
-              <td className="ng-scope ">
+              <td className=" font-weight-bold">
                 <span
-                  className="badge p-2 badge-primary"
-                  style={{ fontSize: "xx-small" }}
+                  className={grandUpdown >= 0 ? "text-success" : "text-danger"}
                 >
-                  {" "}
-                  <i className="fas fa-trophy"></i>{" "}
-                </span>{" "}
-                {item?.resultstring ? item?.resultstring : ""}
-              </td>
-              <td className="ng-scope">
-                <span className="pt-2 pb-1 text-warning">
-                  {(() => {
-                    const total =
-                      item.ledgers
-                        ?.filter(
-                          (l: any) =>
-                            l?.parentName === userState.user.username &&
-                            l?.updown !== undefined
-                        )
-                        ?.reduce((sum: any, l: any) => sum + l.updown, 0) || 0;
-                    return (
-                      <span
-                        className={`pt-2 pb-1 ${
-                          total >= 0 ? "text-success" : "text-danger"
-                        }`}
-                      >
-                        {total.toFixed(2)}
-                      </span>
-                    );
-                  })()}
+                  {grandUpdown.toFixed(2)}
                 </span>
               </td>
-              <td className="ng-scope">
-                <span className="pt-2 pb-1 text-warning">
-                  {(() => {
-                    const total =
-                      item.ledgers
-                        ?.filter(
-                          (l: any) =>
-                            l?.parentName === userState.user.username &&
-                            l?.profit !== undefined
-                        )
-                        ?.reduce((sum: any, l: any) => sum + l.profit, 0) || 0;
-                    return (
-                      <span
-                        className={`pt-2 pb-1 ${
-                          total >= 0 ? "text-success" : "text-danger"
-                        }`}
-                      >
-                        {total.toFixed(2)}
-                      </span>
-                    );
-                  })()}
+              <td className=" font-weight-bold">
+                <span className={grandpl >= 0 ? "text-success" : "text-danger"}>
+                  {grandUpdown.toFixed(2)}
                 </span>
               </td>
             </tr>
-          ))}
-
-          {/* Total Row */}
-          <tr className="d-none">
-            <td colSpan={4} className="text-right font-weight-bold">
-              Total
-            </td>
-            <td className=" font-weight-bold">
-              <span
-                className={grandUpdown >= 0 ? "text-success" : "text-danger"}
-              >
-                {grandUpdown.toFixed(2)}
-              </span>
-            </td>
-            <td className=" font-weight-bold">
-              <span className={grandpl >= 0 ? "text-success" : "text-danger"}>
-                {grandUpdown.toFixed(2)}
-              </span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

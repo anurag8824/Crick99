@@ -80,19 +80,21 @@ const MyBetComponent = () => {
       <table className='table table-striped table-hover'>
         <thead className="bg-info-subtle text-warning">
           <tr>
-            <th style={{background:"#2a3a5a" , border:"none"}} className='text-warning'>#</th>
-            {userState.user.role !== RoleType.user && <th style={{background:"#2a3a5a"}} className='text-warning' >Username</th>}
-            <th style={{background:"#2a3a5a" , border:"none"}} className='text-warning text-left'> Runner Name</th>
-            <th style={{background:"#2a3a5a" , border:"none"}} className='text-warning'>Bet Price</th>
-            <th style={{background:"#2a3a5a" , border:"none"}} className='text-warning'>Bet Value</th>
-            <th style={{background:"#2a3a5a" , border:"none"}} className='text-warning'>Bet Amount</th>
-            <th style={{background:"#2a3a5a" , border:"none"}} className='text-warning'>Bet Profit</th>
-            <th style={{background:"#2a3a5a" , border:"none"}} className='text-warning'>Bet Loss</th>
+            <th style={{background:"#2a3a5a" , border:"none", fontSize:"13px"}} className='text-warning'>#</th>
+            {userState.user.role !== RoleType.user && <th style={{background:"#2a3a5a", fontSize:"13px"}} className='text-warning' >Username</th>}
+            <th style={{background:"#2a3a5a" , border:"none" , fontSize:"13px"}} className='text-warning text-left'> Runner Name</th>
+            <th style={{background:"#2a3a5a" , border:"none" , fontSize:"13px"}} className='text-warning'>Bet Mode</th>
+
+            <th style={{background:"#2a3a5a" , border:"none", fontSize:"13px"}} className='text-warning'>Bet Price</th>
+            <th style={{background:"#2a3a5a" , border:"none", fontSize:"13px"}} className='text-warning'>Bet Value</th>
+            <th style={{background:"#2a3a5a" , border:"none", fontSize:"13px"}} className='text-warning'>Bet Amount</th>
+            {/* <th style={{background:"#2a3a5a" , border:"none"}} className='text-warning'>Bet Profit</th> */}
+            {/* <th style={{background:"#2a3a5a" , border:"none"}} className='text-warning'>Bet Loss</th> */}
 
             {/* {!isMobile && <th style={{background:"#76d68f"}}> Place Date</th>} */}
             {/* {!isMobile && <th style={{background:"#76d68f"}}> Match Date</th>} */}
-            <th style={{background:"#2a3a5a" , border:"none"}} className='text-warning'>Bet Status</th>
-            {userState.user.role !== RoleType.user && <th> Date</th>}
+            {/* <th style={{background:"#2a3a5a" , border:"none"}} className='text-warning'>Bet Status</th> */}
+            {userState.user.role !== RoleType.user && <th  style={{background:"#2a3a5a" , border:"none", fontSize:"13px"}} > Date</th>}
           </tr>
         </thead>
         <tbody className='text-white'>
@@ -120,9 +122,9 @@ const MyBetComponent = () => {
               {!isMobile && (
                 <td className='no-wrap'> {moment(bet.createdAt).format(betDateFormat)} </td>
               )} */}
-              <td className='no-wrap text-center' > {bet?.result?.result ? bet?.result?.result  :"-" } </td>
+              {/* <td className='no-wrap text-center' > {bet?.result?.result ? bet?.result?.result  :"-" } </td> */}
               {userState.user.role !== RoleType.user && <td className='no-wrap'>{moment.utc(bet.betClickTime).utcOffset('+05:30').format('DD/MM/YYYY hh:mm:ss A')} </td>}
-              <td className='no-wrap text-center' > {bet?.status} </td>
+              {/* <td className='no-wrap text-center' > {bet?.status} </td> */}
 
             </tr>
 
