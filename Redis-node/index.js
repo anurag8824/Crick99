@@ -790,6 +790,7 @@ const formattedFancyData = async () => {
 
         const currentSelectionIds = new Set(fancydata.map(item => item.SelectionId));
         const previousSelectionIds = new Set(pfancy.map(item => item.SelectionId));
+        // console.log(currentSelectionIds,previousSelectionIds,"id logs is here")
 
         // 🔹 Emit new fancies
         for (const item of fancydata) {
@@ -800,8 +801,11 @@ const formattedFancyData = async () => {
 
         // 🔹 Emit deactivated fancies
         const deactivated = pfancy.filter(oldItem => !currentSelectionIds.has(oldItem.SelectionId));
+        console.log(deactivated,"deactivated")
+        let mdata= diamondtobetId[key]
         if (deactivated.length > 0) {
-          io.emit("deactivateFancy", { matchId: diamondtobetId[key], marketIds: deactivated.map(d => d.SelectionId) });
+          io.emit("deactivateFancy", { [mdata]: deactivated.map(d => d.SelectionId.toString()) });
+          console.log("fancy deactive",)
         }
 
         // 🔹 Save updated fancy to Redis
@@ -1107,7 +1111,7 @@ const handleBookmakerForMatch = async (id) => {
         }
 
         return {
-          selectionId: sec.sid.toString(),
+          selectionId: parseInt(sec.sid),
           runnerName: sec.nat,
           status: sec.gstatus,
           lastPriceTraded,
@@ -1127,7 +1131,7 @@ const handleBookmakerForMatch = async (id) => {
       matchId,
       runners: transformedRunners
     };
-     console.log(marketData,"FGHJK")
+    //  console.log(marketData,"FGHJK")
     const jsonMessage = JSON.stringify(marketData);
 
     publisher.publish("getMarketData", jsonMessage);
@@ -1172,7 +1176,7 @@ startPolling();
       const id = f.matchId
       // console.log(id)
    const matchdata =  matchDataStore[id.toString()]
-   console.log(matchdata,matchdata?.event?.name,"matchdata")
+  //  console.log(matchdata,matchdata?.event?.name,"matchdata")
 //     const keys = await publisher.keys("match-data-all-*");
 // console.log(keys);
         try {
