@@ -496,29 +496,32 @@ const Header = () => {
                   casinoSlug = casinoSlugs?.[exposer?.matchId];
                 }
                 return (
-                  <tr key={exposer.matchName}>
-                    <td>
-                      <CustomLink
-                        onClick={() => {
-                          window.location.href =
-                            exposer.sportId &&
-                            Number.isInteger(+exposer.sportId) &&
-                            exposer.sportId != 5000
-                              ? `/odds/${exposer._id}`
-                              : `/casino/${casinoSlug}/${exposer._id}`;
-                          setIsOpen(false);
-                        }}
-                        to={
-                          exposer.sportId &&
-                          Number.isInteger(+exposer.sportId) &&
-                          exposer.sportId != 5000
-                            ? `/odds/${exposer._id}`
-                            : `/casino/${casinoSlug}/${exposer._id}`
-                        }
-                      >
-                        {exposer.matchName}
-                      </CustomLink>
-                    </td>
+                  <tr key={exposer.matchName} style={{paddingBottom:"4px"}}>
+         <td style={{ backgroundColor: "", color: "white", padding: "1" }}>
+    <div style={{ marginBottom: "6px" , background: "#0f2326", }}>
+      <CustomLink
+        style={{ color: "white", display: "block" , padding:"2px" }}
+        onClick={() => {
+          window.location.href =
+            exposer.sportId &&
+            Number.isInteger(+exposer.sportId) &&
+            exposer.sportId != 5000
+              ? `/odds/${exposer._id}`
+              : `/casino/${casinoSlug}/${exposer._id}`;
+          setIsOpen(false);
+        }}
+        to={
+          exposer.sportId &&
+          Number.isInteger(+exposer.sportId) &&
+          exposer.sportId != 5000
+            ? `/odds/${exposer._id}`
+            : `/casino/${casinoSlug}/${exposer._id}`
+        }
+      >
+        {exposer.matchName}
+      </CustomLink>
+    </div>
+  </td>
                     <td>{exposer.myCount}</td>
                   </tr>
                 );

@@ -130,7 +130,7 @@ const Login = () => {
           <div className="log-logo d-none m-b-24 text-center">
             <img src="/imgs/logo.png" className="logo-login" />
           </div>
-          <div style={{marginTop:"30%"}} className="featured-box-login featured-box-secundary default">
+          <div style={{marginTop:"50%" ,marginLeft:"30px" ,marginRight:"30px" }} className="featured-box-login  featured-box-secundary default">
             <div className="log-logo m-b-20 text-center">
               <img src="/imgs/logo.png" className="logo-login m-b-20" />
             </div>
@@ -225,39 +225,41 @@ const Login = () => {
 
 
               <div className='form-group text-center mb-0'>
-                <SubmitButton type='submit' className='btn btn-submit bg-dark text-white btn-login mb-10'>
+                <SubmitButton type='submit' className='btn btn-submit bg-dark fs-5 py-2 text-white btn-login mb-10'>
                   Sign In
                   {userState.status === 'loading' ? (
                     <i className='ml-2 fas fa-spinner fa-spin '></i>
                   ) : (
-                    <i style={{left:"215px"}} className='ml-2 fa fa-arrow-right '></i>
+                    <i style={{left:"215px" , marginTop:"1px"}} className='ml-2 fa fa-arrow-right '></i>
                   )}
                 </SubmitButton>
-                <SubmitButton type='submit' onClick={() => handleSubmitDemoLogin()} className='btn bg-dark text-white btn-submit btn-login mb-10'>
+                <SubmitButton style={{marginBottom:"35px"}} type='submit' onClick={() => handleSubmitDemoLogin()} className='btn bg-dark fs-5 py-2 text-white btn-submit btn-login'>
                  Demo Login 
                   {userState.status === 'loading' ? (
                     <i className='ml-2 fas fa-spinner fa-spin'></i>
                   ) : (
-                    <i style={{top:"51px" ,left:"230px"}} className='ml-2 fa fa-arrow-right  '></i>
+                    <i style={{top:"51px" ,left:"230px" , marginTop:"11px"}} className='ml-2 fa fa-arrow-right  '></i>
                   )}
                 </SubmitButton>
                 <small className='recaptchaTerms'>
                <span className='text-danger'>  Note: This website is not for Indian Territory</span> <br/>
-                  <a
+                  {/* <a
                     target={'_blank'}
                     rel='noopener noreferrer'
                     href='https://policies.google.com/privacy'
                   >
                     Privacy Policy
-                  </a>{' '}
+                  </a>{' '} */}
                   
-                  <a
+                  {/* <a
                     target={'_blank'}
                     rel='noopener noreferrer'
                     href='https://policies.google.com/terms'
                   >
                     Terms of Service
-                  </a>{' '}
+                  </a>{' '} */}
+
+                  <div className="footer-links mb-10 "><a href="#privacy-policy" className="text-dark ">Privacy Policy</a><span className="divider"> | </span><a href="#terms-conditions" className="text-dark ">Terms &amp; Conditions</a><span className="divider"> | </span><a href="#rules-regulations" className="text-dark ">Rules &amp; Regulations</a></div>
                  
                 </small>
               </div>

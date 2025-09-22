@@ -8984,7 +8984,8 @@ footer p {
 }
 
 .footer-links a {
-  color: #fff
+  color: #fff;
+  font-size: 6px;
 }
 
 .support-detail {

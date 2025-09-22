@@ -219,7 +219,7 @@ const PlaceBetBox = ({ stake }: { stake: IUserBetStake }) => {
 
   React.useEffect(() => {
     if (!betValues.isOpen || betValues.betData?.betOn === "CASINO") return;
-    setSeconds(7); // Reset timer to 7 on open
+    setSeconds(7000); // Reset timer to 7 on open
 
     const interval: NodeJS.Timeout = setInterval(() => {
       setSeconds((prev) => {
@@ -266,18 +266,18 @@ const PlaceBetBox = ({ stake }: { stake: IUserBetStake }) => {
 
           <div style={{position:"fixed"}} className='card m-b-10 place-bet'>
             <div className='card-header d-flex align-items-center justify-content-between'>
-              <h6 className='card-title d-inline-block '>Place Bet</h6>
+              <h6 style={{color:"#ffc107"}} className='card-title d-inline-block '>Place Bet</h6>
             {betValues.betData?.betOn === "CASINO" ? "" :  <div>Timer: {seconds} seconds</div> }
-              <span className='card-title d-inline-block col-2' onClick={closeBetPopup}>
-                X
+              <span style={{fontSize:"12px"}} className='card-title d-inline-block col-2' onClick={closeBetPopup}>
+                close
               </span>
             </div>
             <div className={`table-responsive ${betObj.isBack ? 'white' : 'white'}`}>
               <form onSubmit={onSubmit}>
-                <table className='coupon-table  table table-borderedless'>
-                  <thead className='d-none'>
+                <table className='coupon-table  d-none table table-borderedless'>
+                  <thead className=''>
                     <tr>
-                      <th style={{ width: '35%', textAlign: 'left' }}>(Bet for)</th>
+                      {/* <th style={{ width: '35%', textAlign: 'left' }}>(Bet for)</th> */}
                       <th style={{ width: '25%', textAlign: 'left' }}>Odds</th>
                       <th style={{ width: '15%', textAlign: 'left' }}>Stake</th>
                       <th style={{ width: '15%', textAlign: 'right' }}>Profit</th>
@@ -285,14 +285,14 @@ const PlaceBetBox = ({ stake }: { stake: IUserBetStake }) => {
                   </thead>
                   <tbody>
                     <tr>
-                      <td className='text-center d-none'>
-                        <a onClick={closeBetPopup} className='text-danger'>
+                      <td className='text-center'>
+                        <a onClick={closeBetPopup} className='text-danger d-none'>
                           <i className='fa fa-times' />
                         </a>
                         {betObj.selectionName}
                       </td>
                       <td className='bet-odds '>
-                        <div className='form-group d-none'>
+                        <div className='form-group'>
                           <input
                             value={parseFloat(betObj?.odds?.toFixed(4)) || ''}
                             type='text'
@@ -334,7 +334,7 @@ const PlaceBetBox = ({ stake }: { stake: IUserBetStake }) => {
                           />
                         </div>
                       </td>
-                      <td className='text-right d-none bet-profit'>{betValues.betData.pnl}</td>
+                      <td className='text-right  bet-profit'>{betValues.betData.pnl}</td>
                     </tr>
                     <tr>
                       <td colSpan={5} className='value-buttons px-3 py-2' >
@@ -343,7 +343,66 @@ const PlaceBetBox = ({ stake }: { stake: IUserBetStake }) => {
                     </tr>
                   </tbody>
                 </table>
-                <div className='col-md-12 mt-20 justify-content-end d-flex  align-content-center  '>
+
+<div className='px-3 py-2'>
+                <div className="mb-3 p-2 text-center text-white" style={{ backgroundColor: "#0f2326", borderRadius: "6px" }}>
+      <strong>{betObj.selectionName}</strong>
+    </div>
+    </div>
+
+    <div className="row mb-3 px-3 py-2 ">
+      {/* Left Column */}
+      <div className="col-6 d-flex  flex-column align-items-center justify-content-center">
+        <span>Price</span>
+        <div className="border p-2 rounded-3 w-100 text-center mt-1">{betObj.odds}</div>
+      </div>
+
+      {/* Right Column */}
+      <div className="col-6 d-flex flex-column align-items-center justify-content-center">
+        <span>Size</span>
+        <div className="border p-2 rounded-3 w-100 text-center mt-1"> 
+           {parseFloat(betObj?.volume?.toFixed(4)) || ''}
+           </div>
+    
+   
+      </div>
+    </div>
+
+     {/* Stake Section */}
+     <div className="mb-3 text-center">
+      <div>Stake</div>
+      <div className="borde p-2 mt-1">
+        <input
+          type="number"
+          value={betObj.stack || ''}
+          onBlur={onBlurStack}
+          onChange={onChangeStack}
+          className="form-control text-center"
+          style={{ fontSize: "20px" }}
+        />
+      </div>
+    </div>
+
+    <div className='px-3 py-2'>
+
+    <button  type='submit' disabled={getPlaceBet.status === IApiStatus.Loading} className="text-center text-white w-100 rounded-3 py-2" style={{marginTop: "15px", background: "rgb(15, 35, 39)"}}><div>Place Bet {getPlaceBet.status === IApiStatus.Loading ? (
+                      <i className='mx-5 fas fa-spinner fa-spin'></i>
+                    ) : (
+                      ''
+                    )}</div></button>
+    </div>
+
+      {/* Stake Buttons */}
+      <div className="value-buttons px-3 py-2">
+      {renderStakeButtons()}
+    </div>
+
+
+  
+
+
+
+                <div className='col-md-12 mt-20 d-none justify-content-end d-flex  align-content-center  '>
                   <button
                     onClick={reset}
                     type='button'

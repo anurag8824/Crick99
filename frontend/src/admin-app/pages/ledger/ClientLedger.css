@@ -176,18 +176,28 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    pointer-events: auto;
-    color: #212529;
+    width: 100%; /* Full width for mobile */
+    max-width: 400px; /* Desktop max width, adjust if needed */
+    margin: 0px 12px; /* Center horizontally */
     background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 0.3rem;
+    border-radius: 10px; /* Rounded corners */
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    padding: 0; /* Optional, adjust inside spacing */
     outline: 0;
+    pointer-events: auto;
+}
+
+@media (min-width: 768px) {
+  .modal-content {
+      margin: auto; /* Center horizontally on larger screens */
   }
+}
+
+/* Modal close button color */
+.modal-header .btn-close {
+  filter: invert(100%); /* Makes the close icon white */
+}
+
   
 
   .modal-fit-width {
@@ -233,7 +243,7 @@
   .modal-body {
     position: relative;
     flex: 1 1 auto;
-    padding: 1rem;
+    padding: .4rem;
   }
   
   .modal-footer {

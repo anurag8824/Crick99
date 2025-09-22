@@ -22,7 +22,7 @@ const Welcome = (props: any) => {
         className={"modal-dialog modal-lg margin-modal"}
         ariaHideApp={false}
       >
-        <div className="modal-content" style={{ margin: "auto" , width: "400px" ,}}>
+        <div className="modal-content" style={{ margin: "auto" , marginTop:"12px", marginLeft:"15px", width: "400px" ,}}>
           <div className="modal-header">
             <h5 className="text-white">Welcome to BXPRO99</h5>
             <button
@@ -45,15 +45,15 @@ const Welcome = (props: any) => {
             ></img>
           </div>
 
-          <div className="modal-body">
-            <h4 style={{ margin: "0px" }}>प्रिय ग्राहक,</h4>
-            <p>
+          <div className="modal-body p-2">
+            <h4 style={{ margin: "0px", fontSize:"13px",  textAlign:"center" ,  fontWeight:"bold", marginBottom:"15px" , marginTop:"10px" }}>प्रिय ग्राहक,</h4>
+            <p style={{fontSize:"13px", textAlign:"center", padding:"4px"}}>
               प्रिय ग्राहक, आपसे अनुरोध है हमारी कोई डुप्लीकेट साइट नही है हमारी
               आधिकारिक साइट 'BXPRO99.xyz' से लॉगिन करें। लॉगइन करने से पहले साइट
               का नाम जरूर देख लें। आपके समर्थन के लिए धन्यवाद। टीम BXPRO99
             </p>
-            <h4 style={{ margin: "0px" }}>Dear Client,</h4>
-            <p>
+            <h4 style={{ margin: "0px", fontSize:"13px",  textAlign:"center" , fontWeight:"bold", marginBottom:"15px" , marginTop:"10px" }}>Dear Client,</h4>
+            <p style={{fontSize:"13px", textAlign:"center", padding:"4px"}}>
               We don't have any duplicate site , You are requested to login with
               our official site 'BXPRO99.xyz .I only. Please check the site name
               before you login. Thanks for your support. Team BXPRO99

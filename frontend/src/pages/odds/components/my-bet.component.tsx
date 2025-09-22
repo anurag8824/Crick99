@@ -104,16 +104,16 @@ const MyBetComponent = () => {
               {userState.user.role !== RoleType.user && <td>{bet.userName}</td>}
               <td className='no-wrap'>
                 {' '}
-                {bet.selectionName} /{' '}
-                {bet.marketName === 'Fancy' && bet.gtype !== 'fancy1' ? bet.volume.toFixed(2) : bet.odds.toFixed(2)}{' '}
+                {bet.selectionName}
+                {/* {bet.marketName === 'Fancy' && bet.gtype !== 'fancy1' ? bet.volume.toFixed(2) : bet.odds.toFixed(2)}{' '} */}
               </td>
-              <td className='no-wrap text-center' > { bet.gtype === 'fancy1' ? bet.odds.toFixed(2) : bet?.volume.toFixed(2) }</td>
-              <td className='no-wrap'> {bet.stack} </td>
-              <td className='no-wrap'> {bet.stack} </td>
+              <td className='no-wrap text-center' > {bet.isBack ? "Yes" : "No"} </td>
 
-            
+
+              <td className='no-wrap text-center' > { bet.gtype === 'fancy1' ? bet.odds.toFixed(2) : bet?.volume.toFixed(2) }</td>
+
               <td className='no-wrap text-center' > { bet.gtype === 'fancy1' ?  bet?.selectionName : bet.odds.toFixed(2) } </td>
-              {/* <td className='no-wrap text-center' > {bet.isBack ? "Yes" : "No"} </td> */}
+              <td className='no-wrap'> {bet.stack} </td>
 
 
               {/* {!isMobile && (
@@ -131,11 +131,11 @@ const MyBetComponent = () => {
 
 
           ))}
-                    {/* <tr>
-  <td colSpan={8} style={{ backgroundColor: "#424242", color: "white", padding: "8px 10px", textAlign: "left" }}>
+                    <tr>
+  <td colSpan={6} style={{ backgroundColor: "#0f2326", color: "white", padding: "8px 10px", textAlign: "left" }}>
     Match Bets
   </td>
-</tr> */}
+</tr>
 
                     {getMyAllBet?.filter((b:any)=>b.bet_on === "MATCH_ODDS").map((bet: IBet, index: number , ) => (
             <tr className={bet.isBack ? 'back' : 'lay'} key={bet._id}>
@@ -143,25 +143,23 @@ const MyBetComponent = () => {
               {userState.user.role !== RoleType.user && <td>{bet.userName}</td>}
               <td className='no-wrap'>
                 {' '}
-                {bet.selectionName} /{' '}
-                {bet.marketName === 'Fancy' && bet.gtype !== 'fancy1' ? bet.volume.toFixed(2) : bet.odds.toFixed(2)}{' '}
+                {bet.selectionName}
+                {/* {bet.marketName === 'Fancy' && bet.gtype !== 'fancy1' ? bet.volume.toFixed(2) : bet.odds.toFixed(2)}{' '} */}
               </td>
-              <td className='no-wrap text-center' > {bet.odds.toFixed(2)} </td>
-              <td className='no-wrap'> {bet.stack} </td>
-            
-              <td className='no-wrap text-center' > {bet?.selectionName} </td>
               <td className='no-wrap text-center' > {bet.isBack ? "Yes" : "No"} </td>
-
-
+              <td className='no-wrap text-center' > {bet.odds.toFixed(2)} </td>
+              <td className='no-wrap text-center' > {bet?.selectionName} </td>
+              {/* <td className='no-wrap text-center' > {bet.isBack ? "Yes" : "No"} </td> */}
               {/* {!isMobile && (
                 <td className='no-wrap'> {moment(bet.betClickTime).format(betDateFormat)} </td>
               )}
               {!isMobile && (
                 <td className='no-wrap'> {moment(bet.createdAt).format(betDateFormat)} </td>
               )} */}
-              <td className='no-wrap text-center' > {bet?.result?.result ? bet?.result?.result  :"-" } </td>
+              <td className='no-wrap'> {bet.stack} </td>
+              {/* <td className='no-wrap text-center' > {bet?.result?.result ? bet?.result?.result  :"-" } </td> */}
               {userState.user.role !== RoleType.user && <td className='no-wrap'>{moment.utc(bet.betClickTime).utcOffset('+05:30').format('DD/MM/YYYY hh:mm:ss A')} </td>}
-              <td className='no-wrap text-center' > {bet?.status} </td>
+              {/* <td className='no-wrap text-center' > {bet?.status} </td> */}
             </tr>
 
 

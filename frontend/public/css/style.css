@@ -821,7 +821,7 @@ p {
 }
 
 .logo-login {
-  width: 50%;
+  width: 75%;
 }
 
 .search {
@@ -9044,7 +9044,8 @@ footer p {
 }
 
 .footer-links a {
-  color: #fff
+  color: black;
+  font-size: 8px;
 }
 
 .support-detail {

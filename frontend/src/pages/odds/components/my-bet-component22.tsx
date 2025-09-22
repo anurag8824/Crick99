@@ -102,10 +102,10 @@ const MyBetComponent22 = () => {
   return (
     <>
       <div
-        className="text-center text-white"
-        style={{ marginTop: "15px", background: "#535961" }}
+        className="text-center text-white py-2"
+        style={{ marginTop: "25px", background: "#535961" }}
       >
-        <div>COMPLETED BETS</div>
+        <div style={{fontSize:"13px"}}>COMPLETED BETS</div>
       </div>
 
       <div
@@ -115,11 +115,12 @@ const MyBetComponent22 = () => {
         <table className="table coupon-table scorall mybet table-bordered">
           <thead>
             <tr style={{ background: "#76d68f" }}>
-              <th style={{ background: "#0f2326", border: "", color: "white" }}>
+              <th  className="text-center px-1 py-2" style={{ background: "#0f2326", border: "", color: "white" }}>
                 #
               </th>
               {userState.user.role !== RoleType.user && (
                 <th
+                 className="text-center px-1 py-2"
                   style={{
                     background: "#0f2326",
                     border: "none",
@@ -131,37 +132,37 @@ const MyBetComponent22 = () => {
               )}
               <th
                 style={{ background: "#0f2326", color: "white" }}
-                className="text-center"
+                className="text-center px-1 py-2"
               >
                 {" "}
                 Runner Name
               </th>
-              <th style={{ background: "#0f2326", border: "", color: "white" }}>
+              <th className="text-center px-1 py-2" style={{ background: "#0f2326", border: "", color: "white" }}>
                 {" "}
                 Type
               </th>
-              <th style={{ background: "#0f2326", border: "", color: "white" }}>
+              <th className="text-center px-1 py-2" style={{ background: "#0f2326", border: "", color: "white" }}>
                 {" "}
                 Price
               </th>
-              <th style={{ background: "#0f2326", border: "", color: "white" }}>
+              <th className="text-center px-1 py-2" style={{ background: "#0f2326", border: "", color: "white" }}>
                 {" "}
                 Value
               </th>
-              <th style={{ background: "#0f2326", border: "", color: "white" }}>
+              <th className="text-center px-1 py-2" style={{ background: "#0f2326", border: "", color: "white" }}>
                 {" "}
                 Amount
               </th>
               <th
                 style={{ background: "#0f2326", border: "", color: "white" }}
-                className="text-center"
+                className="text-center px-1 py-2"
               >
                 {" "}
                 Result
               </th>
               <th
                 style={{ background: "#0f2326", border: "", color: "white" }}
-                className="text-center"
+                className="text-center px-1 py-2"
               >
                 Status
               </th>
@@ -185,10 +186,10 @@ const MyBetComponent22 = () => {
                 )}
                 <td className="no-wrap text-center">
                   {" "}
-                  {bet.selectionName} /{" "}
-                  {bet.marketName === "Fancy" && bet.gtype !== "fancy1"
+                  {bet.selectionName}
+                  {/* {bet.marketName === "Fancy" && bet.gtype !== "fancy1"
                     ? bet.volume.toFixed(2)
-                    : bet.odds}{" "}
+                    : bet.odds}{" "} */}
                 </td>
                 <td className="no-wrap text-center">{bet?.bet_on}</td>
                 <td className="no-wrap text-center">
@@ -202,7 +203,7 @@ const MyBetComponent22 = () => {
                 <td className="no-wrap text-center">
                   {bet.marketName === "Fancy" && bet.gtype !== "fancy1"
                     ? bet.odds
-                    : "-"}{" "}
+                    : bet.selectionName}{" "}
                 </td>
                 <td className="no-wrap">
                   {Math.abs(Number(bet?.profitLoss?.$numberDecimal)).toFixed(2)}

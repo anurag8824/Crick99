@@ -22,7 +22,7 @@ const MatchList: React.FC<MatchListProps> = ({
   // console.log(matchList, "matchlisy", currentMatch, "currentmatch", memoOdds, "memoodds")
 
   return (
-    <div className="card-content p-1">
+    <div className="card-content p-3">
       <div className="games-grid">
         <div className="games-list">
           {matchList?.map((match: LMatch, index: number) => {

@@ -337,11 +337,21 @@ const MatchDetail = (props: any) => {
         <Modal.Body >
         <AllEventListInMatch />
         </Modal.Body>
+        <div
+    style={{
+      backgroundColor: "",
+      width: "100%",
+      padding: "10px",
+      textAlign: "right"
+    }}
+  >
+    <button onClick={handleCloseEvent} className="text-center text-white w-100 rounded-3" style={{marginTop: "15px", background: "rgb(15, 35, 39)"}}><div>Close</div></button>
+  </div>
       </Modal>
 
       <Modal show={showallbets} onHide={handleCloseAllbets} size={'lg'}>
         <Modal.Header closeButton>
-          <Modal.Title>Completed Bets</Modal.Title>
+          <Modal.Title style={{fontSize:"13px"}}>Completed Bets</Modal.Title>
         </Modal.Header>
         <Modal.Body >
                 <MyBetComponent22 />
