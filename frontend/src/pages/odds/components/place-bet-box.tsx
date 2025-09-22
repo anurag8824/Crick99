@@ -219,7 +219,7 @@ const PlaceBetBox = ({ stake }: { stake: IUserBetStake }) => {
 
   React.useEffect(() => {
     if (!betValues.isOpen || betValues.betData?.betOn === "CASINO") return;
-    setSeconds(7); // Reset timer to 7 on open
+    setSeconds(700); // Reset timer to 7 on open
 
     const interval: NodeJS.Timeout = setInterval(() => {
       setSeconds((prev) => {
@@ -272,7 +272,7 @@ const PlaceBetBox = ({ stake }: { stake: IUserBetStake }) => {
                 Close
               </span>
             </div>
-            <div className={`table-responsive ${betObj.isBack ? 'white' : 'white'}`}>
+            <div className={`table-responsivjhhjg ${betObj.isBack ? 'white' : 'white'}`}>
               <form onSubmit={onSubmit}>
                 <table className='coupon-table  d-none table table-borderedless'>
                   <thead className=''>
