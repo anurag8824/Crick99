@@ -264,7 +264,7 @@ const PlaceBetBox = ({ stake }: { stake: IUserBetStake }) => {
         <>
           <div onClick={onBackDrop} className='backdrop-custom'></div>
 
-          <div style={{position:"fixed"}} className='card m-b-10 place-bet'>
+          <div style={{position:"fixed", margin:"auto" }} className='card m-b-10 place-bet'>
             <div className='card-header d-flex align-items-center justify-content-between'>
               <h6 style={{color:"#ffc107"}} className='card-title d-inline-block '>Place Bet</h6>
             {betValues.betData?.betOn === "CASINO" ? "" :  <div>Timer: {seconds} seconds</div> }

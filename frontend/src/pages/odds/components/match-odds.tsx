@@ -201,7 +201,7 @@ class MatchOdds extends React.PureComponent<
                   </span>
                 </div>
                 <div className='table-header'>
-                  <div style={{ fontSize: "18px", backgroundColor: "#0f2326", }} className={`float-left country-name ${classforheadingfirst} min-max`}>
+                  <div style={{ fontSize: "12px", backgroundColor: "#0f2326", }} className={`float-left country-name ${classforheadingfirst} min-max`}>
                     <b /><span className='text_blink'>
   Max:
    {/* {
