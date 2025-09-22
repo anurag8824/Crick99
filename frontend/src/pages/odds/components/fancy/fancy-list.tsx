@@ -145,11 +145,11 @@ export const FancyList = React.memo(
                           </div>
 
                           {/* RIGHT SIDE */}
-                          <button  onClick={() => setShowladder(!showladder)}>
+                          {/* <button  onClick={() => setShowladder(!showladder)}>
                             <img
                               src="/imgs/ladder.svg"
                               style={{ height: "20px" }} />
-                          </button>
+                          </button> */}
                         </span>
                         {getMarketBook && (
                           <span

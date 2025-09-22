@@ -203,14 +203,15 @@ class MatchOdds extends React.PureComponent<
                 <div className='table-header'>
                   <div style={{ fontSize: "18px", backgroundColor: "#0f2326", }} className={`float-left country-name ${classforheadingfirst} min-max`}>
                     <b /><span className='text_blink'>
-  Max: {
+  Max:
+   {/* {
     (() => {
       const value = this?.props?.userState?.user?.userSetting 
         ? this?.props?.userState?.user?.userSetting[1]?.maxBet 
         : this.offplaylimit(market);
       return value >= 1000 ? (value / 1000).toFixed(0) + 'K' : value;
     })()
-  }
+  } */}200K
 </span>
 
 

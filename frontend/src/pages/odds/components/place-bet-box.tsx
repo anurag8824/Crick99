@@ -219,7 +219,7 @@ const PlaceBetBox = ({ stake }: { stake: IUserBetStake }) => {
 
   React.useEffect(() => {
     if (!betValues.isOpen || betValues.betData?.betOn === "CASINO") return;
-    setSeconds(7000); // Reset timer to 7 on open
+    setSeconds(7); // Reset timer to 7 on open
 
     const interval: NodeJS.Timeout = setInterval(() => {
       setSeconds((prev) => {
@@ -268,7 +268,7 @@ const PlaceBetBox = ({ stake }: { stake: IUserBetStake }) => {
             <div className='card-header d-flex align-items-center justify-content-between'>
               <h6 style={{color:"#ffc107"}} className='card-title d-inline-block '>Place Bet</h6>
             {betValues.betData?.betOn === "CASINO" ? "" :  <div>Timer: {seconds} seconds</div> }
-              <span style={{fontSize:"12px"}} className='card-title d-inline-block col-2' onClick={closeBetPopup}>
+              <span style={{fontSize:"10px"}} className='card-title d-inline-block col-2' onClick={closeBetPopup}>
                 close
               </span>
             </div>
