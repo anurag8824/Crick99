@@ -1501,10 +1501,11 @@ footer {
   overflow: hidden;
   position: fixed;
   top: 10%;
-  left: 30%;
+  left: 2%;
   right: 2%;
   z-index: 3;
-  width: 40%; 
+  width: 50%;
+  margin: auto;
 }
 
 .loading {

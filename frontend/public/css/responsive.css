@@ -739,7 +739,8 @@
         left: 2%;
         right: 2%;
         z-index: 3;
-        width: 94%;
+        width: 80%;
+        margin: auto;
     }
 
     .backdrop-custom {
