@@ -22,7 +22,7 @@ const Welcome = (props: any) => {
         className={"modal-dialog modal-lg margin-modal"}
         ariaHideApp={false}
       >
-        <div className="modal-content" style={{ margin: "auto" , width: "400px" ,}}>
+        <div className="modal-content">
           <div className="modal-header">
             <h5 className="text-white">Welcome to BXPRO99</h5>
             <button

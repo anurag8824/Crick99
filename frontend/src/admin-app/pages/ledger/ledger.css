@@ -330,7 +330,8 @@ table ul .dropdown-toggle::after {
 }
 
 .modal-lg {
-  max-width: 90%;
+  max-width: 100%;
+  margin: 20px;
 }
 
 small,
