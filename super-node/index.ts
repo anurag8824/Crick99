@@ -45,12 +45,14 @@ if (cluster.isMaster) {
 
   redisReplica.subscribe("getFancyData", (m: any) => {
     const market = JSON.parse(m);
+    // console.log(market,"gHJKl")
 
-    io.to(market.matchId).emit("getFancyData", {
-      ...market,
-    });
+    // io.to("34748370").emit("getFancyData", {
+    //   ...market,
+    // });
+    io.to("34748370").emit("getFancyData", {X:"hello world"});
 
-    io.to(market.matchId).emit("getFancyData-new", {
+    io.emit("getFancyData-new", {
       ...market,
     });
   });

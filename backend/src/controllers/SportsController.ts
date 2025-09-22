@@ -858,9 +858,9 @@ class SportsController extends ApiController {
   async addFancyToDb(req: Request, res: Response): Promise<Response> {
     try {
       const { fancy } = req.body
-      if (fancy.gtype == "khado" || fancy.gtype == "oddeven" || fancy.gtype == "meter" || fancy.RunnerName.includes(' run bhav ') || fancy.RunnerName.includes(" Caught out ") || fancy.RunnerName.includes(' ball No ') || fancy.RunnerName.includes(' Run bhav ') || fancy.RunnerName.includes(' run bhav') || fancy.RunnerName.includes('.3 over ')) {
-        return this.fail(res, 'not fancy added')
-      }
+      // if (fancy.gtype == "khado" || fancy.gtype == "oddeven" || fancy.gtype == "meter" || fancy.RunnerName.includes(' run bhav ') || fancy.RunnerName.includes(" Caught out ") || fancy.RunnerName.includes(' ball No ') || fancy.RunnerName.includes(' Run bhav ') || fancy.RunnerName.includes(' run bhav') || fancy.RunnerName.includes('.3 over ')) {
+      //   return this.fail(res, 'not fancy added')
+      // }
       let type = ''
       if (fancy.RunnerName.includes(' ball run ')) {
         type = 'ballRun'

@@ -24,9 +24,11 @@ export function SuperNodeSocket() {
 
   socket.on("getMarketData-Super", (market) => {});
 
-  socket.on("getFancyData", (fancy) => {
+  redisReplicaSub.subscribe("getFancyData", (fancy:any) => {
+    const fancnyd = JSON.parse(fancy)
     const fancyData = MatchController.createFancyDataAsMarket(fancy);
-    clientIo.to(fancy.matchId).emit("getFancyData", fancyData);
+    // console.log(fancy,"fghjkghjk")
+    clientIo.to("34748370").emit("getFancyData", fancnyd);
   });
 
   socket.on("deactivateFancy-Super", (fancy) => {
@@ -63,7 +65,7 @@ export function SuperNodeSocket() {
   redisReplicaSub.subscribe("getMarketData", (m: any) => {
     const market = JSON.parse(m);
     // const market = marketone[0]
-    console.log(market,'market')
+    // console.log(market,'market')
 
          
     const marketData = OddSocket.convertDataToMarket(market as IMarket);

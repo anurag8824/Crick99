@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const Match = require('./models/Match.model');
 const Market = require("./models/Market.model")
 const { default: axios } = require("axios");
+const { json } = require("stream/consumers");
 const app = express()
 const server = http.createServer(app);
 const io = new Server(server, {
@@ -37,7 +38,8 @@ let MatchIds = []
 let MarketIds = []
 let MatchData = []
 let diamondIds = {}
-let MatchName = []
+let MatchName = {}
+const diamondtobetId ={}
 
 const publisher = new Redis({
   host: "127.0.0.1",
@@ -95,23 +97,30 @@ const getMatchid = async () => {
       }
 
       MatchIds.push(matchId);
-      MatchName.push(match?.event?.name);
+      MatchName[matchId]=match?.event?.name;
     }
 
     // 3️⃣ Fetch "bettodia" data for each match (optional)
-    for (const m of MatchName) {
+    console.log(MatchName,"VGHJK")
+    for (const m of MatchIds) {
       try {
         const resmatch = await axios.post(
           "http://82.29.164.133:3000/bxpro/v1/bettodia",
-          { matchname: m }
+          { matchname: MatchName[m] }
         );
-        console.log(`Fetched bettodia for ${m}`);
+        console.log(`Fetched bettodia for ${m}`,resmatch.data);
+        let diaData = resmatch?.data
+        if(diaData.status && diaData.data.length > 0){
+             diamondtobetId[diaData.data[0].gmid] = m
+        }
         // Optionally store inside the same object
         // matchDataStore[matchId].bettodia = resmatch.data;
       } catch (err) {
         console.error(`Error fetching bettodia for ${m}:`, err.message);
       }
     }
+
+    console.log(diamondtobetId,"hello world")
 
     return res;
   } catch (error) {
@@ -134,7 +143,6 @@ getMatchid().then((res) => {
 
 
 
-// connnection for publisher hahha 
 
 
 
@@ -144,7 +152,7 @@ const FancyData = {}
 const getFancyDataApi = () => {
   if (MatchIds.length > 0) {
     MatchIds.forEach((id) => {
-       axios.get(`https://betfairapi.turnkeyxgaming.com/api/GetSession?eventid=${id}`,{ headers: {
+       axios.get(`http://82.29.164.133:3000/bxpro/v1/session/${id}`,{ headers: {
         'x-turnkeyxgaming-key': '68c56ccbed10db48a50adc82',
         },}).then((res) => {
         FancyData[id] = res.data
@@ -153,7 +161,7 @@ const getFancyDataApi = () => {
     })
   }
 }
-
+//https://betfairapi.turnkeyxgaming.com/api/GetSession?eventid=${id}
 
 
 
@@ -342,7 +350,7 @@ const getFancyDataApi = () => {
 //   };
 
 
-const formattedFancyData = async () => {
+const formattedFancyDataone = async () => {
   for (const m of MatchIds) {
     const data = FancyData[m];
     if (!data || !data.fancy || data.fancy.length === 0) continue;
@@ -399,7 +407,7 @@ const formattedFancyData = async () => {
             ? "session"
             : f?.catagory?.toLowerCase(),
       }));
-
+     publisher.publish("getFancyData",JSON.stringify({...fancydata}))
     // 🔹 Fetch previous state
     const key = `fancy-${m}`;
     const previousFancyStr = await publisher.get(key);
@@ -615,8 +623,8 @@ const formattedFancyData = async () => {
 
 
 // const formattedFancyData = async () => {
-//   for (const m of MatchIds) {
-//     const data = FancyData[m];
+// for (let key in obj){
+//     const data = await axios.get(`http://82.29.164.133:3000/bxpro/v1/diamond-data/${key}`)
 //     if (!data || !data?.data || data?.data.length === 0) continue;
 
 //     const fancydata = data.data
@@ -722,6 +730,93 @@ const formattedFancyData = async () => {
 //       // console.log(`✅ Saved fancy-${m} to Redis`);
 //     }
 //   };
+
+const matchData = {}
+
+
+const formattedFancyData = async () => {
+  const matchKeys = Object.keys(diamondtobetId); 
+  const pLimit = await import('p-limit').then(mod => mod.default);
+
+  const limit = pLimit(3); // max 3 parallel API calls at a time (adjust as needed)
+
+  const promises = matchKeys.map(key =>
+    limit(async () => {
+      try {
+        // 🔹 Fetch API
+        const { data } = await axios.get(`http://82.29.164.133:3000/bxpro/v1/diamond-data/${key}`);
+        // console.log(data,'api data is here')
+        if (!data?.data?.data || data.data.data.length === 0) return;
+        matchData[diamondtobetId[key]] = data.data.data
+
+        // 🔹 Process fancy data
+        const fancydata = data.data.data
+          .filter(fb => ["Normal", "fancy", "fancy1"].includes(fb.mname))
+          .flatMap(f =>
+            f.section.map(fa => ({
+              BackPrice1: fa.odds[0]?.odds || 0,
+              BackPrice2: 0,
+              BackPrice3: 0,
+              BackSize1: fa.odds[0]?.size || 0,
+              BackSize2: 0,
+              BackSize3: 0,
+              LayPrice1: fa.odds[1]?.odds || 0,
+              LayPrice2: 0,
+              LayPrice3: 0,
+              LaySize1: fa.odds[1]?.size || 0,
+              LaySize2: 0,
+              LaySize3: 0,
+              RunnerName: fa?.nat,
+              SelectionId: fa?.sid,
+              ballsess: "1",
+              gtype: f?.gtype === "fancy" ? "session" : f?.gtype,
+              GameStatus: fa?.gstatus || "",
+              gstatus: fa?.gstatus,
+              max: "50000",
+              min: "100",
+              remm: "",
+              srno: fa?.sno?.toString(),
+              mname: f?.mname,
+            }))
+          );
+        // console.log(fancydata,"FGHJKL")
+        // 🔹 Fetch previous fancy from Redisc
+        const previousFancyStr = await publisher.get(`fancy-${diamondtobetId[key]}`);
+        let pfancy = [];
+        if (previousFancyStr) {
+          try { pfancy = JSON.parse(previousFancyStr); } 
+          catch (e) { console.error("Invalid JSON for key:", `fancy-${diamondtobetId[key]}`, e); }
+        }
+
+        const currentSelectionIds = new Set(fancydata.map(item => item.SelectionId));
+        const previousSelectionIds = new Set(pfancy.map(item => item.SelectionId));
+
+        // 🔹 Emit new fancies
+        for (const item of fancydata) {
+          if (!previousSelectionIds.has(item.SelectionId)) {
+            io.emit("newFancyAdded", { fancy: { matchId: diamondtobetId[key], ...item }, matchId: diamondtobetId[key] });
+          }
+        }
+
+        // 🔹 Emit deactivated fancies
+        const deactivated = pfancy.filter(oldItem => !currentSelectionIds.has(oldItem.SelectionId));
+        if (deactivated.length > 0) {
+          io.emit("deactivateFancy", { matchId: diamondtobetId[key], marketIds: deactivated.map(d => d.SelectionId) });
+        }
+
+        // 🔹 Save updated fancy to Redis
+        await publisher.set(`fancy-${diamondtobetId[key]}`, JSON.stringify(fancydata));
+
+      } catch (err) {
+        console.error(`Error processing match ${key}:`, err.message || err);
+      }
+    })
+  );
+
+  // 🔹 Wait for all matches to finish
+  await Promise.all(promises);
+  console.log("✅ All matches processed in parallel with concurrency limit");
+};
 
 
 
@@ -906,53 +1001,125 @@ const startPolling = async () => {
 };
 
 
+// const handleBookmakerForMatch = async (id) => {
+//   try {
+//     // const res =  await axios.get(`https://betfairapi.turnkeyxgaming.com/api/GetSession?eventid=${id}`,{ headers: {
+//     //   'x-turnkeyxgaming-key': '68c56ccbed10db48a50adc82',
+//     //   },})
+    
+//     const res = await axios.get(`http://82.29.164.133:3000/bxpro/v1/session/${id}`);
+
+//     const runners = res?.data?.bookMaker;
+
+//     if (!Array.isArray(runners) || runners.length === 0) return;
+
+//     const marketId = runners[0].marketId?.toString() ;
+//     const matchId = parseInt(id);
+//     const marketName = runners[0].marketName || "Bookmaker";
+
+//     const transformedRunners = runners.map(runner => {
+//       const availableToBack = runner.backOdds >= 0 ? [{
+//         price: parseFloat((runner.backOdds + 100) / 100),
+//         size: 1000
+//       }] : [];
+
+//       const availableToLay = runner.layOdds >= 0 ? [{
+//         price: parseFloat((runner.layOdds + 100) / 100),
+//         size: 1000
+//       }] : [];
+
+//       let lastPriceTraded = null;
+//       if (availableToBack.length && availableToLay.length) {
+//         lastPriceTraded = (availableToBack[0].price + availableToLay[0].price) / 2;
+//       }
+
+//       return {
+//         selectionId: runner.selectionId,
+//         status: ["OFFLINE", "SUSPEND", "BALL_RUN"].includes(runner.selectionStatus)
+//           ? "SUSPENDED"
+//           : "OPEN",
+//         lastPriceTraded,
+//         runnerName: runner.selectionName,
+//         sortPriority: runner.sortPeriority,
+//         totalMatched: 0,
+//         ex: {
+//           availableToBack,
+//           availableToLay
+//         }
+//       };
+//     });
+
+//     const marketData = {
+//       marketId,
+//       marketName,
+//       matchId,
+//       runners: transformedRunners
+//     };
+
+//     const jsonMessage = JSON.stringify(marketData);
+//      publisher.publish("getMarketData", jsonMessage);
+
+//     await publisher.set(`odds-market-${marketId}`, jsonMessage);
+//     await publisher.set(`getMarketList-bm-${matchId}`, jsonMessage);
+
+//     console.log(`✅ Bookmaker processed for Match ${matchId} - ${marketId}`);
+//   } catch (error) {
+//     console.warn(`❌ Match ${id} failed:`, error.message);
+//   }
+// };
+
 const handleBookmakerForMatch = async (id) => {
   try {
-    const res =  await axios.get(`https://betfairapi.turnkeyxgaming.com/api/GetSession?eventid=${id}`,{ headers: {
-      'x-turnkeyxgaming-key': '68c56ccbed10db48a50adc82',
-      },})
-    
-    // const res = await axios.get(`http://82.29.164.133:3000/bxpro/v1/session/${id}`);
+    const res = matchData[id]; // res could be object or array
 
-    const runners = res?.data?.bookMaker;
+    if (!res) return;
 
-    if (!Array.isArray(runners) || runners.length === 0) return;
+    // Ensure we work with an array
+    const runnersArray = Array.isArray(res) ? res : [res];
 
-    const marketId = runners[0].marketId?.toString() ;
+    // Filter only Bookmaker markets
+    const runnersRaw = runnersArray.filter(m => m.mname === "Bookmaker" || m.mname === "Bookmaker" === "Toss" );
+    if (runnersRaw.length === 0) return;
+
+    const marketId = runnersRaw[0].mid?.toString() || id.toString();
     const matchId = parseInt(id);
-    const marketName = runners[0].marketName || "Bookmaker";
+    const marketName = runnersRaw[0].mname || "Bookmaker";
 
-    const transformedRunners = runners.map(runner => {
-      const availableToBack = runner.backOdds >= 0 ? [{
-        price: parseFloat((runner.backOdds + 100) / 100),
-        size: 1000
-      }] : [];
+    const transformedRunners = runnersRaw.flatMap(runner =>
+      runner.section.map(sec => {
+        const availableToBack = sec.odds
+          .filter(o => o.otype === "back" && o.odds > 0)
+          .map(o => ({
+            price: parseFloat((o.odds + 100) / 100),
+            size: o.size || 0
+          }));
 
-      const availableToLay = runner.layOdds >= 0 ? [{
-        price: parseFloat((runner.layOdds + 100) / 100),
-        size: 1000
-      }] : [];
+        const availableToLay = sec.odds
+          .filter(o => o.otype === "lay" && o.odds > 0)
+          .map(o => ({
+            price: parseFloat((o.odds + 100) / 100),
+            size: o.size || 0
+          }));
 
-      let lastPriceTraded = null;
-      if (availableToBack.length && availableToLay.length) {
-        lastPriceTraded = (availableToBack[0].price + availableToLay[0].price) / 2;
-      }
-
-      return {
-        selectionId: runner.selectionId,
-        status: ["OFFLINE", "SUSPEND", "BALL_RUN"].includes(runner.selectionStatus)
-          ? "SUSPENDED"
-          : "OPEN",
-        lastPriceTraded,
-        runnerName: runner.selectionName,
-        sortPriority: runner.sortPeriority,
-        totalMatched: 0,
-        ex: {
-          availableToBack,
-          availableToLay
+        let lastPriceTraded = null;
+        if (availableToBack.length && availableToLay.length) {
+          lastPriceTraded = (availableToBack[0].price + availableToLay[0].price) / 2;
         }
-      };
-    });
+
+        return {
+          selectionId: sec.sid.toString(),
+          runnerName: sec.nat,
+          status: sec.gstatus,
+          lastPriceTraded,
+          sortPriority: sec.sno,
+          totalMatched: 0,
+          ex: {
+            availableToBack,
+            availableToLay
+          }
+        };
+      })
+    );
 
     const marketData = {
       marketId,
@@ -960,18 +1127,24 @@ const handleBookmakerForMatch = async (id) => {
       matchId,
       runners: transformedRunners
     };
-
+     console.log(marketData,"FGHJK")
     const jsonMessage = JSON.stringify(marketData);
-     publisher.publish("getMarketData", jsonMessage);
 
+    publisher.publish("getMarketData", jsonMessage);
     await publisher.set(`odds-market-${marketId}`, jsonMessage);
     await publisher.set(`getMarketList-bm-${matchId}`, jsonMessage);
 
-    console.log(`✅ Bookmaker processed for Match ${matchId} - ${marketId}`);
+    console.log(`✅ Bookmaker processed for Match ${matchId} - Market ${marketId}`);
   } catch (error) {
     console.warn(`❌ Match ${id} failed:`, error.message);
   }
 };
+
+
+
+
+
+
 
 startPolling();
 
@@ -995,9 +1168,9 @@ startPolling();
       FancyList.map(async (f) => {
         if (!f) return;
       // const fileterMatch = MatchData.filter((M)=>M.gmid == f.matchId)
-      console.log(f.matchId,"FGHJKL")
+      // console.log(f.matchId,"FGHJKL")
       const id = f.matchId
-      console.log(id)
+      // console.log(id)
    const matchdata =  matchDataStore[id.toString()]
    console.log(matchdata,matchdata?.event?.name,"matchdata")
 //     const keys = await publisher.keys("match-data-all-*");
@@ -1019,7 +1192,7 @@ startPolling();
   
          1 // console.log(`Response for ${f?.selectionName}:`, res.data);
         } catch (error) {
-          console.error(`Error posting for ${f?.selectionName}:`, error?.response?.data || error.message);
+          // console.error(`Error posting for ${f?.selectionName}:`, error?.response?.data || error.message);
         }
       })
     );
@@ -1124,7 +1297,7 @@ startPolling();
 
     console.log("🎉 All fancy results processed successfully");
   } catch (error) {
-    console.error("🔥 Error in FancyResult cron job:", error.message);
+    // console.error("🔥 Error in FancyResult cron job:", error.message);
   }
 };
 
@@ -1132,7 +1305,7 @@ startPolling();
   const getFancyList = async () => {
    try {
      const res = await axios.get('http://localhost:3010/api/get-business-fancy-list')
-     console.log(res.data.data.list, "Fancy List is Here")
+    //  console.log(res.data.data.list, "Fancy List is Here")
      FancyList = res.data?.data?.list
      setFancyData()
    } catch (error) {

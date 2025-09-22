@@ -120,10 +120,11 @@ class Fancy extends React.Component<
     }
     this.interval = setInterval(handler, 500)
 
-    // const socketHandler = (fancy: IFancy) => {
-    //   this.setState({ fancyUpdate: { ...this.state.fancyUpdate, [fancy.SelectionId]: fancy } })
-    // }
-    // this.context.socket.on('getFancyData', socketHandler)
+    const socketHandler = (fancy: IFancy) => {
+      console.log(fancy ,"socket fancy is here")
+      this.setState({ fancyUpdate: { ...this.state.fancyUpdate, [fancy.SelectionId]: fancy } })
+    }
+    this.context.socket.on('getFancyData', socketHandler)
   }
 
   checkFancyKey = (allFancies: LFancy[], fancy: IFancy) => {
