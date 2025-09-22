@@ -20,8 +20,8 @@ const LimitInfo = (props:any) => {
       </span>{' '}
       <span style={{fontSize:"12px"}} className='m-r-5 text-danger'>
         <span >Max:</span>
-        {/* {max} */}
-        50000
+        {max}
+        {/* 200000 */}
       </span>
     </div>
   </div>

@@ -15,7 +15,9 @@ const AaaCasino = (props: any) => {
       <div className='card-content aaa-content m-t-10'>
         <div className='row'>
           <div className='col-12 text-right'>
-            <Limitinfo nameString={'layback'} min={liveMatchData?.event_data?.min} max={liveMatchData?.event_data?.max} clsName={'tx-right'} />
+            {/* <Limitinfo nameString={'layback'} min={liveMatchData?.event_data?.min} max={liveMatchData?.event_data?.max} clsName={'tx-right'} /> */}
+            <Limitinfo nameString={'layback'} min={liveMatchData?.event_data?.min} max={10000} clsName={'tx-right'} />
+
           </div>
         </div>
         <div className='row'>
@@ -141,29 +143,31 @@ const AaaCasino = (props: any) => {
       {isMobile ? laybacklayoutmobile() : ''}
     <div className='card-content  m-t-10'>
       <div className='row m-t-10 '>
-        <div className='col-4 ' style={{paddingRight:"5px"}}>
+        <div className='col-4 d-none ' style={{paddingRight:"5px"}}>
           <div className='aaa-content'>
             <div className='text-right'>
-             <Limitinfo nameString={'oddeven'} min={liveMatchData?.event_data?.min} max={liveMatchData?.event_data?.max} clsName={'tx-right'} />
+             {/* <Limitinfo nameString={'oddeven'} min={liveMatchData?.event_data?.min} max={liveMatchData?.event_data?.max} clsName={'tx-right'} /> */}
+             <Limitinfo nameString={'oddeven'} min={liveMatchData?.event_data?.min} max={10000} clsName={'tx-right'} />
+
             </div>
             {buttonLayout('', [1])}
             {buttonLayout('', [2])}
           </div>
         </div>
-        <div className='col-4' style={{paddingRight:"5px", paddingLeft:"5px"}}>
+        <div className='col-4 d-none' style={{paddingRight:"5px", paddingLeft:"5px"}}>
           <div className='aaa-content'>
             <div className='text-right'>
-            <Limitinfo nameString={'redblack'} min={liveMatchData?.event_data?.min} max={liveMatchData?.event_data?.max} clsName={'tx-right'} />
+            <Limitinfo nameString={'redblack'} min={liveMatchData?.event_data?.min} max={10000} clsName={'tx-right'} />
             </div>
             {buttonLayout('', [3])}
             {buttonLayout('', [4])}
 
           </div>
         </div>
-        <div className='col-4' style={{paddingLeft:"5px"}}>
+        <div className='col-4 d-none ' style={{paddingLeft:"5px"}}>
           <div className='aaa-content'>
             <div className='text-right'>
-            <Limitinfo nameString={'underseven'} min={liveMatchData?.event_data?.min} max={liveMatchData?.event_data?.max} clsName={'tx-right'} />
+            <Limitinfo nameString={'underseven'} min={liveMatchData?.event_data?.min} max={10000} clsName={'tx-right'} />
             </div>
             {buttonLayout('', [5])}
             {buttonLayout('', [6])}
@@ -171,11 +175,11 @@ const AaaCasino = (props: any) => {
         </div>
       </div>
       </div>
-      <div className='card-content aaa-content m-t-10'>
+      <div className='card-content d-none aaa-content m-t-10'>
         <div className='row row5'>
           <div className='col-12'>
             <div className='text-right'>
-            <Limitinfo nameString={'limitinfo'} min={liveMatchData?.event_data?.min} max={liveMatchData?.event_data?.max} clsName={'tx-right'} /> 
+          <Limitinfo nameString={'limitinfo'} min={liveMatchData?.event_data?.min} max={10000} clsName={'tx-right'} /> 
             </div>
           </div>
         </div>

@@ -76,6 +76,7 @@ const MyBetComponent = () => {
   console.log(getMyAllBet,"get my all bets")
 
   return (
+    <div>
     <div className='' style={{height:"200px", overflowY:"scroll" , overflowX:"scroll"}}>
       <table className='table table-striped table-hover'>
         <thead className="bg-info-subtle text-warning">
@@ -131,11 +132,45 @@ const MyBetComponent = () => {
 
 
           ))}
-                    <tr>
-  <td colSpan={6} style={{ backgroundColor: "#0f2326", color: "white", padding: "8px 10px", textAlign: "left" }}>
+                 
+
+        </tbody>
+      </table>
+      </div>
+
+      <div>
+  <div style={{ backgroundColor: "#0f2326", color: "white", padding: "8px 10px", textAlign: "left", marginTop:"20px", marginBottom:"10px" }}>
     Match Bets
-  </td>
-</tr>
+  </div>
+</div>
+
+{/* <h1 className="section-title text-center">BOOKMAKER BETS</h1> */}
+
+    <div className='' style={{height:"200px", overflowY:"scroll" , overflowX:"scroll"}}>
+
+      <table className='table table-striped table-hover'>
+        <thead className="bg-info-subtle text-warning">
+          <tr>
+            <th style={{background:"#2a3a5a" , border:"none", fontSize:"13px"}} className='text-warning'>#</th>
+            {userState.user.role !== RoleType.user && <th style={{background:"#2a3a5a", fontSize:"13px"}} className='text-warning' >Username</th>}
+            <th style={{background:"#2a3a5a" , border:"none" , fontSize:"13px"}} className='text-warning text-left'> Runner Name</th>
+            <th style={{background:"#2a3a5a" , border:"none" , fontSize:"13px"}} className='text-warning'>Bet Mode</th>
+
+            <th style={{background:"#2a3a5a" , border:"none", fontSize:"13px"}} className='text-warning'>Bet Price</th>
+            <th style={{background:"#2a3a5a" , border:"none", fontSize:"13px"}} className='text-warning'>Bet Value</th>
+            <th style={{background:"#2a3a5a" , border:"none", fontSize:"13px"}} className='text-warning'>Bet Amount</th>
+            {/* <th style={{background:"#2a3a5a" , border:"none"}} className='text-warning'>Bet Profit</th> */}
+            {/* <th style={{background:"#2a3a5a" , border:"none"}} className='text-warning'>Bet Loss</th> */}
+
+            {/* {!isMobile && <th style={{background:"#76d68f"}}> Place Date</th>} */}
+            {/* {!isMobile && <th style={{background:"#76d68f"}}> Match Date</th>} */}
+            {/* <th style={{background:"#2a3a5a" , border:"none"}} className='text-warning'>Bet Status</th> */}
+            {userState.user.role !== RoleType.user && <th  style={{background:"#2a3a5a" , border:"none", fontSize:"13px"}} > Date</th>}
+          </tr>
+        </thead>
+        <tbody className='text-white'>
+          
+                    
 
                     {getMyAllBet?.filter((b:any)=>b.bet_on === "MATCH_ODDS").map((bet: IBet, index: number , ) => (
             <tr className={bet.isBack ? 'back' : 'lay'} key={bet._id}>
@@ -168,6 +203,7 @@ const MyBetComponent = () => {
         </tbody>
       </table>
     </div>
+      </div>
   )
 }
 

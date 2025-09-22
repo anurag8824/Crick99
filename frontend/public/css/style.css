@@ -3501,7 +3501,7 @@ marquee.casino-remark {
 .text_blink {
   animation: textBlinkColor 1s linear infinite;
   text-align: left;
-  font-size: 18px;
+  font-size: 13px;
   display: inline-block;
 }
 
