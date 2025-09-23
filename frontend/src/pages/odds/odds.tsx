@@ -206,8 +206,8 @@ const Odds = () => {
                  sandbox="allow-scripts allow-same-origin allow-popups"
                 // src={`${tvUrl}${currentMatch?.matchId}`}
                 src={
-                  currentMatch?.matchId === 34744529
-                    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=469208608"  : currentMatch?.matchId === 34749833    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=858381455"
+                  currentMatch?.matchId === 34758432
+                    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=556638940"  : currentMatch?.matchId === 34758196    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=647771085"
                     : "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=661159847"
                 }   
 
