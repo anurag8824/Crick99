@@ -77,7 +77,7 @@ const MyBetComponent = () => {
 
   return (
     <div>
-    <div className='' style={{height:"200px", overflowY:"scroll" , overflowX:"scroll"}}>
+    <div className='' style={{overflowX:"scroll"}}>
       <table className='table table-striped table-hover'>
         <thead className="bg-info-subtle text-warning">
           <tr>
@@ -146,7 +146,7 @@ const MyBetComponent = () => {
 
 {/* <h1 className="section-title text-center">BOOKMAKER BETS</h1> */}
 
-    <div className='' style={{height:"200px", overflowY:"scroll" , overflowX:"scroll"}}>
+    <div className='' style={{ overflowX:"scroll"}}>
 
       <table className='table table-striped table-hover'>
         <thead className="bg-info-subtle text-warning">

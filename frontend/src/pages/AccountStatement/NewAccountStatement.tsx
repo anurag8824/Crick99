@@ -420,6 +420,7 @@ const NewAccountStatement = () => {
           >
             {gameName}({date})
           </td>
+          <td>{date}</td>
           <td>
             <span
               className="badge badge-primary p-1 ng-binding"
@@ -472,6 +473,9 @@ const NewAccountStatement = () => {
         <tr key={`${stmt._id}${index}`}>
           <td>{stmt?.stmt?.allBets ? stmt?.stmt?.selectionId : ""}</td>
           <td>
+            {stmt?.stmt?.allBets ? moment(stmt?.stmt?.createdAt).format(dateFormat) : ""}
+          </td>
+          <td>
             {stmt?.stmt?.allBets
               ? stmt?.stmt?.allBets[0]?.result[0]?.marketName
               : ""}
@@ -479,6 +483,8 @@ const NewAccountStatement = () => {
           <td>
             {stmt?.stmt?.allBets ? stmt?.stmt?.allBets[0]?.result[0]?.odds : ""}
           </td>
+
+          
           <td>
             {stmt?.stmt?.allBets
               ? stmt.stmt.allBets.reduce((sum: number, bet: any) => {
@@ -645,6 +651,10 @@ const NewAccountStatement = () => {
                           </th>
 
                           <th style={{ width: "45%", textAlign: "center" }}>
+                           Time
+                          </th>
+
+                          <th style={{ width: "45%", textAlign: "center" }}>
                             Number
                           </th>
 
@@ -726,6 +736,11 @@ const NewAccountStatement = () => {
 
                         <th style={{ width: "45%", textAlign: "center" }}>
                         DESCRIPTION
+                        </th>
+
+
+                        <th style={{ width: "45%", textAlign: "center" }}>
+                        DATE
                         </th>
 
                         <th style={{ width: "45%", textAlign: "center" }}>
