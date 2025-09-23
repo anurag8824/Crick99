@@ -491,7 +491,7 @@ const NewAccountStatement = () => {
           <td>
             {stmt?.stmt?.allBets
               ? stmt?.narration?.match(/,([^[]+)\[/)?.[1]?.trim()
-              : (stmt?.stmt?.amount > 0 ? "win" : "loss")}l
+              : ""}
           </td>
           <td>
             {stmt?.stmt?.allBets
