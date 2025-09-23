@@ -2070,9 +2070,9 @@ export default class CasinoController extends ApiController {
       else if (type === "teen20"){
         let name = singleMarket?.nat;
         if(name == "Player A"){
-          bhav = parseFloat(bhav) - 0.05;
+          bhav = parseFloat(bhav) - 0.03;
         }else if( name == "Player B"){
-          bhav = parseFloat(bhav) - 0.05;
+          bhav = parseFloat(bhav) - 0.03;
       }
      }
 

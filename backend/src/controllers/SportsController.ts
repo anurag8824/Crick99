@@ -11,6 +11,7 @@ import axios from 'axios'
 import { UserBetStake } from '../models/UserBetStake'
 import { SportSetting } from '../models/SportSetting'
 import { BetLock } from '../models/BetLock'
+import { any } from 'bluebird'
 
 const setMatchData = async () => {
   const response = await axios.get("http://185.211.4.99:3000/")
@@ -900,39 +901,40 @@ class SportsController extends ApiController {
 
   deactivateMarkets = async (req: Request, res: Response): Promise<Response> => {
     try {
-      const { market } = req.body
+      const  market  = req.body
       console.log("ghjklhjk", req.body)
       let matchDelete = false
       let matchId = null
       if (market && market.marketId) {
         const marketData: any = await Market.findOne({ marketId: market.marketId })
-
+       let sid:any = market?.sid
         matchId = marketData?.matchId
         if (matchId) {
-          if (market?.runners) {
-            const winnerSid = market.runners.reduce((sid: number, runner: any) => {
-              if (runner.status == 'WINNER') {
-                sid = runner.selectionId
-              }
-              return sid
-            }, -1)
+          if (sid) {
+            // const winnerSid = market.runners.reduce((sid: number, runner: any) => {
+            //   if (runner.status == 'WINNER') {
+            //     sid = runner.selectionId
+            //   }
+            //   return sid
+            // }, -1)
+            const winnerSid = parseInt(sid)
             const winnerName = marketData.runners.reduce((win: any, name: any) => {
               if (name.selectionId == winnerSid) win = name.runnerName
               return win
             }, '')
             console.log(winnerSid, "winnerSidwinnerSidwinnerSidwinnerSid")
             if (winnerSid) {
-              axios
-                .get(
-                  `http://localhost:${process.env.PORT}/api/result-market-auto?selectionId=${winnerSid}&matchId=${marketData.matchId}&marketId=${market.marketId}`,
-                )
-                .catch((err) => console.log(err.stack))
+              // axios
+              //   .get(
+              //     `http://localhost:${process.env.PORT}/api/result-market-auto?selectionId=${winnerSid}&matchId=${marketData.matchId}&marketId=${market.marketId}`,
+              //   )
+              //   .catch((err) => console.log(err.stack))
               // await Market.updateOne(
               //   { matchId, marketId: marketData.marketId },
               //   { result: winnerSid, resultDelcare: 'processing' },
               // )
 
-              if (marketData.marketName == 'Match Odds') {
+              if (marketData.marketName == 'Match Odds' || marketData.marketName == 'Bookmaker') {
                 // await Match.updateOne({ matchId }, { active: false ,resultstring:winnerName})
                 await Match.updateOne(
                   { matchId },

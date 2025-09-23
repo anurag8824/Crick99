@@ -110,7 +110,8 @@ class BetController extends ApiController_1.ApiController {
                 const bets = yield Bet_1.Bet.aggregate([
                     {
                         $match: {
-                            bet_on: Bet_1.BetOn.FANCY,
+                            // bet_on: BetOn.FANCY,
+                            bet_on: { $in: [Bet_1.BetOn.FANCY, Bet_1.BetOn.MATCH_ODDS] },
                             status: "pending"
                         }
                     },
@@ -118,10 +119,12 @@ class BetController extends ApiController_1.ApiController {
                         $group: {
                             _id: "$selectionName",
                             matchId: { $first: "$matchId" },
+                            marketId: { $first: "$marketId" },
                             selectionId: { $first: "$selectionId" },
                             rmid: { $first: "$rmid" },
+                            bet_on: { $first: "$bet_on" },
                             originalId: { $first: "$_id" },
-                            customId: { $first: "$id" } // agar tere doc me id naam ka field hai
+                            customId: { $first: "$id" }, // agar tere doc me id naam ka field hai
                         }
                     },
                     {
@@ -132,7 +135,9 @@ class BetController extends ApiController_1.ApiController {
                             selectionId: 1,
                             rmid: 1,
                             originalId: 1,
-                            customId: 1
+                            customId: 1,
+                            bet_on: 1,
+                            marketId: 1,
                         }
                     }
                 ]);

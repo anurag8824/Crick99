@@ -1181,15 +1181,16 @@ startPolling();
 // console.log(keys);
         try {
              const res = await axios.post(`http://82.29.164.133:3000/bxpro/v1/fancy-list`, {
-               source: 'BETFAIR',
+               source: 'DIAMOND',
               eventId: f?.matchId.toString(),
-              marketId: f?.rmid.toString(),
+              marketId: f?.marketId.toString(),
               sport: 'CRICKET',
               // event_name: fileterMatch[0]?.ename,
-             marketName: f?.selectionName,
-             marketType: 'Fancy',
+             marketName: f?.bet_on == "FANCY" ? f?.selectionName :"Match Winner",
+             marketType: f?.bet_on == "FANCY"?'Fancy':'ODDS',
              matchName: matchdata?.event?.name,
-             sid:f?.selectionId
+             sid:f?.selectionId,
+             matchDate:matchdata?.event?.openDate,
              
 
             });
@@ -1245,7 +1246,7 @@ startPolling();
   //   }
   // };
 
-
+ 
   const FancyResult = async () => {
   try {
     await Promise.all(
@@ -1263,6 +1264,7 @@ startPolling();
             results
               .filter((fdata) => fdata?.status=="Settle") // only if status is true
               .map(async (fdata) => {
+                if(fdata.marketName != "Match Winner"){
                 const payload = {
                   message: "ok",
                   result: fdata?.winnerId,
@@ -1288,6 +1290,18 @@ startPolling();
                     err?.response?.data || err.message
                   );
                 }
+              }else{
+                  const payload = {
+                  message: "ok",
+                  sid: fdata?.winnerId,
+                  isRollback: fdata?.rollBack.toLowerCase() === "false" ?false:true,
+                  runnerName: fdata?.marketName,
+                  matchId: parseInt(fdata?.eventId),
+                  marketId:fdata.marketId
+
+                };
+                const resdata = await axios.post("http://localhost:3010/api/deactivate-markets",payload)
+              }
               })
           );
         } catch (err) {
@@ -1309,7 +1323,7 @@ startPolling();
   const getFancyList = async () => {
    try {
      const res = await axios.get('http://localhost:3010/api/get-business-fancy-list')
-    //  console.log(res.data.data.list, "Fancy List is Here")
+     console.log(res.data.data.list, "Fancy List is Here")
      FancyList = res.data?.data?.list
      setFancyData()
    } catch (error) {
