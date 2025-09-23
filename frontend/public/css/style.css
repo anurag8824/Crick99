@@ -116,6 +116,14 @@ body {
   opacity: 1;
 }
 
+.modal-header .btn-close {
+  filter: invert(1);
+  font-weight: bold;
+  transform: scale(1.2);
+  opacity: 1;
+}
+
+
 .modal-header .close:focus,
 .modal-header .close:hover {
   color: white;

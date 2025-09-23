@@ -192,13 +192,14 @@ const PlaceBetBox = ({ stake }: { stake: IUserBetStake }) => {
             const index = i + offset;
             if (index > 11 && betValues?.betData?.betOn !== "MATCH_ODDS" )
               { return null }
-              if (index > 13) return null;
+              if (index > 11) return null;
             return (
               <div className="col-4 d-flex justify-content-center" key={`btn-${index}`}>
                 <button
                   type="button"
                   onClick={() => onStack(stake[`value${index}`])}
                   className="btn btn-secondary m-1 w-100"
+                  style={{fontSize:"13px"}}
                 >
                   {stake[`name${index}`]}
                 </button>
@@ -219,7 +220,7 @@ const PlaceBetBox = ({ stake }: { stake: IUserBetStake }) => {
 
   React.useEffect(() => {
     if (!betValues.isOpen || betValues.betData?.betOn === "CASINO") return;
-    setSeconds(700); // Reset timer to 7 on open
+    setSeconds(7); // Reset timer to 7 on open
 
     const interval: NodeJS.Timeout = setInterval(() => {
       setSeconds((prev) => {
@@ -267,7 +268,7 @@ const PlaceBetBox = ({ stake }: { stake: IUserBetStake }) => {
           <div style={{position:"fixed",}} className='card m-b-10 place-bet'>
             <div className='card-header d-flex align-items-center justify-content-between'>
               <h6 style={{color:"#ffc107"}} className='card-title d-inline-block '>Place Bet</h6>
-            {betValues.betData?.betOn === "CASINO" ? "" :  <div>Timer: {seconds} seconds</div> }
+            {/* {betValues.betData?.betOn === "CASINO" ? "" :  <div>Timer: {seconds} seconds</div> } */}
               <span style={{fontSize:"10px"}} className='card-title d-inline-block' onClick={closeBetPopup}>
                 Close
               </span>
@@ -345,7 +346,7 @@ const PlaceBetBox = ({ stake }: { stake: IUserBetStake }) => {
                 </table>
 
 <div className='px-3 py-2'>
-                <div className=" p-2 text-center text-white" style={{ backgroundColor: "#0f2326", borderRadius: "6px" }}>
+                <div className=" p-2 text-center text-white" style={{ backgroundColor: betObj?.isBack ?  "#72BBEF" : "#faa9ba", borderRadius: "6px" }}>
       <strong>{betObj.selectionName}</strong>
     </div>
     </div>
@@ -383,9 +384,13 @@ const PlaceBetBox = ({ stake }: { stake: IUserBetStake }) => {
       </div>
     </div>
 
-    <div className='px-3 py-2'>
+    <div className='px-3 py-2 d-flex align-items-center '>
+      
 
-    <button  type='submit' disabled={getPlaceBet.status === IApiStatus.Loading} className="text-center text-white w-100 rounded-3 py-2" style={{background: "rgb(15, 35, 39)"}}><div>Place Bet {getPlaceBet.status === IApiStatus.Loading ? (
+   
+    {betValues.betData?.betOn === "CASINO" ? "" :   <button style={{ width: "35px" , background:"#f39c12" , border:"none", fontSize:"13px" }} className=" text-center rounded fw-bold p-2 "><span>{seconds}</span></button> }
+
+    <button  type='submit' disabled={getPlaceBet.status === IApiStatus.Loading} className="text-center border-0 text-white w-100 rounded-3 py-2" style={{background: "rgb(15, 35, 39)"}}><div>Place Bet {getPlaceBet.status === IApiStatus.Loading ? (
                       <i className='mx-5 fas fa-spinner fa-spin'></i>
                     ) : (
                       ''

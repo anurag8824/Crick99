@@ -468,7 +468,7 @@ const Header = () => {
           setIsOpen(false);
         }}
         contentLabel="Set Max Bet Limit"
-        className={"modal-dialog"}
+        className={"modal-dialog m-4"}
         ariaHideApp={false}
       >
         <div className="modal-content">
@@ -484,8 +484,8 @@ const Header = () => {
           <div className="modal-body">
             <table className="reponsive table col-12">
               <tr>
-                <th>Event Name</th>
-                <th>Total Bets</th>
+                <th style={{fontSize:"13px"}} >Event Name</th>
+                <th style={{fontSize:"13px"}}>Total Bets</th>
               </tr>
 
               {getExposerEvent.map((exposer: any) => {
@@ -500,7 +500,7 @@ const Header = () => {
          <td style={{ backgroundColor: "", color: "white", padding: "1" }}>
     <div style={{ marginBottom: "6px" , background: "#0f2326", }}>
       <CustomLink
-        style={{ color: "white", display: "block" , padding:"2px" }}
+        style={{ color: "white", display: "block" , padding:"2px", fontSize:"13px" }}
         onClick={() => {
           window.location.href =
             exposer.sportId &&
@@ -522,7 +522,7 @@ const Header = () => {
       </CustomLink>
     </div>
   </td>
-                    <td>{exposer.myCount}</td>
+                    <td >{exposer.myCount}</td>
                   </tr>
                 );
               })}

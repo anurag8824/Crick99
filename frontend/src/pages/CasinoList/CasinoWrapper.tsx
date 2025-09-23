@@ -672,11 +672,11 @@ const CasinoWrapper = (props: any) => {
                       <MyBetComponent />
                     </div>
                   </div>
-                  {gameCode == "onedaypoker" && <OnedaypokerRules />}
-                  {gameCode == "Superover" && <SoRules />}
-                  {gameCode == "opentp" && <Openteenpatti />}
-                  {gameCode == "fivewicket" && <Cricketv />}
-                  {gameCode == "teen20" && <T20 />}
+                  {/* {gameCode == "onedaypoker" && <OnedaypokerRules />} */}
+                  {/* {gameCode == "Superover" && <SoRules />} */}
+                  {/* {gameCode == "opentp" && <Openteenpatti />} */}
+                  {/* {gameCode == "fivewicket" && <Cricketv />} */}
+                  {/* {gameCode == "teen20" && <T20 />} */}
                 </div>
               </div>
             </div>

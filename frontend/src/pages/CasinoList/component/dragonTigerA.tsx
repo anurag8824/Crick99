@@ -84,7 +84,7 @@ const DragonTigerA = (props: any) => {
           <Minmax min={liveMatchData?.min} max={liveMatchData?.max} />
         </div>
       </div>
-      {isMobile ? <div className="home_mobile">
+      {isMobile ? <div className="home_mobile d-none">
         <div className="mobile-header-for-casino">
           <ul className="nav nav-tabs">
             <li className="nav-item"><a onClick={() => setActiveTab('dragon')} data-toggle="tab" href="#dragon" className={activeTab === 'dragon' ? "nav-link active" : "nav-link"}>Dragon</a></li>
@@ -92,9 +92,9 @@ const DragonTigerA = (props: any) => {
           </ul>
         </div>
       </div> : ""}
-      <div className='row row5'>
+      <div className='row row5 d-none'>
         {isMobile && activeTab === "dragon" || !isMobile ? <div className='col-lg-6 col-12'>
-          <div className='d-t-box m-b-10 buttonsuspended rounded-3'>
+          <div className='d-t-box m-b-10 buttonsuspended rounded-3 d-none'>
             <div className='row row6'>
               <div className='col-12'>
                 <h4 className='m-b-0 text-center text-uppercase text-light'>Dragon</h4>
@@ -108,7 +108,7 @@ const DragonTigerA = (props: any) => {
         </div> : ""}
         {isMobile && activeTab === "tiger" || !isMobile ?
           <div className='col-lg-6 col-12'>
-            <div className='d-t-box m-b-10 buttonsuspended rounded-3'>
+            <div className='d-t-box m-b-10 buttonsuspended rounded-3 d-none'>
               <div className='row '>
                 <div className='col-12'>
                   <h4 className='m-b-0 text-center text-uppercase text-light'>Tiger</h4>
@@ -123,7 +123,7 @@ const DragonTigerA = (props: any) => {
 
           </div> : ""}
       </div>
-      <div className='row row5'>
+      <div className='row row5  d-none'>
         {isMobile && activeTab === "dragon" || !isMobile ? <div className='col-lg-6 col-12'>
           <div className='d-t-box m-b-10 buttonsuspended'>
             <div className='row'>
