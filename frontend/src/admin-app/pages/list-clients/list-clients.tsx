@@ -1386,7 +1386,7 @@ const ListClients = () => {
                                     Edit {`(${user.username})`}
                                   </a>
 
-                                  {userState?.user?.role == RoleType.admin && (
+                                  {/* {userState?.user?.role == RoleType.admin && (
                                     <a
                                       onClick={() => {
                                         openModal("dt");
@@ -1401,7 +1401,21 @@ const ListClients = () => {
                                     >
                                       Deactivate {`(${user.username})`}
                                     </a>
-                                  )}
+                                  )} */}
+
+
+
+                                {userState?.user?.role == RoleType.admin && (
+                                  <a
+                                  onClick={() =>
+                                    updateStatus(index, !user?.isLogin, "user")
+                                  }
+                                    className={`${user?.role !== RoleType.admin  ? "d-block" : "d-none"}`}
+                                  >
+                                   { user?.isLogin ?  <span  style={{ color: "red" }}>Deactivate </span> : <span  style={{ color: "green" }}> Activate</span> }
+                                    {`(${user.username})`}
+                                  </a>
+                                )}
 
                                   {/* )}  */}
                                   {userState?.user?.role == RoleType.admin && (

@@ -60,111 +60,98 @@ const LoginReport = () => {
         </button>
       </div>
 
-      <div>
-        <div className="containerd w-100 mt-2 mb-5">
-          <div
-            id="ledger_wrapper"
-            className="dataTables_wrapper dt-bootstrap4 no-footer"
+      <div className="mb-20 ">
+        <div className="table-responsive">
+          <table
+            className="table table-striped table-bordered w-100"
+        
           >
-           
-
-            <div className="row overflow-auto mb-20">
-              <div className="col-sm-12">
-                <table
-                  className="table table-striped table-bordered LedgerList dataTable no-footer"
-                  id="ledger"
-                  style={{ minWidth: 700, width: 1110 }}
-                  role="grid"
+            <thead className="navbar-bet99 text-dark ">
+              <tr role="row">
+                <th
+                  className="p-1 pl-2 small sorting_disabled pr-0"
+                  style={{
+                    minWidth: 170,
+                    width: 170,
+                    backgroundColor: "#0f2327",
+                    color: "white",
+                  }}
                 >
-                  <thead className="navbar-bet99 text-dark">
-                    <tr role="row">
-                      <th
-                        className="p-1 pl-2 small sorting_disabled pr-0"
-                        style={{
-                          minWidth: 170,
-                          width: 170,
-                          backgroundColor: "#0f2327",
-                          color: "white",
-                        }}
-                      >
-                        COUNTRY
-                      </th>
-                      <th
-                        className="p-1 small text-center no-sort sorting_disabled"
-                        style={{
-                          width: 81,
-                          backgroundColor: "#0f2327",
-                          color: "white",
-                        }}
-                      >
-                        REGION
-                      </th>
-                      <th
-                        className="p-1 small text-center no-sort sorting_disabled"
-                        style={{
-                          width: 81,
-                          backgroundColor: "#0f2327",
-                          color: "white",
-                        }}
-                      >
-                        ISP
-                      </th>
-                      <th
-                        className="p-1 small text-center no-sort sorting_disabled"
-                        style={{
-                          width: 60,
-                          backgroundColor: "#0f2327",
-                          color: "white",
-                        }}
-                      >
-                        IP-ADDRESS
-                      </th>
-                      <th
-                        className="p-1 small text-center  no-sort sorting_disabled"
-                        style={{
-                          width: 97,
-                          backgroundColor: "#0f2327",
-                          color: "white",
-                        }}
-                      >
-                        LOGIN DATE
-                      </th>
-                    </tr>
-                  </thead>
+                  COUNTRY
+                </th>
+                <th
+                  className="p-1 small text-center no-sort sorting_disabled"
+                  style={{
+                    width: 81,
+                    backgroundColor: "#0f2327",
+                    color: "white",
+                  }}
+                >
+                  REGION
+                </th>
+                <th
+                  className="p-1 small text-center no-sort sorting_disabled"
+                  style={{
+                    width: 81,
+                    backgroundColor: "#0f2327",
+                    color: "white",
+                  }}
+                >
+                  ISP
+                </th>
+                <th
+                  className="p-1 small text-center no-sort sorting_disabled"
+                  style={{
+                    width: 60,
+                    backgroundColor: "#0f2327",
+                    color: "white",
+                  }}
+                >
+                  IP-ADDRESS
+                </th>
+                <th
+                  className="p-1 small text-center  no-sort sorting_disabled"
+                  style={{
+                    width: 97,
+                    backgroundColor: "#0f2327",
+                    color: "white",
+                  }}
+                >
+                  LOGIN DATE
+                </th>
+              </tr>
+            </thead>
 
-                  <tbody>
-                    {tableData.map((row, index) => (
-                      <tr
-                        key={row._id}
-                        role="row"
-                        className={index % 2 === 0 ? "even" : "odd"}
-                      >
-                        <td className="small pl-2 pr-0">{row.country}</td>
-                        <td>
-                          <span className="">{row.region}</span>
-                        </td>
-                        <td>
-                          <span className="t">{row.org}</span>
-                        </td>
-                        <td>{row.ip}</td>
+            <tbody>
+              {tableData.map((row, index) => (
+                <tr
+                  key={row._id}
+                  role="row"
+                  className={index % 2 === 0 ? "even" : "odd"}
+                >
+                  <td className="small pl-2 pr-0">{row.country}</td>
+                  <td>
+                    <span className="">{row.region}</span>
+                  </td>
+                  <td>
+                    <span className="t">{row.org}</span>
+                  </td>
+                  <td>{row.ip}</td>
 
-                        <td>
-                          {new Date(row.createdAt).toLocaleString("en-US", {
-                            year: "numeric",
-                            month: "short",
-                            day: "2-digit",
-                            hour: "2-digit",
-                            minute: "2-digit",
-                            hour12: true,
-                          })}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
+                  <td>
+                    {new Date(row.createdAt).toLocaleString("en-US", {
+                      year: "numeric",
+                      month: "short",
+                      day: "2-digit",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: true,
+                    })}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
