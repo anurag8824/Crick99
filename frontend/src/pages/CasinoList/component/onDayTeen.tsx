@@ -1,5 +1,6 @@
 import CasinoPnl from './casinoPnl';
 import LayBackButton from './_common/new/LayBackButton';
+import Limitinfo from './_common/limitinfo';
 
 const OneDayTeen = (props: any) => {
   const { lastOdds, liveMatchData } = props
@@ -16,11 +17,18 @@ const OneDayTeen = (props: any) => {
       return (
         (
           <tr key={key} className={`${clsstatus} ${heightdata}`}>
+            
+            
             <td className={clsnamehead} style={{ paddingLeft: "10px" }}>
+               <span className={clsnamehead} style={{paddingLeft:"5px", color:"white"}}>
+                <Limitinfo nameString={'lbmarket'} min={100} max={10000} />
+                </span>
               <b>{ItemNew.RunnerName}</b>
               <CasinoPnl sectionId={ItemNew.SelectionId} matchId={liveMatchData.match_id} />
             </td>
+            
             <LayBackButton selectionid={ItemNew.SelectionId} lastOdds={lastOdds} liveMatchData={liveMatchData} clsnamename={clsnamename} />
+            
           </tr>
         )
       )

@@ -67,8 +67,8 @@ const shared = useParams().share
         <Tabs className='d-none'>
           <Tab eventKey='home' title='ODDS'>
             <div className='game-heading clsforellipse mb-1'>
-              <span className='card-header-title giveMeEllipsis'>{props.currentMatch?.name}</span>
-              <span className='float-right card-header-date'>
+              <span className='card-header-title giveMeEllipsis' style={{color:"white"}} >{props.currentMatch?.name}</span>
+              <span className='float-right card-header-date d-none'>
                               { moment(props.currentMatch?.matchDateTime).format('MM/DD/YYYY  h:mm a') }
                 
               </span>

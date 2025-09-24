@@ -97,14 +97,15 @@ export const AvailableToBackLay = React.memo(
           >
 
 <span className="odd d-block">
-              {market.oddsType == OddsType.BM
-                ? (back.price*100-100).toFixed(2)
-                  ? (back.price*100-100).toFixed(2)
-                  : "-"
-                : (back.price*100-100).toFixed(2)
-                ? (back.price*100-100).toFixed(2)
-                : "-"}
-            </span>
+  {market.oddsType === OddsType.BM
+    ? Number.isFinite(back?.price)
+      ? ((back.price * 100 - 100) || 0).toFixed(2)
+      : "0.00"
+    : Number.isFinite(back?.price)
+      ? ((back.price * 100 - 100) || 0).toFixed(2)
+      : "0.00"}
+</span>
+
      
             {/* <span className="odd d-block">{displayPrice}</span> */}
           
@@ -147,16 +148,18 @@ export const AvailableToBackLay = React.memo(
             className={`${classforbox}   text-center ${cls} ${blinkCls}`}
           >
 
-           
+          
+
             <span className="odd d-block">
-              {market.oddsType == OddsType.BM
-                ? (lay.price*100-100).toFixed(2)
-                  ? (lay.price*100-100).toFixed(2)
-                  : "-"
-                : (lay.price*100-100).toFixed(2)
-                ? (lay.price*100-100).toFixed(2)
-                : "-"}
-            </span>
+  {market.oddsType === OddsType.BM
+    ? Number.isFinite(lay?.price)
+      ? ((lay.price * 100 - 100) || 0).toFixed(2)
+      : "0.00"
+    : Number.isFinite(lay?.price)
+      ? ((lay.price * 100 - 100) || 0).toFixed(2)
+      : "0.00"}
+</span>
+
 
 
             {/* <span className="odd d-block">{displayPrice}</span> */}

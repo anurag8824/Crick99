@@ -691,6 +691,92 @@ export class AccountController extends ApiController {
             newRoot: '$data',
           },
         },
+          /** ==========================
+   *  Enrich allBets with Fancy/Markets
+   *  ========================== */
+          {
+            $unwind: {
+              path: '$allBets',
+              preserveNullAndEmptyArrays: true,
+            },
+          },{
+            $unwind: {
+              path: '$allBets.result',
+              preserveNullAndEmptyArrays: true,
+            },
+          },
+          {
+            $lookup: {
+              from: 'fancies',
+              let: { selName: '$allBets.result.selectionName' },
+              pipeline: [
+                { $match: { $expr: { $eq: ['$fancyName', '$$selName'] } } },
+              ],
+              as: 'fancyResult',
+            },
+          },{
+            $lookup: {
+              from: 'markets',
+              let: { matchId: '$allBets.result.matchId' },
+              pipeline: [
+                { $match: { $expr: { $eq: ['$matchId', '$$matchId'] } } },
+              ],
+              as: 'marketResult',
+            },
+          },
+          {
+            $addFields: {
+              'allBets.result.enrichedResult': {
+                $cond: [
+                  { $eq: ['$allBets.bet_on', 'FANCY'] },
+                  { $arrayElemAt: ['$fancyResult', 0] },
+                  {
+                    $cond: [
+                      { $eq: ['$allBets.bet_on', 'MATCH_ODDS'] },
+                      { $arrayElemAt: ['$marketResult', 0] },
+                      null,
+                    ],
+                  },
+                ],
+              },
+            },
+          },// rebuild results array
+          {
+            $group: {
+              _id: {
+                mainId: '$_id',
+                betId: '$allBets._id',
+              },
+              doc: { $first: '$$ROOT' },
+              result: { $push: '$allBets.result' },
+            },
+          },
+          {
+            $addFields: {
+              'doc.allBets.result': '$result',
+            },
+          },
+          {
+            $replaceRoot: { newRoot: '$doc' },
+          },
+          // rebuild allBets array
+          {
+            $group: {
+              _id: '$_id',
+              userId: { $first: '$userId' },
+              selectionId: { $first: '$selectionId' },
+              matchId: { $first: '$matchId' },
+              amount: { $first: '$amount' },
+              txnType: { $first: '$txnType' },
+              txnBy: { $first: '$txnBy' },
+              openBal: { $first: '$openBal' },
+              narration: { $first: '$narration' },
+              createdAt: { $first: '$createdAt' },
+              type: { $first: '$type' },
+              balance: { $first: '$balance' },
+              allBets: { $push: '$allBets' },
+            },
+          },
         {
           $sort: {
             createdAt: 1,
@@ -727,6 +813,18 @@ export class AccountController extends ApiController {
       return this.fail(res, e)
     }
   }
+
+
+
+
+
+
+
+
+
+
+
+
 
   // getAccountStmtList = async (req: Request, res: Response) => {
   //   try {

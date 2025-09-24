@@ -137,7 +137,7 @@ const LoginReport = () => {
                     <span className="t">{row.org}</span>
                   </td>
                   <td>{row.ip}</td>
-
+                  
                   <td>
                     {new Date(row.createdAt).toLocaleString("en-US", {
                       year: "numeric",

@@ -101,20 +101,20 @@ const MyBetComponent = () => {
         <tbody className='text-white'>
           {getMyAllBet?.filter((b:any)=>b.bet_on !== "MATCH_ODDS")?.map((bet: IBet, index: number , ) => (
             <tr className={bet.isBack ? 'back' : 'lay'} key={bet._id}>
-              <td className='no-wrap'> {index + 1} </td>
+              <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap'> {index + 1} </td>
               {userState.user.role !== RoleType.user && <td>{bet.userName}</td>}
-              <td className='no-wrap'>
+              <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap'>
                 {' '}
                 {bet.selectionName}
                 {/* {bet.marketName === 'Fancy' && bet.gtype !== 'fancy1' ? bet.volume.toFixed(2) : bet.odds.toFixed(2)}{' '} */}
               </td>
-              <td className='no-wrap text-center' > {bet.isBack ? "Yes" : "No"} </td>
+              <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap text-center' > {bet.isBack ? "Yes" : "No"} </td>
 
 
-              <td className='no-wrap text-center' > { bet.gtype === 'fancy1' ? bet.odds.toFixed(2) : bet?.volume.toFixed(2) }</td>
+              <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap text-center' > { bet.gtype === 'fancy1' ? bet.odds.toFixed(2) : bet?.volume.toFixed(2) }</td>
 
-              <td className='no-wrap text-center' > { bet.gtype === 'fancy1' ?  bet?.selectionName : bet.odds.toFixed(2) } </td>
-              <td className='no-wrap'> {bet.stack} </td>
+              <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap text-center' > { bet.gtype === 'fancy1' ?  bet?.selectionName : bet.odds.toFixed(2) } </td>
+              <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap'> {bet.stack} </td>
 
 
               {/* {!isMobile && (
@@ -124,7 +124,7 @@ const MyBetComponent = () => {
                 <td className='no-wrap'> {moment(bet.createdAt).format(betDateFormat)} </td>
               )} */}
               {/* <td className='no-wrap text-center' > {bet?.result?.result ? bet?.result?.result  :"-" } </td> */}
-              {userState.user.role !== RoleType.user && <td className='no-wrap'>{moment.utc(bet.betClickTime).utcOffset('+05:30').format('DD/MM/YYYY hh:mm:ss A')} </td>}
+              {userState.user.role !== RoleType.user && <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap'>{moment.utc(bet.betClickTime).utcOffset('+05:30').format('DD/MM/YYYY hh:mm:ss A')} </td>}
               {/* <td className='no-wrap text-center' > {bet?.status} </td> */}
 
             </tr>
@@ -174,16 +174,16 @@ const MyBetComponent = () => {
 
                     {getMyAllBet?.filter((b:any)=>b.bet_on === "MATCH_ODDS").map((bet: IBet, index: number , ) => (
             <tr className={bet.isBack ? 'back' : 'lay'} key={bet._id}>
-              <td className='no-wrap'> {index + 1} </td>
+              <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap'> {index + 1} </td>
               {userState.user.role !== RoleType.user && <td>{bet.userName}</td>}
-              <td className='no-wrap'>
+              <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap'>
                 {' '}
                 {bet.selectionName}
                 {/* {bet.marketName === 'Fancy' && bet.gtype !== 'fancy1' ? bet.volume.toFixed(2) : bet.odds.toFixed(2)}{' '} */}
               </td>
-              <td className='no-wrap text-center' > {bet.isBack ? "Yes" : "No"} </td>
-              <td className='no-wrap text-center' > {bet.odds.toFixed(2)} </td>
-              <td className='no-wrap text-center' > {bet?.selectionName} </td>
+              <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap text-center' > {bet.isBack ? "Lagai" : "Khai"} </td>
+              <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap text-center' > {bet.odds.toFixed(2)} </td>
+              <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap text-center' > {bet?.selectionName} </td>
               {/* <td className='no-wrap text-center' > {bet.isBack ? "Yes" : "No"} </td> */}
               {/* {!isMobile && (
                 <td className='no-wrap'> {moment(bet.betClickTime).format(betDateFormat)} </td>
@@ -191,7 +191,7 @@ const MyBetComponent = () => {
               {!isMobile && (
                 <td className='no-wrap'> {moment(bet.createdAt).format(betDateFormat)} </td>
               )} */}
-              <td className='no-wrap'> {bet.stack} </td>
+              <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap'> {bet.stack} </td>
               {/* <td className='no-wrap text-center' > {bet?.result?.result ? bet?.result?.result  :"-" } </td> */}
               {userState.user.role !== RoleType.user && <td className='no-wrap'>{moment.utc(bet.betClickTime).utcOffset('+05:30').format('DD/MM/YYYY hh:mm:ss A')} </td>}
               {/* <td className='no-wrap text-center' > {bet?.status} </td> */}

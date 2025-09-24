@@ -99,14 +99,48 @@ const MyBetComponent22 = () => {
 
   const navigate = useNavigate();
 
+  // totals calculate karne ke liye reduce
+  const totals = React.useMemo(() => {
+    let plus = 0;
+    let minus = 0;
+
+    getMyAllBet.forEach((bet) => {
+      //@ts-ignore
+      const val = Number(bet?.profitLoss?.$numberDecimal) || 0;
+      if (val >= 0) {
+        plus += val;
+      } else {
+        minus += val; // ye negative hoga
+      }
+    });
+
+    return {
+      plus: plus.toFixed(2),
+      minus: minus.toFixed(2),
+    };
+  }, [getMyAllBet]);
+
   return (
     <>
+   <div className="d-flex justify-content-between" style={{fontSize:"13px"}}>
+  <div>
+    <span className="text-success">+{totals.plus}</span>
+  </div>
+  <div>
+  <span className="text-danger">{totals.minus}</span>
+  </div>
+</div>
+
+
       <div
         className="text-center text-white py-2"
         style={{ marginTop: "25px", background: "#535961" }}
       >
+              
         <div style={{fontSize:"13px"}}>COMPLETED BETS</div>
       </div>
+
+
 
       <div
         className="table-responsive-new"
@@ -140,6 +174,10 @@ const MyBetComponent22 = () => {
               <th className="text-center px-1 py-2" style={{ background: "#0f2326", border: "", color: "white" }}>
                 {" "}
                 Type
+              </th>
+              <th className="text-center px-1 py-2" style={{ background: "#0f2326", border: "", color: "white" }}>
+                {" "}
+               Bet Mode
               </th>
               <th className="text-center px-1 py-2" style={{ background: "#0f2326", border: "", color: "white" }}>
                 {" "}
@@ -188,6 +226,8 @@ const MyBetComponent22 = () => {
                     : bet.odds}{" "} */}
                 </td>
                 <td className="no-wrap text-center" style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}>{bet?.bet_on}</td>
+                <td className="no-wrap text-center" style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}>{bet.isBack ? "Yes" : "No"} </td>
+
                 <td className="no-wrap text-center" style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}>
                   {" "}
                   {bet.marketName === "Fancy" && bet.gtype !== "fancy1"

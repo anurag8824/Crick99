@@ -89,8 +89,8 @@ const MatchDetail = (props: any) => {
         <div className='rowk'>
           <div className={'col-888  sports-wrapper m-b-10 pr0'}>
             <div className='game-heading mb-1'>
-              <span className='card-header-title'>{props.currentMatch?.name}</span>
-              <span className='float-right card-header-date'>
+              <span className='card-header-title' style={{color:"white"}}>{props.currentMatch?.name}</span>
+              <span className='float-right card-header-date d-none'>
                 {moment(props.currentMatch?.matchDateTime).format('MM/DD/YYYY  h:mm a')}
 
                 {/* {props.currentMatch?.seriesId == "1"  ?   moment.utc(props.currentMatch?.matchDateTime).format('MM/DD/YYYY  h:mm a') : moment(props.currentMatch?.matchDateTime).format('MM/DD/YYYY  h:mm a') } */}

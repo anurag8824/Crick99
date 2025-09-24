@@ -24,12 +24,12 @@ const LuckSeven = (props: any) => {
                     <img src="/imgs/casino/cards/7all.jpg" className="card-seven-single" />
                 </div>
                 <div className="col-5 text-center">
-                   <ButtonItem selectionid={market2.SelectionId} title={market2.RunnerName} lastOdds={lastOdds} liveMatchData={liveMatchData} />
-                   <CasinoPnl matchId={liveMatchData?.match_id} sectionId={market2?.SelectionId} />
+                  <ButtonItem selectionid={market2.SelectionId} title={market2.RunnerName} lastOdds={lastOdds} liveMatchData={liveMatchData} />
+                  <CasinoPnl matchId={liveMatchData?.match_id} sectionId={market2?.SelectionId} />
                 </div>
             </div>
             <div className="row m-t-10">
-                <Minmax min={liveMatchData?.min} max={liveMatchData?.max} />
+                <Minmax min={liveMatchData?.min} max={10000} />
             </div>
         </div>
     }
@@ -61,8 +61,8 @@ const LuckSeven = (props: any) => {
                     <CasinoPnl matchId={liveMatchData?.match_id} sectionId={market2.SelectionId} />
                 </div>
             </div>
-            <div className="row">
-                <Minmax min={liveMatchData?.min} max={liveMatchData?.max} />
+            <div className="row text-white">
+                <Minmax min={liveMatchData?.min} max={10000} />
             </div>
         </div>
     }
@@ -84,7 +84,7 @@ const LuckSeven = (props: any) => {
                         })
                     }
                 </div>
-                <Minmax min={liveMatchData.min} max={liveMatchData.max} />
+                <Minmax min={liveMatchData.min} max={liveMatchData.max} /><link rel="stylesheet" href="" />
             </div>
         </div>
     }
