@@ -131,30 +131,30 @@ class Fancy extends React.Component<
     return allFancies.findIndex((f) => f.marketId == fancy.SelectionId)
   }
 
-  addNewFancy = () => {
-    if (this.props.socketUser) {
-      this.props.socketUser.on('addNewFancy', ({ newFancy, fancy }: any) => {
-        const type = this.FancyBallTypes(fancy.RunnerName)
-        // const allFacies = [...this?.state?.fancies[type]]
+  // addNewFancy = () => {
+  //   if (this.props.socketUser) {
+  //     this.props.socketUser.on('addNewFancy', ({ newFancy, fancy }: any) => {
+  //       const type = this.FancyBallTypes(fancy.RunnerName)
+  //       // const allFacies = [...this?.state?.fancies[type]]
 
-        const allFacies = [...(this?.state?.fancies?.[type] || [])]
+  //       const allFacies = [...(this?.state?.fancies?.[type] || [])]
 
         
 
-        if (this.checkFancyKey(allFacies, fancy) == -1 && this.props.fancyType == newFancy.gtype) {
-          const items = { ...this.state.fancyUpdate }
-          allFacies.push(newFancy)
-          this.setState({
-            fancies: {
-              ...this.state.fancies,
-              [type]: allFacies.sort((a: any, b: any) => a.sr_no - b.sr_no),
-            },
-            fancyUpdate: { ...items, [fancy.SelectionId]: fancy },
-          })
-        }
-      })
-    }
-  }
+  //       if (this.checkFancyKey(allFacies, fancy) == -1 && this.props.fancyType == newFancy.gtype) {
+  //         const items = { ...this.state.fancyUpdate }
+  //         allFacies.push(newFancy)
+  //         this.setState({
+  //           fancies: {
+  //             ...this.state.fancies,
+  //             [type]: allFacies.sort((a: any, b: any) => a.sr_no - b.sr_no),
+  //           },
+  //           fancyUpdate: { ...items, [fancy.SelectionId]: fancy },
+  //         })
+  //       }
+  //     })
+  //   }
+  // }
 
   // removeFancy = () => {
   //   if (this.props.socketUser)
@@ -234,25 +234,87 @@ class Fancy extends React.Component<
   // };
 
 
+  // removeFancy = () => {
+  //   if (this.props.socketUser)
+  //     this.props.socketUser.on('removeFancy', (fancy: any) => {
+  //       const updatedFancies: FancyBallTypes = { ...this.state.fancies }
+  
+  //       // Loop over all categories and remove the fancy from each
+  //       Object.keys(updatedFancies).forEach((type) => {
+  //         updatedFancies[type] = updatedFancies[type].filter((f) => f.marketId !== fancy.marketId)
+  //       })
+  
+  //       const updatedFancyUpdate = { ...this.state.fancyUpdate }
+  //       delete updatedFancyUpdate[fancy.marketId]
+  
+  //       this.setState({
+  //         fancies: updatedFancies,
+  //         fancyUpdate: updatedFancyUpdate,
+  //       })
+  //     })
+  // }
+
+
+  addNewFancy = () => {
+  if (this.props.socketUser) {
+    this.props.socketUser.on('addNewFancy', ({ newFancy, fancy }: any) => {
+      const type = this.FancyBallTypes(fancy.RunnerName);
+
+      this.setState((prevState) => {
+        const allFacies = [...(prevState.fancies?.[type] || [])];
+
+        // check if already exists
+        if (
+          allFacies.findIndex((f) => f.marketId === fancy.SelectionId) === -1 &&
+          this.props.fancyType === newFancy.gtype
+        ) {
+          const updatedFancies = {
+            ...prevState.fancies,
+            [type]: [...allFacies, newFancy].sort((a, b) => a.sr_no - b.sr_no),
+          };
+
+          const updatedFancyUpdate = {
+            ...prevState.fancyUpdate,
+            [fancy.SelectionId]: fancy,
+          };
+
+          return {
+            fancies: updatedFancies,
+            fancyUpdate: updatedFancyUpdate,
+          };
+        }
+        return null; // no update
+      });
+    });
+  }
+};
+
+
   removeFancy = () => {
-    if (this.props.socketUser)
-      this.props.socketUser.on('removeFancy', (fancy: any) => {
-        const updatedFancies: FancyBallTypes = { ...this.state.fancies }
-  
-        // Loop over all categories and remove the fancy from each
+  if (this.props.socketUser) {
+    this.props.socketUser.on('removeFancy', (fancy: any) => {
+      this.setState((prevState) => {
+        const updatedFancies: FancyBallTypes = { ...prevState.fancies };
+
+        // remove from all groups
         Object.keys(updatedFancies).forEach((type) => {
-          updatedFancies[type] = updatedFancies[type].filter((f) => f.marketId !== fancy.marketId)
-        })
-  
-        const updatedFancyUpdate = { ...this.state.fancyUpdate }
-        delete updatedFancyUpdate[fancy.marketId]
-  
-        this.setState({
+          updatedFancies[type] = updatedFancies[type].filter(
+            (f) => f.marketId !== fancy.marketId
+          );
+        });
+
+        const updatedFancyUpdate = { ...prevState.fancyUpdate };
+        delete updatedFancyUpdate[fancy.marketId];
+
+        return {
           fancies: updatedFancies,
           fancyUpdate: updatedFancyUpdate,
-        })
-      })
+        };
+      });
+    });
   }
+};
+
   
   
 

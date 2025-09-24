@@ -20,7 +20,9 @@ socket.on("newFancyAdded", async ({ fancy, matchId }) => {
       },
     })
     .then((res) => {
-      io.to(matchId).emit("addNewFancy", { newFancy: res.data.data, fancy });
+      console.log(res.data.data,"ghjkl")
+      let id = matchId.toString()
+      io.to(id).emit("addNewFancy", { newFancy: res.data.data, fancy });
     })
     .catch((e) => console.log(e.response));
 });
