@@ -144,11 +144,11 @@ export const FancyList = React.memo(
                           </div>
 
                           {/* RIGHT SIDE */}
-                          {/* <button  onClick={() => setShowladder(!showladder)}>
+                          <button  onClick={() => setShowladder(!showladder)}>
                             <img
                               src="/imgs/ladder.svg"
                               style={{ height: "20px" }} />
-                          </button> */}
+                          </button>
                         </span>
                         {getMarketBook && (
                           <span
@@ -234,7 +234,10 @@ export const FancyList = React.memo(
             <Modal.Title>Ladder</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <div>Ladder</div>
+          <div style={{ display: 'flex', width: '100%' , gap:"4px" }}>
+    <div className="rounded fs-5 pl-2 text-center text-white" style={{ flex: 1, textAlign: 'left' ,background: "rgb(15, 35, 39)" }}>Run</div>
+    <div className="rounded fs-5 pl-2 text-center text-white"  style={{ flex: 1, textAlign: 'right',background: "rgb(15, 35, 39)" }}>Profit</div>
+  </div>
           </Modal.Body>
           <div
     style={{
