@@ -361,9 +361,14 @@ const PlaceBetBox = ({ stake }: { stake: IUserBetStake }) => {
       {/* Right Column */}
       <div className="col-6 d-flex flex-column align-items-center justify-content-center">
         <span>Size</span>
-        <div className="border p-2 rounded-3 w-100 text-center mt-1"> 
-           {parseFloat(betObj?.volume?.toFixed(4)) || ''}
-           </div>
+        <div className="border p-2 rounded-3 w-100 text-center mt-1">
+  {betObj?.betOn === "MATCH_ODDS"
+    ? betObj?.selectionName
+    : betObj?.volume
+    ? parseFloat(betObj?.volume?.toFixed(4))
+    : ""}
+</div>
+
     
    
       </div>

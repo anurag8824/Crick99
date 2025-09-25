@@ -63,7 +63,7 @@ const NewAccountStatement = () => {
   };
   const getAccountStmt = (page: number) => {
     accountService
-      .getAccountList(page, filterdata)
+      .getAccountListUserLedger(page, filterdata)
       .then((res) => {
         if (res?.data?.data) setAccountStmt(res?.data?.data?.items || []);
         if (res?.data?.data?.items && page == 0)
@@ -421,14 +421,14 @@ const NewAccountStatement = () => {
             {gameName}({date})
           </td>
           <td>{date}</td>
-          <td>
+          {/* <td>
             <span
               className="badge badge-primary p-1 ng-binding"
               style={{ fontSize: "xx-small" }}
             >
               <i style={{ fontSize: "10px" }} className="fas fa-trophy"></i> N/A
             </span>
-          </td>
+          </td> */}
           <td className="green">
             {totalCredit >= 0 ? totalCredit.toFixed(2) : "0.00"}
           </td>
@@ -469,6 +469,8 @@ const NewAccountStatement = () => {
 
       if (stmt.narration.length === 0) return null;
 
+      console.log(stmt,"stmttktkt")
+
       return (
         <tr key={`${stmt._id}${index}`}>
           <td>{stmt?.stmt?.allBets ? stmt?.stmt?.selectionId : ""}</td>
@@ -476,37 +478,48 @@ const NewAccountStatement = () => {
             {stmt?.stmt?.allBets ? moment(stmt?.stmt?.createdAt).format(dateFormat) : ""}
           </td>
           <td>
-            {stmt?.stmt?.allBets
-              ? stmt?.stmt?.allBets[0]?.result[0]?.marketName
-              : ""}
-          </td>
-          <td>
-            {stmt?.stmt?.allBets ? stmt?.stmt?.allBets[0]?.result[0]?.odds : ""}
-          </td>
+  {stmt?.stmt?.bet
+    ? stmt?.stmt?.bet?.selectionName
+    : ""}
+</td>
+<td>
+  {stmt?.stmt?.bet
+    ? stmt?.stmt?.bet?.odds || ""
+    : ""}
+</td>
 
           
           <td>
-            {stmt?.stmt?.allBets
-              ? stmt.stmt.allBets.reduce((sum: number, bet: any) => {
-                  const stack = parseFloat(bet?.result?.[0]?.stack) || 0;
-                  return sum + stack;
-                }, 0)
+            {stmt?.stmt?.amount
+              ? stmt?.stmt?.amount
               : ""}
           </td>
 
           <td>
+            {stmt?.stmt?.bet 
+              ? stmt?.credit > 0 ? "Win" : "Loss"
+              : ""}
+          </td>
+
+          <td>
+  {stmt?.stmt?.bet?.bet_on === "CASINO"
+    ? stmt?.narration?.match(/winner:\s*([^,\[\]]+)?/)?.[1]?.trim()
+    : stmt?.stmt?.bet?.betResult?.result || ""}
+</td>
+
+          {/* <td>
             {stmt?.stmt?.allBets
               ? stmt?.narration?.match(/,([^[]+)\[/)?.[1]?.trim()
               : ""}
-          </td>
-          <td>
+          </td> */}
+          {/* <td>
             {stmt?.stmt?.allBets
               ? stmt?.narration?.match(/winner:\s*([^,\[\]]+)?/)?.[1]?.trim()
               : ""}
-          </td>
-          <td>{stmt?.stmt?.allBets ? stmt?.credit : ""}</td>
+          </td> */}
+          <td>{stmt?.stmt?.bet ? stmt?.credit : ""}</td>
           <td className="green wnwrap d-none">
-            {stmt?.stmt?.allBets ? stmt.closing : ""}
+            {stmt?.stmt?.bet ? stmt.closing : ""}
           </td>
         </tr>
       );
@@ -526,27 +539,60 @@ const NewAccountStatement = () => {
     );
   };
 
+  // const dataformat = (response: any, closingbalance: any) => {
+  //   const aryNewFormat: any = [];
+
+  //   response &&
+  //     response.map((stmt: any, index: number) => {
+  //       closingbalance = closingbalance + stmt.amount;
+  //       aryNewFormat.push({
+  //         _id: stmt._id,
+  //         // eslint-disable-next-line camelcase
+  //         sr_no: index + 1,
+  //         date: moment(stmt.createdAt).format("lll"),
+  //         credit: stmt.amount,
+  //         debit: stmt.amount,
+  //         closing: closingbalance.toFixed(2),
+  //         narration: stmt.narration,
+  //         stmt: stmt,
+  //       });
+  //     });
+  //   return aryNewFormat;
+  // };
+
   const dataformat = (response: any, closingbalance: any) => {
     const aryNewFormat: any = [];
-
+  
     response &&
-      response.map((stmt: any, index: number) => {
+      response.forEach((stmt: any, index: number) => {
         closingbalance = closingbalance + stmt.amount;
+  
+        // Enrich bets inside statement
+        const enrichedBets = stmt.allBets?.map((bet: any) => {
+          return {
+            ...bet,
+            betResult: bet.betResult || null, // backend se attach hua object
+          };
+        });
+  
         aryNewFormat.push({
           _id: stmt._id,
-          // eslint-disable-next-line camelcase
           sr_no: index + 1,
           date: moment(stmt.createdAt).format("lll"),
           credit: stmt.amount,
           debit: stmt.amount,
           closing: closingbalance.toFixed(2),
           narration: stmt.narration,
-          stmt: stmt,
+          stmt: {
+            ...stmt,
+            allBets: enrichedBets || [],
+          },
         });
       });
+  
     return aryNewFormat;
   };
-
+  
   return (
     <>
       {/* {mobileSubheader.subheader("MY LEDGER ")} */}
@@ -743,9 +789,9 @@ const NewAccountStatement = () => {
                         DATE
                         </th>
 
-                        <th style={{ width: "45%", textAlign: "center" }}>
+                        {/* <th style={{ width: "45%", textAlign: "center" }}>
                           WON BY
-                        </th>
+                        </th> */}
 
                         <th style={{ width: "10%", textAlign: "center" }}>
                           WIN{" "}

@@ -26,6 +26,7 @@ class AccountRoutes {
         // this.router.get("/Account", this.AccountController.Accounts);
         // this.router.post("/Account", this.AccountController.saveAccount);
         this.router.post('/account-statement-list', Passport_1.default.authenticateJWT, this.AccountController.getAccountStmtList);
+        this.router.post('/account-statement-list-user-ledger', Passport_1.default.authenticateJWT, this.AccountController.getAccountStmtListUserLedger);
         this.router.post('/account-statement-list-22', Passport_1.default.authenticateJWT, this.AccountController.getAccountStmtList22);
         this.router.get('/get-casino-games', Passport_1.default.authenticateJWT, this.CasinoController.getCasinoList);
         this.router.get('/get-casino-int-games', Passport_1.default.authenticateJWT, this.CasinoController.getCasinoIntList);

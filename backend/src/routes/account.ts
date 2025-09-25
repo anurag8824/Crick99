@@ -29,6 +29,14 @@ export class AccountRoutes {
       this.AccountController.getAccountStmtList,
     )
 
+
+    this.router.post(
+      '/account-statement-list-user-ledger',
+      Passport.authenticateJWT,
+      this.AccountController.getAccountStmtListUserLedger,
+    )
+
+
     this.router.post(
       '/account-statement-list-22',
       Passport.authenticateJWT,

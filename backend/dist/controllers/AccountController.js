@@ -27,6 +27,9 @@ const axios_1 = __importDefault(require("axios"));
 const Operation_1 = __importDefault(require("../models/Operation"));
 const Notice_1 = __importDefault(require("../models/Notice"));
 const ManageOdds_1 = __importDefault(require("../models/ManageOdds"));
+const Bet_1 = require("../models/Bet");
+const Market_1 = require("../models/Market");
+const Fancy_1 = require("../models/Fancy");
 const mongoose = require('mongoose');
 class AccountController extends ApiController_1.ApiController {
     constructor() {
@@ -210,6 +213,7 @@ class AccountController extends ApiController_1.ApiController {
                 if (reportType == 'chip') {
                     filter = Object.assign(Object.assign({}, filter), { betId: null });
                 }
+                console.log("👉 Final Mongo filter:", filter);
                 const matchfilter = {
                     $match: filter,
                 };
@@ -322,18 +326,42 @@ class AccountController extends ApiController_1.ApiController {
                     {
                         $lookup: {
                             from: 'fancies',
-                            let: { selName: '$allBets.result.selectionName' },
+                            let: {
+                                selName: "$allBets.result.selectionName",
+                                matchId: "$allBets.result.matchId",
+                            },
                             pipeline: [
-                                { $match: { $expr: { $eq: ['$fancyName', '$$selName'] } } },
+                                {
+                                    $match: {
+                                        $expr: {
+                                            $and: [
+                                                { $eq: ["$fancyName", "$$selName"] },
+                                                { $eq: ["$matchId", "$$matchId"] },
+                                            ]
+                                        }
+                                    }
+                                }
                             ],
                             as: 'fancyResult',
                         },
                     }, {
                         $lookup: {
                             from: 'markets',
-                            let: { matchId: '$allBets.result.matchId' },
+                            let: {
+                                matchId: "$allBets.result.matchId",
+                                marketName: "$allBets.result.marketName"
+                            },
                             pipeline: [
-                                { $match: { $expr: { $eq: ['$matchId', '$$matchId'] } } },
+                                {
+                                    $match: {
+                                        $expr: {
+                                            $and: [
+                                                { $eq: ["$matchId", "$$matchId"] },
+                                                { $eq: ["$marketName", "$$marketName"] }
+                                            ]
+                                        }
+                                    }
+                                }
                             ],
                             as: 'marketResult',
                         },
@@ -397,8 +425,13 @@ class AccountController extends ApiController_1.ApiController {
                         },
                     },
                 ];
+                console.log("👉 Running aggregation pipeline...");
                 const pageNo = page ? page : '1';
                 var accountStatement = yield AccountStatement_1.AccoutStatement.aggregate(aggregateFilter);
+                console.log("👉 Aggregation raw output count:", accountStatement.length);
+                if (accountStatement.length) {
+                    console.log("👉 Sample enriched doc:", JSON.stringify(accountStatement[26], null, 2));
+                }
                 const datasort = accountStatement === null || accountStatement === void 0 ? void 0 : accountStatement.sort((a, b) => a.createdAt - b.createdAt);
                 var accountStatementNew = { items: datasort };
                 const openingBalance = yield AccountStatement_1.AccoutStatement.aggregate([
@@ -417,7 +450,66 @@ class AccountController extends ApiController_1.ApiController {
                         },
                     },
                 ]);
+                console.log("👉 Opening balance query result:", openingBalance);
                 return this.success(res, Object.assign(Object.assign({}, accountStatementNew), { openingBalance: ((_a = openingBalance === null || openingBalance === void 0 ? void 0 : openingBalance[0]) === null || _a === void 0 ? void 0 : _a.total) || 0 }));
+            }
+            catch (e) {
+                return this.fail(res, e);
+            }
+        });
+        //test for the ledger
+        this.getAccountStmtListUserLedger = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                console.log(req.user, "statemt");
+                const user = req.user;
+                const uid = user._id;
+                // step 1: sabhi statements
+                const statements = yield AccountStatement_1.AccoutStatement.find({ userId: uid }).lean();
+                // step 2: betIds nikalna (sirf valid wale)
+                const betIds = statements
+                    .filter((s) => !!s.betId)
+                    .map((s) => mongoose_1.Types.ObjectId(s.betId));
+                // step 3: related bets fetch
+                let bets = [];
+                if (betIds.length > 0) {
+                    bets = yield Bet_1.Bet.find({ _id: { $in: betIds } }).lean();
+                }
+                // Step 4: enrich har bet ke hisaab se
+                const enrichedBets = yield Promise.all(bets.map((bet) => __awaiter(this, void 0, void 0, function* () {
+                    let betResult = null;
+                    if (bet.bet_on === "FANCY") {
+                        // Fancy enrichment
+                        betResult = yield Fancy_1.Fancy.findOne({
+                            fancyName: bet.selectionName,
+                            matchId: bet.matchId,
+                        }).lean();
+                    }
+                    else if (bet.bet_on === "MATCH_ODDS") {
+                        // Market enrichment
+                        betResult = yield Market_1.Market.findOne({
+                            matchId: bet.matchId,
+                            marketId: bet.marketId,
+                            marketName: bet.marketName,
+                        }).lean();
+                    }
+                    else {
+                        // CASINO ya aur kuch
+                        betResult = null;
+                    }
+                    return Object.assign(Object.assign({}, bet), { betResult });
+                })));
+                // Step 5: attach bets back to statements
+                const enrichedStatements = statements.map((s) => {
+                    if (s.betId) {
+                        const bet = enrichedBets.find((b) => b._id.toString() === s.betId.toString());
+                        return Object.assign(Object.assign({}, s), { bet: bet || null });
+                    }
+                    return s;
+                });
+                return this.success(res, {
+                    uid,
+                    items: enrichedStatements,
+                });
             }
             catch (e) {
                 return this.fail(res, e);

@@ -5,6 +5,7 @@ import LaybackBox from './_common/new/LaybackBox'
 import ButtonItem from './_common/new/ButtonItem'
 import CardItem from './_common/new/CardItem'
 import LayBackButton from './_common/new/LayBackButton'
+// const isMobile = true
 
 const AaaCasino = (props: any) => {
   const { lastOdds, liveMatchData } = props
@@ -53,7 +54,7 @@ const AaaCasino = (props: any) => {
         <thead >
           <tr >
             <th colSpan={3} style={{ textAlign: "left" }}>
-              MIN : 100 Max : 300000
+              Max : 10000
             </th>
           </tr>
         </thead>

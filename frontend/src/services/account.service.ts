@@ -5,6 +5,10 @@ class AccountService {
     return api.post(`account-statement-list?page=${page}`, filter)
   }
 
+  getAccountListUserLedger(page: number, filter: any) {
+    return api.post(`account-statement-list-user-ledger?page=${page}`, filter)
+  }
+
   getBets22(matchId: number) {
     return api.get(`bets22?matchId=${matchId}`);
   }

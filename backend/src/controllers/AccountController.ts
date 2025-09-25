@@ -20,6 +20,9 @@ import Operation from '../models/Operation'
 import Notice from '../models/Notice'
 import ManageOdds from '../models/ManageOdds'
 import { ChildProcess } from 'node:child_process'
+import { Bet } from '../models/Bet'
+import { Market } from '../models/Market'
+import { Fancy } from '../models/Fancy'
 const mongoose = require('mongoose');
 
 export class AccountController extends ApiController {
@@ -569,6 +572,7 @@ export class AccountController extends ApiController {
     }
   }
   
+
   getAccountStmtList = async (req: Request, res: Response) => {
     try {
       const { page }: any = req.query
@@ -593,6 +597,7 @@ export class AccountController extends ApiController {
       if (reportType == 'chip') {
         filter = { ...filter, ...{ betId: null } }
       }
+      console.log("👉 Final Mongo filter:", filter)
 
       const matchfilter = {
         $match: filter,
@@ -708,18 +713,42 @@ export class AccountController extends ApiController {
           {
             $lookup: {
               from: 'fancies',
-              let: { selName: '$allBets.result.selectionName' },
+              let: { 
+                selName: "$allBets.result.selectionName",
+                matchId: "$allBets.result.matchId",
+              },
               pipeline: [
-                { $match: { $expr: { $eq: ['$fancyName', '$$selName'] } } },
+                {
+                  $match: {
+                    $expr: {
+                      $and: [
+                        { $eq: ["$fancyName", "$$selName"] },
+                        { $eq: ["$matchId", "$$matchId"] },
+                      ]
+                    }
+                  }
+                }
               ],
               as: 'fancyResult',
             },
           },{
             $lookup: {
               from: 'markets',
-              let: { matchId: '$allBets.result.matchId' },
+              let: { 
+                matchId: "$allBets.result.matchId",
+                marketName: "$allBets.result.marketName"
+              },
               pipeline: [
-                { $match: { $expr: { $eq: ['$matchId', '$$matchId'] } } },
+                {
+                  $match: {
+                    $expr: {
+                      $and: [
+                        { $eq: ["$matchId", "$$matchId"] },
+                        { $eq: ["$marketName", "$$marketName"] }
+                      ]
+                    }
+                  }
+                }
               ],
               as: 'marketResult',
             },
@@ -783,10 +812,17 @@ export class AccountController extends ApiController {
           },
         },
       ]
+
+      console.log("👉 Running aggregation pipeline...")
       
 
       const pageNo = page ? (page as string) : '1'
       var accountStatement = await AccoutStatement.aggregate(aggregateFilter)
+      console.log("👉 Aggregation raw output count:", accountStatement.length)
+      if (accountStatement.length) {
+        console.log("👉 Sample enriched doc:", JSON.stringify(accountStatement[26], null, 2))
+      }
+
       const datasort = accountStatement?.sort((a: any, b: any) => a.createdAt - b.createdAt)
       var accountStatementNew = { items: datasort }
       const openingBalance = await AccoutStatement.aggregate([
@@ -805,6 +841,8 @@ export class AccountController extends ApiController {
           },
         },
       ])
+      console.log("👉 Opening balance query result:", openingBalance)
+
       return this.success(res, {
         ...accountStatementNew,
         openingBalance: openingBalance?.[0]?.total || 0,
@@ -813,6 +851,77 @@ export class AccountController extends ApiController {
       return this.fail(res, e)
     }
   }
+ 
+
+//test for the ledger
+getAccountStmtListUserLedger = async (req: Request, res: Response) => {
+  try {
+    console.log(req.user, "statemt")
+    const user: any = req.user
+    const uid = user._id
+
+    // step 1: sabhi statements
+    const statements = await AccoutStatement.find({ userId: uid }).lean()
+
+    // step 2: betIds nikalna (sirf valid wale)
+    const betIds = statements
+      .filter((s) => !!s.betId)
+      .map((s:any) => Types.ObjectId(s.betId))
+
+    // step 3: related bets fetch
+    let bets: any[] = []
+    if (betIds.length > 0) {
+      bets = await Bet.find({ _id: { $in: betIds } }).lean()
+    }
+
+   // Step 4: enrich har bet ke hisaab se
+   const enrichedBets = await Promise.all(
+    bets.map(async (bet) => {
+      let betResult = null
+
+      if (bet.bet_on === "FANCY") {
+        // Fancy enrichment
+        betResult = await Fancy.findOne({
+          fancyName: bet.selectionName,
+          matchId: bet.matchId,
+        }).lean()
+      } else if (bet.bet_on === "MATCH_ODDS") {
+        // Market enrichment
+        betResult = await Market.findOne({
+          matchId: bet.matchId,
+          marketId: bet.marketId,
+          marketName: bet.marketName,
+        }).lean()
+      } else {
+        // CASINO ya aur kuch
+        betResult = null
+      }
+
+      return { ...bet, betResult }
+    })
+  )
+
+   // Step 5: attach bets back to statements
+   const enrichedStatements = statements.map((s) => {
+    if (s.betId) {
+      const bet = enrichedBets.find((b) => b._id.toString() === s.betId.toString())
+      return {
+        ...s,
+        bet: bet || null,
+      }
+    }
+    return s
+  })
+
+  return this.success(res, {
+    uid,
+    items: enrichedStatements,
+  })
+  } catch (e: any) {
+    return this.fail(res, e)
+  }
+}
+
 
 
 
