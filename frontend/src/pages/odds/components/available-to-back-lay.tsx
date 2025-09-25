@@ -99,10 +99,10 @@ export const AvailableToBackLay = React.memo(
 <span className="odd d-block">
   {market.oddsType === OddsType.BM
     ? Number.isFinite(back?.price)
-      ? ((back.price * 100 - 100) || 0)
+      ? ((back.price * 100 - 100) || 0).toFixed(0)
       : "0.00"
     : Number.isFinite(back?.price)
-      ? ((back.price * 100 - 100) || 0)
+      ? ((back.price * 100 - 100) || 0).toFixed(0)
       : "0.00"}
 </span>
 
@@ -153,10 +153,10 @@ export const AvailableToBackLay = React.memo(
             <span className="odd d-block">
   {market.oddsType === OddsType.BM
     ? Number.isFinite(lay?.price)
-      ? ((lay.price * 100 - 100) || 0)
+      ? ((lay.price * 100 - 100) || 0).toFixed(0)
       : "0.00"
     : Number.isFinite(lay?.price)
-      ? ((lay.price * 100 - 100) || 0)
+      ? ((lay.price * 100 - 100) || 0).toFixed(0)
       : "0.00"}
 </span>
 
