@@ -546,7 +546,7 @@ const FancyResult = async () => {
             results
               .filter((fdata) => fdata?.status == "Settle") // only if status is true
               .map(async (fdata) => {
-                if (fdata.marketName != "Match Winner") {
+                if (fdata.marketType == "Fancy") {
                   const payload = {
                     message: "ok",
                     result: fdata?.winnerId,
