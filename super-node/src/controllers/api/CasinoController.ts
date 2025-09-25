@@ -1807,6 +1807,7 @@ export default class CasinoController extends ApiController {
             //   runnerName: templateRunner.RunnerName,
             // },"hello world yuijok")
             let bhav: any = live?.b;
+            let lbhav:any = live?.l
             // console.log(xyz,"inside teen pattu ")
 
             if (xyz == "lucky7B" || xyz == "lucky7") {
@@ -1825,7 +1826,7 @@ export default class CasinoController extends ApiController {
             } else if (xyz == "dt20" || xyz == "dt20b") {
               let name = templateRunner.RunnerName;
               if (name == "Dragon" || name == "Tiger") {
-                bhav = parseFloat(bhav) - 0.03;
+                bhav = parseFloat(bhav) - 0.05;
               } else if (name == "Dragon Even") {
                 bhav = parseFloat(bhav) - 0.15;
               } else if (name == "Dragon Odd") {
@@ -1849,7 +1850,18 @@ export default class CasinoController extends ApiController {
               }else if( name == "Player B"){
                 bhav = parseFloat(bhav) - 0.05;
             }
+            
           }
+          else if(xyz== "AAA" || xyz == "aaa" ){
+              let name = templateRunner.RunnerName;
+                            console.log("Hahahahhahah",name)
+
+              if(name == "Amar" || name == "Akbar" || name == "Anthony"){
+                bhav = parseFloat(bhav) -0.05;
+                lbhav = parseFloat(lbhav)+0.05;
+              }
+
+            }
 
             return {
               RunnerName: templateRunner.RunnerName,
@@ -1857,7 +1869,7 @@ export default class CasinoController extends ApiController {
               // b1: bhav > 0 ? bhav?.toString() : "0.00" || "0.00",
               b1: bhav > 0 ? bhav.toFixed(2) : "0.00",
 
-              l1: live.l || "0.00",
+              l1: lbhav != 0.05 ? lbhav?.toFixed(2) : "0.00",
               gstatus: live.gstatus === "OPEN" ? "1" : "0",
               max: live.max || 100000,
               min: live.min || 100,
@@ -1966,6 +1978,7 @@ export default class CasinoController extends ApiController {
     type = type === "warcasino" ? "war" : type;
     type = type === "race2020" ? "race20" : type;
     type = type === "Andarbahar" ? "ab20" : type;
+
     type = type === "dt20b" ? "dt202" : type;
     type = type === "dragontiger1Day" ? "dt6" : type;
     type = type === "card32b" ? "card32eu" : type;
@@ -2031,6 +2044,7 @@ export default class CasinoController extends ApiController {
 
       console.log(singleMarket, "singleMarket");
       let bhav: any = singleMarket?.b;
+      let lbhav :any = singleMarket?.l
 
       if (type === "lucky7eu" || type === "lucky7") {
         if (
@@ -2075,6 +2089,15 @@ export default class CasinoController extends ApiController {
           bhav = parseFloat(bhav) - 0.03;
       }
      }
+     else if(type == "AAA" || type == "aaa"){
+    let name = singleMarket?.nat;
+    if(name === "Amar" || name == "Akbar" || name == "Anthony"){
+      bhav = parseFloat(bhav)-0.05;
+      lbhav = parseFloat(bhav)+0.05
+    }
+
+
+     }
 
 
       // Ensure singleMarketData has all required properties, with default values where needed
@@ -2083,7 +2106,7 @@ export default class CasinoController extends ApiController {
           sid: singleMarket?.sid ?? "defaultSid", // Default value for sid
           nat: singleMarket?.nat ?? "", // Default empty string for optional string fields
           b1: bhav.toString() ?? 0,
-          l1:singleMarket?.l?.toString(),// Default 0 for numbers
+          l1:lbhav?.toString() ?? 0,// Default 0 for numbers
           max: singleMarket?.max ?? 0,
           min: singleMarket?.min ?? 0,
           gstatus: singleMarket?.gstatus ?? "",
