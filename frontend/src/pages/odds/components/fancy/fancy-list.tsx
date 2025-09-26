@@ -144,7 +144,18 @@ export const FancyList = React.memo(
                           </div>
 
                           {/* RIGHT SIDE */}
-                          <button  onClick={() => setShowladder(!showladder)}>
+                          {/* <button  onClick={() => setShowladder(!showladder)}> */}
+                            <button onClick={(e) => {
+                              e.preventDefault();
+
+                              dispatch(
+                                setBookFancy({
+                                  matchId: fancy.matchId,
+                                  selectionId: updatedFancy.SelectionId,
+                                  marketName: fancy.fancyName,
+                                })
+                              );
+                            } }>
                             <img
                               src="/imgs/ladder.svg"
                               style={{ height: "20px" }} />
@@ -234,10 +245,13 @@ export const FancyList = React.memo(
             <Modal.Title>Ladder</Modal.Title>
           </Modal.Header>
           <Modal.Body>
+
           <div style={{ display: 'flex', width: '100%' , gap:"4px" }}>
     <div className="rounded fs-5 pl-2 text-center text-white" style={{ flex: 1, textAlign: 'left' ,background: "rgb(15, 35, 39)" }}>Run</div>
     <div className="rounded fs-5 pl-2 text-center text-white"  style={{ flex: 1, textAlign: 'right',background: "rgb(15, 35, 39)" }}>Profit</div>
   </div>
+
+  <div>{showladder}fff</div>
           </Modal.Body>
           <div
     style={{

@@ -7,6 +7,7 @@ import { FancyBook, selectBookFancy, setBookFancy } from '../../../../redux/acti
 
 const BookPopup = () => {
   const bookFancy: FancyBook = useAppSelector(selectBookFancy)
+  console.log(bookFancy,"bookFancy")
   const dispatch = useAppDispatch()
   const [book, setBook] = React.useState<Record<string, number>>({})
   const [isOpen, setIsOpen] = React.useState(false)
@@ -23,6 +24,7 @@ const BookPopup = () => {
     dispatch(setBookFancy({} as FancyBook))
     setIsOpen(false)
   }
+  console.log(book,"booookss")
   return <>
 
     <ReactModal
@@ -42,6 +44,12 @@ const BookPopup = () => {
           </span>
         </div>
         <table className='table'>
+          <thead>
+            <tr>
+              <th>Selection</th>
+              <th>Position{bookFancy?.marketName}</th>
+            </tr>
+          </thead>
           {Object.keys(book).length > 0 &&
             Object.keys(book).map((itemKey) => (
               <tr key={itemKey} className={book[itemKey] < 0 ? 'lay' : 'back'}>
