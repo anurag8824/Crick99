@@ -539,7 +539,8 @@ const FancyResult = async () => {
           );
 
           const results = res?.data.data || [];
-          console.log(results, "sdfghjklsdfghjikopdfghjk")
+          // console.log(results, "sdfghjklsdfghjikopdfghjk")
+          
           if (!results.length) return;
 
           await Promise.all(

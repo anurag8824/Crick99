@@ -343,10 +343,11 @@ class FancyController extends ApiController_1.ApiController {
                 const data = req.body;
                 console.log(data, "data inside fncy result");
                 if (data.result != "" && data.message == "ok") {
-                    const findFancy = yield Fancy_1.Fancy.findOne({
-                        fancyName: data.runnerName,
-                        matchId: data.matchId,
-                    });
+                    //   const findFancy: any = await Fancy.findOne({
+                    //     fancyName: data.runnerName,
+                    //     matchId: data.matchId,
+                    //   });
+                    const findFancy = yield Fancy_1.Fancy.findOne({ fancyName: data.runnerName, matchId: data.matchId }, {}, { collation: { locale: "en", strength: 2 } });
                     console.log(findFancy, "FGHJKL:");
                     if ((findFancy === null || findFancy === void 0 ? void 0 : findFancy._id) && !data.isRollback) {
                         console.log("hahahhahahhahah");
