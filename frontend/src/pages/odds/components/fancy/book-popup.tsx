@@ -55,8 +55,8 @@ const BookPopup = () => {
           {Object.keys(book).length > 0 &&
             Object.keys(book).map((itemKey) => (
               <tr key={itemKey} className={book[itemKey] < 0 ? 'lay' : 'back'}>
-                <td>{itemKey}</td>
-                <td className={book[itemKey] < 0 ? 'red' : 'green'}>{book[itemKey]}</td>
+                <td className='text-center'>{itemKey}</td>
+                <td className={`${book[itemKey] < 0 ? 'red' : 'green'} text-center`}>{book[itemKey]}</td>
               </tr>
             ))}
         </table>
