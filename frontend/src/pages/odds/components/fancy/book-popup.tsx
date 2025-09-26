@@ -46,9 +46,9 @@ const BookPopup = () => {
         <table className='table'>
           <thead>
             <tr>
-              <th><div className="rounded fs-5 pl-2 text-center text-white" style={{ flex: 1, textAlign: 'left' ,background: "rgb(15, 35, 39)" }}>Run</div>
+              <th><div className="rounded fs-5 pl-2 py-2 text-center text-white" style={{ flex: 1, textAlign: 'left' ,background: "rgb(15, 35, 39)" }}>Run</div>
               </th>
-              <th>    <div className="rounded fs-5 pl-2 text-center text-white"  style={{ flex: 1, textAlign: 'right',background: "rgb(15, 35, 39)" }}>Profit</div>
+              <th>    <div className="rounded fs-5 pl-2 py-2 text-center text-white"  style={{ flex: 1, textAlign: 'right',background: "rgb(15, 35, 39)" }}>Profit</div>
               </th>
             </tr>
           </thead>
