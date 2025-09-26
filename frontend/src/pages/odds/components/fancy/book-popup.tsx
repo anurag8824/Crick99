@@ -33,12 +33,12 @@ const BookPopup = () => {
         close()
       }}
       contentLabel='Fancy Book'
-      className={'modal-dialog modal-sm'}
+      className={'modal-dialog modal-lg'}
       ariaHideApp={false}
     >
-      <div className='modal-content'>
+      <div className='modal-content '>
         <div className='modal-header'>
-          <h5>Run Position</h5>
+          <h5 style={{color:"white"}}>{bookFancy?.marketName}</h5>
           <span onClick={close} className='float-right'>
             X
           </span>
@@ -46,8 +46,10 @@ const BookPopup = () => {
         <table className='table'>
           <thead>
             <tr>
-              <th>Selection</th>
-              <th>Position{bookFancy?.marketName}</th>
+              <th><div className="rounded fs-5 pl-2 text-center text-white" style={{ flex: 1, textAlign: 'left' ,background: "rgb(15, 35, 39)" }}>Run</div>
+              </th>
+              <th>    <div className="rounded fs-5 pl-2 text-center text-white"  style={{ flex: 1, textAlign: 'right',background: "rgb(15, 35, 39)" }}>Profit</div>
+              </th>
             </tr>
           </thead>
           {Object.keys(book).length > 0 &&
