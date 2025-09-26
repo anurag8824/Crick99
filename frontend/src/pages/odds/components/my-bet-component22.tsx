@@ -122,25 +122,24 @@ const MyBetComponent22 = () => {
 
   return (
     <>
-   <div className="d-flex justify-content-between" style={{fontSize:"13px"}}>
-  <div>
-    <span className="text-success">+{totals.plus}</span>
-  </div>
-  <div>
-  <span className="text-danger">{totals.minus}</span>
-  </div>
-</div>
-
+      <div
+        className="d-flelx justify-content-between d-none"
+        style={{ fontSize: "13px" }}
+      >
+        <div>
+          <span className="text-success">+{totals.plus}</span>
+        </div>
+        <div>
+          <span className="text-danger">{totals.minus}</span>
+        </div>
+      </div>
 
       <div
         className="text-center text-white py-2"
         style={{ marginTop: "25px", background: "#535961" }}
       >
-              
-        <div style={{fontSize:"13px"}}>COMPLETED BETS</div>
+        <div style={{ fontSize: "13px" }}>COMPLETED BETS</div>
       </div>
-
-
 
       <div
         className="table-responsive-new"
@@ -149,12 +148,15 @@ const MyBetComponent22 = () => {
         <table className="table coupon-table scorall mybet table-bordered">
           <thead>
             <tr style={{ background: "#76d68f" }}>
-              <th  className="text-center px-1 py-2" style={{ background: "#0f2326", border: "", color: "white" }}>
+              <th
+                className="text-center px-1 py-2"
+                style={{ background: "#0f2326", border: "", color: "white" }}
+              >
                 #
               </th>
               {userState.user.role !== RoleType.user && (
                 <th
-                 className="text-center px-1 py-2"
+                  className="text-center px-1 py-2"
                   style={{
                     background: "#0f2326",
                     border: "none",
@@ -171,23 +173,38 @@ const MyBetComponent22 = () => {
                 {" "}
                 Runner Name
               </th>
-              <th className="text-center px-1 py-2" style={{ background: "#0f2326", border: "", color: "white" }}>
+              <th
+                className="text-center px-1 py-2"
+                style={{ background: "#0f2326", border: "", color: "white" }}
+              >
                 {" "}
                 Type
               </th>
-              <th className="text-center px-1 py-2" style={{ background: "#0f2326", border: "", color: "white" }}>
+              <th
+                className="text-center px-1 py-2"
+                style={{ background: "#0f2326", border: "", color: "white" }}
+              >
                 {" "}
-               Bet Mode
+                Bet Mode
               </th>
-              <th className="text-center px-1 py-2" style={{ background: "#0f2326", border: "", color: "white" }}>
+              <th
+                className="text-center px-1 py-2"
+                style={{ background: "#0f2326", border: "", color: "white" }}
+              >
                 {" "}
                 Price
               </th>
-              <th className="text-center px-1 py-2" style={{ background: "#0f2326", border: "", color: "white" }}>
+              <th
+                className="text-center px-1 py-2"
+                style={{ background: "#0f2326", border: "", color: "white" }}
+              >
                 {" "}
                 Value
               </th>
-              <th className="text-center px-1 py-2" style={{ background: "#0f2326", border: "", color: "white" }}>
+              <th
+                className="text-center px-1 py-2"
+                style={{ background: "#0f2326", border: "", color: "white" }}
+              >
                 {" "}
                 Amount
               </th>
@@ -211,24 +228,50 @@ const MyBetComponent22 = () => {
           <tbody className="scorall">
             {getMyAllBet.map((bet: any, index: number) => (
               <tr
-                style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}
+                style={{ background: bet.isBack ? "#72BBEF" : "#faa9ba" }}
                 key={bet._id}
               >
-                <td className="no-wrap" style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}> {index + 1} </td>
+                <td
+                  className="no-wrap p-2 "
+                  style={{ background: bet.isBack ? "#72BBEF" : "#faa9ba" }}
+                >
+                  {" "}
+                  {index + 1}{" "}
+                </td>
                 {userState.user.role !== RoleType.user && (
-                  <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}>{bet.userName}</td>
+                  <td className="p-1"
+                    style={{ background: bet.isBack ? "#72BBEF" : "#faa9ba" ,  fontSize:"12px" }}
+                  >
+                    {bet.userName}
+                  </td>
                 )}
-                <td className="no-wrap text-center" style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}>
+                <td
+                  className="no-wrap text-center p-2"
+                  style={{ background: bet.isBack ? "#72BBEF" : "#faa9ba" ,  fontSize:"14px" }}
+                >
                   {" "}
                   {bet.selectionName}
                   {/* {bet.marketName === "Fancy" && bet.gtype !== "fancy1"
                     ? bet.volume.toFixed(2)
                     : bet.odds}{" "} */}
                 </td>
-                <td className="no-wrap text-center" style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}>{bet?.bet_on}</td>
-                <td className="no-wrap text-center" style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}>{bet.isBack ? "Yes" : "No"} </td>
+                <td
+                  className="no-wrap text-center p-2"
+                  style={{ background: bet.isBack ? "#72BBEF" : "#faa9ba" ,  fontSize:"14px" }}
+                >
+                  {bet?.bet_on}
+                </td>
+                <td
+                  className="no-wrap text-center"
+                  style={{ background: bet.isBack ? "#72BBEF" : "#faa9ba" ,  fontSize:"14px" }}
+                >
+                  {bet.isBack ? "Yes" : "No"}{" "}
+                </td>
 
-                <td className="no-wrap text-center" style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}>
+                <td
+                  className="no-wrap text-center px-2"
+                  style={{ background: bet.isBack ? "#72BBEF" : "#faa9ba" ,  fontSize:"14px" }}
+                >
                   {" "}
                   {bet.marketName === "Fancy" && bet.gtype !== "fancy1"
                     ? bet.volume.toFixed(2)
@@ -236,12 +279,18 @@ const MyBetComponent22 = () => {
                 </td>
                 {/* <td className='no-wrap'>{Math.abs(bet?.profitLoss?.$numberDecimal).toFixed(2)}</td> */}
 
-                <td className="no-wrap text-center" style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}>
+                <td
+                  className="no-wrap text-center px-2"
+                  style={{ background: bet.isBack ? "#72BBEF" : "#faa9ba" }}
+                >
                   {bet.marketName === "Fancy" && bet.gtype !== "fancy1"
                     ? bet.odds
                     : bet.selectionName}{" "}
                 </td>
-                <td className="no-wrap" style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}>
+                <td
+                  className="no-wrap px-2"
+                  style={{ background: bet.isBack ? "#72BBEF" : "#faa9ba" }}
+                >
                   {Math.abs(Number(bet?.profitLoss?.$numberDecimal)).toFixed(2)}
                 </td>
 
@@ -254,19 +303,44 @@ const MyBetComponent22 = () => {
                 <td className='no-wrap'> {moment(bet.createdAt).format(betDateFormat)} </td>
               )} */}
 
-                <td className="no-wrap text-center" style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}>
+                <td
+                  className="no-wrap text-center px-2"
+                  style={{ background: bet.isBack ? "#72BBEF" : "#faa9ba" ,  fontSize:"15px" }}
+                >
                   {" "}
                   {bet?.result?.result ? bet?.result?.result : "YES"}{" "}
                 </td>
-                <td className="no-wrap text-center" style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}> {bet.status} </td>
+                <td
+                  className="no-wrap text-center px-2"
+                  style={{ background: bet.isBack ? "#72BBEF" : "#faa9ba" ,  fontSize:"15px" }}
+                >
+                  {" "}
+                  {bet.status}{" "}
+                </td>
 
                 {/* {userState.user.role !== RoleType.user && <td className='no-wrap'>{moment.utc(bet.betClickTime).utcOffset('+05:30').format('DD/MM/YYYY hh:mm:ss A')}</td>} */}
               </tr>
             ))}
+
+<tr className="" style={{ fontWeight: "bold", background: "#f0f0f0" }}>
+  <td colSpan={userState.user.role !== RoleType.user ? 4 : 3} className="text-center p-2">
+    Total Plus Minus
+  </td>
+  <td
+    className="text-center"
+    style={{
+      color: Number(totals.plus) + Number(totals.minus) >= 0 ? "green" : "red",
+    }}
+  >
+    {Number(totals.plus) + Number(totals.minus)}
+  </td>
+  <td colSpan={2}></td>
+</tr>
+
+
+            
           </tbody>
         </table>
-
-        
       </div>
     </>
   );

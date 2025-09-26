@@ -111,9 +111,9 @@ const MyBetComponent = () => {
               <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap text-center' > {bet.isBack ? "Yes" : "No"} </td>
 
 
-              <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap text-center' > { bet.gtype === 'fancy1' ? bet.odds.toFixed(2) : bet?.volume.toFixed(2) }</td>
+              <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap text-center' > { bet.gtype === 'fancy1' ? bet.odds.toFixed(0) : bet?.volume.toFixed(0) }</td>
 
-              <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap text-center' > { bet.gtype === 'fancy1' ?  bet?.selectionName : bet.odds.toFixed(2) } </td>
+              <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap text-center' > { bet.gtype === 'fancy1' ?  bet?.selectionName : bet.odds.toFixed(0) } </td>
               <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap'> {bet.stack} </td>
 
 
@@ -182,7 +182,7 @@ const MyBetComponent = () => {
                 {/* {bet.marketName === 'Fancy' && bet.gtype !== 'fancy1' ? bet.volume.toFixed(2) : bet.odds.toFixed(2)}{' '} */}
               </td>
               <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap text-center' > {bet.isBack ? "Lagai" : "Khai"} </td>
-              <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap text-center' > {bet.odds.toFixed(2)} </td>
+              <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap text-center' >   {(Number(bet.odds) * 100).toFixed(0)} </td>
               <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap text-center' > {bet?.selectionName} </td>
               {/* <td className='no-wrap text-center' > {bet.isBack ? "Yes" : "No"} </td> */}
               {/* {!isMobile && (

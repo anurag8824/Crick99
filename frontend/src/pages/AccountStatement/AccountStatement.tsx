@@ -195,7 +195,7 @@ const AccountStatement = () => {
     <>
       {mobileSubheader.subheader('My Statement')}
      
-      <div className={!isMobile ? ' mt-1' : 'padding-custom'}>
+      <div style={{background:"white"}} className={!isMobile ? ' mt-1' : 'padding-custom'}>
 
       <div className="body-wrap">
           <div className="back-main-menu my-3">

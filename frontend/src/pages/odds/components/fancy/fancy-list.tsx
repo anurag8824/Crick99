@@ -166,6 +166,7 @@ export const FancyList = React.memo(
                             style={{
                               textDecoration: "underline",
                               cursor: "pointer",
+                              display:"none"
                             }}
                             onClick={(e) => {
                               e.preventDefault();

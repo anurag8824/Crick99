@@ -41,7 +41,7 @@ const NewAccountStatement = () => {
   const [currentItems, setCurrentItems] = useState<any>([]);
   const [pageCount, setPageCount] = useState<any>(0);
   const [itemOffset, setItemOffset] = useState<any>(0);
-  const [itemsPerPage] = useState<any>(50);
+  const [itemsPerPage] = useState<any>(500);
   React.useEffect(() => {
     const filterObj = filterdata;
     filterObj.startDate = moment().subtract(7, "days").format("YYYY-MM-DD");
@@ -129,245 +129,14 @@ const NewAccountStatement = () => {
     setPageBet(1);
     setIsOpen(true);
   };
-  // const getAcHtml = () => {
-  //   let closingbalance: number = page == 1 ? openBalance : closeBalance;
-  //   const achtml =
-  //     currentItems &&
-  //     currentItems.map((stmt: any, index: number) => {
-  //       closingbalance = closingbalance + stmt.amount;
-  //       return (
-  //         {stmt.narration.length>0 && (
-
-  //           <tr key={`${stmt._id}${index}`}>
-  //           {/* <td>{stmt.sr_no}</td> */}
-  //           {/* <td className='wnwrap'>{stmt.date}</td> */}
-
-  //           <td
-  //             className=""
-  //             style={{ fontWeight: "bold", color: "#007bff" }}
-  //             onClick={(e: MouseEvent<HTMLTableCellElement>) =>
-  //               getBets(e, stmt.stmt)
-  //             }
-  //           >
-  //             {stmt.narration}
-  //           </td>
-  //           <td>
-  //             <span
-  //               className="badge badge-primary p-1 ng-binding"
-  //               style={{ fontSize: "xx-small" }}
-  //             >
-
-  //               <i style={{fontSize:"10px"}} className="fas fa-trophy "></i> N/A
-  //             </span>
-  //           </td>
-  //           <td className="green wnwrap">
-  //             {stmt.credit >= 0 && stmt.credit.toFixed(2)}
-  //           </td>
-  //           <td className="red wnwrap">
-  //             {stmt.credit < 0 && stmt.credit.toFixed(2)}
-  //           </td>
-  //           <td className="green wnwrap">{stmt.closing}</td>
-  //         </tr>
-
-  //         )}
-
-  //       );
-  //     });
-  //   return achtml;
-  // };
-
-  // const [openn, setOpenn] = React.useState<any>("");
-
-  // const getAcHtml = () => {
-  //   let closingbalance: number = page === 1 ? openBalance : closeBalance;
-
-  //   return currentItems?.map((stmt: any, index: number) => {
-  //     closingbalance = closingbalance + stmt.amount;
-  //     console.log(currentItems,"first")
-
-  //     if (stmt.narration.length === 0) return null; // skip if no narration
-  //     if (!stmt?.stmt?.allBets) return null;
-  //     return (
-
-  //       <tr key={`${stmt._id}${index}`}>
-  //         <td
-  //           className="d-non"
-  //           style={{ fontWeight: "bold", color: "#007bff" }}
-  //           onClick={(e: React.MouseEvent<HTMLTableCellElement>) =>
-  //             getBets(e, stmt.stmt)
-  //           }
-  //         >
-  //           {stmt.narration === "Initial deposit on signup" ? "" : stmt.narration}jjh
-
-  //         </td>
-
-  //         <td onClick={() => setOpenn(stmt.narration)} >
-  //          <p className="custom-link">{stmt.narration}</p>
-  //         </td>
-  //         <td>
-  //           <span
-  //             className="badge badge-primary p-1 ng-binding"
-  //             style={{ fontSize: "xx-small" }}
-  //           >
-  //             <i style={{ fontSize: "10px" }} className="fas fa-trophy"></i> N/A
-  //           </span>
-  //         </td>
-  //         <td className="green wnwrap">
-  //           {stmt.credit >= 0 ? stmt.credit.toFixed(2) : ""}
-  //         </td>
-  //         <td className="red wnwrap">
-  //           {stmt.credit < 0 ? stmt.credit.toFixed(2) : ""}
-  //         </td>
-  //         <td className="green wnwrap">{stmt.closing}</td>
-  //       </tr>
-  //     );
-  //   });
-  // };
-
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
-
-  // const getAcHtml = () => {
-  //   let grouped: any = {};
-
-  //   currentItems?.forEach((stmt: any) => {
-  //     if (!stmt?.narration || !stmt?.stmt?.allBets) return;
-  //     console.log(currentItems,"firstt")
-
-  //     const gameName = stmt.narration.split(" /")[0]?.trim();
-  //     const rawDate = moment(stmt.date, "MMM DD, YYYY hh:mm A").format("YYYY-MM-DD");
-
-  //     if (!grouped[gameName]) grouped[gameName] = {};
-  //     if (!grouped[gameName][rawDate]) grouped[gameName][rawDate] = [];
-
-  //     grouped[gameName][rawDate].push(stmt);
-  //   });
-
-  //   // Render grouped table
-  //   const tableRows: any[] = [];
-  //   let balance = 0;
-
-  //   Object.entries(grouped).forEach(([gameName, dates]: any) => {
-  //     Object.entries(dates).forEach(([date, stmts]: any) => {
-
-  //       let totalCredit = 0;
-  //       let totalDebit = 0;
-  //       let closing = "";
-  //       let credit = 0
-  //       const betCount = stmts.length;
-
-  //       stmts.forEach((stmt: any ,  index: number) => {
-  //         console.log(stmts,"ddd")
-  //         totalCredit += stmt.credit;
-  //         totalDebit += stmt.credit;
-  //         closing = stmt.closing; // take latest one (you can sort if needed)
-  //         credit += stmt.credit
-  //         // const credit = totalCredit;
-
-  //         if (index === 0) {
-  //           // First row sets initial balance using credit
-  //           balance = credit;
-  //         } else {
-  //           balance += credit;
-  //           console.log(balance)
-  //         }
-
-  //       });
-
-  //       tableRows.push(
-  //         <tr key={`${gameName}-${date}`}>
-  //           {/* <td className="custom-link"
-  //            onClick={() => setOpenn(gameName+(date))}> {gameName}({date})</td> */}
-
-  // <td className="custom-link"
-  //     onClick={() => setSelectedGroup(gameName + date)}>
-  //   {gameName}({date})
-  // </td>
-
-  //           <td><span
-  //               className="badge badge-primary p-1 ng-binding"
-  //               style={{ fontSize: "xx-small" }}
-  //             >
-  //               <i style={{ fontSize: "10px" }} className="fas fa-trophy"></i> N/A
-  //             </span></td>
-  //           <td className="green">{totalCredit >= 0 ? totalCredit.toFixed(2) : 0}</td>
-  //           <td className="red"> {totalDebit < 0 ? totalDebit.toFixed(2) : 0}</td>
-  //           {/* <td className="green">{closing}</td> */}
-  //           <td className={balance >= 0 ? "green" : "red"}>{balance.toFixed(2)}</td>
-
-  //         </tr>
-  //       );
-  //     });
-  //   });
-
-  //   return tableRows;
-  // };
-
-  // const getAcHtml22 = () => {
-  //   // const [showc, setShowc] = useState<any>()
-  //   let closingbalance: number = page === 1 ? openBalance : closeBalance;
-
-  //   console.log(currentItems, "current items lisst ");
-
-  //   let totalPnl = 0;
-
-  //   const rows = currentItems?.map((stmt: any, index: number) => {
-  //     closingbalance = closingbalance + stmt.amount;
-
-  //     // const pnlString = stmt?.stmt?.allBets ?  stmt?.stmt?.allBets?.[0]?.result?.[0]?.pnl?.$numberDecimal  : 0;
-  //     const pnlString = stmt?.stmt?.allBets?.[0]?.result?.[0]?.pnl?.$numberDecimal;
-
-  //     const pnl = parseFloat(pnlString) || 0;
-  //     totalPnl += pnl
-  //     // setShowc(totalPnl)
-
-  //     console.log(currentItems,"current itmesss")
-
-  //     if (stmt.narration.length === 0) return null; // skip if no narration
-
-  //     return (
-  //       <><tr key={`${stmt._id}${index}`}>
-  //         <td className="">{stmt?.stmt?.allBets ? stmt?.stmt?.selectionId : ""}</td>
-
-  //         <td className="">{stmt?.stmt?.allBets ? stmt?.stmt?.allBets[0]?.result[0]?.marketName : ''}</td>
-
-  //         <td className="">{stmt?.stmt.allBets ? stmt?.stmt.allBets[0].result[0].odds : ''}</td>
-
-  //         <td className="">{stmt?.stmt.allBets ? stmt?.stmt.allBets[0].result[0].stack : ''}</td>
-
-  //         <td className="">
-  //           {stmt?.stmt.allBets ? stmt?.narration?.match(/,([^[]+)\[/)?.[1]?.trim() : ''}
-  //         </td>
-
-  //         <td className="">
-  //           {stmt?.stmt.allBets ? stmt?.narration?.match(/winner:\s*([^,\[\]]+)?/)?.[1]?.trim() :
-  //             ""}
-  //         </td>
-
-  //         <td>{stmt?.stmt?.allBets ? stmt?.stmt?.allBets[0]?.result[0]?.pnl?.$numberDecimal : ''}</td>
-  //         <td className="green wnwrap d-none">{stmt?.stmt?.allBets ? stmt.closing : ''}</td>
-
-  //       </tr> </>
-  //     );
-
-  //   });
-
-  //   // Return rows and totalPnl in one fragment
-  // return (
-  //   <>
-  //     {rows}
-  //     <tr>
-  //       <td colSpan={8}><strong className={`${totalPnl < 0 ? "total2" : "total"}`}> You {totalPnl < 0 ? "lost" : "won"} {(totalPnl)} coins</strong></td>
-  //     </tr>
-  //   </>
-  // );
-  // };
 
   const getAcHtml = () => {
     let grouped: any = {};
     console.log(currentItems, "drrerer");
 
     currentItems?.forEach((stmt: any) => {
-      if (!stmt?.narration || !stmt?.stmt?.allBets) return;
+      if (!stmt?.narration || !stmt?.stmt?.bet) return;
 
       const gameName = stmt.narration.split(" /")[0]?.trim();
       const rawDate = moment(stmt.date, "MMM DD, YYYY hh:mm A").format(
@@ -406,6 +175,8 @@ const NewAccountStatement = () => {
       });
 
       runningBalance += totalCredit;
+
+     console.log( sortedEntries,"soottedd")
 
       tableRows.unshift(
         <tr key={`${gameName}-${date}`}>
@@ -460,52 +231,33 @@ const NewAccountStatement = () => {
       return selectedGroup === gameName + rawDate;
     });
 
-    const rows = filteredItems?.map((stmt: any, index: number) => {
+    const rows = filteredItems?.filter?.((stmt: any) => stmt?.stmt?.bet?.bet_on === "MATCH_ODDS" || stmt?.stmt?.bet?.bet_on === "CASINO")?.map?.((stmt: any, index: number) => {
       closingbalance = closingbalance + stmt.amount;
 
       const pnlString = stmt?.credit;
       const pnl = parseFloat(pnlString) || 0;
       totalPnl += pnl;
-
       if (stmt.narration.length === 0) return null;
-
-      console.log(stmt,"stmttktkt")
-
       return (
         <tr key={`${stmt._id}${index}`}>
           <td>{stmt?.stmt?.allBets ? stmt?.stmt?.selectionId : ""}</td>
           <td>
-            {stmt?.stmt?.allBets ? moment(stmt?.stmt?.createdAt).format(dateFormat) : ""}
-          </td>
-          <td>
-  {stmt?.stmt?.bet
-    ? stmt?.stmt?.bet?.selectionName
-    : ""}
-</td>
-<td>
-  {stmt?.stmt?.bet
-    ? stmt?.stmt?.bet?.odds || ""
-    : ""}
-</td>
-
-          
-          <td>
-            {stmt?.stmt?.amount
-              ? stmt?.stmt?.amount
+            {stmt?.stmt?.allBets
+              ? moment(stmt?.stmt?.createdAt).format(dateFormat)
               : ""}
           </td>
+          <td>{stmt?.stmt?.bet ? stmt?.stmt?.bet?.selectionName : ""}</td>
+          <td>{stmt?.stmt?.bet ? stmt?.stmt?.bet?.odds || "" : ""}</td>
+
+          <td>{stmt?.stmt?.amount ? stmt?.stmt?.amount : ""}</td>
+
+          <td>{stmt?.stmt?.bet ? (stmt?.credit > 0 ? "Win" : "Loss") : ""}</td>
 
           <td>
-            {stmt?.stmt?.bet 
-              ? stmt?.credit > 0 ? "Win" : "Loss"
-              : ""}
+            {stmt?.stmt?.bet?.bet_on === "CASINO"
+              ? stmt?.narration?.match(/winner:\s*([^,\[\]]+)?/)?.[1]?.trim()
+              : stmt?.stmt?.bet?.betResult?.result || ""}
           </td>
-
-          <td>
-  {stmt?.stmt?.bet?.bet_on === "CASINO"
-    ? stmt?.narration?.match(/winner:\s*([^,\[\]]+)?/)?.[1]?.trim()
-    : stmt?.stmt?.bet?.betResult?.result || ""}
-</td>
 
           {/* <td>
             {stmt?.stmt?.allBets
@@ -524,49 +276,152 @@ const NewAccountStatement = () => {
         </tr>
       );
     });
+    console.log(filteredItems, "rowsssss");
+
+    let totalMatchPL = 0;
+    let totalSessionPL = 0;
+    filteredItems.forEach((stmt: any) => {
+      const betPL = parseFloat(stmt?.stmt?.amount);
+      if (stmt?.stmt?.bet?.bet_on === "MATCH_ODDS") totalMatchPL += betPL;
+      if (stmt?.stmt?.bet?.bet_on === "FANCY") totalSessionPL += betPL;
+    });
 
     return (
       <>
         {rows}
+      </>
+    );
+  };
+
+  const getAcHtml22Session = () => {
+    let closingbalance: number = page === 1 ? openBalance : closeBalance;
+
+    // let totalPnl = 0;
+
+    // Extract gameName and date from narration and filter
+    const filteredItems = currentItems?.filter((stmt: any) => {
+      if (!stmt?.narration) return false;
+      const gameName = stmt.narration.split(" /")[0]?.trim();
+      const rawDate = moment(stmt.date, "MMM DD, YYYY hh:mm A").format(
+        "YYYY-MM-DD"
+      );
+      return selectedGroup === gameName + rawDate;
+    });
+
+    const rowsSession = filteredItems?.filter?.((stmt: any) => stmt?.stmt?.bet?.bet_on === "FANCY")
+    ?.map((stmt: any, index: number) => {
+      closingbalance = closingbalance + stmt.amount;
+
+      // const pnlString = stmt?.credit;
+      // const pnl = parseFloat(pnlString) || 0;
+      // totalPnl += pnl;
+      if (stmt.narration.length === 0) return null;
+      return (
+        <tr key={`${stmt._id}${index}`}>
+          <td>{stmt?.stmt?.allBets ? stmt?.stmt?.selectionId : ""}</td>
+          <td>
+            {stmt?.stmt?.allBets
+              ? moment(stmt?.stmt?.createdAt).format(dateFormat)
+              : ""}
+          </td>
+          <td>{stmt?.stmt?.bet ? stmt?.stmt?.bet?.selectionName : ""}</td>
+          <td>{stmt?.stmt?.bet ? stmt?.stmt?.bet?.odds || "" : ""}</td>
+
+          <td>{stmt?.stmt?.amount ? stmt?.stmt?.amount : ""}</td>
+
+          <td>{stmt?.stmt?.bet ? (stmt?.credit > 0 ? "Win" : "Loss") : ""}</td>
+
+          <td>
+            {stmt?.stmt?.bet?.bet_on === "CASINO"
+              ? stmt?.narration?.match(/winner:\s*([^,\[\]]+)?/)?.[1]?.trim()
+              : stmt?.stmt?.bet?.betResult?.result || ""}
+          </td>
+
+          {/* <td>
+            {stmt?.stmt?.allBets
+              ? stmt?.narration?.match(/,([^[]+)\[/)?.[1]?.trim()
+              : ""}
+          </td> */}
+          {/* <td>
+            {stmt?.stmt?.allBets
+              ? stmt?.narration?.match(/winner:\s*([^,\[\]]+)?/)?.[1]?.trim()
+              : ""}
+          </td> */}
+          <td>{stmt?.stmt?.bet ? stmt?.credit : ""}</td>
+          <td className="green wnwrap d-none">
+            {stmt?.stmt?.bet ? stmt.closing : ""}
+          </td>
+        </tr>
+      );
+    });
+    console.log(filteredItems, "rowsssss");
+   let totalPnl = 0;
+    let totalMatchPL = 0;
+    let totalSessionPL = 0;
+    filteredItems.forEach((stmt: any) => {
+      const betPL = parseFloat(stmt?.stmt?.amount);
+      const pnlString = stmt?.credit;
+      const pnl = parseFloat(pnlString) || 0;
+      totalPnl += pnl;
+      if (stmt?.stmt?.bet?.bet_on === "MATCH_ODDS") totalMatchPL += betPL;
+      if (stmt?.stmt?.bet?.bet_on === "FANCY") totalSessionPL += betPL;
+    });
+
+    return (
+      <>
+        {rowsSession}
+        
+
         <tr>
-          <td colSpan={8}>
-            <strong className={`${totalPnl < 0 ? "total2" : "total"}`}>
-              You {totalPnl < 0 ? "lost" : "won"} {totalPnl.toFixed(2)} coins
-            </strong>
+          <td colSpan={8} className="border w-full">
+            <div
+              className="text-center py-1 text-white"
+              style={{ backgroundColor: "#0F2327" }}
+            >
+              MATCH PLUS MINUS
+            </div>
+            <div
+              className={`${totalMatchPL < 0 ? "total2" : "total"} text-center`}
+            >
+              {totalMatchPL.toFixed(2)}
+            </div>
+
+            <div
+              className="text-center py-1 text-white"
+              style={{ backgroundColor: "#0F2327" }}
+            >
+              SESSION PLUS MINUS{" "}
+            </div>
+            <div
+              className={`${
+                totalSessionPL < 0 ? "total2" : "total"
+              } text-center`}
+            >
+              {totalSessionPL.toFixed(2)}
+            </div>
+
+            <div
+              className="text-center py-1 text-white"
+              style={{ backgroundColor: "#0F2327" }}
+            >
+              NET PROFIT LOSS{" "}
+            </div>
+            <div className={`${totalPnl < 0 ? "total2" : "total"} text-center`}>
+              {totalPnl.toFixed(2)}
+            </div>
           </td>
         </tr>
       </>
     );
   };
 
-  // const dataformat = (response: any, closingbalance: any) => {
-  //   const aryNewFormat: any = [];
-
-  //   response &&
-  //     response.map((stmt: any, index: number) => {
-  //       closingbalance = closingbalance + stmt.amount;
-  //       aryNewFormat.push({
-  //         _id: stmt._id,
-  //         // eslint-disable-next-line camelcase
-  //         sr_no: index + 1,
-  //         date: moment(stmt.createdAt).format("lll"),
-  //         credit: stmt.amount,
-  //         debit: stmt.amount,
-  //         closing: closingbalance.toFixed(2),
-  //         narration: stmt.narration,
-  //         stmt: stmt,
-  //       });
-  //     });
-  //   return aryNewFormat;
-  // };
-
   const dataformat = (response: any, closingbalance: any) => {
     const aryNewFormat: any = [];
-  
+
     response &&
       response.forEach((stmt: any, index: number) => {
         closingbalance = closingbalance + stmt.amount;
-  
+
         // Enrich bets inside statement
         const enrichedBets = stmt.allBets?.map((bet: any) => {
           return {
@@ -574,7 +429,7 @@ const NewAccountStatement = () => {
             betResult: bet.betResult || null, // backend se attach hua object
           };
         });
-  
+
         aryNewFormat.push({
           _id: stmt._id,
           sr_no: index + 1,
@@ -589,22 +444,20 @@ const NewAccountStatement = () => {
           },
         });
       });
-  
+
     return aryNewFormat;
   };
-  
+
   return (
     <>
       {/* {mobileSubheader.subheader("MY LEDGER ")} */}
-      <div className={!isMobile ? " mt-1" : "padding-custom"}>
+      <div style={{background:"white"}} className={!isMobile ? " mt-1" : "padding-custom" }>
         <div className="body-wrap">
-       
-
           <div className="back-main-menu my-3">
             <a href="/">BACK TO MAIN MENU</a>
           </div>
 
-          <h2 className="text-center">My Ledger</h2>
+          <div style={{fontSize:"16px"}} className="text-center">My Ledger Details</div>
 
           <div className="">
             {/* {mobileSubheader.subheaderdesktop("MY LEDGER")} */}
@@ -672,22 +525,11 @@ const NewAccountStatement = () => {
 
               {selectedGroup ? (
                 <div>
-                  <div className="match-name text-center ng-binding">
-                    {/* {openn?.match(/^(\w+)\s*\/\s*Rno-/)?.[1] || ""}{" "}
-                    {(() => {
-                      const rno = openn?.match(/Rno-(\d+)/)?.[1] || "";
-                      const datePart = rno.slice(3, 9); // Get digits 4 to 9
-                      if (datePart.length === 6) {
-                        const dd = datePart.slice(0, 2);
-                        const mm = datePart.slice(2, 4);
-                        const yy = datePart.slice(4, 6);
-                        return `${yy}-${mm}-${dd}`;
-                      }
-                      return "";
-                    })()} */}
+                  <div style={{fontSize:"16px"}} className="text-center">({selectedGroup})</div>
+                  {/* <div  className="match-name text-center ng-binding">
                     {selectedGroup}
-                  </div>
-
+                  </div> */}
+                  <div  className="p-2" style={{backgroundColor:"#0f2327" , color:"white"}}>MATCH BETS</div>
                   <div className="table-responsive">
                     <table className="text-center" id="customers1">
                       <thead>
@@ -697,7 +539,7 @@ const NewAccountStatement = () => {
                           </th>
 
                           <th style={{ width: "45%", textAlign: "center" }}>
-                           Time
+                            Time
                           </th>
 
                           <th style={{ width: "45%", textAlign: "center" }}>
@@ -761,6 +603,82 @@ const NewAccountStatement = () => {
                       </tbody>
                     </table>
                   </div>
+
+                  <div className="p-2" style={{backgroundColor:"#0f2327", color:"white"}}>SESSION BETS</div>
+
+                  <div className="table-responsive">
+                    <table className="text-center" id="customers1">
+                      <thead>
+                        <tr>
+                          <th style={{ width: "45%", textAlign: "center" }}>
+                            Event ID
+                          </th>
+
+                          <th style={{ width: "45%", textAlign: "center" }}>
+                            Time
+                          </th>
+
+                          <th style={{ width: "45%", textAlign: "center" }}>
+                            Number
+                          </th>
+
+                          <th style={{ width: "45%", textAlign: "center" }}>
+                            Rate
+                          </th>
+
+                          <th style={{ width: "45%", textAlign: "center" }}>
+                            Amount
+                          </th>
+
+                          <th style={{ width: "45%", textAlign: "center" }}>
+                            Status
+                          </th>
+
+                          <th style={{ width: "45%", textAlign: "center" }}>
+                            Result
+                          </th>
+
+                          <th style={{ width: "10%", textAlign: "center" }}>
+                            PL{" "}
+                          </th>
+
+                          <th
+                            className="d-none"
+                            style={{ width: "10%", textAlign: "center" }}
+                          >
+                            BALANCE
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {parseAccountStmt.length <= 0 ||
+                          (parseAccountStmt.length > 0 &&
+                            parseAccountStmt.length <= 0 && (
+                              <tr>
+                                <td colSpan={8} className="text-center">
+                                  No Result Found
+                                </td>
+                              </tr>
+                            ))}
+                        {parseAccountStmt.length > 0 &&
+                          parseAccountStmt.length > 0 &&
+                          page == 0 && (
+                            <tr key={parseAccountStmt[0]._id}>
+                              {/* <td>-</td> */}
+                              {/* <td className='wnwrap'>
+                        {moment(parseAccountStmt[0].createdAt).format(dateFormat)}
+                      </td> */}
+                              {/* <td>-</td>
+                      <td>-</td>
+                      <td className='wnwrap'>{openBalance?.toFixed(2)}</td>
+                      <td className='wnwrap'>Opening Balance</td> */}
+                            </tr>
+                          )}
+
+                        {getAcHtml22Session()}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               ) : (
                 <div className="table-responsive">
@@ -781,12 +699,11 @@ const NewAccountStatement = () => {
                         </th>
 
                         <th style={{ width: "45%", textAlign: "center" }}>
-                        DESCRIPTION
+                          DESCRIPTION
                         </th>
 
-
                         <th style={{ width: "45%", textAlign: "center" }}>
-                        DATE
+                          DATE
                         </th>
 
                         {/* <th style={{ width: "45%", textAlign: "center" }}>
@@ -834,7 +751,7 @@ const NewAccountStatement = () => {
                   </table>
                 </div>
               )}
-              <ReactPaginate
+              {/* <ReactPaginate
                 breakLabel="..."
                 nextLabel=">>"
                 onPageChange={handlePageClick}
@@ -844,7 +761,7 @@ const NewAccountStatement = () => {
                 activeClassName={"active"}
                 previousLabel={"<<"}
                 breakClassName={"break-me"}
-              />
+              /> */}
             </div>
           </div>
 
