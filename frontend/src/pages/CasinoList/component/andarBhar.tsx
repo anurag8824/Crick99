@@ -8,6 +8,7 @@ import CasinoPnl from './casinoPnl'
 import { isMobile } from 'react-device-detect'
 import { useCallback } from 'react'
 
+// const isMobile = true
 const AndarBhar = (props: any) => {
   const { lastOdds, liveMatchData } = props
   const dispatch = useAppDispatch()
@@ -56,25 +57,25 @@ const AndarBhar = (props: any) => {
         
         return (
           <>
-            <tbody>
+            <tbody   >
               {isMobile?<tr className={`${ItemNew.MarketName == 'Andar' ? 'Andar' : 'bahar'}`}>
               { (
-                  <td >
-                    <div id='nation1' className='p-title text-center' style={{marginBottom:"0px"}}>
-                      {ItemNew.MarketName}
+                  <td style={{background:"#121a2a",width:"100%" , border:"none"}}>
+                    <div id='nation1' className='p-title text-center' style={{marginBottom:"2px", backgroundColor:"#121a2a", color:"white"}}>
+                      {ItemNew.MarketName} <div className='fs-6 d-flex text-success'>MAX:10000</div> 
                     </div>
                   </td>
                 )}
               </tr>:""}
               <tr className={`${ItemNew.MarketName == 'Andar' ? 'Andar' : 'bahar'}`}>
               { !isMobile && (
-                  <td style={{width:"10%"}}>
-                    <div id='nation1' className='p-title text-center' style={{marginBottom:"0px"}}>
-                      {ItemNew.MarketName}
+                  <td style={{width:"10%" , background:"#121a2a", border:"none"}}>
+                    <div  id='nation1' className='p-title text-center' style={{marginBottom:"2px", backgroundColor:"#121a2a" , color:"white"}}>
+                      {ItemNew.MarketName}<div className='fs-6 d-flex text-success'>MAX:10000</div> 
                     </div>
                   </td>
                 )}
-                                   <td id="andar-box" className={`text-center p5`} >
+                                   <td  style={{backgroundColor:"#1e2a3f" , border:"none"}} id="andar-box" className={`text-center p5 rounded`} >
               <div className={isMobile?'row text-center justify-content-center ml-0':'d-flex justify-content-center'}>
                   {ItemNew.Runners.map((ItemCardsData: any, keyCardsData: number) => {
                     const Item: any = lastOdds?.[ItemCardsData?.SelectionId] || {}
@@ -88,7 +89,7 @@ const AndarBhar = (props: any) => {
 
                     return (
                       <>
-                        <p>
+                        <p className={`${isMobile ? 'col-3'  : ''}`}>
                           <span
                             className='game-section m-r-5'
                             key={keyCardsData}

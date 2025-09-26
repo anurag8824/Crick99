@@ -204,13 +204,13 @@ const Odds = () => {
               <iframe
                 style={{ width: '100%', height: '250px' }}
                  sandbox="allow-scripts allow-same-origin allow-popups"
-                 src={`https://betfairlivetvturnkeyxgaming.netlify.app/?url=https://livesportsstreaming.turnkeyxgaming.com/7100/index.m3u8/?eventid=${currentMatch?.matchId}`}
+                //  src={`https://betfairlivetvturnkeyxgaming.netlify.app/?url=https://livesportsstreaming.turnkeyxgaming.com/7100/index.m3u8/?eventid=${currentMatch?.matchId}`}
 
-                // src={
-                //   currentMatch?.matchId === 34758432
-                //     ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=556638940"  : currentMatch?.matchId === 34758196    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid="
-                //     : "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=661159847"
-                // }   
+                src={
+                  currentMatch?.matchId === 34769873
+                    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=617908915"  : currentMatch?.matchId === 34773903    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=774398605"
+                    : "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=597474467"
+                }   
 
               ></iframe>
               LIVE TV 
@@ -221,14 +221,13 @@ const Odds = () => {
               <iframe
                 style={{ width: '100%', height: '250px' }}
                  sandbox="allow-scripts allow-same-origin allow-popups"
-                 src={`https://betfairlivetvturnkeyxgaming.netlify.app/?url=https://livesportsstreaming.turnkeyxgaming.com/7100/index.m3u8/?eventid=${currentMatch?.matchId}`}
+                //  src={`https://betfairlivetvturnkeyxgaming.netlify.app/?url=https://livesportsstreaming.turnkeyxgaming.com/7100/index.m3u8/?eventid=${currentMatch?.matchId}`}
 
-                //  src={
-                //   currentMatch?.matchId === 34758432
-                //     ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=556638940"  : currentMatch?.matchId === 34758196    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid="
-                //     : "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=661159847"
-                // }   
-  
+                 src={
+                  currentMatch?.matchId === 34769873
+                    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=617908915"  : currentMatch?.matchId === 34773903    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=774398605"
+                    : "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=597474467"
+                }  
 
               ></iframe>
           
