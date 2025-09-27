@@ -477,10 +477,15 @@ class AccountController extends ApiController_1.ApiController {
                 // Step 4: enrich har bet ke hisaab se
                 const enrichedBets = yield Promise.all(bets.map((bet) => __awaiter(this, void 0, void 0, function* () {
                     let betResult = null;
+                    let gameResult = null;
                     if (bet.bet_on === "FANCY") {
                         // Fancy enrichment
                         betResult = yield Fancy_1.Fancy.findOne({
                             fancyName: bet.selectionName,
+                            matchId: bet.matchId,
+                        }).lean();
+                        // Game result nikalne ke liye sirf Market se matchId ka data
+                        gameResult = yield Market_1.Market.findOne({
                             matchId: bet.matchId,
                         }).lean();
                     }
@@ -491,12 +496,19 @@ class AccountController extends ApiController_1.ApiController {
                             marketId: bet.marketId,
                             marketName: bet.marketName,
                         }).lean();
+                        // Game result me minimal info dena hai
+                        gameResult = yield Market_1.Market.findOne({
+                            matchId: bet.matchId,
+                            marketId: bet.marketId,
+                            marketName: bet.marketName,
+                        });
                     }
                     else {
                         // CASINO ya aur kuch
                         betResult = null;
+                        gameResult = null;
                     }
-                    return Object.assign(Object.assign({}, bet), { betResult });
+                    return Object.assign(Object.assign({}, bet), { betResult, gameResult });
                 })));
                 // Step 5: attach bets back to statements
                 const enrichedStatements = statements.map((s) => {

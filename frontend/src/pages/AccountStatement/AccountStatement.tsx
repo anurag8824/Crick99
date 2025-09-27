@@ -146,7 +146,7 @@ const AccountStatement = () => {
 
             <td
               className=''
-              // onClick={(e: MouseEvent<HTMLTableCellElement>) => getBets(e, stmt.stmt)}
+              onClick={(e: MouseEvent<HTMLTableCellElement>) => getBets(e, stmt.stmt)}
             >
               {stmt.narration}
             </td>

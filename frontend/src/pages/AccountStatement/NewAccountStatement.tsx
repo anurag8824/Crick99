@@ -143,10 +143,30 @@ const NewAccountStatement = () => {
         "YYYY-MM-DD"
       );
 
-      if (!grouped[gameName]) grouped[gameName] = {};
-      if (!grouped[gameName][rawDate]) grouped[gameName][rawDate] = [];
+      if (!grouped[gameName]) {
+        grouped[gameName] = { stmts: [] };
+      }
+  
+      grouped[gameName].stmts.push(stmt);
 
-      grouped[gameName][rawDate].push(stmt);
+
+    // wonBy निकालना (CASINO वाले exclude)
+    if (
+      !grouped[gameName].wonBy && // पहले से set न हो
+      stmt?.stmt?.bet?.bet_on !== "CASINO" &&
+      stmt?.stmt?.bet?.gameResult?.result
+    ) {
+      const gameResult = stmt?.stmt?.bet?.gameResult;
+      if (gameResult?.result && gameResult?.runners?.length) {
+        const winner = gameResult.runners.find(
+          (r: any) => String(r.selectionId) === String(gameResult.result)
+        );
+        if (winner) {
+          grouped[gameName].wonBy = winner.runnerName;
+        }
+      }
+    }
+    
     });
 
     // Render grouped table
@@ -154,52 +174,56 @@ const NewAccountStatement = () => {
     let runningBalance = 0;
 
     // Sort the groups for chronological balance tracking
-    const sortedEntries = Object.entries(grouped)
-      .flatMap(([gameName, dates]: any) => {
-        return Object.entries(dates).map(([date, stmts]: any) => ({
-          gameName,
-          date,
-          stmts,
-          sortDate: moment(date).format("YYYY-MM-DD"), // for sorting
-        }));
-      })
-      .sort((a, b) => moment(a.sortDate).diff(moment(b.sortDate)));
+    // const sortedEntries = Object.entries(grouped)
+    //   .flatMap(([gameName, dates]: any) => {
+    //     return Object.entries(dates).map(([date, stmts]: any) => ({
+    //       gameName,
+    //       date,
+    //       stmts,
+    //       sortDate: moment(date).format("YYYY-MM-DD"), // for sorting
+    //     }));
+    //   })
+    //   .sort((a, b) => moment(a.sortDate).diff(moment(b.sortDate)));
 
-    sortedEntries.forEach(({ gameName, date, stmts }) => {
+    // sortedEntries.forEach(({ gameName, date, stmts }) => {
+    //   let totalCredit = 0;
+    //   let totalDebit = 0;
+
+    //   stmts.forEach((stmt: any) => {
+    //     totalCredit += stmt.credit;
+    //     totalDebit += stmt.credit;
+    //   });
+
+    Object.entries(grouped).forEach(([gameName, data]: any) => {
       let totalCredit = 0;
       let totalDebit = 0;
-
-      stmts.forEach((stmt: any) => {
+  
+      data.stmts.forEach((stmt: any) => {
         totalCredit += stmt.credit;
-        totalDebit += stmt.credit;
+        totalDebit += stmt.debit;
       });
 
       runningBalance += totalCredit;
 
-     console.log( sortedEntries,"soottedd")
+    //  console.log( sortedEntries,"soottedd")
 
       tableRows.unshift(
-        <tr key={`${gameName}-${date}`}>
+        <tr key={`${gameName}`}>
           <td
             className="custom-link"
-            onClick={() => setSelectedGroup(gameName + date)}
+            onClick={() => setSelectedGroup(gameName)}
             style={{
               cursor: "pointer",
               color: "#007bff",
               textDecoration: "underline",
             }}
           >
-            {gameName}({date})
+            {gameName}
           </td>
-          <td>{date}</td>
-          {/* <td>
-            <span
-              className="badge badge-primary p-1 ng-binding"
-              style={{ fontSize: "xx-small" }}
-            >
-              <i style={{ fontSize: "10px" }} className="fas fa-trophy"></i> N/A
-            </span>
-          </td> */}
+          <td>
+           
+            {data.wonBy ? data.wonBy : "N/A"}
+          </td>
           <td className="green">
             {totalCredit >= 0 ? totalCredit.toFixed(2) : "0.00"}
           </td>
@@ -228,8 +252,10 @@ const NewAccountStatement = () => {
       const rawDate = moment(stmt.date, "MMM DD, YYYY hh:mm A").format(
         "YYYY-MM-DD"
       );
-      return selectedGroup === gameName + rawDate;
+      return selectedGroup === gameName ;
     });
+
+    console.log(filteredItems, "filtereed");
 
     const rows = filteredItems?.filter?.((stmt: any) => stmt?.stmt?.bet?.bet_on === "MATCH_ODDS" || stmt?.stmt?.bet?.bet_on === "CASINO")?.map?.((stmt: any, index: number) => {
       closingbalance = closingbalance + stmt.amount;
@@ -276,7 +302,7 @@ const NewAccountStatement = () => {
         </tr>
       );
     });
-    console.log(filteredItems, "rowsssss");
+    console.log(rows, "rowsssss");
 
     let totalMatchPL = 0;
     let totalSessionPL = 0;
@@ -305,7 +331,7 @@ const NewAccountStatement = () => {
       const rawDate = moment(stmt.date, "MMM DD, YYYY hh:mm A").format(
         "YYYY-MM-DD"
       );
-      return selectedGroup === gameName + rawDate;
+      return selectedGroup === gameName;
     });
 
     const rowsSession = filteredItems?.filter?.((stmt: any) => stmt?.stmt?.bet?.bet_on === "FANCY")
@@ -702,13 +728,13 @@ const NewAccountStatement = () => {
                           DESCRIPTION
                         </th>
 
-                        <th style={{ width: "45%", textAlign: "center" }}>
-                          DATE
-                        </th>
-
                         {/* <th style={{ width: "45%", textAlign: "center" }}>
-                          WON BY
+                          DATE
                         </th> */}
+
+                        <th style={{ width: "45%", textAlign: "center" }}>
+                          WON BY
+                        </th>
 
                         <th style={{ width: "10%", textAlign: "center" }}>
                           WIN{" "}

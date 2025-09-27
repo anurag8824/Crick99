@@ -878,6 +878,7 @@ getAccountStmtListUserLedger = async (req: Request, res: Response) => {
    const enrichedBets = await Promise.all(
     bets.map(async (bet) => {
       let betResult = null
+      let gameResult = null
 
       if (bet.bet_on === "FANCY") {
         // Fancy enrichment
@@ -885,6 +886,10 @@ getAccountStmtListUserLedger = async (req: Request, res: Response) => {
           fancyName: bet.selectionName,
           matchId: bet.matchId,
         }).lean()
+        // Game result nikalne ke liye sirf Market se matchId ka data
+      gameResult = await Market.findOne({
+        matchId: bet.matchId,
+      }).lean()
       } else if (bet.bet_on === "MATCH_ODDS") {
         // Market enrichment
         betResult = await Market.findOne({
@@ -892,12 +897,19 @@ getAccountStmtListUserLedger = async (req: Request, res: Response) => {
           marketId: bet.marketId,
           marketName: bet.marketName,
         }).lean()
+         // Game result me minimal info dena hai
+      gameResult = await Market.findOne( {
+        matchId: bet.matchId,
+        marketId: bet.marketId,
+        marketName: bet.marketName,
+      })
       } else {
         // CASINO ya aur kuch
         betResult = null
+        gameResult = null
       }
 
-      return { ...bet, betResult }
+      return { ...bet, betResult, gameResult }
     })
   )
 

@@ -75,8 +75,13 @@ const MyBetComponent = () => {
 
   console.log(getMyAllBet,"get my all bets")
 
+  
+
   return (
     <div>
+       <div style={{ backgroundColor: "#0f2326", color: "white", padding: "8px 10px", textAlign: "left", marginTop:"20px", marginBottom:"10px" }}>
+    {!location.pathname.toLowerCase().includes("casino")  ? "Session Bets" : "Casino Bets"}
+  </div>
     <div className='' style={{overflowX:"scroll"}}>
       <table className='table table-striped table-hover'>
         <thead className="bg-info-subtle text-warning">
@@ -139,14 +144,14 @@ const MyBetComponent = () => {
       </div>
 
       <div>
-  <div style={{ backgroundColor: "#0f2326", color: "white", padding: "8px 10px", textAlign: "left", marginTop:"20px", marginBottom:"10px" }}>
+{!location.pathname.toLowerCase().includes("casino") &&(  <div style={{ backgroundColor: "#0f2326", color: "white", padding: "8px 10px", textAlign: "left", marginTop:"20px", marginBottom:"10px" }}>
     Match Bets
-  </div>
+  </div>)}
 </div>
 
 {/* <h1 className="section-title text-center">BOOKMAKER BETS</h1> */}
 
-    <div className='' style={{ overflowX:"scroll"}}>
+  {!location.pathname.toLowerCase().includes("casino") &&(  <div className='' style={{ overflowX:"scroll"}}>
 
       <table className='table table-striped table-hover'>
         <thead className="bg-info-subtle text-warning">
@@ -182,7 +187,12 @@ const MyBetComponent = () => {
                 {/* {bet.marketName === 'Fancy' && bet.gtype !== 'fancy1' ? bet.volume.toFixed(2) : bet.odds.toFixed(2)}{' '} */}
               </td>
               <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap text-center' > {bet.isBack ? "Lagai" : "Khai"} </td>
-              <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap text-center' >   {(Number(bet.odds) * 100).toFixed(0)} </td>
+              <td 
+  style={{ background: bet.isBack ? "#72BBEF" : "#faa9ba" }} 
+  className="no-wrap text-center"
+>
+  {((Number(bet.odds) * 100) - 100).toFixed(0)}
+</td>
               <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap text-center' > {bet?.selectionName} </td>
               {/* <td className='no-wrap text-center' > {bet.isBack ? "Yes" : "No"} </td> */}
               {/* {!isMobile && (
@@ -202,7 +212,7 @@ const MyBetComponent = () => {
           ))}
         </tbody>
       </table>
-    </div>
+    </div>)}
       </div>
   )
 }
