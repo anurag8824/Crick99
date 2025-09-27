@@ -221,8 +221,14 @@ const NewAccountStatement = () => {
             {gameName}
           </td>
           <td>
-           
-            {data.wonBy ? data.wonBy : "N/A"}
+            
+            {data.wonBy ? data.wonBy :  <span
+              className="badge badge-primary p-1 ng-binding"
+              style={{ fontSize: "xx-small" }}
+            >
+              <i style={{ fontSize: "10px" }} className="fas fa-trophy"></i> 
+              
+            </span> }
           </td>
           <td className="green">
             {totalCredit >= 0 ? totalCredit.toFixed(2) : "0.00"}
