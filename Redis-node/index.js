@@ -485,48 +485,8 @@ const setFancyData = async () => {
   );
 };
 
-// https://api.cricketid.xyz/get-result?key=newdiamond36iuyIug9898
 
-// const FancyResult = async () => {
-//   try {
 
-//     await Promise.all(
-//      MatchIds.map(async (f) => {
-//         if (!f) return;
-
-//         try {
-//             const res = await axios.post(`http://82.29.164.133:3000/bxpro/v1/fancy-result/${f}`);
-
-//           console.log(`Response for ${f?.selectionName}:`, res.data);
-//           if(res.data && res.data.data.length>0){
-//             res.data.data.map(async (fdata)=>{
-//               if(fdata.status){
-//                  const data=  { 
-//             message:"ok",
-//             result:fdata?.winnerId,
-//             isRollback:fdata.rollBack,
-//             runnerName:fdata.marketName,
-//             matchId:parseInt(fdata.eventId)
-//           }
-//             console.log(data,"after is if")
-//             const resData = await axios.post("http://localhost:3010/api/update-fancy-result",data)
-//             console.log(resData,"FGHJKL") 
-//               }
-//             })
-
-//           }
-
-//         } catch (error) {
-//           console.error(`Error posting for ${f?.selectionName}:`, error?.response?.data || error.message);
-//         }
-//       })
-//     );
-
-//     // console.log("All market results processed successfully.");
-//   } catch (error) {
-//     console.error("Error in FancyResult cron job:", error);
-//   }
-// };
 
 
 const FancyResult = async () => {
@@ -538,52 +498,81 @@ const FancyResult = async () => {
             `http://82.29.164.133:3000/bxpro/v1/fancy-result/${matchId}`
           );
 
-          const results = res?.data.data || [];
-          // console.log(results, "sdfghjklsdfghjikopdfghjk")
-          
+          const results = res?.data?.data || [];
           if (!results.length) return;
 
           await Promise.all(
             results
-              .filter((fdata) => fdata?.status == "Settle") // only if status is true
+              .filter((fdata) => fdata?.status == "Settle")
               .map(async (fdata) => {
-                if (fdata.marketType == "Fancy") {
-                  const payload = {
-                    message: "ok",
-                    result: fdata?.winnerId,
-                    isRollback: fdata?.rollBack.toLowerCase() === "false" ? false : true,
-                    runnerName: fdata?.marketName,
-                    matchId: parseInt(fdata?.eventId),
-                  };
+                const redisKey = `fancy-results:${matchId}:${fdata.marketId}`;
 
-                  console.log("➡️ Sending update payload:", payload);
+                // Redis se previous data lao
+                const cached = await publisher.get(redisKey);
+                const cachedData = cached ? JSON.parse(cached) : null;
 
-                  try {
-                    const resData = await axios.post(
-                      "http://localhost:3010/api/update-fancy-result",
+                const currentRollback = parseInt(fdata?.rollBackCount || 0);
+                const prevRollback = cachedData?.rollBack|| 0;
+
+                console.log(cached,cachedData,"redis data is here")
+
+                // Sirf naye ya rollback badhe hue results bhejna
+                if (!cachedData || currentRollback > prevRollback) {
+                  if (fdata.marketType === "Fancy") {
+                    const payload = {
+                      message: "ok",
+                      result: fdata?.winnerId,
+                      isRollback: fdata?.rollBack.toLowerCase() !== "false",
+                      runnerName: fdata?.marketName,
+                      matchId: parseInt(fdata?.eventId),
+                    };
+
+                    console.log("➡️ Sending update payload:", payload);
+
+                    try {
+                      const resData = await axios.post(
+                        "http://localhost:3010/api/update-fancy-result",
+                        payload
+                      );
+                      console.log(
+                        `✅ Updated fancy result for ${payload.runnerName} (matchId: ${payload.matchId})`,
+                        resData.data
+                      );
+                    } catch (err) {
+                      console.error(
+                        `❌ Error updating fancy result for ${payload.runnerName}:`,
+                        err?.response?.data || err.message
+                      );
+                    }
+                  } else {
+                    const payload = {
+                      message: "ok",
+                      sid: fdata?.winnerId,
+                      isRollback: fdata?.rollBack.toLowerCase() !== "false",
+                      runnerName: fdata?.marketName,
+                      matchId: parseInt(fdata?.eventId),
+                      marketId: fdata.marketId,
+                    };
+                    await axios.post(
+                      "http://localhost:3010/api/deactivate-markets",
                       payload
                     );
-                    console.log(
-                      `✅ Updated fancy result for ${payload.runnerName} (matchId: ${payload.matchId})`,
-                      resData.data
-                    );
-                  } catch (err) {
-                    console.error(
-                      `❌ Error updating fancy result for ${payload.runnerName}:`,
-                      err?.response?.data || err.message
-                    );
                   }
-                } else {
-                  const payload = {
-                    message: "ok",
-                    sid: fdata?.winnerId,
-                    isRollback: fdata?.rollBack.toLowerCase() === "false" ? false : true,
-                    runnerName: fdata?.marketName,
-                    matchId: parseInt(fdata?.eventId),
-                    marketId: fdata.marketId
 
-                  };
-                  const resdata = await axios.post("http://localhost:3010/api/deactivate-markets", payload)
+                  // Redis me update karo
+                  await publisher.set(
+                    redisKey,
+                    JSON.stringify({
+                      winnerId: fdata?.winnerId,
+                      rollBack: currentRollback,
+                      status: fdata?.status,
+                      updatedAt: Date.now(),
+                    })
+                  );
+                } else {
+                  console.log(
+                    `⏭️ Skipping ${fdata.marketName} (matchId: ${matchId}) — no new/rollback change`
+                  );
                 }
               })
           );
@@ -598,10 +587,9 @@ const FancyResult = async () => {
 
     console.log("🎉 All fancy results processed successfully");
   } catch (error) {
-    // console.error("🔥 Error in FancyResult cron job:", error.message);
+    console.error("🔥 Error in FancyResult cron job:", error.message);
   }
 };
-
 
 const getFancyList = async () => {
   try {

@@ -1376,3 +1376,127 @@ setInterval(FancyResult,30000)
   server.listen(PORT, () => {
     console.log(`server is Listeing on ${PORT}`)
   })
+
+
+
+
+
+  // https://api.cricketid.xyz/get-result?key=newdiamond36iuyIug9898
+  
+  // const FancyResult = async () => {
+  //   try {
+  
+  //     await Promise.all(
+  //      MatchIds.map(async (f) => {
+  //         if (!f) return;
+  
+  //         try {
+  //             const res = await axios.post(`http://82.29.164.133:3000/bxpro/v1/fancy-result/${f}`);
+  
+  //           console.log(`Response for ${f?.selectionName}:`, res.data);
+  //           if(res.data && res.data.data.length>0){
+  //             res.data.data.map(async (fdata)=>{
+  //               if(fdata.status){
+  //                  const data=  { 
+  //             message:"ok",
+  //             result:fdata?.winnerId,
+  //             isRollback:fdata.rollBack,
+  //             runnerName:fdata.marketName,
+  //             matchId:parseInt(fdata.eventId)
+  //           }
+  //             console.log(data,"after is if")
+  //             const resData = await axios.post("http://localhost:3010/api/update-fancy-result",data)
+  //             console.log(resData,"FGHJKL") 
+  //               }
+  //             })
+  
+  //           }
+  
+  //         } catch (error) {
+  //           console.error(`Error posting for ${f?.selectionName}:`, error?.response?.data || error.message);
+  //         }
+  //       })
+  //     );
+  
+  //     // console.log("All market results processed successfully.");
+  //   } catch (error) {
+  //     console.error("Error in FancyResult cron job:", error);
+  //   }
+  // };
+  
+  
+  
+  
+  
+  // const FancyResult = async () => {
+  //   try {
+  //     await Promise.all(
+  //       MatchIds.filter(Boolean).map(async (matchId) => {
+  //         try {
+  //           const res = await axios.get(
+  //             `http://82.29.164.133:3000/bxpro/v1/fancy-result/${matchId}`
+  //           );
+  
+  //           const results = res?.data.data || [];
+  //           // console.log(results, "sdfghjklsdfghjikopdfghjk")
+            
+  //           if (!results.length) return;
+  
+  //           await Promise.all(
+  //             results
+  //               .filter((fdata) => fdata?.status == "Settle") // only if status is true
+  //               .map(async (fdata) => {
+  //                 if (fdata.marketType == "Fancy") {
+  //                   const payload = {
+  //                     message: "ok",
+  //                     result: fdata?.winnerId,
+  //                     isRollback: fdata?.rollBack.toLowerCase() === "false" ? false : true,
+  //                     runnerName: fdata?.marketName,
+  //                     matchId: parseInt(fdata?.eventId),
+  //                   };
+  
+  //                   console.log("➡️ Sending update payload:", payload);
+  
+  //                   try {
+  //                     const resData = await axios.post(
+  //                       "http://localhost:3010/api/update-fancy-result",
+  //                       payload
+  //                     );
+  //                     console.log(
+  //                       `✅ Updated fancy result for ${payload.runnerName} (matchId: ${payload.matchId})`,
+  //                       resData.data
+  //                     );
+  //                   } catch (err) {
+  //                     console.error(
+  //                       `❌ Error updating fancy result for ${payload.runnerName}:`,
+  //                       err?.response?.data || err.message
+  //                     );
+  //                   }
+  //                 } else {
+  //                   const payload = {
+  //                     message: "ok",
+  //                     sid: fdata?.winnerId,
+  //                     isRollback: fdata?.rollBack.toLowerCase() === "false" ? false : true,
+  //                     runnerName: fdata?.marketName,
+  //                     matchId: parseInt(fdata?.eventId),
+  //                     marketId: fdata.marketId
+  
+  //                   };
+  //                   const resdata = await axios.post("http://localhost:3010/api/deactivate-markets", payload)
+  //                 }
+  //               })
+  //           );
+  //         } catch (err) {
+  //           console.error(
+  //             `❌ Error fetching fancy-result for matchId ${matchId}:`,
+  //             err?.response?.data || err.message
+  //           );
+  //         }
+  //       })
+  //     );
+  
+  //     console.log("🎉 All fancy results processed successfully");
+  //   } catch (error) {
+  //     // console.error("🔥 Error in FancyResult cron job:", error.message);
+  //   }
+  // };

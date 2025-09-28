@@ -358,9 +358,14 @@ class FancyController extends ApiController_1.ApiController {
                         });
                     }
                     else if (findFancy === null || findFancy === void 0 ? void 0 : findFancy._id) {
-                        this.rollbackfancyresultbyapi({
+                        yield this.rollbackfancyresultbyapi({
                             matchId: findFancy.matchId,
                             marketId: findFancy.marketId,
+                        });
+                        this.declarefancyresultAuto({
+                            matchId: findFancy.matchId,
+                            marketId: findFancy.marketId,
+                            result: data.result,
                         });
                     }
                     return this.success(res, {});
@@ -627,6 +632,7 @@ class FancyController extends ApiController_1.ApiController {
         this.declarefancyresult = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const { marketId, matchId, result } = req.query;
+                console.log(marketId, matchId, result, "FGHJKLGHJKL");
                 const userbet = yield Bet_1.Bet.aggregate([
                     {
                         $match: {
@@ -719,7 +725,7 @@ class FancyController extends ApiController_1.ApiController {
                             selectionId: ItemBetList.selectionId,
                             sportId: ItemBetList.sportId,
                         });
-                        yield this.cal9xbro(Item._id, profitLossAmt, narration, matchId, ItemBetList._id, Bet_1.BetOn.FANCY);
+                        // await this.cal9xbro(Item._id, profitLossAmt, narration, matchId, ItemBetList._id, BetOn.FANCY)
                         if (indexBetList == 0) {
                             ItemBetList.ratioStr.allRatio.map((ItemParentStr) => {
                                 parentIdList.push(ItemParentStr.parent);
@@ -740,6 +746,7 @@ class FancyController extends ApiController_1.ApiController {
                     matchId: matchId,
                     selectionId: marketId,
                     bet_on: Bet_1.BetOn.FANCY,
+                    status: "pending",
                 }, { $set: { status: "completed" } });
                 const unique = [...new Set(userIdList)];
                 if (unique.length > 0) {

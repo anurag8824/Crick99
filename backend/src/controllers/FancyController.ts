@@ -401,9 +401,14 @@ export class FancyController extends ApiController {
             result: data.result,
           });
         } else if (findFancy?._id) {
-          this.rollbackfancyresultbyapi({
+         await this.rollbackfancyresultbyapi({
             matchId: findFancy.matchId,
             marketId: findFancy.marketId,
+          });
+          this.declarefancyresultAuto({
+            matchId: findFancy.matchId,
+            marketId: findFancy.marketId,
+            result: data.result,
           });
         }
         return this.success(res, {});
@@ -725,6 +730,7 @@ export class FancyController extends ApiController {
   ): Promise<Response> => {
     try {
       const { marketId, matchId, result }: any = req.query;
+      console.log(marketId,matchId,result,"FGHJKLGHJKL")
       const userbet: any = await Bet.aggregate([
         {
           $match: {
@@ -819,7 +825,7 @@ export class FancyController extends ApiController {
               selectionId: ItemBetList.selectionId,
               sportId: ItemBetList.sportId,
             });
-            await this.cal9xbro(Item._id, profitLossAmt, narration, matchId, ItemBetList._id, BetOn.FANCY)
+            // await this.cal9xbro(Item._id, profitLossAmt, narration, matchId, ItemBetList._id, BetOn.FANCY)
 
             if (indexBetList == 0) {
               ItemBetList.ratioStr.allRatio.map((ItemParentStr: any) => {
@@ -843,6 +849,7 @@ export class FancyController extends ApiController {
           matchId: matchId,
           selectionId: marketId,
           bet_on: BetOn.FANCY,
+          status: "pending",
         },
         { $set: { status: "completed" } }
       );
