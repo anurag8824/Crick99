@@ -452,7 +452,7 @@ const Header = () => {
             </div>
           </div>
 
-          {/* <Marqueemessge message={notice?.fnotice || "."} /> */}
+          <Marqueemessge message={notice?.fnotice || "."} />
 
           {/* {!isMobile ? <NavMenu /> : <NavMobileMenu />} */}
           {/* {!isMobile ? <NavMenu /> : <NavMenu /> } */}

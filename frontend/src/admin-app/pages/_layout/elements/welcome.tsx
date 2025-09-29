@@ -41,7 +41,7 @@ const Marqueemessge = (props: any) => {
       ) : (
         ''
       )} */}
-      <div className='marqueeN' style={{ color: "white", background:"#0f2327" , marginTop:"1px" }}>
+      <div className='marqueeN' style={{ color: "white", background:"#0f2327" , marginTop:"2px", paddingTop:"2px" }}>
         <p>{props.message}</p>
       </div>
     </div>
