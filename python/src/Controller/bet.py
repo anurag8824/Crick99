@@ -177,7 +177,7 @@ def checkMaxlimit(payload,userInfo):
         user_id = userInfo['_id']
 
         pipeline = [
-            {"$match": {"marketId": market_id,"userId":ObjectId(user_id),"matchId":int(payload['matchId'])}},
+            {"$match": {"marketId": market_id,"userId":ObjectId(user_id),"matchId":int(payload['matchId']),"status":"pending"}},
             {"$group": {"_id": None, "totalStack": {"$sum": "$stack"}}}
         ]
         result = list(Bet.aggregate(pipeline))
