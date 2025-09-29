@@ -191,7 +191,8 @@ const ActiveMarkets = () => {
                     ></i>
                   </td>
                   <td>{market.marketName}</td>
-                  <td>{moment(market.marketStartTime).format(dateFormat)}</td>
+                  {/* <td>{moment(market.marketStartTime).format(dateFormat)}</td> */}
+                  <td>{moment(market.createdAt).format(dateFormat)}</td>
                   <td>{market.isActive ? 'Active' : 'In-Active'}</td>
                   <td>
                     <div>

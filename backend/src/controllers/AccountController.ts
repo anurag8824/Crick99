@@ -882,9 +882,18 @@ getAccountStmtListUserLedger = async (req: Request, res: Response) => {
 
       if (bet.bet_on === "FANCY") {
         // Fancy enrichment
+        // betResult = await Fancy.findOne({
+        //   // fancyName: bet.selectionName, old jsiem case sensitive strict ho
+        //   fancyName: { $regex: new RegExp(`^${bet.selectionName}$`, "i") },
+        //   matchId: bet.matchId,
+        // }).lean()
         betResult = await Fancy.findOne({
-          fancyName: bet.selectionName,
-          matchId: bet.matchId,
+          $expr: {
+            $and: [
+              { $eq: [{ $toLower: "$fancyName" }, bet.selectionName.toLowerCase()] },
+              { $eq: ["$matchId", bet.matchId] }
+            ]
+          }
         }).lean()
         // Game result nikalne ke liye sirf Market se matchId ka data
       gameResult = await Market.findOne({

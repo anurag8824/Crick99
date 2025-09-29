@@ -146,27 +146,25 @@ const NewAccountStatement = () => {
       if (!grouped[gameName]) {
         grouped[gameName] = { stmts: [] };
       }
-  
+
       grouped[gameName].stmts.push(stmt);
 
-
-    // wonBy निकालना (CASINO वाले exclude)
-    if (
-      !grouped[gameName].wonBy && // पहले से set न हो
-      stmt?.stmt?.bet?.bet_on !== "CASINO" &&
-      stmt?.stmt?.bet?.gameResult?.result
-    ) {
-      const gameResult = stmt?.stmt?.bet?.gameResult;
-      if (gameResult?.result && gameResult?.runners?.length) {
-        const winner = gameResult.runners.find(
-          (r: any) => String(r.selectionId) === String(gameResult.result)
-        );
-        if (winner) {
-          grouped[gameName].wonBy = winner.runnerName;
+      // wonBy निकालना (CASINO वाले exclude)
+      if (
+        !grouped[gameName].wonBy && // पहले से set न हो
+        stmt?.stmt?.bet?.bet_on !== "CASINO" &&
+        stmt?.stmt?.bet?.gameResult?.result
+      ) {
+        const gameResult = stmt?.stmt?.bet?.gameResult;
+        if (gameResult?.result && gameResult?.runners?.length) {
+          const winner = gameResult.runners.find(
+            (r: any) => String(r.selectionId) === String(gameResult.result)
+          );
+          if (winner) {
+            grouped[gameName].wonBy = winner.runnerName;
+          }
         }
       }
-    }
-    
     });
 
     // Render grouped table
@@ -197,7 +195,7 @@ const NewAccountStatement = () => {
     Object.entries(grouped).forEach(([gameName, data]: any) => {
       let totalCredit = 0;
       let totalDebit = 0;
-  
+
       data.stmts.forEach((stmt: any) => {
         totalCredit += stmt.credit;
         totalDebit += stmt.debit;
@@ -205,7 +203,7 @@ const NewAccountStatement = () => {
 
       runningBalance += totalCredit;
 
-    //  console.log( sortedEntries,"soottedd")
+      //  console.log( sortedEntries,"soottedd")
 
       tableRows.unshift(
         <tr key={`${gameName}`}>
@@ -221,14 +219,16 @@ const NewAccountStatement = () => {
             {gameName}
           </td>
           <td>
-            
-            {data.wonBy ? data.wonBy :  <span
-              className="badge badge-primary p-1 ng-binding"
-              style={{ fontSize: "xx-small" }}
-            >
-              <i style={{ fontSize: "10px" }} className="fas fa-trophy"></i> 
-              
-            </span> }
+            {data.wonBy ? (
+              data.wonBy
+            ) : (
+              <span
+                className="badge badge-primary p-1 ng-binding"
+                style={{ fontSize: "xx-small" }}
+              >
+                <i style={{ fontSize: "10px" }} className="fas fa-trophy"></i>
+              </span>
+            )}
           </td>
           <td className="green">
             {totalCredit >= 0 ? totalCredit.toFixed(2) : "0.00"}
@@ -258,56 +258,77 @@ const NewAccountStatement = () => {
       const rawDate = moment(stmt.date, "MMM DD, YYYY hh:mm A").format(
         "YYYY-MM-DD"
       );
-      return selectedGroup === gameName ;
+      return selectedGroup === gameName;
     });
 
     console.log(filteredItems, "filtereed");
 
-    const rows = filteredItems?.filter?.((stmt: any) => stmt?.stmt?.bet?.bet_on === "MATCH_ODDS" || stmt?.stmt?.bet?.bet_on === "CASINO")?.map?.((stmt: any, index: number) => {
-      closingbalance = closingbalance + stmt.amount;
+    const rows = filteredItems
+      ?.filter?.(
+        (stmt: any) =>
+          stmt?.stmt?.bet?.bet_on === "MATCH_ODDS" ||
+          stmt?.stmt?.bet?.bet_on === "CASINO"
+      )
+      ?.map?.((stmt: any, index: number) => {
+        closingbalance = closingbalance + stmt.amount;
 
-      const pnlString = stmt?.credit;
-      const pnl = parseFloat(pnlString) || 0;
-      totalPnl += pnl;
-      if (stmt.narration.length === 0) return null;
-      return (
-        <tr key={`${stmt._id}${index}`}>
-          <td>{stmt?.stmt?.allBets ? stmt?.stmt?.selectionId : ""}</td>
-          <td>
-            {stmt?.stmt?.allBets
-              ? moment(stmt?.stmt?.createdAt).format(dateFormat)
-              : ""}
-          </td>
-          <td>{stmt?.stmt?.bet ? stmt?.stmt?.bet?.selectionName : ""}</td>
-          <td>{stmt?.stmt?.bet ? stmt?.stmt?.bet?.odds || "" : ""}</td>
+        const pnlString = stmt?.credit;
+        const pnl = parseFloat(pnlString) || 0;
+        totalPnl += pnl;
+        if (stmt.narration.length === 0) return null;
+        return (
+          <tr key={`${stmt._id}${index}`}>
+            <td>{stmt?.stmt?.allBets ? stmt?.stmt?.selectionId : ""}</td>
+            <td>
+              {stmt?.stmt?.allBets
+                ? moment(stmt?.stmt?.createdAt).format(dateFormat)
+                : ""}
+            </td>
+            <td>{stmt?.stmt?.bet ? stmt?.stmt?.bet?.selectionName : ""}</td>
+            <td>
+  {stmt?.stmt?.bet?.odds
+    ? ((stmt.stmt.bet.odds * 100) - 100).toFixed(0)
+    : ""}
+</td>
+            <td>{stmt?.stmt?.amount ? stmt?.stmt?.amount : ""}</td>
 
-          <td>{stmt?.stmt?.amount ? stmt?.stmt?.amount : ""}</td>
+            <td>
+              {stmt?.stmt?.bet ? (stmt?.credit > 0 ? "Win" : "Loss") : ""}
+            </td>
 
-          <td>{stmt?.stmt?.bet ? (stmt?.credit > 0 ? "Win" : "Loss") : ""}</td>
+            <td>
+              {stmt?.stmt?.bet?.bet_on === "CASINO"
+                ? stmt?.narration?.match(/winner:\s*([^,\[\]]+)?/)?.[1]?.trim()
+                : (() => {
+                    const betResult = stmt?.stmt?.bet?.betResult;
+                    if (betResult?.result && betResult?.runners?.length) {
+                      const winner = betResult.runners.find(
+                        (r: any) =>
+                          String(r.selectionId) === String(betResult.result)
+                      );
+                      return winner ? winner.runnerName : "";
+                    }
+                    return "";
+                  })()}
+            </td>
 
-          <td>
-            {stmt?.stmt?.bet?.bet_on === "CASINO"
-              ? stmt?.narration?.match(/winner:\s*([^,\[\]]+)?/)?.[1]?.trim()
-              : stmt?.stmt?.bet?.betResult?.result || ""}
-          </td>
-
-          {/* <td>
+            {/* <td>
             {stmt?.stmt?.allBets
               ? stmt?.narration?.match(/,([^[]+)\[/)?.[1]?.trim()
               : ""}
           </td> */}
-          {/* <td>
+            {/* <td>
             {stmt?.stmt?.allBets
               ? stmt?.narration?.match(/winner:\s*([^,\[\]]+)?/)?.[1]?.trim()
               : ""}
           </td> */}
-          <td>{stmt?.stmt?.bet ? stmt?.credit : ""}</td>
-          <td className="green wnwrap d-none">
-            {stmt?.stmt?.bet ? stmt.closing : ""}
-          </td>
-        </tr>
-      );
-    });
+            <td>{stmt?.stmt?.bet ? stmt?.credit : ""}</td>
+            <td className="green wnwrap d-none">
+              {stmt?.stmt?.bet ? stmt.closing : ""}
+            </td>
+          </tr>
+        );
+      });
     console.log(rows, "rowsssss");
 
     let totalMatchPL = 0;
@@ -318,11 +339,7 @@ const NewAccountStatement = () => {
       if (stmt?.stmt?.bet?.bet_on === "FANCY") totalSessionPL += betPL;
     });
 
-    return (
-      <>
-        {rows}
-      </>
-    );
+    return <>{rows}</>;
   };
 
   const getAcHtml22Session = () => {
@@ -340,54 +357,57 @@ const NewAccountStatement = () => {
       return selectedGroup === gameName;
     });
 
-    const rowsSession = filteredItems?.filter?.((stmt: any) => stmt?.stmt?.bet?.bet_on === "FANCY")
-    ?.map((stmt: any, index: number) => {
-      closingbalance = closingbalance + stmt.amount;
+    const rowsSession = filteredItems
+      ?.filter?.((stmt: any) => stmt?.stmt?.bet?.bet_on === "FANCY")
+      ?.map((stmt: any, index: number) => {
+        closingbalance = closingbalance + stmt.amount;
 
-      // const pnlString = stmt?.credit;
-      // const pnl = parseFloat(pnlString) || 0;
-      // totalPnl += pnl;
-      if (stmt.narration.length === 0) return null;
-      return (
-        <tr key={`${stmt._id}${index}`}>
-          <td>{stmt?.stmt?.allBets ? stmt?.stmt?.selectionId : ""}</td>
-          <td>
-            {stmt?.stmt?.allBets
-              ? moment(stmt?.stmt?.createdAt).format(dateFormat)
-              : ""}
-          </td>
-          <td>{stmt?.stmt?.bet ? stmt?.stmt?.bet?.selectionName : ""}</td>
-          <td>{stmt?.stmt?.bet ? stmt?.stmt?.bet?.odds || "" : ""}</td>
+        // const pnlString = stmt?.credit;
+        // const pnl = parseFloat(pnlString) || 0;
+        // totalPnl += pnl;
+        if (stmt.narration.length === 0) return null;
+        return (
+          <tr key={`${stmt._id}${index}`}>
+            <td>{stmt?.stmt?.allBets ? stmt?.stmt?.selectionId : ""}</td>
+            <td>
+              {stmt?.stmt?.allBets
+                ? moment(stmt?.stmt?.createdAt).format(dateFormat)
+                : ""}
+            </td>
+            <td>{stmt?.stmt?.bet ? stmt?.stmt?.bet?.selectionName : ""}</td>
+            <td>{stmt?.stmt?.bet ? stmt?.stmt?.bet?.odds || "" : ""}</td>
 
-          <td>{stmt?.stmt?.amount ? stmt?.stmt?.amount : ""}</td>
+            <td>{stmt?.stmt?.amount ? stmt?.stmt?.amount : ""}</td>
 
-          <td>{stmt?.stmt?.bet ? (stmt?.credit > 0 ? "Win" : "Loss") : ""}</td>
+            <td>
+              {stmt?.stmt?.bet ? (stmt?.credit > 0 ? "Win" : "Loss") : ""}
+            </td>
 
-          <td>
-            {stmt?.stmt?.bet?.bet_on === "CASINO"
-              ? stmt?.narration?.match(/winner:\s*([^,\[\]]+)?/)?.[1]?.trim()
-              : stmt?.stmt?.bet?.betResult?.result || ""}
-          </td>
+            <td>
+              {stmt?.stmt?.bet?.bet_on === "CASINO"
+                ? stmt?.narration?.match(/winner:\s*([^,\[\]]+)?/)?.[1]?.trim()
+                : stmt?.stmt?.bet?.betResult?.result || ""}
+            </td>
 
-          {/* <td>
+            {/* <td>
             {stmt?.stmt?.allBets
               ? stmt?.narration?.match(/,([^[]+)\[/)?.[1]?.trim()
               : ""}
           </td> */}
-          {/* <td>
+            {/* <td>
             {stmt?.stmt?.allBets
               ? stmt?.narration?.match(/winner:\s*([^,\[\]]+)?/)?.[1]?.trim()
               : ""}
           </td> */}
-          <td>{stmt?.stmt?.bet ? stmt?.credit : ""}</td>
-          <td className="green wnwrap d-none">
-            {stmt?.stmt?.bet ? stmt.closing : ""}
-          </td>
-        </tr>
-      );
-    });
+            <td>{stmt?.stmt?.bet ? stmt?.credit : ""}</td>
+            <td className="green wnwrap d-none">
+              {stmt?.stmt?.bet ? stmt.closing : ""}
+            </td>
+          </tr>
+        );
+      });
     console.log(filteredItems, "rowsssss");
-   let totalPnl = 0;
+    let totalPnl = 0;
     let totalMatchPL = 0;
     let totalSessionPL = 0;
     filteredItems.forEach((stmt: any) => {
@@ -402,7 +422,6 @@ const NewAccountStatement = () => {
     return (
       <>
         {rowsSession}
-        
 
         <tr>
           <td colSpan={8} className="border w-full">
@@ -483,13 +502,18 @@ const NewAccountStatement = () => {
   return (
     <>
       {/* {mobileSubheader.subheader("MY LEDGER ")} */}
-      <div style={{background:"white"}} className={!isMobile ? " mt-1" : "padding-custom" }>
+      <div
+        style={{ background: "white" }}
+        className={!isMobile ? " mt-1" : "padding-custom"}
+      >
         <div className="body-wrap">
           <div className="back-main-menu my-3">
             <a href="/">BACK TO MAIN MENU</a>
           </div>
 
-          <div style={{fontSize:"16px"}} className="text-center">My Ledger Details</div>
+          <div style={{ fontSize: "16px" }} className="text-center">
+            My Ledger Details
+          </div>
 
           <div className="">
             {/* {mobileSubheader.subheaderdesktop("MY LEDGER")} */}
@@ -557,11 +581,18 @@ const NewAccountStatement = () => {
 
               {selectedGroup ? (
                 <div>
-                  <div style={{fontSize:"16px"}} className="text-center">({selectedGroup})</div>
+                  <div style={{ fontSize: "16px" }} className="text-center">
+                    ({selectedGroup})
+                  </div>
                   {/* <div  className="match-name text-center ng-binding">
                     {selectedGroup}
                   </div> */}
-                  <div  className="p-2" style={{backgroundColor:"#0f2327" , color:"white"}}>MATCH BETS</div>
+                  <div
+                    className="p-2"
+                    style={{ backgroundColor: "#0f2327", color: "white" }}
+                  >
+                    MATCH BETS
+                  </div>
                   <div className="table-responsive">
                     <table className="text-center" id="customers1">
                       <thead>
@@ -636,7 +667,12 @@ const NewAccountStatement = () => {
                     </table>
                   </div>
 
-                  <div className="p-2" style={{backgroundColor:"#0f2327", color:"white"}}>SESSION BETS</div>
+                  <div
+                    className="p-2"
+                    style={{ backgroundColor: "#0f2327", color: "white" }}
+                  >
+                    SESSION BETS
+                  </div>
 
                   <div className="table-responsive">
                     <table className="text-center" id="customers1">
