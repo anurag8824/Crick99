@@ -207,9 +207,9 @@ const Odds = () => {
                 //  src={`https://betfairlivetvturnkeyxgaming.netlify.app/?url=https://livesportsstreaming.turnkeyxgaming.com/7100/index.m3u8/?eventid=${currentMatch?.matchId}`}
 
                 src={
-                  currentMatch?.matchId === 34779157
-                    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=517456167"  : currentMatch?.matchId === 34777916    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=645369875"
-                    : "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=597474467"
+                  currentMatch?.matchId === 34785488
+                    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=869933405"  : currentMatch?.matchId === 34766450    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=819541284"
+                    : "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=559593926"
                 }   
 
               ></iframe>
@@ -224,9 +224,9 @@ const Odds = () => {
                 //  src={`https://betfairlivetvturnkeyxgaming.netlify.app/?url=https://livesportsstreaming.turnkeyxgaming.com/7100/index.m3u8/?eventid=${currentMatch?.matchId}`}
 
                 src={
-                  currentMatch?.matchId === 34779157
-                    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=517456167"  : currentMatch?.matchId === 34777916    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=645369875"
-                    : "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=597474467"
+                  currentMatch?.matchId === 34785488
+                    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=869933405"  : currentMatch?.matchId === 34766450    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=819541284"
+                    : "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=559593926"
                 }   
               ></iframe>
           
