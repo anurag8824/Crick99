@@ -725,7 +725,7 @@ class FancyController extends ApiController_1.ApiController {
                             selectionId: ItemBetList.selectionId,
                             sportId: ItemBetList.sportId,
                         });
-                        // await this.cal9xbro(Item._id, profitLossAmt, narration, matchId, ItemBetList._id, BetOn.FANCY)
+                        yield this.cal9xbro(Item._id, profitLossAmt, narration, matchId, ItemBetList._id, Bet_1.BetOn.FANCY);
                         if (indexBetList == 0) {
                             ItemBetList.ratioStr.allRatio.map((ItemParentStr) => {
                                 parentIdList.push(ItemParentStr.parent);

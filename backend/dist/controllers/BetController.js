@@ -1354,10 +1354,22 @@ class BetController extends ApiController_1.ApiController {
                 //@ts-ignore
                 const matchIds = matches.map((m) => m.matchId);
                 const allFancyNames = bets.map((b) => b.selectionName).filter(Boolean);
+                console.log(allFancyNames, "all fancynames");
+                const normalizedFancyNames = allFancyNames.map((n) => n.toLowerCase());
+                console.log(normalizedFancyNames, "normalized fancynames");
                 const [fancyResults, ledgerDataRaw] = yield Promise.all([
-                    Fancy_1.Fancy.find({ matchId: { $in: matchIds }, fancyName: { $in: allFancyNames } }),
+                    Fancy_1.Fancy.find({
+                        matchId: { $in: matchIds },
+                        $expr: {
+                            $in: [
+                                { $toLower: "$fancyName" },
+                                normalizedFancyNames
+                            ]
+                        }
+                    }),
                     allledager_1.ledger.find({ ChildId: { $in: childData.map(c => c._id) } })
                 ]);
+                console.log(fancyResults, "fancy results in market details");
                 const shareMap = new Map(childData.map(c => [c._id.toString(), c.share || 0]));
                 // If no child ledger data, fallback to parent
                 let ledgerData = ledgerDataRaw;
@@ -1387,14 +1399,22 @@ class BetController extends ApiController_1.ApiController {
                         ledgersByBetId.set(betId, []);
                     ledgersByBetId.get(betId).push(ledgerEntry);
                 });
+                function normalizeFancyName(name) {
+                    return name
+                        .toLowerCase()
+                        .replace(/\s+/g, " ")
+                        .trim();
+                }
                 fancyResults.forEach((fancy) => {
-                    fancyMap.set(`${fancy.matchId}_${fancy.fancyName}`, convertDecimalFields(fancy.toObject()));
+                    const normName = normalizeFancyName(fancy.fancyName);
+                    fancyMap.set(`${fancy.matchId}_${normName}`, convertDecimalFields(fancy.toObject()));
                 });
                 const matchesWithBets = matches.map((match) => {
                     const relatedBets = betsByMatch.get(match.matchId) || [];
                     const enrichedBets = relatedBets.map((bet) => {
                         const cleanedBet = convertDecimalFields(bet.toObject());
-                        const fancyKey = `${cleanedBet.matchId}_${cleanedBet.selectionName}`;
+                        const normBetName = normalizeFancyName(cleanedBet.selectionName);
+                        const fancyKey = `${cleanedBet.matchId}_${normBetName}`;
                         return Object.assign(Object.assign({}, cleanedBet), { fancy: fancyMap.get(fancyKey) });
                     });
                     const relatedBetIds = relatedBets.map((b) => { var _a; return (_a = b.id) === null || _a === void 0 ? void 0 : _a.toString(); });

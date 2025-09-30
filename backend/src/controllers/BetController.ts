@@ -1597,11 +1597,27 @@ export class BetController extends ApiController {
       //@ts-ignore
       const matchIds = matches.map((m) => m.matchId);
       const allFancyNames = bets.map((b) => b.selectionName).filter(Boolean);
+      console.log(allFancyNames,"all fancynames")
+
+      const normalizedFancyNames = allFancyNames.map((n) => n.toLowerCase());
+
+      console.log(normalizedFancyNames,"normalized fancynames")
+
 
       const [fancyResults, ledgerDataRaw] = await Promise.all([
-        Fancy.find({ matchId: { $in: matchIds }, fancyName: { $in: allFancyNames } }),
+        Fancy.find({
+          matchId: { $in: matchIds },
+          $expr: {
+            $in: [
+              { $toLower: "$fancyName" },
+              normalizedFancyNames
+            ]
+          }
+        }),
         ledger.find({ ChildId: { $in: childData.map(c => c._id) } })
       ]);
+
+      console.log(fancyResults,"fancy results in market details")
 
       const shareMap = new Map(childData.map(c => [c._id.toString(), c.share || 0]));
 
@@ -1637,8 +1653,17 @@ export class BetController extends ApiController {
         ledgersByBetId.get(betId).push(ledgerEntry);
       });
 
+      function normalizeFancyName(name: string) {
+        return name
+          .toLowerCase()
+          .replace(/\s+/g, " ")
+          .trim();
+      }
+      
+
       fancyResults.forEach((fancy: any) => {
-        fancyMap.set(`${fancy.matchId}_${fancy.fancyName}`, convertDecimalFields(fancy.toObject()));
+        const normName = normalizeFancyName(fancy.fancyName);
+        fancyMap.set(`${fancy.matchId}_${normName}`, convertDecimalFields(fancy.toObject()));
       });
 
       const matchesWithBets = matches.map((match: any) => {
@@ -1646,7 +1671,9 @@ export class BetController extends ApiController {
 
         const enrichedBets = relatedBets.map((bet) => {
           const cleanedBet = convertDecimalFields(bet.toObject());
-          const fancyKey = `${cleanedBet.matchId}_${cleanedBet.selectionName}`;
+          const normBetName = normalizeFancyName(cleanedBet.selectionName);
+
+          const fancyKey = `${cleanedBet.matchId}_${normBetName}`;
           return {
             ...cleanedBet,
             fancy: fancyMap.get(fancyKey),

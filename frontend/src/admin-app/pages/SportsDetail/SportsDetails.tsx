@@ -75,7 +75,7 @@ const SportsDetails = () => {
 
     return marketData.reduce((total, match) => {
       const matchTotal =
-        match.ledgers
+        match?.ledgers
           ?.filter(
             (l) =>
               l?.parentName === userState.user.username &&
@@ -459,11 +459,12 @@ const SportsDetails = () => {
                 <td className="ng-scope">
                   <CustomLink
                     className="flex align-items-center gap-2 text-blue-500"
-                    to={`${
-                      item?.active
-                        ? `/odds/${item?.matchId}/${shared}`
-                        : `/client-bets/${item.matchId}`
-                    }`}
+                    // to={`${
+                    //   item?.active
+                    //     ? `/odds/${item?.matchId}/${shared}`
+                    //     : `/client-bets/${item.matchId}`
+                    // }`}
+                    to={`/client-bets/${item.matchId}`}
                   >
                     
                     {item.name}
