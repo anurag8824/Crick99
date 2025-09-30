@@ -285,26 +285,62 @@ const AdminDashboard = () => {
     navigate.go(`/odds/${match.matchId}`);
   };
 
-  const [sports, setSports] = React.useState(false);
+  const [activeId, setActiveId] = React.useState(null);
 
-  const handleSports = () => {
-    setSports(!sports);
+  const dashboardItems = [
+    {
+      id: "1",
+      name: "Agent",
+      items: [
+        { title: "Active Games", link: "/admin/sports-details", icon: "fa fa-futbol" },
+        { title: "Finished Games", link: "/admin/inplay-sports", icon: "fa fa-futbol" },
+      ],
+    },
+    {
+      id: "2",
+      name: "Sports Detail",
+      items: [
+        { title: "Active Games", link: "/admin/sports-details", icon: "fa fa-futbol" },
+        { title: "Finished Games", link: "/admin/inplay-sports", icon: "fa fa-futbol" },
+      ],
+    },
+    {
+      id: "3",
+      name: "Ledger",
+      items: [
+        { title: "Profit/Loss", link: "/admin/profit-loss", icon: "fa fa-chart-line" },
+        { title: "My Ledger", link: "/admin/ledger-home", icon: "fa fa-book" },
+        { title: "Agent Ledger", link: "/admin/chips-report", icon: "fa fa-coins" },
+      ],
+    },
+    {
+      id: "4",
+      name: "Reports",
+      items: [
+        { title: "Profit/Loss", link: "/admin/profit-loss", icon: "fa fa-chart-line" },
+        { title: "My Ledger", link: "/admin/ledger-home", icon: "fa fa-book" },
+        { title: "Agent Ledger", link: "/admin/chips-report", icon: "fa fa-coins" },
+      ],
+    },
+    {
+      id: "5",
+      name: "Setting",
+      items: [
+        { title: "Profit/Loss", link: "/admin/profit-loss", icon: "fa fa-chart-line" },
+        { title: "My Ledger", link: "/admin/ledger-home", icon: "fa fa-book" },
+        { title: "Agent Ledger", link: "/admin/chips-report", icon: "fa fa-coins" },
+      ],
+    },
+    // Aur bhi sections add kar sakte ho
+  ];
+
+  const handleClick = (id:any) => {
+    setActiveId(id); // jis button pr click hoga uska modal open
   };
 
-  const dashbaordItems = [
-    { id: "1", name: "Sports Detail", items:[{
-       0: {title:"Active Games", link:"/admin/sports-details" , icon:"fa fa-futbol"},
-       1: {title:"Finished Games", link:"/admin/inplay-sports" ,icon:"fa fa-futbol"}
-    }] },
-    {
-      id: "2",name:"Ledger" , items:[{
-        0:{title:"Profit/Loss", link:"/admin/profit-loss" ,icon:"fa fa-chart-line"},
-        1:{title:"My Ledger", link:"/admin/ledger-home" ,icon:"fa fa-book"},
-        2:{title:"Agent Ledger", link:"/admin/chips-report" ,icon:"fa fa-coins"},
-      }]
-    }
-    
-  ];
+  const handleClose = () => {
+    setActiveId(null); // close kar do
+  };
 
   return (
     <>
@@ -487,9 +523,8 @@ const AdminDashboard = () => {
           <div className="container text-white mt-4">
             <div className="row g-3">
               {/* Agent */}
-              <div className="col-6 col-lg-3  ">
-                <CustomLink
-                  to={"/admin/list-clients"}
+              <button onClick={() => handleClick("1")} className="col-6 col-lg-3  ">
+                <div
                   className="card p-3 d-flex flex-row align-items-center"
                   style={{
                     backgroundColor: "#0f2327",
@@ -506,12 +541,12 @@ const AdminDashboard = () => {
                     <p className="fw-bold mb-1">Agent</p>
                     <small>My Team</small>
                   </div>
-                </CustomLink>
-              </div>
+                </div>
+              </button>
 
               {/* Sport's Details */}
               <button
-                onClick={handleSports}
+               onClick={() => handleClick("2")}
                 className="col-6 col-lg-3 text-white"
               >
                 <div
@@ -534,7 +569,9 @@ const AdminDashboard = () => {
               </button>
 
               {/* Ledger */}
-              <div className="col-6 col-lg-3">
+              <button
+               onClick={() => handleClick("3")}
+              className="col-6 col-lg-3">
                 <div
                   className="card p-3 d-flex flex-row align-items-center"
                   style={{
@@ -549,10 +586,12 @@ const AdminDashboard = () => {
                     <p className="fw-bold mb-1">Ledger</p>
                   </div>
                 </div>
-              </div>
+          
+              </button>
+
 
               {/* Reports */}
-              <div className="col-6 col-lg-3">
+              <button onClick={() => handleClick("4")}  className="col-6 col-lg-3">
                 <div
                   className="card p-3 d-flex flex-row align-items-center"
                   style={{
@@ -568,10 +607,10 @@ const AdminDashboard = () => {
                     <small>Cash Transaction</small>
                   </div>
                 </div>
-              </div>
+              </button>
 
               {/* Settings */}
-              <div className="col-6 col-lg-3">
+              <button onClick={() => handleClick("5")} className="col-6 col-lg-3">
                 <div
                   className="card p-3 d-flex flex-row align-items-center"
                   style={{
@@ -586,7 +625,7 @@ const AdminDashboard = () => {
                     <p className="fw-bold mb-1">Settings</p>
                   </div>
                 </div>
-              </div>
+              </button>
 
               {/* Logout */}
               <div className="col-6 col-lg-3">
@@ -771,9 +810,9 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      {sports && (
+      {activeId && (
         <div
-          className="fixed left-1/2 transform -translate-x-1/2"
+          className="fixed rounded left-1/2 transform -translate-x-1/2"
           style={{
             top: "80px", // slightly below top
             zIndex: 50,
@@ -786,12 +825,16 @@ const AdminDashboard = () => {
           }}
         >
           <span
-            onClick={handleSports}
+            onClick={handleClose}
             className="text-dark absolute right-0 top-0 z-10 btn-close"
           ></span>
           <div className="row g-3">
-            <div className="col-12 col-md-6">
-              <div
+          {dashboardItems
+              ?.find((section) => section.id === activeId)
+              ?.items.map((item, idx) => (
+            <div key={idx} className="col-12 col-md-6">
+              <CustomLink
+                to={item.link}
                 className="card p-3 d-flex flex-row align-items-center"
                 style={{
                   backgroundColor: "#0f2327",
@@ -805,30 +848,13 @@ const AdminDashboard = () => {
                   style={{ transform: "rotate(135deg)" }}
                 ></i>
                 <div>
-                  <p className="fw-bold mb-1">Active Games</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="col-12 col-md-6">
-              <CustomLink to={"dffd"}
-                className="card p-3 d-flex flex-row align-items-center"
-                style={{
-                  backgroundColor: "#0f2327",
-                  borderRadius: "15px",
-                  height: "100px",
-                  color: "white",
-                }}
-              >
-                <i
-                  className="fas fa-tag fa-2x me-3"
-                  style={{ transform: "rotate(135deg)" }}
-                ></i>
-                <div>
-                  <p className="fw-bold mb-1">Finished Games</p>
+                <p className="fw-bold mb-1">{item.title}</p>
                 </div>
               </CustomLink>
             </div>
+               ))}
+
+       
 
 
             <div
@@ -836,8 +862,8 @@ const AdminDashboard = () => {
               className="text-right"
             >
               <button
-                onClick={handleSports}
-                className="btn bg-primary rounded-0 text-white"
+                onClick={handleClose}
+                className="btn bg-primary rounded-3 text-white"
               >
                 Close
               </button>

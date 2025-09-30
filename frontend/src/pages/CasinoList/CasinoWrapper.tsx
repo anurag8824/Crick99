@@ -203,7 +203,7 @@ const CasinoWrapper = (props: any) => {
   }, [updateOdds, checkRoundIdChange]);
 
   React.useEffect(() => {
-    axios.get(`https://socket2.bxpro99.xyz/api/get-casino-tv/${gameCode}`).then((res)=>{
+    axios.get(`https://socket2.bxpro99.xyz/api/get-casino-tv/${gameCode === "AAA" ? "aaa" : gameCode}`).then((res)=>{
       console.log(res,"ressss of caisono tv")
       setNewtv(res?.data?.tv)
     })
@@ -506,7 +506,18 @@ const CasinoWrapper = (props: any) => {
   const gameId = gameCode ? gameIdMap?.[gameCode] ?? null : null;
    if( ! casinoMatchData){
      return(
-      <div>data is loading ..... please wait sometime</div>
+      <div> <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        flexDirection: 'column',
+      }}
+      className='suspense-loading d-flex justify-center align-center flex-column'
+    >
+      <img src='/imgs/loading.svg' width={50} />
+    </div></div>
      )
    }
 

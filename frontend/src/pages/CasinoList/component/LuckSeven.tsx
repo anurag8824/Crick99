@@ -91,7 +91,18 @@ const LuckSeven = (props: any) => {
 
     if(!liveMatchData){
         return(
-            <div className="loading-spinner" >  data is loading !...</div>
+            <div className="loading-spinner" > <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '100vh',
+              flexDirection: 'column',
+            }}
+            className='suspense-loading d-flex justify-center align-center flex-column'
+          >
+            <img src='/imgs/loading.svg' width={50} />
+          </div></div>
         )
     }
     return (
