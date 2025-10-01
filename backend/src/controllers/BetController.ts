@@ -1311,7 +1311,12 @@ export class BetController extends ApiController {
       for (const bet of bets) {
         if (bet.bet_on?.toLowerCase() === "fancy" && bet.selectionName) {
           const fancyResult = await Fancy.findOne({
-            fancyName: bet.selectionName,
+            $expr: {
+              $and: [
+                { $eq: [{ $toLower: "$fancyName" }, bet.selectionName.toLowerCase()] },
+                { $eq: ["$matchId", bet.matchId] }
+              ]
+            },
             matchId: matchId,
           }).lean();
           bet.result = fancyResult || null; // safe to add field now
