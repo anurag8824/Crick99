@@ -207,9 +207,9 @@ const Odds = () => {
                 //  src={`https://betfairlivetvturnkeyxgaming.netlify.app/?url=https://livesportsstreaming.turnkeyxgaming.com/7100/index.m3u8/?eventid=${currentMatch?.matchId}`}
 
                 src={
-                  currentMatch?.matchId === 34785488
-                    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=869933405"  : currentMatch?.matchId === 34766450    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=819541284"
-                    : "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=559593926"
+                  currentMatch?.matchId === 34691308
+                    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=575726650"  : currentMatch?.matchId === 34790268    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=674249063"
+                    :  currentMatch?.matchId === 34792994   ?  "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=807170936" :  currentMatch?.matchId === 34786458   ?  "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=602179491" : "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=836065912"
                 }   
 
               ></iframe>
@@ -224,9 +224,9 @@ const Odds = () => {
                 //  src={`https://betfairlivetvturnkeyxgaming.netlify.app/?url=https://livesportsstreaming.turnkeyxgaming.com/7100/index.m3u8/?eventid=${currentMatch?.matchId}`}
 
                 src={
-                  currentMatch?.matchId === 34785488
-                    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=869933405"  : currentMatch?.matchId === 34766450    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=819541284"
-                    : "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=559593926"
+                  currentMatch?.matchId === 34691308
+                    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=575726650"  : currentMatch?.matchId === 34790268    ? "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=674249063"
+                    :  currentMatch?.matchId === 34792994   ?  "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=807170936" :  currentMatch?.matchId === 34786458   ?  "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=602179491" : "https://allpanelstream.turnkeyxgaming.com/diamondoriginaltv?gmid=836065912"
                 }   
               ></iframe>
           
