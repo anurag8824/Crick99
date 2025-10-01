@@ -199,7 +199,7 @@ async loginReport(req: Request, res: Response): Promise<Response> {
     // }).session(session);
 
     // Step 2: Ab userLogs collection se sab logs le lo
-    const userLogs = await UserLog.find({ userId: _id }).session(session);
+    const userLogs = await UserLog.find({ userId: _id }).sort({ createdAt: -1 }).session(session);
 
     if (!userLogs || userLogs.length === 0) {
       await session.commitTransaction();
