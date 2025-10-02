@@ -1330,6 +1330,15 @@ export class BetController extends ApiController {
           console.log(markets, "marktesss");
 
           const profitlist = this.getoddsprofit(bets, markets);
+
+          // sirf MATCH_ODDS bets me market ka result add karo
+        for (const bet of bets) {
+          if (bet.bet_on?.toUpperCase() === "MATCH_ODDS") {
+            bet.result = markets;
+          }
+        }
+
+         
           return this.success(res, { bets, odds_profit: profitlist });
         } else {
           const markets: any = await Casino.findOne({
@@ -1342,6 +1351,10 @@ export class BetController extends ApiController {
             markets.event_data.market,
             markets
           );
+          for (const bet of bets) {
+            bet.result = markets;
+          }
+      
           return this.success(res, { bets, odds_profit: profitlist });
         }
       } else {

@@ -229,7 +229,7 @@ class DealersController extends ApiController_1.ApiController {
                 //   createdAt: { $lt: new Date("2025-09-19T00:00:00Z") }
                 // }).session(session);
                 // Step 2: Ab userLogs collection se sab logs le lo
-                const userLogs = yield UserLog_1.UserLog.find({ userId: _id }).session(session);
+                const userLogs = yield UserLog_1.UserLog.find({ userId: _id }).sort({ createdAt: -1 }).session(session);
                 if (!userLogs || userLogs.length === 0) {
                     yield session.commitTransaction();
                     session.endSession();

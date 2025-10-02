@@ -239,15 +239,22 @@ const MyBetComponent22 = () => {
                   {index + 1}{" "}
                 </td>
                 {userState.user.role !== RoleType.user && (
-                  <td className="p-1"
-                    style={{ background: bet.isBack ? "#72BBEF" : "#faa9ba" ,  fontSize:"12px" }}
+                  <td
+                    className="p-1"
+                    style={{
+                      background: bet.isBack ? "#72BBEF" : "#faa9ba",
+                      fontSize: "12px",
+                    }}
                   >
                     {bet.userName}
                   </td>
                 )}
                 <td
                   className="no-wrap text-center p-2"
-                  style={{ background: bet.isBack ? "#72BBEF" : "#faa9ba" ,  fontSize:"14px" }}
+                  style={{
+                    background: bet.isBack ? "#72BBEF" : "#faa9ba",
+                    fontSize: "14px",
+                  }}
                 >
                   {" "}
                   {bet.selectionName}
@@ -257,20 +264,29 @@ const MyBetComponent22 = () => {
                 </td>
                 <td
                   className="no-wrap text-center p-2"
-                  style={{ background: bet.isBack ? "#72BBEF" : "#faa9ba" ,  fontSize:"14px" }}
+                  style={{
+                    background: bet.isBack ? "#72BBEF" : "#faa9ba",
+                    fontSize: "14px",
+                  }}
                 >
                   {bet?.bet_on}
                 </td>
                 <td
                   className="no-wrap text-center"
-                  style={{ background: bet.isBack ? "#72BBEF" : "#faa9ba" ,  fontSize:"14px" }}
+                  style={{
+                    background: bet.isBack ? "#72BBEF" : "#faa9ba",
+                    fontSize: "14px",
+                  }}
                 >
                   {bet.isBack ? "Yes" : "No"}{" "}
                 </td>
 
                 <td
                   className="no-wrap text-center px-2"
-                  style={{ background: bet.isBack ? "#72BBEF" : "#faa9ba" ,  fontSize:"14px" }}
+                  style={{
+                    background: bet.isBack ? "#72BBEF" : "#faa9ba",
+                    fontSize: "14px",
+                  }}
                 >
                   {" "}
                   {bet.marketName === "Fancy" && bet.gtype !== "fancy1"
@@ -305,14 +321,34 @@ const MyBetComponent22 = () => {
 
                 <td
                   className="no-wrap text-center px-2"
-                  style={{ background: bet.isBack ? "#72BBEF" : "#faa9ba" ,  fontSize:"15px" }}
+                  style={{
+                    background: bet.isBack ? "#72BBEF" : "#faa9ba",
+                    fontSize: "15px",
+                  }}
                 >
-                  {" "}
-                  {bet?.result?.result ? bet?.result?.result : "YES"}{" "}
+                  {bet.bet_on === "MATCH_ODDS"
+                    ? (() => {
+                        const market = bet?.result?.[0]; // pehla market object
+                        if (market && market.result) {
+                          // result value hai -> runnerName find karna
+                          const runner = market.runners?.find(
+                            (r: any) => r.selectionId === Number(market.result)
+                          );
+                          return runner ? runner.runnerName : market.result;
+                        } else {
+                          return "YES"; // agar result hi nahi hai
+                        }
+                      })()
+                    : bet?.result?.result
+                    ? bet.result?.result
+                    : "YES"}
                 </td>
                 <td
                   className="no-wrap text-center px-2"
-                  style={{ background: bet.isBack ? "#72BBEF" : "#faa9ba" ,  fontSize:"15px" }}
+                  style={{
+                    background: bet.isBack ? "#72BBEF" : "#faa9ba",
+                    fontSize: "15px",
+                  }}
                 >
                   {" "}
                   {bet.status}{" "}
@@ -322,23 +358,29 @@ const MyBetComponent22 = () => {
               </tr>
             ))}
 
-<tr className="" style={{ fontWeight: "bold", background: "#f0f0f0" }}>
-  <td colSpan={userState.user.role !== RoleType.user ? 4 : 3} className="text-center p-2">
-    Total Plus Minus
-  </td>
-  <td
-    className="text-center"
-    style={{
-      color: Number(totals.plus) + Number(totals.minus) >= 0 ? "green" : "red",
-    }}
-  >
-    {Number(totals.plus) + Number(totals.minus)}
-  </td>
-  <td colSpan={2}></td>
-</tr>
-
-
-            
+            <tr
+              className=""
+              style={{ fontWeight: "bold", background: "#f0f0f0" }}
+            >
+              <td
+                colSpan={userState.user.role !== RoleType.user ? 4 : 3}
+                className="text-center p-2"
+              >
+                Total Plus Minus
+              </td>
+              <td
+                className="text-center"
+                style={{
+                  color:
+                    Number(totals.plus) + Number(totals.minus) >= 0
+                      ? "green"
+                      : "red",
+                }}
+              >
+                {Number(totals.plus) + Number(totals.minus)}
+              </td>
+              <td colSpan={2}></td>
+            </tr>
           </tbody>
         </table>
       </div>

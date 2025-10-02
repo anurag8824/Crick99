@@ -1119,7 +1119,7 @@ class BetController extends ApiController_1.ApiController {
         //   }
         // }
         this.betList22 = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            var _b;
+            var _b, _c;
             console.log(req.body, req.query, req.user, "req.bod");
             try {
                 const user = req.user;
@@ -1136,7 +1136,12 @@ class BetController extends ApiController_1.ApiController {
                 for (const bet of bets) {
                     if (((_b = bet.bet_on) === null || _b === void 0 ? void 0 : _b.toLowerCase()) === "fancy" && bet.selectionName) {
                         const fancyResult = yield Fancy_1.Fancy.findOne({
-                            fancyName: bet.selectionName,
+                            $expr: {
+                                $and: [
+                                    { $eq: [{ $toLower: "$fancyName" }, bet.selectionName.toLowerCase()] },
+                                    { $eq: ["$matchId", bet.matchId] }
+                                ]
+                            },
                             matchId: matchId,
                         }).lean();
                         bet.result = fancyResult || null; // safe to add field now
@@ -1148,6 +1153,12 @@ class BetController extends ApiController_1.ApiController {
                         const markets = yield Market_1.Market.find({ matchId }).lean();
                         console.log(markets, "marktesss");
                         const profitlist = this.getoddsprofit(bets, markets);
+                        // sirf MATCH_ODDS bets me market ka result add karo
+                        for (const bet of bets) {
+                            if (((_c = bet.bet_on) === null || _c === void 0 ? void 0 : _c.toUpperCase()) === "MATCH_ODDS") {
+                                bet.result = markets;
+                            }
+                        }
                         return this.success(res, { bets, odds_profit: profitlist });
                     }
                     else {
@@ -1156,6 +1167,9 @@ class BetController extends ApiController_1.ApiController {
                         }).lean();
                         console.log(JSON.stringify(markets), "marketsmarketsmarketsmarkets");
                         const profitlist = this.getcasinooddsprofit(bets, markets.event_data.market, markets);
+                        for (const bet of bets) {
+                            bet.result = markets;
+                        }
                         return this.success(res, { bets, odds_profit: profitlist });
                     }
                 }
