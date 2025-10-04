@@ -235,10 +235,10 @@ class MatchOdds extends React.PureComponent<
                     ''
                   )} */}
 
-                  <div style={{ backgroundColor: "#0f2326", borderColor: "black", color:"white" }} className={`back ${classforheading} float-left text-center`}>
+                  <div style={{ backgroundColor: "#0f2326", borderColor: "black", color:"white" }} className={`backk ${classforheading} float-left text-center`}>
                     <b>LAGAI</b>
                   </div>
-                  <div style={{ backgroundColor: "#0f2326", borderColor: "black", color:"white" }} className={`lay ${classforheading} float-left text-center`}>
+                  <div style={{ backgroundColor: "#0f2326", borderColor: "black", color:"white" }} className={`layu ${classforheading} float-left text-center`}>
                     <b>KHAI</b>
                   </div>
                   {/* {  (

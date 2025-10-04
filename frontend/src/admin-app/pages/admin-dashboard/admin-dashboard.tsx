@@ -292,43 +292,46 @@ const AdminDashboard = () => {
       id: "1",
       name: "Agent",
       items: [
-        { title: "Active Games", link: "/admin/sports-details", icon: "fa fa-futbol" },
-        { title: "Finished Games", link: "/admin/inplay-sports", icon: "fa fa-futbol" },
+        { title: "Agent", link: "/list-clients", icon: "fa-regular fa-circle-user fa-2x me-3" },
+        { title: "Client", link: "/list-clients", icon: "fa-regular fa-circle-user fa-2x me-3" },
       ],
     },
     {
       id: "2",
       name: "Sports Detail",
       items: [
-        { title: "Active Games", link: "/admin/sports-details", icon: "fa fa-futbol" },
-        { title: "Finished Games", link: "/admin/inplay-sports", icon: "fa fa-futbol" },
+        { title: "Active Games", link: "/sports-details", icon: "fa-solid fa-chart-column fa-2x me-3" },
+        { title: "Finished Games", link: "/completed-sports-details", icon: "fa-solid fa-chart-column fa-2x me-3" },
       ],
     },
     {
       id: "3",
       name: "Ledger",
       items: [
-        { title: "Profit/Loss", link: "/admin/profit-loss", icon: "fa fa-chart-line" },
-        { title: "My Ledger", link: "/admin/ledger-home", icon: "fa fa-book" },
-        { title: "Agent Ledger", link: "/admin/chips-report", icon: "fa fa-coins" },
+        { title: "Profit/Loss", link: "/total-profit", icon: "far fa-copy fa-2x me-3" },
+        { title: "My Ledger", link: "/my-ledger", icon: "far fa-copy fa-2x me-3" },
+        { title: "Agent", link: "/all-settlement", icon: "far fa-copy fa-2x me-3" },
+        { title: "Client", link: "/all-settlement", icon: "far fa-copy fa-2x me-3" },
+
       ],
     },
     {
       id: "4",
-      name: "Reports",
+      name: "Cash Transaction",
       items: [
-        { title: "Profit/Loss", link: "/admin/profit-loss", icon: "fa fa-chart-line" },
-        { title: "My Ledger", link: "/admin/ledger-home", icon: "fa fa-book" },
-        { title: "Agent Ledger", link: "/admin/chips-report", icon: "fa fa-coins" },
+        { title: "Agent", link: "/client-transactions", icon: "far fa-list-alt fa-2x me-3" },
+        { title: "Client", link: "/client-transactions", icon: "far fa-list-alt fa-2x me-3" },
       ],
     },
     {
       id: "5",
       name: "Setting",
       items: [
-        { title: "Profit/Loss", link: "/admin/profit-loss", icon: "fa fa-chart-line" },
-        { title: "My Ledger", link: "/admin/ledger-home", icon: "fa fa-book" },
-        { title: "Agent Ledger", link: "/admin/chips-report", icon: "fa fa-coins" },
+        { title: "Statements", link: `/accountstatement/${userState?.user?._id}`, icon: "fas fa-cog fa-2x me-3" },
+        { title: "A/C Operations", link: `/operation/${userState?.user?.username}`, icon: "fas fa-cog fa-2x me-3" },
+        { title: "Profit and Loss", link: "/total-profit", icon: "fas fa-cog fa-2x me-3" },
+        { title: "Casino Profit&Loss", link: "/casino-pl", icon: "fas fa-cog fa-2x me-3" },
+
       ],
     },
     // Aur bhi sections add kar sakte ho
@@ -341,6 +344,24 @@ const AdminDashboard = () => {
   const handleClose = () => {
     setActiveId(null); // close kar do
   };
+
+
+
+  const [userAlldata, setUserAlldata] = React.useState<{ [key: string]: any }>(
+    {}
+  );
+
+  React.useEffect(() => {
+      if (userState?.user?.username) {
+        UserService.getUserDetail(userState?.user?.username).then(
+          (res: AxiosResponse<any>) => {
+            console.log(res, "ressss for all values");
+            const detail = res?.data.data;
+            setUserAlldata(detail);
+          }
+        );
+      }
+    }, [userState?.user?.username]);
 
   return (
     <>
@@ -533,10 +554,11 @@ const AdminDashboard = () => {
                     color: "white",
                   }}
                 >
-                  <div className="d-flex flex-column align-items-center me-3">
+                  {/* <div className="d-flex flex-column align-items-center me-3">
                     <i className="fas fa-umbrella fa-lg"></i>
                     <i className="fas fa-users fa-lg mt-2"></i>
-                  </div>
+                  </div> */}
+                  <i className="fa-regular fa-circle-user fa-2x me-3"></i>
                   <div>
                     <p className="fw-bold mb-1">Agent</p>
                     <small>My Team</small>
@@ -559,8 +581,7 @@ const AdminDashboard = () => {
                   }}
                 >
                   <i
-                    className="fas fa-tag fa-2x me-3"
-                    style={{ transform: "rotate(135deg)" }}
+                    className="fa-solid fa-chart-column fa-2x me-3"
                   ></i>
                   <div>
                     <p className="fw-bold mb-1">Sport's Details</p>
@@ -603,8 +624,7 @@ const AdminDashboard = () => {
                 >
                   <i className="far fa-list-alt fa-2x me-3"></i>
                   <div>
-                    <p className="fw-bold mb-1">Reports</p>
-                    <small>Cash Transaction</small>
+                    <p className="fw-bold mb-1">Cash Transaction</p>
                   </div>
                 </div>
               </button>
@@ -651,8 +671,7 @@ const AdminDashboard = () => {
             <div className="row g-3">
               {/* Agent */}
               <div className="col-6 col-lg-3">
-                <CustomLink
-                  to={"/admin/list-clients"}
+                <div
                   className="card p-3 d-flex flex-row align-items-center"
                   style={{
                     backgroundColor: "#0f2327",
@@ -663,10 +682,10 @@ const AdminDashboard = () => {
                 >
                   <i className="far fa-user-circle fa-2x me-3"></i>
                   <div>
-                    <p className="fw-bold mb-1">Agent</p>
-                    <small>You are agent</small>
+                    <p className="fw-bold mb-1">{userState?.user?.username}</p>
+                    <small>You are {userState?.user?.role}</small>
                   </div>
-                </CustomLink>
+                </div>
               </div>
 
               {/* Sport's Details */}
@@ -682,7 +701,7 @@ const AdminDashboard = () => {
                 >
                   <i className="fas fa-circle-dollar-to-slot fa-2x me-3"></i>
                   <div>
-                    <p className="fw-bold mb-1">0</p>
+                    <p className="fw-bold mb-1">{newbalance}</p>
                     <small>Chips</small>
                   </div>
                 </div>
@@ -701,7 +720,7 @@ const AdminDashboard = () => {
                 >
                   <i className="fas fa-handshake fa-2x me-3"></i>
                   <div>
-                    <p className="fw-bold mb-1">1</p>
+                    <p className="fw-bold mb-1">{userList?.totalItems}</p>
                     <small>Members</small>
                   </div>
                 </div>
@@ -720,7 +739,7 @@ const AdminDashboard = () => {
                 >
                   <i className="fas fa-chart-line fa-2x me-3"></i>
                   <div>
-                    <p className="fw-bold mb-1">0</p>
+                    <p className="fw-bold mb-1">{shared}</p>
                     <small>My share</small>
                   </div>
                 </div>
@@ -739,7 +758,7 @@ const AdminDashboard = () => {
                 >
                   <i className="fas fa-building fa-2x me-3"></i>
                   <div>
-                    <p className="fw-bold mb-1">100%</p>
+                    <p className="fw-bold mb-1">{shared}%</p>
                     <small>Company share</small>
                   </div>
                 </div>
@@ -758,7 +777,7 @@ const AdminDashboard = () => {
                 >
                   {/* <i className="fas fa-cog fa-2x me-3"></i> */}
                   <div>
-                    <p className="fw-bold mb-1">0%</p>
+                    <p className="fw-bold mb-1">{userAlldata?.mcom}%</p>
                     <small>Match Commission</small>
                   </div>
                 </div>
@@ -776,14 +795,14 @@ const AdminDashboard = () => {
                 >
                   {/* <i className="fas fa-cog fa-2x me-3"></i> */}
                   <div>
-                    <p className="fw-bold mb-1">0%</p>
+                    <p className="fw-bold mb-1">{userAlldata?.scom}%</p>
                     <small>Session Commission</small>
                   </div>
                 </div>
               </div>
 
               {/* Logout */}
-              <div className="col-6 col-lg-3">
+              <CustomLink to={"/rules"} className="col-6 col-lg-3">
                 <div
                   className="card p-3 d-flex flex-row align-items-center"
                   style={{
@@ -798,7 +817,7 @@ const AdminDashboard = () => {
                     <p className="fw-bold mb-1">Rules</p>
                   </div>
                 </div>
-              </div>
+              </CustomLink>
             </div>
           </div>
 
@@ -844,8 +863,7 @@ const AdminDashboard = () => {
                 }}
               >
                 <i
-                  className="fas fa-tag fa-2x me-3"
-                  style={{ transform: "rotate(135deg)" }}
+                  className={item?.icon}
                 ></i>
                 <div>
                 <p className="fw-bold mb-1">{item.title}</p>

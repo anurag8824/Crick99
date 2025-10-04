@@ -40,7 +40,7 @@ const CasinoList = () => {
 
   console.log(casinoList, "transaction data");
   const allowedMatchIds = [
-    24, 36, 11, 9, 27, 26, 13, 40, 25, 37, 39, 29, 17, 18, 44,
+    24, 36, 11, 9, 27, 13, 40, 44,
   ];
 
   const TransactionData = casinoList.length ? (

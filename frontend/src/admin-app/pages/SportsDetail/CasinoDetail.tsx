@@ -94,8 +94,168 @@ const CasinoDetail = () => {
       </div>
 
       <div className="card-content">
-        <div className=" coupon-table">
-          <div>
+        <div className=" coupon-table" style={{ overflowX: "auto" }}>
+          <table className="table table-bordered mb-0 text-nowrap">
+            <thead className="table-secondary text-center fs-6">
+              <tr>
+                <th className="text-center" style={{ width: "30%" }}>
+                  Event Name
+                </th>
+                <th style={{ width: "20%" }}>Date</th>
+                <th style={{ width: "20%" }}> PnL</th>
+                <th style={{ width: "30%" }}>Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {Object.entries(groupedData).map(
+                ([matchName, bets]: [string, any[]], i) => {
+                  const totalPnL = bets.reduce(
+                    (sum, b) => sum + b.profitLoss,
+                    0
+                  );
+                  const isPositive = totalPnL >= 0;
+
+                  return (
+                    <>
+                      <tr key={i}>
+                        <td className="mb-2 ng-binding p-2">{matchName}</td>
+
+                        <td className="p-2">
+                          {bets[0]?.betClickTime
+                            ? moment(bets[0].betClickTime).format(
+                                "MM/DD/YYYY h:mm a"
+                              )
+                            : "-"}
+                        </td>
+
+                        <td
+                          className={`mb-0 p-2 ${
+                            isPositive ? "text-danger" : "text-success"
+                          } fw-bold`}
+                        >
+                          {totalPnL.toFixed(2)}
+                        </td>
+
+                        <td
+                        className="p-2"
+                          onClick={() =>
+                            setOpenMatch(
+                              openMatch === matchName ? null : matchName
+                            )
+                          }
+                        >
+                          View
+                        </td>
+                      </tr>
+                      <tr>
+                        {openMatch === matchName &&
+                          (() => {
+                            // Move this to your component scope (not here inside JSX)
+                            const isExpanded =
+                              expandedMatches[matchName] || false;
+                            const displayedBets = isExpanded
+                              ? bets
+                              : bets.slice(0, 20);
+
+                            return (
+                              <td colSpan={4} className="p-0">
+                                <div
+                                  className="table-responsive"
+                                  style={{ overflowX: "scroll" }}
+                                >
+                                  <div>
+                                    <table className="table table-sm table-striped table-bordered mb-0 text-nowrap">
+                                      <thead className="table-secondary text-center fs-6">
+                                        <tr>
+                                          <th className="text-center">
+                                            Username
+                                          </th>
+                                          <th>Type</th>
+                                          <th>Rate</th>
+                                          <th>Amount</th>
+                                          <th>PnL</th>
+                                          <th>Status</th>
+                                          <th>Date/Time</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        {displayedBets?.map(
+                                          (b: any, j: number) => (
+                                            <tr
+                                              key={j}
+                                              className="text-center align-middle fs-6"
+                                            >
+                                              <td className="p-2">
+                                                {b?.userName} (
+                                                {b?.parentNameStr})
+                                              </td>
+                                              <td className="p-2">{b?.selectionName}</td>
+                                              <td className="p-2">{b?.odds}</td>
+                                              <td className="p-2">{b?.stack}</td>
+                                              <td
+                                                className={
+                                                  b?.profitLoss >= 0
+                                                    ? "text-success"
+                                                    : "text-danger"
+                                                }
+                                              >
+                                                {b?.profitLoss.toFixed(2)}
+                                              </td>
+                                              <td className="p-2">
+                                                <span
+                                                  className={`badge rounded-pill text-light ${
+                                                    b?.profitLoss >= 0
+                                                      ? "bg-success"
+                                                      : "bg-danger"
+                                                  }`}
+                                                >
+                                                  {b?.profitLoss >= 0
+                                                    ? "Win"
+                                                    : "Lost"}
+                                                </span>
+                                              </td>
+                                              <td className="p-2">
+                                                {moment(b?.betClickTime).format(
+                                                  "MM/DD/YYYY h:mm:ss a"
+                                                )}
+                                              </td>
+                                            </tr>
+                                          )
+                                        )}
+                                      </tbody>
+                                    </table>
+                                  </div>
+
+                                  {bets.length > 20 && (
+                                    <div className="text-center mt-2">
+                                      <button
+                                        className="btn btn-sm btn-primary text-light"
+                                        onClick={(e) => {
+                                          e.stopPropagation(); // prevent closing match on button click
+                                          setExpandedMatches((prev) => ({
+                                            ...prev,
+                                            [matchName]: !isExpanded,
+                                          }));
+                                        }}
+                                      >
+                                        {isExpanded ? "View Less" : "View All"}
+                                      </button>
+                                    </div>
+                                  )}
+                                </div>
+                              </td>
+                            );
+                          })()}
+                      </tr>
+                    </>
+                  );
+                }
+              )}
+            </tbody>
+          </table>
+
+          <div className="hidden">
             {Object.entries(groupedData).map(
               ([matchName, bets]: [string, any[]], i) => {
                 const totalPnL = bets.reduce((sum, b) => sum + b.profitLoss, 0);

@@ -6217,7 +6217,34 @@ img.rrotate {
 }
 
 .table-row {
-  background-color: #424242;
+  background-color: #f2f2f2;
+}
+
+
+.section-title {
+  color: #ffd700;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(to right, #ff8a00, #e52e71);
+  margin: 10px auto;
+}
+
+
+.match-session-page {
+  width: 100%; /* Default: full width */
+}
+
+@media (min-width: 768px) { /* md breakpoint (~Bootstrap's md) */
+  .match-session-page {
+    width: 50%;
+  }
 }
 
 .fancy-market .table-row {

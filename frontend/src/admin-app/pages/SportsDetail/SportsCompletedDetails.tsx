@@ -413,13 +413,6 @@ const SportsCompletedDetails = () => {
                       </button>
 
                       <CustomLink
-                        className="dropdown-item  text-lg  text-blackcall-event font-semibold "
-                        to={`/report-bets/${item.matchId}`}
-                      >
-                        Match and Session Position Minus
-                      </CustomLink>
-
-                      <CustomLink
                         className="dropdown-item  text-lg  text-blackcall-event font-semibold"
                         to={`/report-bets/${item.matchId}`}
                       >
@@ -427,48 +420,41 @@ const SportsCompletedDetails = () => {
                       </CustomLink>
                       <CustomLink
                         className="dropdown-item  text-lg  text-black all-event font-semibold "
-                        to={`/report-bets/${item.matchId}`}
+                        to={`/plus-minus-2/${item.matchId}/${item.name}`}
                       >
-                        Match and Session Plus 2 Minus
+                        Match and Session Plus Minus 2
                       </CustomLink>
                       <CustomLink
                         className="dropdown-item  text-lg  text-black call-event font-semibold "
-                        to={`/session-bets/${item.matchId}`}
+                        to={`/display-match-bets/${item.matchId}`}
                       >
                         Display Match Bets
                       </CustomLink>
 
                       <CustomLink
                         className="dropdown-item text-lg text-black call-event font-semibold "
-                        to={`/match-bets/${item.matchId}`}
+                        to={`/display-session-bets/${item.matchId}`}
                       >
                         Display Session Bets
                       </CustomLink>
                       <CustomLink
                         className="dropdown-item text-lg text-black call-event font-semibold "
-                        to={`/match-bets/${item.matchId}`}
+                        to={`/match-session-bets/${item.matchId}`}
                       >
                         Match and Session Bet
                       </CustomLink>
                       <CustomLink
                         className="dropdown-item text-lg text-black call-event font-semibold "
-                        to={`/match-bets/${item.matchId}`}
+                        to={`/completed-fancies/${item.matchId}`}
                       >
                         Completed Fancies
                       </CustomLink>
 
                       <CustomLink
                         className="dropdown-item text-lg text-black call-event font-semibold "
-                        to={`/match-bets/${item.matchId}`}
+                        to={`/rejected-bets/${item.matchId}`}
                       >
                         Rejected Bets
-                      </CustomLink>
-
-                      <CustomLink
-                        className="dropdown-item text-lg text-black call-event font-semibold "
-                        to={`/match-bets/${item.matchId}`}
-                      >
-                        Rejected Match Bets
                       </CustomLink>
 
                       <CustomLink

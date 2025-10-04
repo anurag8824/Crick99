@@ -1511,13 +1511,13 @@ const [userList, setUserList] = React.useState<any>({});
                        <img className="h-6 w-auto"  src="imgs/compass.png"  />
                       <b className={`md:text-lg text-xs font-medium  ${activeMenu === "Cass" ? "text-active" : ""} `}>
                        Casino Betting
-                      </b>
+                      </b>  
                     </CustomLink>
                   </li> */}
 
 
                   <li className={`nav-item dropdown  md:w-60 ${activeMenu === "Cass" ? "bg-active" : ""}`}>
-                    <a   onClick={() => {setDropdownOpen5(!dropdownOpen5); setActiveMenu("Cass");}} className={`md:flex py-2  md:flex-row flex flex-col gap-2 items-center `}>
+                    <a   onClick={(e) => {setDropdownOpen5(!dropdownOpen5); setActiveMenu("Cass");}} className={`md:flex py-2  md:flex-row flex flex-col gap-2 items-center `}>
                     <i className="fa fa-angle-down hide-on-mobile text-white " />
                      
                     <img className="h-6 w-auto"  src="imgs/compass.png"  />
@@ -1572,19 +1572,6 @@ const [userList, setUserList] = React.useState<any>({});
                         </CustomLink>
                       </li>
 
-                      <li>
-                        <CustomLink
-                          to="/casino-details"
-                          // onClick={() => setDropdownOpen3(!dropdownOpen3)}
-                          onClick={() => {toggleDrawer() ; setActiveMenu("IC");}}
-                          className={`dropdown-item ${activeMenu === "IC" ? "bg-active" : ""}`}
-                        >
-                          <b className=" md:text-lg text-xs md:flex md:flex-row text-white flex flex-col items-center gap-1">
-                            {/* <ListIcon className="text-yellow-600" /> */}
-                          International Casino  
-                          </b>
-                        </CustomLink>
-                      </li>
 
                      
                      

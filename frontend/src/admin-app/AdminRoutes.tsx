@@ -1,205 +1,266 @@
-import React from 'react'
-import { useAppSelector } from '../redux/hooks'
-import User, { RoleType } from '../models/User'
-import { selectUserData } from '../redux/actions/login/loginSlice'
-import { element } from 'prop-types'
-import AllClientLedger from './pages/ledger/AllClientLedger'
-import TotalProfit from './pages/ledger/TotalProfit'
-import CommisionLenden from './pages/ledger/CommisionLenden'
-import LedgerHome from './pages/ledger/LedgerHome'
-import AllReport from './pages/ledger/AllReport'
-import SportsDetails from './pages/SportsDetail/SportsDetails'
-import Inplaygames from './pages/ledger/Inplaygames'
-import CasinoPL from './pages/ledger/CasinoPL'
-import AdminUseras from './pages/list-clients/modals/AdminUseras'
-import SingleLedger from './pages/ledger/SingleLedger'
-import Operation from './pages/AccountStatement/Operation'
-import Completedbets from './pages/SportsDetail/Completedbets'
-import RejectedBets from './pages/SportsDetail/RejectedBets'
-import ReportBets from './pages/SportsDetail/ReportBets'
-import ClientBetsLedger from './pages/SportsDetail/ClientBetsLedger'
-import CasinoDetail from './pages/SportsDetail/CasinoDetail'
-import ClientTransactions from './pages/ClientTransactions'
-import MainSetting from './pages/settings/MainSetting'
-import SportsCompletedDetails from './pages/SportsDetail/SportsCompletedDetails'
-import LoginReport from './pages/settings/LoginReport'
-import InplayCasino from './pages/casino-list/InplayCasino'
+import React from "react";
+import { useAppSelector } from "../redux/hooks";
+import User, { RoleType } from "../models/User";
+import { selectUserData } from "../redux/actions/login/loginSlice";
+import { element } from "prop-types";
+import AllClientLedger from "./pages/ledger/AllClientLedger";
+import TotalProfit from "./pages/ledger/TotalProfit";
+import CommisionLenden from "./pages/ledger/CommisionLenden";
+import LedgerHome from "./pages/ledger/LedgerHome";
+import AllReport from "./pages/ledger/AllReport";
+import SportsDetails from "./pages/SportsDetail/SportsDetails";
+import Inplaygames from "./pages/ledger/Inplaygames";
+import CasinoPL from "./pages/ledger/CasinoPL";
+import AdminUseras from "./pages/list-clients/modals/AdminUseras";
+import SingleLedger from "./pages/ledger/SingleLedger";
+import Operation from "./pages/AccountStatement/Operation";
+import Completedbets from "./pages/SportsDetail/Completedbets";
+import RejectedBets from "./pages/SportsDetail/SportsDetailPages/RejectedBets";
+import ClientBetsLedger from "./pages/SportsDetail/ClientBetsLedger";
+import CasinoDetail from "./pages/SportsDetail/CasinoDetail";
+import ClientTransactions from "./pages/ClientTransactions";
+import MainSetting from "./pages/settings/MainSetting";
+import SportsCompletedDetails from "./pages/SportsDetail/SportsCompletedDetails";
+import LoginReport from "./pages/settings/LoginReport";
+import InplayCasino from "./pages/casino-list/InplayCasino";
+import Rules from "../pages/Rules/rules";
+import DisplayMatchBets from "./pages/SportsDetail/SportsDetailPages/DisplayMatchBets";
+import DisplaySessionBets from "./pages/SportsDetail/SportsDetailPages/DisplaySessionBets";
+import MatchSessionBets from "./pages/SportsDetail/SportsDetailPages/MatchSessionBets";
+import CompletedFancies from "./pages/SportsDetail/SportsDetailPages/CompletedFancies";
+import PlusMinus2 from "./pages/SportsDetail/SportsDetailPages/PlusMinus2";
 
+const ActiveMarkets = React.lazy(
+  () => import("../admin-app/pages/active-matches/active-markets")
+);
+const ActiveMatches = React.lazy(
+  () => import("../admin-app/pages/active-matches/active-matches")
+);
+const GetAllFancy = React.lazy(
+  () => import("../admin-app/pages/active-matches/get-all-fancy")
+);
+const MatchesPage = React.lazy(
+  () => import("../admin-app/pages/add-matches/matches")
+);
+const SeriesPage = React.lazy(
+  () => import("../admin-app/pages/add-matches/series")
+);
+const SportsPage = React.lazy(
+  () => import("../admin-app/pages/add-matches/sports")
+);
+const AddUser = React.lazy(
+  () => import("../admin-app/pages/add-user/add-user")
+);
+const ListClients = React.lazy(
+  () => import("../admin-app/pages/list-clients/list-clients")
+);
+const MainAdmin = React.lazy(
+  () => import("../admin-app/pages/_layout/MainAdmin")
+);
+const Message = React.lazy(() => import("../admin-app/pages/settings/message"));
+const Paymethod = React.lazy(
+  () => import("../admin-app/pages/settings/paymethod")
+);
 
-const ActiveMarkets = React.lazy(() => import('../admin-app/pages/active-matches/active-markets'))
-const ActiveMatches = React.lazy(() => import('../admin-app/pages/active-matches/active-matches'))
-const GetAllFancy = React.lazy(() => import('../admin-app/pages/active-matches/get-all-fancy'))
-const MatchesPage = React.lazy(() => import('../admin-app/pages/add-matches/matches'))
-const SeriesPage = React.lazy(() => import('../admin-app/pages/add-matches/series'))
-const SportsPage = React.lazy(() => import('../admin-app/pages/add-matches/sports'))
-const AddUser = React.lazy(() => import('../admin-app/pages/add-user/add-user'))
-const ListClients = React.lazy(() => import('../admin-app/pages/list-clients/list-clients'))
-const MainAdmin = React.lazy(() => import('../admin-app/pages/_layout/MainAdmin'))
-const Message = React.lazy(() => import('../admin-app/pages/settings/message'))
-const Paymethod = React.lazy(() => import('../admin-app/pages/settings/paymethod'))
-
-const ClientLedger = React.lazy(() => import('./pages/ledger/ClientLedger'))
-const MyLedger = React.lazy(() => import('./pages/ledger/MyLedger'))
-const Notice = React.lazy(() => import('./pages/settings/Notices'))
-const ManageOdds = React.lazy(() => import('./pages/settings/ManageOdds'))
-const DeletedAllBets = React.lazy(() => import('./pages/UnsetteleBetHistory/DeletedBets'))
-
-
-
-
-
+const ClientLedger = React.lazy(() => import("./pages/ledger/ClientLedger"));
+const MyLedger = React.lazy(() => import("./pages/ledger/MyLedger"));
+const Notice = React.lazy(() => import("./pages/settings/Notices"));
+const ManageOdds = React.lazy(() => import("./pages/settings/ManageOdds"));
+const DeletedAllBets = React.lazy(
+  () => import("./pages/UnsetteleBetHistory/DeletedBets")
+);
 
 const AdminDashboard = React.lazy(
-  () => import('../admin-app/pages/admin-dashboard/admin-dashboard'),
-)
+  () => import("../admin-app/pages/admin-dashboard/admin-dashboard")
+);
 const AccountStatementAdmin = React.lazy(
-  () => import('../admin-app/pages/AccountStatement/AccountStatementAdmin'),
-)
+  () => import("../admin-app/pages/AccountStatement/AccountStatementAdmin")
+);
 
 const AccountStatementAdminDeposit = React.lazy(
-  () => import('../admin-app/pages/AccountStatement/AccountStatementAdminDeposit'),
-)
+  () =>
+    import("../admin-app/pages/AccountStatement/AccountStatementAdminDeposit")
+);
 
 const OperationAdmin = React.lazy(
   () => import("../admin-app/pages/AccountStatement/Operation")
-)
+);
 const DepositStatementAdmin = React.lazy(
-  () => import('../admin-app/pages/transaction-statement/DepositStatementAdmin'),
-)
+  () => import("../admin-app/pages/transaction-statement/DepositStatementAdmin")
+);
 const WithdrawStatementAdmin = React.lazy(
-  () => import('../admin-app/pages/transaction-statement/WithdrawStatementAdmin'))
-const ProfitLossAdmin = React.lazy(() => import('../admin-app/pages/PlReport/ProfitLossAdmin'))
+  () =>
+    import("../admin-app/pages/transaction-statement/WithdrawStatementAdmin")
+);
+const ProfitLossAdmin = React.lazy(
+  () => import("../admin-app/pages/PlReport/ProfitLossAdmin")
+);
 const UnsetteleBetHistoryAdmin = React.lazy(
-  () => import('../admin-app/pages/UnsetteleBetHistory/UnsetteleBetHistoryAdmin'),
-)
-const Odds = React.lazy(() => import('../pages/odds/odds'))
-const ChangePassword = React.lazy(() => import('../pages/ChangePassword/ChangePassword'))
-const AuthLayout = React.lazy(() => import('../pages/_layout/AuthLayout'))
-const Login = React.lazy(() => import('./pages/login/login'))
-const CasinoWrapper = React.lazy(() => import('../pages/CasinoList/CasinoWrapper'))
-const CasinoList = React.lazy(() => import('./pages/casino-list/casino-list'))
-const InPlayCasino = React.lazy(() => import('./pages/casino-list/InplayCasino'))
+  () =>
+    import("../admin-app/pages/UnsetteleBetHistory/UnsetteleBetHistoryAdmin")
+);
+const Odds = React.lazy(() => import("../pages/odds/odds"));
+const ChangePassword = React.lazy(
+  () => import("../pages/ChangePassword/ChangePassword")
+);
+const AuthLayout = React.lazy(() => import("../pages/_layout/AuthLayout"));
+const Login = React.lazy(() => import("./pages/login/login"));
+const CasinoWrapper = React.lazy(
+  () => import("../pages/CasinoList/CasinoWrapper")
+);
+const CasinoList = React.lazy(() => import("./pages/casino-list/casino-list"));
+const InPlayCasino = React.lazy(
+  () => import("./pages/casino-list/InplayCasino")
+);
 
-const GameReportAdmin = React.lazy(() => import('./pages/GameReports/GameReportAdmin'))
-
+const GameReportAdmin = React.lazy(
+  () => import("./pages/GameReports/GameReportAdmin")
+);
 
 const AdminRoutes = () => {
-  const userState = useAppSelector<{ user: User }>(selectUserData)
+  const userState = useAppSelector<{ user: User }>(selectUserData);
 
   return [
     {
-      path: '/admin',
+      path: "/admin",
       element: <AuthLayout />,
       children: [
-        { path: 'login', element: <Login /> },
+        { path: "login", element: <Login /> },
         {
-          path: '/admin',
+          path: "/admin",
           element: <MainAdmin />,
           children: [
             { index: true, element: <ListClients /> },
-            { path: 'dashbaord', element: <AdminDashboard /> },
-            { path: 'market-analysis', element: <AdminDashboard /> },
-            { path: 'odds/:matchId', element: <Odds /> },
-            { path: 'odds/:matchId/:share', element: <Odds /> },
+            { path: "dashbaord", element: <AdminDashboard /> },
+            { path: "market-analysis", element: <AdminDashboard /> },
+            { path: "odds/:matchId", element: <Odds /> },
+            { path: "odds/:matchId/:share", element: <Odds /> },
 
-            ...['list-clients', 'list-clients/:username', 'list-clients/:username/:type'].map((path) => ({
-              key: 'list-client',
+            ...[
+              "list-clients",
+              "list-clients/:username",
+              "list-clients/:username/:type",
+            ].map((path) => ({
+              key: "list-client",
               path: path,
               element: <ListClients />,
             })),
-            ...['add-user', 'add-user/:username','add-user/:username/:type','add-user/:type'].map((path) => ({
-              key: 'add-user',
+            ...[
+              "add-user",
+              "add-user/:username",
+              "add-user/:username/:type",
+              "add-user/:type",
+            ].map((path) => ({
+              key: "add-user",
               path: path,
               element: <AddUser />,
             })),
-            ...(userState.user.role === RoleType.admin || userState.user.role === RoleType.sadmin
+            ...(userState.user.role === RoleType.admin ||
+            userState.user.role === RoleType.sadmin
               ? [
-                { path: 'sports-list/:url?', element: <SportsPage /> },
-                { path: 'series/:sportId', element: <SeriesPage /> },
-                { path: 'matches/:sportId', element: <MatchesPage /> },
-                { path: 'active-matches/:sportId/:matchType?', element: <ActiveMatches /> },
-                { path: 'active-markets/:matchId', element: <ActiveMarkets /> },
-                { path: 'active-fancies/:matchId', element: <GetAllFancy /> },
-                { path: 'messages', element: <Message /> },
-              ]
+                  { path: "sports-list/:url?", element: <SportsPage /> },
+                  { path: "series/:sportId", element: <SeriesPage /> },
+                  { path: "matches/:sportId", element: <MatchesPage /> },
+                  {
+                    path: "active-matches/:sportId/:matchType?",
+                    element: <ActiveMatches />,
+                  },
+                  {
+                    path: "active-markets/:matchId",
+                    element: <ActiveMarkets />,
+                  },
+                  { path: "active-fancies/:matchId", element: <GetAllFancy /> },
+                  { path: "messages", element: <Message /> },
+                ]
               : []),
-            { path: 'change-password', element: <ChangePassword /> },
-            { path: 'accountstatement/:name', element: <AccountStatementAdmin /> },
-            { path: 'accountstatement-deposit/:name', element: <AccountStatementAdminDeposit /> },
+            { path: "change-password", element: <ChangePassword /> },
+            {
+              path: "accountstatement/:name",
+              element: <AccountStatementAdmin />,
+            },
+            {
+              path: "accountstatement-deposit/:name",
+              element: <AccountStatementAdminDeposit />,
+            },
 
-            { path: 'operation/:uname', element: <OperationAdmin /> },
+            { path: "operation/:uname", element: <OperationAdmin /> },
 
-            { path: 'profitloss', element: <ProfitLossAdmin /> },
-            { path: 'unsettledbet', element: <UnsetteleBetHistoryAdmin /> },
-            { path: 'unsettledbet/:type', element: <UnsetteleBetHistoryAdmin /> },
-            { path: 'deleted-bets', element: <DeletedAllBets /> },
+            { path: "profitloss", element: <ProfitLossAdmin /> },
+            { path: "unsettledbet", element: <UnsetteleBetHistoryAdmin /> },
+            {
+              path: "unsettledbet/:type",
+              element: <UnsetteleBetHistoryAdmin />,
+            },
+            { path: "deleted-bets", element: <DeletedAllBets /> },
 
-            { path: 'casino/:gameCode', element: <CasinoWrapper /> },
-            { path: 'casino-list', element: <CasinoList /> },
+            { path: "casino/:gameCode", element: <CasinoWrapper /> },
+            { path: "casino-list", element: <CasinoList /> },
 
-            { path: 'in-play-casino', element: <InPlayCasino /> },
-            
-            { path: 'game-reports', element: <GameReportAdmin /> },
-            { path: 'depositstatement', element: <DepositStatementAdmin /> },
-            { path: 'withdrawstatement', element: <WithdrawStatementAdmin /> },
-            { path: 'payment-method', element: <Paymethod /> },
-            { path: "ledger-home", element: <LedgerHome/>},
-            { path: "notice", element: <Notice/>},
-            { path: "manage-odds", element: <ManageOdds />},
+            { path: "in-play-casino", element: <InPlayCasino /> },
 
-            { path: "session-bets/:id", element: <Completedbets/>},
-            { path: "match-bets/:id", element: <RejectedBets />},
-            { path: "report-bets/:id", element: <ReportBets />},
-            { path: "client-bets/:id", element: <ClientBetsLedger />},
+            { path: "game-reports", element: <GameReportAdmin /> },
+            { path: "depositstatement", element: <DepositStatementAdmin /> },
+            { path: "withdrawstatement", element: <WithdrawStatementAdmin /> },
+            { path: "payment-method", element: <Paymethod /> },
+            { path: "ledger-home", element: <LedgerHome /> },
+            { path: "notice", element: <Notice /> },
+            { path: "manage-odds", element: <ManageOdds /> },
 
+            { path: "session-bets/:id", element: <Completedbets /> },
+            { path: "rejected-bets/:id", element: <RejectedBets /> },
+            { path: "plus-minus-2/:id/:name", element: <PlusMinus2 /> },
+            { path: "client-bets/:id", element: <ClientBetsLedger /> },
 
-            {path:"client-transactions", element: <ClientTransactions/>},
-            {path:"main-setting", element: <MainSetting/>},
+            { path: "client-transactions", element: <ClientTransactions /> },
+            { path: "main-setting", element: <MainSetting /> },
 
+            { path: "rules", element: <Rules /> },
+            { path: "all-settlement", element: <AllClientLedger /> },
+            { path: "all-settlement/:pid", element: <SingleLedger /> },
 
-           
+            { path: "ledger-client", element: <ClientLedger /> },
+            { path: "total-profit", element: <TotalProfit /> },
+            { path: "commision-len-den", element: <CommisionLenden /> },
+            { path: "all-client-report", element: <AllReport /> },
+            { path: "casino-pl", element: <CasinoPL /> },
+            { path: "sports-details", element: <SportsDetails /> },
+            {
+              path: "completed-sports-details",
+              element: <SportsCompletedDetails />,
+            },
 
+            {
+              path: "display-match-bets/:id",
+              element: <DisplayMatchBets />,
+            },
 
+            {
+              path: "display-session-bets/:id",
+              element: <DisplaySessionBets />,
+            },
+            {
+              path: "match-session-bets/:id",
+              element: <MatchSessionBets />,
+            },
 
-            {path:"all-settlement", element: <AllClientLedger/>},
-            {path:"all-settlement/:pid", element: <SingleLedger />},
+            {
+              path: "completed-fancies/:id",
+              element: <CompletedFancies />,
+            },
 
-            {path:"ledger-client", element: <ClientLedger/>},
-            {path:"total-profit", element: <TotalProfit/>},
-            {path:"commision-len-den", element: <CommisionLenden />},
-            {path: "all-client-report", element: <AllReport/>},
-            {path:"casino-pl", element:<CasinoPL/>},
-            {path: "sports-details", element: <SportsDetails/>},
-            {path: "completed-sports-details", element: <SportsCompletedDetails/>},
+            { path: "casino-details", element: <CasinoDetail /> },
 
-            {path: "casino-details", element: <CasinoDetail/>},
+            { path: "login-report/:id", element: <LoginReport /> },
 
-            {path: "login-report/:id", element: <LoginReport/>},
+            { path: "inplay-games", element: <Inplaygames /> },
+            { path: "user-ac", element: <AdminUseras /> },
 
-
-            {path: "inplay-games", element: <Inplaygames/>},
-            {path:"user-ac", element: <AdminUseras/>},
-
-
-
-
-
-
-           
-
-            
-
-
-            {path:"my-ledger", element: <MyLedger/>}
-
-            
-
-
+            { path: "my-ledger", element: <MyLedger /> },
           ],
         },
       ],
     },
-  ]
-}
+  ];
+};
 
-export default AdminRoutes
+export default AdminRoutes;

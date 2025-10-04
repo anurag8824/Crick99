@@ -3506,27 +3506,7 @@ marquee.casino-remark {
   max-width: 54%;
 }
 
-.text_blink {
-  animation: textBlinkColor 1s linear infinite;
-  text-align: left;
-  font-size: 13px;
-  display: inline-block;
-}
 
-@keyframes textBlinkColor {
-  0%, 20% {
-    color: #c2e884;
-    opacity: 1;
-  }
-  40%, 60% {
-    color: #ff7f00;
-    opacity: 1;
-  }
-  80%, 100% {
-    color: #36cb3b;
-    opacity: 1;
-  }
-}
 
 
 

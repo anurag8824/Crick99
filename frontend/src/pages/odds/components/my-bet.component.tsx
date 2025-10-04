@@ -100,14 +100,14 @@ const MyBetComponent = () => {
             {/* {!isMobile && <th style={{background:"#76d68f"}}> Place Date</th>} */}
             {/* {!isMobile && <th style={{background:"#76d68f"}}> Match Date</th>} */}
             {/* <th style={{background:"#2a3a5a" , border:"none"}} className='text-warning'>Bet Status</th> */}
-            {userState.user.role !== RoleType.user && <th  style={{background:"#2a3a5a" , border:"none", fontSize:"13px"}} > Date</th>}
+            {userState.user.role !== RoleType.user && <th  style={{background:"#2a3a5a" , border:"none", fontSize:"13px"}} className='text-warning' > Date</th>}
           </tr>
         </thead>
         <tbody className='text-white'>
           {getMyAllBet?.filter((b:any)=>b.bet_on !== "MATCH_ODDS")?.map((bet: IBet, index: number , ) => (
             <tr className={bet.isBack ? 'back' : 'lay'} key={bet._id}>
               <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap'> {index + 1} </td>
-              {userState.user.role !== RoleType.user && <td>{bet.userName}</td>}
+              {userState.user.role !== RoleType.user && <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}>{bet.userName}</td>}
               <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap'>
                 {' '}
                 {bet.selectionName}
@@ -170,7 +170,7 @@ const MyBetComponent = () => {
             {/* {!isMobile && <th style={{background:"#76d68f"}}> Place Date</th>} */}
             {/* {!isMobile && <th style={{background:"#76d68f"}}> Match Date</th>} */}
             {/* <th style={{background:"#2a3a5a" , border:"none"}} className='text-warning'>Bet Status</th> */}
-            {userState.user.role !== RoleType.user && <th  style={{background:"#2a3a5a" , border:"none", fontSize:"13px"}} > Date</th>}
+            {userState.user.role !== RoleType.user && <th  style={{background:"#2a3a5a" , border:"none", fontSize:"13px"}} className='text-warning' > Date</th>}
           </tr>
         </thead>
         <tbody className='text-white'>

@@ -413,10 +413,10 @@ class Fancy extends React.Component<
         <div style={{fontSize:"13px" ,backgroundColor:"#0f2326", }} className={`float-left ${isMobile ? 'bg-theme' : 'bg-theme'} country-name box-6`}>
          <span className='text_blink' style={{fontSize:"13px" , }} >SESSION</span>
         </div>
-        <div style={{fontSize:"13px" ,backgroundColor:"#0f2326", color:"white" }}className={`${isMobile ? 'box-2' : 'box-2'} float-right lay text-center`}>
+        <div style={{fontSize:"13px" ,backgroundColor:"#0f2326", color:"white" }}className={`${isMobile ? 'box-2' : 'box-2'} float-right layyy text-center`}>
           <b>NOT</b>
         </div>
-        <div style={{fontSize:"13px" ,backgroundColor:"#0f2326",  color:"white" }} className={`${isMobile ? 'box-2' : 'box-2'} float-right back text-center`}>
+        <div style={{fontSize:"13px" ,backgroundColor:"#0f2326",  color:"white" }} className={`${isMobile ? 'box-2' : 'box-2'} float-right backkk text-center`}>
           <b>YES</b>
         </div>
         {/* {!isMobile && <div className='box-2 float-left' />} */}
