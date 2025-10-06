@@ -79,6 +79,15 @@ const CompletedFancies = () => {
   const [sendid, setSendid] = React.useState(null);
   const [stack, setStack] = React.useState<any[]>([]);
 
+  const [filteredBets, setFilteredBets] = React.useState<any[]>([]);
+  const [users, setUsers] = React.useState<string[]>([]);
+  const [selectedSelection, setSelectedSelection] =
+    React.useState("All Selections");
+  const [totalPL, setTotalPL] = React.useState(0);
+  const [selections, setSelections] = React.useState<string[]>([]);
+
+  const [selectedUserF, setSelectedUserF] = React.useState("All Users");
+
   const maid = useParams().id;
 
   React.useEffect(() => {
@@ -92,13 +101,27 @@ const CompletedFancies = () => {
       const bmbets = filtered[0].bets.filter(
         (b: any) => b.bet_on === "MATCH_ODDS" && b.marketName === "Bookmaker"
       );
-      console.log(bmbets, "book aker bets");
       setMarketonlymatch(bmbets);
-      const bmbetf = filtered[0].bets.filter(
+      const fancyBets = filtered[0].bets.filter(
         (b: any) => b.bet_on !== "MATCH_ODDS" && b.marketName !== "Bookmaker"
       );
 
-      setMarketonlyf(bmbetf);
+      console.log(fancyBets, "fanycc aker bets");
+
+      setMarketonlyf(fancyBets);
+
+      // Get unique users and selections
+      const uniqueUsers: any = Array.from(
+        new Set(fancyBets.map((b: { userName: any }) => b.userName))
+      );
+      const uniqueSelections: any = Array.from(
+        new Set(fancyBets.map((b: { selectionName: any }) => b.selectionName))
+      );
+      setUsers(uniqueUsers);
+      setSelections(uniqueSelections);
+
+      setFilteredBets(fancyBets);
+      setTotalPL(fancyBets.reduce((acc: any, b: any) => acc + b.profitLoss, 0));
 
       const runners = bmbets[0]?.runners || [];
       console.log(runners, "mathced bets");
@@ -158,6 +181,35 @@ const CompletedFancies = () => {
       setmarketData2(filtered);
     });
   }, [maid]);
+
+  React.useEffect(() => {
+    // Filter bets based on selected user and selection
+    let filtered = marketonlyf;
+
+    if (selectedUserF !== "All Users") {
+      filtered = filtered.filter((b) => b.userName === selectedUserF);
+    }
+
+    if (selectedSelection !== "All Selections") {
+      filtered = filtered.filter((b) => b.selectionName === selectedSelection);
+    }
+
+    setFilteredBets(filtered);
+    setTotalPL(filtered.reduce((acc, b) => acc + b.profitLoss, 0));
+
+    // Update selection dropdown to show only unique selections for filtered user
+    if (selectedUser !== "All Users") {
+      const uniqueSelections = Array.from(
+        new Set(filtered.map((b) => b.selectionName))
+      );
+      setSelections(uniqueSelections);
+    } else {
+      const uniqueSelections = Array.from(
+        new Set(marketonlyf.map((b) => b.selectionName))
+      );
+      setSelections(uniqueSelections);
+    }
+  }, [selectedUserF, selectedSelection, marketonlyf]);
 
   // console.log(marketData, "fmsjnsdjfksgdfjgksd");
 
@@ -347,23 +399,15 @@ const CompletedFancies = () => {
 
   return (
     <>
-     
-
-     
-
-     
-
-     <div style={{ padding: "12px" }} className="container-fluid p-md-4 mt-3">
-
-
+      <div style={{ padding: "12px" }} className="container-fluid p-md-4 mt-3">
         <div className=" md:mb-40 mb-2 ">
           <div className="card mb-2">
-          <div
+            <div
               style={{ background: "#0f2327" }}
               className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex"
             >
               <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
-              Fancy Profit and Loss
+                Fancy Profit and Loss
               </span>
               <button
                 onClick={() => navigate(-1)}
@@ -373,7 +417,29 @@ const CompletedFancies = () => {
                 <span>Back</span>
               </button>
             </div>
+            <div className="flex justify-between p-4 bg-light">
+              <select
+                value={selectedUserF}
+                onChange={(e) => setSelectedUserF(e.target.value)}
+              >
+                <option>All Users</option>
+                {users.map((u) => (
+                  <option key={u}>{u}</option>
+                ))}
+              </select>
 
+              <select
+                value={selectedSelection}
+                onChange={(e) => setSelectedSelection(e.target.value)}
+              >
+                <option>All Selections</option>
+                {selections.map((s) => (
+                  <option key={s}>{s}</option>
+                ))}
+              </select>
+
+              <div className="font-bold text-xl">Total PL: {totalPL}</div>
+            </div>
 
             <div className="card-body p-0 overflow-x-scroll">
               <table className="table table-striped table-bordered table-hover">
@@ -392,11 +458,9 @@ const CompletedFancies = () => {
                   </tr>
                 </thead>
                 <tbody className="small">
-                  {marketonlyf?.map((bet, index) => (
+                  {filteredBets?.map((bet, index) => (
                     <tr key={index}>
-                      <td className="p-1 pt-2 small pr-0">
-                      {bet.userName}
-                      </td>
+                      <td className="p-1 pt-2 small pr-0">{bet.userName}</td>
                       <td className="pt-2 pb-1">{bet?.odds}</td>
                       <td className="pt-2 pb-1">{bet?.volume}</td>
 
@@ -443,7 +507,7 @@ const CompletedFancies = () => {
       )}
     </td> */}
 
-<td
+                      <td
                         className={`pt-2 pb-1 ${
                           bet?.profitLoss < 0
                             ? "text-red-500"
@@ -453,15 +517,13 @@ const CompletedFancies = () => {
                         {bet?.stack}
                       </td>
 
-<td className="p-1 pt-2 small pr-0">
+                      <td className="p-1 pt-2 small pr-0">
                         {bet?.selectionName}
                       </td>
 
-
-<td className="p-1 pt-2 small pr-0">
-                     {bet?.parentNameStr}
+                      <td className="p-1 pt-2 small pr-0">
+                        {bet?.parentNameStr}
                       </td>
-                     
 
                       <td
                         className={`pt-2 pb-1 ${
