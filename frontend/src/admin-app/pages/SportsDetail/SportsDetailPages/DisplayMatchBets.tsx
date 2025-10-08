@@ -80,6 +80,15 @@ const DisplayMatchBets = () => {
   const [sendid, setSendid] = React.useState(null);
   const [stack, setStack] = React.useState<any[]>([]);
 
+  const [filteredBets, setFilteredBets] = React.useState<any[]>([]);
+  const [users, setUsers] = React.useState<string[]>([]);
+  const [markets, setMarkets] = React.useState<string[]>([]);
+  const [selectedUserM, setSelectedUserM] = React.useState("All Users");
+  const [selectedMarket, setSelectedMarket] = React.useState("All Markets");
+  const [totalPLByTeam, setTotalPLByTeam] = React.useState<
+    Record<string, number>
+  >({});
+
   const maid = useParams().id;
 
   React.useEffect(() => {
@@ -90,30 +99,53 @@ const DisplayMatchBets = () => {
       const filtered = allms.filter((m: any) => m.matchId == maid);
       console.log(filtered, "filttreddd");
 
-      const bmbets = filtered[0].bets.filter(
+      const matchBets = filtered[0].bets.filter(
         (b: any) => b.bet_on === "MATCH_ODDS" && b.marketName === "Bookmaker"
       );
-      console.log(bmbets, "book aker bets");
-      setMarketonlymatch(bmbets);
+      console.log(matchBets, "book aker bets");
+      setMarketonlymatch(matchBets);
+
+      // Unique users and markets
+      const uniqueUsers: any = Array.from(
+        new Set(matchBets.map((b: { userName: any }) => b.userName))
+      );
+      const uniqueMarkets: any = Array.from(
+        new Set(matchBets.map((b: { marketName: any }) => b.marketName))
+      );
+      setUsers(uniqueUsers);
+      setMarkets(uniqueMarkets);
+
+      setFilteredBets(matchBets);
+
+      // Compute default total PL by team
+      const plByTeam: Record<string, number> = {};
+      matchBets.forEach(
+        (b: { selectionName: string | number; profitLoss: number }) => {
+          if (!plByTeam[b.selectionName]) plByTeam[b.selectionName] = 0;
+          plByTeam[b.selectionName] += b.profitLoss;
+        }
+      );
+      setTotalPLByTeam(plByTeam);
+
       const bmbetf = filtered[0].bets.filter(
         (b: any) => b.bet_on !== "MATCH_ODDS" && b.marketName !== "Bookmaker"
       );
 
       setMarketonlyf(bmbetf);
 
-      const runners = bmbets[0]?.runners || [];
+      const runners = matchBets[0]?.runners || [];
       console.log(runners, "mathced bets");
 
       const result = runners.map((runner: any) => {
         const { selectionId, runnerName } = runner;
 
         // Step 4: Filter bets for this selectionId
-        const matchedBets = bmbets.filter(
+        const matchedBets = matchBets.filter(
           (bet: any) => bet.selectionId === selectionId
         );
 
         // Match bets for opposite team
-        const oppositeBets = bmbets.filter(
+        const oppositeBets = matchBets.filter(
           (bet: any) => bet.selectionId !== selectionId
         );
 
@@ -160,6 +192,42 @@ const DisplayMatchBets = () => {
     });
   }, [maid]);
 
+  // Update filtered bets and total PL when dropdown changes
+  React.useEffect(() => {
+    let filtered = marketonlymatch;
+
+    if (selectedUserM !== "All Users") {
+      filtered = filtered.filter((b) => b.userName === selectedUserM);
+    }
+
+    if (selectedMarket !== "All Markets") {
+      filtered = filtered.filter((b) => b.marketName === selectedMarket);
+    }
+
+    setFilteredBets(filtered);
+
+    // Update total PL by selectionName (Team)
+    const plByTeam: Record<string, number> = {};
+    filtered.forEach((b) => {
+      if (!plByTeam[b.selectionName]) plByTeam[b.selectionName] = 0;
+      plByTeam[b.selectionName] += b.profitLoss;
+    });
+    setTotalPLByTeam(plByTeam);
+
+    // Update markets dropdown for selected user
+    if (selectedUserM !== "All Users") {
+      const uniqueMarkets = Array.from(
+        new Set(filtered.map((b) => b.marketName))
+      );
+      setMarkets(uniqueMarkets);
+    } else {
+      const uniqueMarkets = Array.from(
+        new Set(marketonlymatch.map((b) => b.marketName))
+      );
+      setMarkets(uniqueMarkets);
+    }
+  }, [selectedUserM, selectedMarket, marketonlymatch]);
+
   // console.log(marketData, "fmsjnsdjfksgdfjgksd");
 
   const [ledgerData, setLedgerData] = React.useState([]);
@@ -187,126 +255,6 @@ const DisplayMatchBets = () => {
 
   const [startDate, setStartDate] = React.useState<string>("");
   const [endDate, setEndDate] = React.useState<string>("");
-
-  const handleDateFilter = async (isFilterApplied = false) => {
-    try {
-      const res = await accountService.matchdetail();
-      // console.log(res, "maatchh commsion report");
-
-      const allms = res.data.data.matches;
-
-      const filtered = allms.filter((m: any) => m.matchId == maid);
-      // console.log(filtered,"filterretedbets")
-      // console.log(filtered[0].ledgers);
-
-      // setmarketData(filtered[0].ledgers);
-      const rawData = filtered[0].ledgers.filter(
-        (m: any) => m.parentName == userState.user.username
-      );
-
-      const filteredData = filtered[0].ledgers;
-
-      const grouped: Record<string, GroupedLedger & { updownTotal: number }> =
-        {};
-
-      filteredData.forEach((item: any) => {
-        const childId: string = item.ChildId ? item.ChildId : item.ParentId;
-        //               const childId: string | null = item.ChildId ? item.ChildId : item.ParentId;
-
-        //   // ✅ Skip entry if childId is missing/null/undefined
-        //   if (!childId) return;
-        const isFancy: boolean = item.Fancy;
-        const money: number = Number(item.fammount) || 0;
-        const commissionn: any = Number(item.commissiondega) || 0;
-        const updown: number = Number(item.umoney) || 0;
-
-        if (!grouped[childId]) {
-          grouped[childId] = {
-            username: item.username,
-            cname: item.cname,
-            ss: item.superShare,
-            matchPlusMinus: 0,
-            sessionPlusMinus: 0,
-            matchcommision: 0,
-            fancycommmision: 0,
-            updownTotal: 0,
-          };
-        }
-
-        if (isFancy) {
-          grouped[childId].sessionPlusMinus += money;
-          grouped[childId].fancycommmision += commissionn;
-        } else {
-          grouped[childId].matchPlusMinus += money;
-          grouped[childId].matchcommision += commissionn;
-        }
-        grouped[childId].updownTotal += updown;
-      });
-
-      const finalTotals = {
-        match: 0,
-        session: 0,
-        mCom: 0,
-        sCom: 0,
-        tCom: 0,
-        gTotal: 0,
-        upDownShare: 0,
-        balance: 0,
-      };
-
-      const finalLedger: any = Object.entries(grouped).map(
-        ([ChildId, values]) => {
-          // const match = values.matchPlusMinus;
-          // const session = values.sessionPlusMinus;
-          const match = values.matchPlusMinus;
-          const session = values.sessionPlusMinus;
-          const matchc = values.matchcommision;
-          const fancyc = values.fancycommmision;
-          const ctotal: any = matchc + fancyc;
-          const totall = match + session;
-          const total = totall - ctotal;
-
-          // ✅ Accumulate totals here
-          // finalTotals.match += match;
-          // finalTotals.session += session;
-          finalTotals.match += match;
-          finalTotals.session += session;
-          finalTotals.mCom += matchc;
-          finalTotals.sCom += fancyc;
-          finalTotals.tCom += ctotal;
-          finalTotals.gTotal += total;
-          finalTotals.upDownShare += values.updownTotal;
-          finalTotals.balance += total + values.updownTotal;
-
-          return {
-            client: values.username,
-            cname: values.cname,
-            ss: values.ss,
-            match,
-            session,
-            totall,
-            mCom: matchc,
-            sCom: fancyc,
-            tCom: ctotal,
-            gTotal: total,
-            upDownShare: values.updownTotal,
-            balance: total + values.updownTotal,
-          };
-        }
-      );
-      console.log(finalLedger, "heloo world final ledger is here");
-
-      setLedgerTotal(finalTotals);
-
-      setLedgerData(finalLedger);
-    } catch (err) {
-      console.error("Error filtering ledger by date:", err);
-    }
-  };
-
-  React.useEffect(() => {
-    handleDateFilter(false); // no date filter
-  }, [maid]);
 
   const [selectedUser, setSelectedUser] = React.useState<string | null>(null);
 
@@ -339,6 +287,31 @@ const DisplayMatchBets = () => {
       <div style={{ padding: "12px" }} className="container-fluid p-md-4 mt-3">
         <div className=" md:mb-40 mb-2 ">
           <div className="card md:mt-0 ">
+
+<div style={{ background: "#0f2327" }} className="text-white font-bold py-2 text-lg">BOOKMAKER</div>
+
+            <div className="d-flex flex-wrap gap-3 my-3 overflow-auto">
+              {Object.entries(totalPLByTeam).map(([team, pl]) => (
+                <div
+                  key={`team-${team}`}
+                  className={`cardd text-white p-3 flex-shrink-0`}
+                  style={{
+                    minWidth: "200px",
+                    backgroundColor: pl < 0 ? "#dc3545" : "#28a745", // red or green
+                  }}
+                >
+                  <div className="d-flex align-items-center">
+                    <i className="fa-solid fa-chart-column fa-2x me-3"></i>
+                    <div>
+                      <h1 className="h4 fw-bold mb-2">{pl.toFixed(0)}</h1>
+                      <p className="mb-0 fs-5">{team}</p>
+                      <small>(0)</small>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
             <div
               style={{ background: "#0f2327" }}
               className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex"
@@ -353,6 +326,28 @@ const DisplayMatchBets = () => {
               >
                 <span>Back</span>
               </button>
+            </div>
+
+            <div className="filters mb-3 d-flex gap-2 flex justify-between p-4 bg-light">
+              <select
+                value={selectedUserM}
+                onChange={(e) => setSelectedUserM(e.target.value)}
+              >
+                <option>All Users</option>
+                {users.map((u) => (
+                  <option key={u}>{u}</option>
+                ))}
+              </select>
+
+              <select
+                value={selectedMarket}
+                onChange={(e) => setSelectedMarket(e.target.value)}
+              >
+                <option>All Markets</option>
+                {markets.map((m) => (
+                  <option key={m}>{m}</option>
+                ))}
+              </select>
             </div>
 
             <div
@@ -373,14 +368,11 @@ const DisplayMatchBets = () => {
                     <th className="pt-0 pb-0">Date</th>
                     <th className="pt-0 pb-0">IP</th>
                   </tr>
-
                 </thead>
                 <tbody className="small">
-                  {marketonlymatch?.map((bet, index) => (
+                  {filteredBets?.map((bet, index) => (
                     <tr key={index}>
-                      <td className="p-1 pt-2 small pr-0">
-                        {bet?.userName}
-                      </td>
+                      <td className="p-1 pt-2 small pr-0">{bet?.userName}</td>
                       <td
                         className={`pt-2 pb-1 ${
                           bet?.profitLoss < 0
@@ -403,7 +395,6 @@ const DisplayMatchBets = () => {
                             >
                               Lagai
                             </span>
-                          
                           </button>
                         ) : (
                           <button
@@ -448,9 +439,6 @@ const DisplayMatchBets = () => {
                       <td className="pt-2 pb-1">{bet?.parentNameStr}</td>
                       <td className="pt-2 pb-1">{bet?.selectionName}</td>
 
-                      
-
-                      
                       <td
                         className="pt-2 pb-1 text-nowrap"
                         style={{ fontSize: "xx-small" }}

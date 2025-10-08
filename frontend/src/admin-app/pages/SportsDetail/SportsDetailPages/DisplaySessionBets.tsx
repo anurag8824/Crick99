@@ -79,6 +79,16 @@ const DisplaySessionBets = () => {
   const [sendid, setSendid] = React.useState(null);
   const [stack, setStack] = React.useState<any[]>([]);
 
+
+   const [filteredBets, setFilteredBets] = React.useState<any[]>([]);
+    const [users, setUsers] = React.useState<string[]>([]);
+    const [selectedSelection, setSelectedSelection] =
+      React.useState("All Selections");
+    const [totalPL, setTotalPL] = React.useState(0);
+    const [selections, setSelections] = React.useState<string[]>([]);
+  
+    const [selectedUserF, setSelectedUserF] = React.useState("All Users");
+
   const maid = useParams().id;
 
   React.useEffect(() => {
@@ -94,11 +104,24 @@ const DisplaySessionBets = () => {
       );
       console.log(bmbets, "book aker bets");
       setMarketonlymatch(bmbets);
-      const bmbetf = filtered[0].bets.filter(
+      const fancyBets = filtered[0].bets.filter(
         (b: any) => b.bet_on !== "MATCH_ODDS" && b.marketName !== "Bookmaker"
       );
 
-      setMarketonlyf(bmbetf);
+      setMarketonlyf(fancyBets);
+
+       // Get unique users and selections
+       const uniqueUsers: any = Array.from(
+        new Set(fancyBets.map((b: { userName: any }) => b.userName))
+      );
+      const uniqueSelections: any = Array.from(
+        new Set(fancyBets.map((b: { selectionName: any }) => b.selectionName))
+      );
+      setUsers(uniqueUsers);
+      setSelections(uniqueSelections);
+
+      setFilteredBets(fancyBets);
+      setTotalPL(fancyBets.reduce((acc: any, b: any) => acc + b.profitLoss, 0));
 
       const runners = bmbets[0]?.runners || [];
       console.log(runners, "mathced bets");
@@ -159,6 +182,36 @@ const DisplaySessionBets = () => {
     });
   }, [maid]);
 
+
+    React.useEffect(() => {
+      // Filter bets based on selected user and selection
+      let filtered = marketonlyf;
+  
+      if (selectedUserF !== "All Users") {
+        filtered = filtered.filter((b) => b.userName === selectedUserF);
+      }
+  
+      if (selectedSelection !== "All Selections") {
+        filtered = filtered.filter((b) => b.selectionName === selectedSelection);
+      }
+  
+      setFilteredBets(filtered);
+      setTotalPL(filtered.reduce((acc, b) => acc + b.profitLoss, 0));
+  
+      // Update selection dropdown to show only unique selections for filtered user
+      if (selectedUserF !== "All Users") {
+        const uniqueSelections = Array.from(
+          new Set(filtered.map((b) => b.selectionName))
+        );
+        setSelections(uniqueSelections);
+      } else {
+        const uniqueSelections = Array.from(
+          new Set(marketonlyf.map((b) => b.selectionName))
+        );
+        setSelections(uniqueSelections);
+      }
+    }, [selectedUserF, selectedSelection, marketonlyf]);
+
   // console.log(marketData, "fmsjnsdjfksgdfjgksd");
 
   const [ledgerData, setLedgerData] = React.useState([]);
@@ -187,125 +240,7 @@ const DisplaySessionBets = () => {
   const [startDate, setStartDate] = React.useState<string>("");
   const [endDate, setEndDate] = React.useState<string>("");
 
-  const handleDateFilter = async (isFilterApplied = false) => {
-    try {
-      const res = await accountService.matchdetail();
-      // console.log(res, "maatchh commsion report");
-
-      const allms = res.data.data.matches;
-
-      const filtered = allms.filter((m: any) => m.matchId == maid);
-      // console.log(filtered,"filterretedbets")
-      // console.log(filtered[0].ledgers);
-
-      // setmarketData(filtered[0].ledgers);
-      const rawData = filtered[0].ledgers.filter(
-        (m: any) => m.parentName == userState.user.username
-      );
-
-      const filteredData = filtered[0].ledgers;
-
-      const grouped: Record<string, GroupedLedger & { updownTotal: number }> =
-        {};
-
-      filteredData.forEach((item: any) => {
-        const childId: string = item.ChildId ? item.ChildId : item.ParentId;
-        //               const childId: string | null = item.ChildId ? item.ChildId : item.ParentId;
-
-        //   // ✅ Skip entry if childId is missing/null/undefined
-        //   if (!childId) return;
-        const isFancy: boolean = item.Fancy;
-        const money: number = Number(item.fammount) || 0;
-        const commissionn: any = Number(item.commissiondega) || 0;
-        const updown: number = Number(item.umoney) || 0;
-
-        if (!grouped[childId]) {
-          grouped[childId] = {
-            username: item.username,
-            cname: item.cname,
-            ss: item.superShare,
-            matchPlusMinus: 0,
-            sessionPlusMinus: 0,
-            matchcommision: 0,
-            fancycommmision: 0,
-            updownTotal: 0,
-          };
-        }
-
-        if (isFancy) {
-          grouped[childId].sessionPlusMinus += money;
-          grouped[childId].fancycommmision += commissionn;
-        } else {
-          grouped[childId].matchPlusMinus += money;
-          grouped[childId].matchcommision += commissionn;
-        }
-        grouped[childId].updownTotal += updown;
-      });
-
-      const finalTotals = {
-        match: 0,
-        session: 0,
-        mCom: 0,
-        sCom: 0,
-        tCom: 0,
-        gTotal: 0,
-        upDownShare: 0,
-        balance: 0,
-      };
-
-      const finalLedger: any = Object.entries(grouped).map(
-        ([ChildId, values]) => {
-          // const match = values.matchPlusMinus;
-          // const session = values.sessionPlusMinus;
-          const match = values.matchPlusMinus;
-          const session = values.sessionPlusMinus;
-          const matchc = values.matchcommision;
-          const fancyc = values.fancycommmision;
-          const ctotal: any = matchc + fancyc;
-          const totall = match + session;
-          const total = totall - ctotal;
-
-          // ✅ Accumulate totals here
-          // finalTotals.match += match;
-          // finalTotals.session += session;
-          finalTotals.match += match;
-          finalTotals.session += session;
-          finalTotals.mCom += matchc;
-          finalTotals.sCom += fancyc;
-          finalTotals.tCom += ctotal;
-          finalTotals.gTotal += total;
-          finalTotals.upDownShare += values.updownTotal;
-          finalTotals.balance += total + values.updownTotal;
-
-          return {
-            client: values.username,
-            cname: values.cname,
-            ss: values.ss,
-            match,
-            session,
-            totall,
-            mCom: matchc,
-            sCom: fancyc,
-            tCom: ctotal,
-            gTotal: total,
-            upDownShare: values.updownTotal,
-            balance: total + values.updownTotal,
-          };
-        }
-      );
-      console.log(finalLedger, "heloo world final ledger is here");
-
-      setLedgerTotal(finalTotals);
-
-      setLedgerData(finalLedger);
-    } catch (err) {
-      console.error("Error filtering ledger by date:", err);
-    }
-  };
-
-  React.useEffect(() => {
-    handleDateFilter(false); // no date filter
-  }, [maid]);
+  
 
   const [selectedUser, setSelectedUser] = React.useState<string | null>(null);
 
@@ -375,6 +310,31 @@ const DisplaySessionBets = () => {
             </div>
 
 
+            <div className="flex justify-between p-4 bg-light">
+              <select
+                value={selectedUserF}
+                onChange={(e) => setSelectedUserF(e.target.value)}
+              >
+                <option>All Users</option>
+                {users.map((u) => (
+                  <option key={u}>{u}</option>
+                ))}
+              </select>
+
+              <select
+                value={selectedSelection}
+                onChange={(e) => setSelectedSelection(e.target.value)}
+              >
+                <option>All Selections</option>
+                {selections.map((s) => (
+                  <option key={s}>{s}</option>
+                ))}
+              </select>
+
+              {/* <div className={`${totalPL > 0 ? "text-success" :"text-danger"} font-bold text-xl`}> Total PL : {totalPL}</div> */}
+            </div>
+
+
             <div className="card-body p-0 overflow-x-scroll">
               <table className="table table-striped table-bordered table-hover">
                 <thead className="small">
@@ -392,7 +352,7 @@ const DisplaySessionBets = () => {
                   </tr>
                 </thead>
                 <tbody className="small">
-                  {marketonlyf?.map((bet, index) => (
+                  {filteredBets?.map((bet, index) => (
                     <tr key={index}>
                       <td className="p-1 pt-2 small pr-0">
                         {bet?.parentNameStr}

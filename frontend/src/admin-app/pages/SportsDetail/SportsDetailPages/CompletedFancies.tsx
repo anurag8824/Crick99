@@ -198,7 +198,7 @@ const CompletedFancies = () => {
     setTotalPL(filtered.reduce((acc, b) => acc + b.profitLoss, 0));
 
     // Update selection dropdown to show only unique selections for filtered user
-    if (selectedUser !== "All Users") {
+    if (selectedUserF !== "All Users") {
       const uniqueSelections = Array.from(
         new Set(filtered.map((b) => b.selectionName))
       );
@@ -438,7 +438,7 @@ const CompletedFancies = () => {
                 ))}
               </select>
 
-              <div className="font-bold text-xl">Total PL: {totalPL}</div>
+              <div className={`${totalPL > 0 ? "text-success" :"text-danger"} font-bold text-xl`}> Total PL : {totalPL}</div>
             </div>
 
             <div className="card-body p-0 overflow-x-scroll">
