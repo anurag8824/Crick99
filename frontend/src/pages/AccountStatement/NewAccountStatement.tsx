@@ -278,7 +278,7 @@ const NewAccountStatement = () => {
         if (stmt.narration.length === 0) return null;
         return (
           <tr key={`${stmt._id}${index}`}>
-            <td>{stmt?.stmt?.allBets ? stmt?.stmt?.selectionId : ""}</td>
+         
             <td>
               {stmt?.stmt?.allBets
                 ? moment(stmt?.stmt?.createdAt).format(dateFormat)
@@ -291,7 +291,7 @@ const NewAccountStatement = () => {
     : ""}
 </td>
             <td>{stmt?.stmt?.amount ? stmt?.stmt?.amount : ""}</td>
-
+            <td>{stmt?.stmt?.bet?.isBack ? "Yes" : "No"}</td>
             <td>
               {stmt?.stmt?.bet ? (stmt?.credit > 0 ? "Win" : "Loss") : ""}
             </td>
@@ -322,7 +322,7 @@ const NewAccountStatement = () => {
               ? stmt?.narration?.match(/winner:\s*([^,\[\]]+)?/)?.[1]?.trim()
               : ""}
           </td> */}
-            <td>{stmt?.stmt?.bet ? stmt?.credit : ""}</td>
+            <td className={`${stmt?.credit < 0 ? "total2" : "total"}`}>{stmt?.stmt?.bet ? stmt?.credit : ""}</td>
             <td className="green wnwrap d-none">
               {stmt?.stmt?.bet ? stmt.closing : ""}
             </td>
@@ -368,7 +368,6 @@ const NewAccountStatement = () => {
         if (stmt.narration.length === 0) return null;
         return (
           <tr key={`${stmt._id}${index}`}>
-            <td>{stmt?.stmt?.allBets ? stmt?.stmt?.selectionId : ""}</td>
             <td>
               {stmt?.stmt?.allBets
                 ? moment(stmt?.stmt?.createdAt).format(dateFormat)
@@ -378,6 +377,7 @@ const NewAccountStatement = () => {
             <td>{stmt?.stmt?.bet ? stmt?.stmt?.bet?.odds || "" : ""}</td>
 
             <td>{stmt?.stmt?.amount ? stmt?.stmt?.amount : ""}</td>
+            <td>{stmt?.stmt?.bet?.isBack ? "Yes" : "No"}</td>
 
             <td>
               {stmt?.stmt?.bet ? (stmt?.credit > 0 ? "Win" : "Loss") : ""}
@@ -399,7 +399,7 @@ const NewAccountStatement = () => {
               ? stmt?.narration?.match(/winner:\s*([^,\[\]]+)?/)?.[1]?.trim()
               : ""}
           </td> */}
-            <td>{stmt?.stmt?.bet ? stmt?.credit : ""}</td>
+            <td className={`${stmt?.credit < 0 ? "total2" : "total"}`}>{stmt?.stmt?.bet ? stmt?.credit : ""}</td>
             <td className="green wnwrap d-none">
               {stmt?.stmt?.bet ? stmt.closing : ""}
             </td>
@@ -597,9 +597,7 @@ const NewAccountStatement = () => {
                     <table className="text-center" id="customers1">
                       <thead>
                         <tr>
-                          <th style={{ width: "45%", textAlign: "center" }}>
-                            Event ID
-                          </th>
+                        
 
                           <th style={{ width: "45%", textAlign: "center" }}>
                             Time
@@ -618,6 +616,10 @@ const NewAccountStatement = () => {
                           </th>
 
                           <th style={{ width: "45%", textAlign: "center" }}>
+                            Mode
+                          </th>
+
+                          <th style={{ width: "45%", textAlign: "center" }}>
                             Status
                           </th>
 
@@ -626,7 +628,7 @@ const NewAccountStatement = () => {
                           </th>
 
                           <th style={{ width: "10%", textAlign: "center" }}>
-                            PL{" "}
+                            P&L{" "}
                           </th>
 
                           <th
@@ -678,9 +680,7 @@ const NewAccountStatement = () => {
                     <table className="text-center" id="customers1">
                       <thead>
                         <tr>
-                          <th style={{ width: "45%", textAlign: "center" }}>
-                            Event ID
-                          </th>
+                       
 
                           <th style={{ width: "45%", textAlign: "center" }}>
                             Time
@@ -699,6 +699,10 @@ const NewAccountStatement = () => {
                           </th>
 
                           <th style={{ width: "45%", textAlign: "center" }}>
+                            Mode
+                          </th>
+
+                          <th style={{ width: "45%", textAlign: "center" }}>
                             Status
                           </th>
 
@@ -707,7 +711,7 @@ const NewAccountStatement = () => {
                           </th>
 
                           <th style={{ width: "10%", textAlign: "center" }}>
-                            PL{" "}
+                            P&L{" "}
                           </th>
 
                           <th
