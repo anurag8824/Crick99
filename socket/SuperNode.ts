@@ -27,12 +27,30 @@ socket.on("newFancyAdded", async ({ fancy, matchId }) => {
     .catch((e) => console.log(e.response));
 });
 
+// socket.on("deactivateFancy", (fancy) => {
+//   console.log(fancy,"deactive fancy")
+//   if (Object.keys(fancy).length > 0) {
+//     Object.keys(fancy).map((matchId) => {
+//       fancy[matchId].map((marketId: any) => {
+//         io.to(matchId).emit("removeFancy", { marketId, matchId});
+//       });
+//     });
+//     axios
+//       .post(`${process.env.CLIENT_NODE_URL}/deactivate-fancy`, {
+//         fancies: fancy,
+//       })
+//       .then((res) => {
+//         // here add new fancy to frontend
+//       })
+//       .catch((e) => console.log(e.response));
+//   }
+// });
+
 socket.on("deactivateFancy", (fancy) => {
-  console.log(fancy,"deactive fancy")
   if (Object.keys(fancy).length > 0) {
     Object.keys(fancy).map((matchId) => {
       fancy[matchId].map((marketId: any) => {
-        io.to(matchId).emit("removeFancy", { marketId, matchId});
+        io.to(matchId).emit("removeFancy", { marketId, matchId });
       });
     });
     axios
