@@ -36,9 +36,9 @@
 
 //     // type = type ===  ""
 
-//     const tableDataResponse = await axios.get(`http://82.29.164.133:3000/tabledata2/${type}`);
-//     const iframeResponse = await axios.get(`http://82.29.164.133:3000/iframe2/${type}`);
-//     // const casinoResultResponse = await axios.get(`http://82.29.164.133:3000/casinoresult2/${type}`);
+//     const tableDataResponse = await axios.get(`http://168.231.116.239:3000/tabledata2/${type}`);
+//     const iframeResponse = await axios.get(`http://168.231.116.239:3000/iframe2/${type}`);
+//     // const casinoResultResponse = await axios.get(`http://168.231.116.239:3000/casinoresult2/${type}`);
 
 //     // console.log(tableDataResponse.data, "Table Data Response");
 //     // console.log(iframeResponse.data, "Iframe Response");
@@ -49,7 +49,7 @@
 //       iframeData: iframeResponse.data,
 //       // casinoResult: casinoResultResponse.data
 //     };
-//     // const data = await axios.get(`http://82.29.164.133:3000/tabledata/${type}`)
+//     // const data = await axios.get(`http://168.231.116.239:3000/tabledata/${type}`)
 //     // console.log(data,"datafvcd fvbghnbgvfjk")
 //   } catch (error) {
 //     console.error("Error fetching data:", error);
@@ -217,7 +217,7 @@
 
 // const resultDetail = async (slug: string, mid: string): Promise<boolean> => {
 //   try {
-//     // const res = await axios.get(`http://82.29.164.133:3000/detailresult2/${slug}/${mid}`);
+//     // const res = await axios.get(`http://168.231.116.239:3000/detailresult2/${slug}/${mid}`);
 //     const res = await axios.get(`http://69.62.123.205:7000/api/v/casino/result?mid=${mid}`);
 //     // http://69.62.123.205:7000/api/v/casino/result?mid=106250611180237
 
@@ -393,11 +393,11 @@
 
 // // console.log("type",type)
 
-// //     //   let data :any = await axios.get(`http://82.29.164.133:3000/tabledata/lucky7`).then((res)=>{
+// //     //   let data :any = await axios.get(`http://168.231.116.239:3000/tabledata/lucky7`).then((res)=>{
 // //     //     console.log(data.json(),"result from api")
 
 // //     //   })
-// //     //  let xyx : any = await axios.get(`http://82.29.164.133:3000/iframe/${type}`)
+// //     //  let xyx : any = await axios.get(`http://168.231.116.239:3000/iframe/${type}`)
 // //     //  let resultnow : any =await axios.get(`http://185.211.99:3000/casinoresult/${type}`)
 // //     // console.log(xyx)
 
@@ -407,10 +407,10 @@
 
 // //       async function fetchData(type: string) {
 // //         try {
-// //           let data: any = await axios.get(`http://82.29.164.133:3000/tabledata/${type}`);
+// //           let data: any = await axios.get(`http://168.231.116.239:3000/tabledata/${type}`);
 // //           console.log(data.data, "result from API");
 
-// //           let xyx: any = await axios.get(`http://82.29.164.133:3000/iframe/${type}`);
+// //           let xyx: any = await axios.get(`http://168.231.116.239:3000/iframe/${type}`);
 // //           let resultnow: any = await axios.get(`http://185.211.99:3000/casinoresult/${type}`);
 
 // //           console.log(xyx.data, "iframe response");
@@ -905,7 +905,7 @@
 
 //     if (type === "AAA") type = "aaa";
 
-//     let response = await axios.get(`http://82.29.164.133:3000/tabledata2/${type}`);
+//     let response = await axios.get(`http://168.231.116.239:3000/tabledata2/${type}`);
 //     let data = response.data;
 
 //     console.log(data,'data hjkl')
@@ -1018,11 +1018,11 @@ const fetchData = async (type: string) => {
     // type = type ===  ""
 
     const tableDataResponse = await axios.get(
-      `http://82.29.164.133:3000/tabledata/infa/${type}`
+      `http://168.231.116.239:3000/tabledata/infa/${type}`
     );
-    // const iframeResponse = await axios.get(`http://82.29.164.133:3000/iframe/${type}`);
+    // const iframeResponse = await axios.get(`http://168.231.116.239:3000/iframe/${type}`);
     const casinoResultResponse = await axios.get(
-      `http://82.29.164.133:3000/casinoresult/infa/${type}`
+      `http://168.231.116.239:3000/casinoresult/infa/${type}`
     );
     const iframeResponse: any = {};
 
@@ -1035,7 +1035,7 @@ const fetchData = async (type: string) => {
       iframeData: iframeResponse?.data,
       casinoResult: casinoResultResponse?.data || {},
     };
-    // const data = await axios.get(`http://82.29.164.133:3000/tabledata/${type}`)
+    // const data = await axios.get(`http://168.231.116.239:3000/tabledata/${type}`)
     // console.log(data,"datafvcd fvbghnbgvfjk")
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -1230,7 +1230,7 @@ const sids = async (data: any, type: any) => {
 const resultDetail = async (slug: string, mid: string): Promise<boolean> => {
   try {
     const res = await axios.get(
-      `http://82.29.164.133:3000/detailresult/infa/${slug}/${mid}`
+      `http://168.231.116.239:3000/detailresult/infa/${slug}/${mid}`
     );
     console.log(res.data, "Response for resultDetails");
 
@@ -1407,11 +1407,11 @@ export default class CasinoController extends ApiController {
 
   // console.log("type",type)
 
-  //     //   let data :any = await axios.get(`http://82.29.164.133:3000/tabledata/lucky7`).then((res)=>{
+  //     //   let data :any = await axios.get(`http://168.231.116.239:3000/tabledata/lucky7`).then((res)=>{
   //     //     console.log(data.json(),"result from api")
 
   //     //   })
-  //     //  let xyx : any = await axios.get(`http://82.29.164.133:3000/iframe/${type}`)
+  //     //  let xyx : any = await axios.get(`http://168.231.116.239:3000/iframe/${type}`)
   //     //  let resultnow : any =await axios.get(`http://185.211.99:3000/casinoresult/${type}`)
   //     // console.log(xyx)
 
@@ -1421,10 +1421,10 @@ export default class CasinoController extends ApiController {
 
   //       async function fetchData(type: string) {
   //         try {
-  //           let data: any = await axios.get(`http://82.29.164.133:3000/tabledata/${type}`);
+  //           let data: any = await axios.get(`http://168.231.116.239:3000/tabledata/${type}`);
   //           console.log(data.data, "result from API");
 
-  //           let xyx: any = await axios.get(`http://82.29.164.133:3000/iframe/${type}`);
+  //           let xyx: any = await axios.get(`http://168.231.116.239:3000/iframe/${type}`);
   //           let resultnow: any = await axios.get(`http://185.211.99:3000/casinoresult/${type}`);
 
   //           console.log(xyx.data, "iframe response");
@@ -1994,7 +1994,7 @@ export default class CasinoController extends ApiController {
       if (type === "AAA") type = "aaa";
 
       let response = await axios.get(
-        `http://82.29.164.133:3000/tabledata/infa/${type}`
+        `http://168.231.116.239:3000/tabledata/infa/${type}`
       );
       let data = response.data;
 
@@ -2156,7 +2156,7 @@ export default class CasinoController extends ApiController {
 
     try {
       const iframeResponse = await axios.get(
-        `http://82.29.164.133:3000/iframe/infa/${type}`
+        `http://168.231.116.239:3000/iframe/infa/${type}`
       );
       console.log(iframeResponse.data, "ifrmmmamamamamam");
       return res.status(200).json({ tv: iframeResponse?.data?.data?.tv_url });

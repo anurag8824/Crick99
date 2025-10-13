@@ -13,8 +13,8 @@ from flask import jsonify
 from datetime import datetime
 
 
-superNodeUrl = "http://localhost:3025/api/"
-casinoNodeUrl = "http://localhost:3025/api/"
+superNodeUrl = "https://socket3.bxpro99.xyz/api/"
+casinoNodeUrl = "https://socket3.bxpro99.xyz/api/"
 
 # superNodeUrl = "http://localhost:3025/api/"
 # casinoNodeUrl = "http://localhost:3025/api/"
