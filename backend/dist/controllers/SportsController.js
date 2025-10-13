@@ -581,41 +581,39 @@ class SportsController extends ApiController_1.ApiController {
         });
     }
     bookmakermarketesData(match) {
-        var _a;
+        var _a, _b;
         return __awaiter(this, void 0, void 0, function* () {
             const markets = yield sports_service_1.default.getBookmakerMarkets(match);
-            // console.log(markets?.data?.sports, "markets data from backend ibn ths codew sw")
-            if ((_a = markets === null || markets === void 0 ? void 0 : markets.data) === null || _a === void 0 ? void 0 : _a.sports) {
+            console.log(markets, "markets data from backend ibn ths codew sw");
+            if (((_b = (_a = markets === null || markets === void 0 ? void 0 : markets.data) === null || _a === void 0 ? void 0 : _a.sports) === null || _b === void 0 ? void 0 : _b.length) > 0) {
                 let i = 0;
-                // await markets.data.sports.map(async (market: any) => {
-                let market = markets.data.sports;
-                let marketName = market.marketName;
-                if (market.marketName === 'Bookmaker') {
-                    i++;
-                    marketName = i > 1 ? `${market.marketName}${i}` : market.marketName;
+                if (i < 1) {
+                    yield markets.data.sports.map((market) => __awaiter(this, void 0, void 0, function* () {
+                        let marketName = market.marketName;
+                        if (market.marketName === 'Bookmaker') {
+                            i++;
+                            marketName = i > 1 ? `${market.marketName}${i}` : market.marketName;
+                        }
+                        const marketsData = {
+                            seriesId: match.seriesId,
+                            sportId: match.sportId,
+                            matchId: match.matchId,
+                            marketId: market.marketId,
+                            marketName: marketName,
+                            marketStartTime: market.marketStartTime,
+                            runners: market.runners.sort((a, b) => a.sortPriority - b.sortPriority),
+                            isActive: i == 1 ? true : false,
+                            oddsType: Market_1.OddsType.BM,
+                        };
+                        if (i == 1) {
+                            yield Market_1.Market.findOneAndUpdate({ marketId: market.marketId, matchId: match.matchId }, marketsData, {
+                                new: true,
+                                upsert: true,
+                            });
+                        }
+                    }));
                 }
-                const marketsData = {
-                    seriesId: match.seriesId,
-                    sportId: match.sportId,
-                    matchId: match.matchId,
-                    marketId: market.marketId,
-                    marketName: marketName,
-                    marketStartTime: market.marketStartTime,
-                    runners: Array.isArray(market.runners)
-                        ? market.runners.sort((a, b) => a.sortPriority - b.sortPriority)
-                        : [],
-                    isActive: true,
-                    oddsType: Market_1.OddsType.BM,
-                };
-                // if()
-                // console.log(marketsData, "FGHJKL")
-                const data34 = yield Market_1.Market.findOneAndUpdate({ marketId: market.marketId, matchId: match.matchId }, marketsData, {
-                    new: true,
-                    upsert: true,
-                });
-                // console.log("fghjkl", data34)
-                // })
-                return true;
+                return markets.data.sports.length > 0;
             }
             return false;
         });
