@@ -12,7 +12,7 @@ const DeletedBets = () => {
       console.log(res, "marketffffff data");
       const allBets = res.data.data.bets;
       const filteredBets = allBets.filter(
-        (bet: any) => bet.matchId == maid && bet.status === "pending"
+        (bet: any) => bet.matchId == maid && bet.status === "deleted" && bet.status === "cancelled"
       );
       console.log(filteredBets, "filterreerre");
       setmarketData(filteredBets);
@@ -42,31 +42,31 @@ const DeletedBets = () => {
             <div style={{background:"#0f2327"}} className="p-2 text-white mt-2 font-bold">Fancy Bets</div>
 
       <div className="row">
-        <div className="col-md-12">
+        <div className="col-md-12"  style={{ width: "100%" , overflowX:"scroll" }}>
           <table
             className="table table-striped table-bordered"
-            style={{ width: "100%" }}
+           
           >
             <thead>
               <tr>
-                <th  className="pt-2 pb-2">Client</th>
-                <th className="pt-0 pb-0">Market</th>
-                <th className="pt-0 pb-0">Team</th>
-                <th className="pt-0 pb-0">Run</th>
-                <th className="text-center pt-0 pb-0">Type</th>
-                <th className="pt-0 pb-0">Amount</th>
-                <th className="pt-0 pb-0">Result</th>
-                <th className="pt-0 pb-0">Deleted</th>
+                <th style={{background:"#0f2327", color:"white"}}   className="pt-2 pb-2">Client</th>
+                <th style={{background:"#0f2327", color:"white"}}  className="pt-0 pb-0">Market</th>
+                <th style={{background:"#0f2327", color:"white"}}  className="pt-0 pb-0">Team</th>
+                <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Run</th>
+                <th style={{background:"#0f2327", color:"white"}} className="text-center pt-0 pb-0">Type</th>
+                <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Amount</th>
+                <th style={{background:"#0f2327", color:"white"}}  className="pt-0 pb-0">Result</th>
+                <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Deleted</th>
               </tr>
             </thead>
             <tbody>
               {marketdata?.filter((b:any) => b.bet_on === "FANCY")?.map((bet: any, index: any) => (
                 <tr key={index}>
-                  <td className="p-1 small">{bet.userName}</td>
-                  <td className="p-1">{bet.selectionName}</td>
-                  <td className="p-1">{bet.selectionName}</td>
-                  <td className="p-1">{bet.odds}</td>
-                  <td className="text-center p-1">
+                  <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="p-1 small">{bet.userName}</td>
+                  <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="p-1">{bet.selectionName}</td>
+                  <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="p-1">{bet.selectionName}</td>
+                  <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="p-1">{bet.odds}</td>
+                  <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="text-center p-1">
                     {bet.isBack ? (
                       <button
                         style={{ textAlign: "left", fontSize: "xx-small" }}
@@ -78,9 +78,9 @@ const DeletedBets = () => {
                       "NO"
                     )}
                   </td>
-                  <td className="p-1">{bet.stack}</td>
-                  <td className="p-1">{bet.pnl}</td>
-                  <td style={{ fontSize: "xx-small" }} className="p-1">
+                  <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="p-1">{bet.stack}</td>
+                  <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="p-1">{bet.pnl}</td>
+                  <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" ,fontSize: "xx-small" }} className="p-1">
                     {new Date(bet.createdAt).toLocaleString()}
                   </td>
                 </tr>
@@ -94,31 +94,31 @@ const DeletedBets = () => {
       <div style={{background:"#0f2327"}} className="p-2 text-white mt-2 font-bold">Match Bets</div>
 
       <div className="row">
-        <div className="col-md-12">
+        <div className="col-md-12" style={{ width: "100%" , overflowX:"scroll" }}>
           <table
             className="table table-striped table-bordered"
-            style={{ width: "100%" }}
+           
           >
             <thead>
               <tr>
-                <th className="pt-2 pb-2">Client</th>
-                <th className="pt-0 pb-0">Market</th>
-                <th className="pt-0 pb-0">Team</th>
-                <th className="pt-0 pb-0">Rate</th>
-                <th className="text-center pt-0 pb-0">Type</th>
-                <th className="pt-0 pb-0">Amount</th>
-                <th className="pt-0 pb-0">Result</th>
-                <th className="pt-0 pb-0">Deleted</th>
+                <th style={{background:"#0f2327", color:"white"}} className="pt-2 pb-2">Client</th>
+                <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Market</th>
+                <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Team</th>
+                <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Rate</th>
+                <th style={{background:"#0f2327", color:"white"}} className="text-center pt-0 pb-0">Type</th>
+                <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Amount</th>
+                <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Result</th>
+                <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Deleted</th>
               </tr>
             </thead>
             <tbody>
               {marketdata?.filter((b:any) => b.bet_on === "MATCH_ODDS")?.map((bet: any, index: any) => (
                 <tr key={index}>
-                  <td className="p-1 small">{bet.userName}</td>
-                  <td className="p-1">{bet.selectionName}</td>
-                  <td className="p-1">{bet.selectionName}</td>
-                  <td className="p-1">{bet.odds}</td>
-                  <td className="text-center p-1">
+                  <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="p-1 small">{bet.userName}</td>
+                  <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="p-1">{bet.selectionName}</td>
+                  <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="p-1">{bet.selectionName}</td>
+                  <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="p-1">{bet.odds}</td>
+                  <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="text-center p-1">
                     {bet.isBack ? (
                       <button
                         style={{ textAlign: "left", fontSize: "xx-small" }}
@@ -130,9 +130,9 @@ const DeletedBets = () => {
                       "NO"
                     )}
                   </td>
-                  <td className="p-1">{bet.stack}</td>
-                  <td className="p-1">{bet.pnl}</td>
-                  <td style={{ fontSize: "xx-small" }} className="p-1">
+                  <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="p-1">{bet.stack}</td>
+                  <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="p-1">{bet.pnl}</td>
+                  <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" ,fontSize: "xx-small" }} className="p-1">
                     {new Date(bet.createdAt).toLocaleString()}
                   </td>
                 </tr>

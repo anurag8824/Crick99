@@ -199,80 +199,80 @@ class SportsController extends ApiController_1.ApiController {
                 return this.fail(res, e);
             }
         });
-        // getSeriesWithMarket = async (req: Request, res: Response): Promise<any> => {
-        //   try {
-        //     const { EventTypeID } = req.query
-        //     if (!EventTypeID) return this.fail(res, 'EventTypeID is required field')
-        //     const alreadyAdded = await Match.find({ active: true }, { matchId: 1 })
-        //     const matchIds = alreadyAdded.map((match: any) => match.matchId)
-        //     const response = await sportsApi
-        //       .get(`/get-series-redis/${EventTypeID}`)
-        //       .then(async (series: any) => {
-        //         console.log(series,"series is here hahhahahahahahaha")
-        //         const getMatches = series.data.data.map(async (s: any) => {
-        //           return s.match.map((fm: any) => {
-        //             fm.series = s.competition
-        //             fm.matchId = fm.event.id
-        //             fm.matchDateTime = fm.event.openDate
-        //             fm.name = fm.event.name
-        //             fm.seriesId = s.competition?.id
-        //             fm.sportId = EventTypeID
-        //             fm.active = matchIds.indexOf(parseInt(fm.event.id)) > -1 ? true : false
-        //             return fm
-        //           })
-        //         })
-        //         return Promise.all([...getMatches])
-        //       })
-        //       .then((m) => {
-        //         return m
-        //           .filter((element: any) => {
-        //             return !Array.isArray(element) || element.length !== 0
-        //           })
-        //           .flat()
-        //       })
-        //       .catch((e) => console.log('error', e))
-        //     return this.success(res, response, '')
-        //   } catch (e: any) {
-        //     return this.fail(res, e)
-        //   }
-        // }
         this.getSeriesWithMarket = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            var _b;
             try {
                 const { EventTypeID } = req.query;
                 if (!EventTypeID)
                     return this.fail(res, 'EventTypeID is required field');
-                // Get matchIds from DB
                 const alreadyAdded = yield Match_1.Match.find({ active: true }, { matchId: 1 });
                 const matchIds = alreadyAdded.map((match) => match.matchId);
-                // Fetch from external API
-                const response = yield axios_1.default.get(`http://82.29.164.133:3000/bxpro/v1/allmatch`);
-                const seriesData = (_b = response === null || response === void 0 ? void 0 : response.data) === null || _b === void 0 ? void 0 : _b.data;
-                if (!seriesData)
-                    return this.success(res, [], 'No data from API');
-                // Map over series data to format it
-                const getMatches = yield Promise.all(seriesData.map((s) => __awaiter(this, void 0, void 0, function* () {
-                    var _c, _d;
-                    return {
-                        event: s.event,
-                        series: s.series,
-                        matchId: parseInt(s.event.id),
-                        matchDateTime: s.event.openDate,
-                        name: s.event.name,
-                        seriesId: ((_d = (_c = s.competition) === null || _c === void 0 ? void 0 : _c.id) === null || _d === void 0 ? void 0 : _d.toString()) || '',
-                        sportId: 4,
-                        active: matchIds.includes(parseInt(s.event.id)) // consistent with matchId
-                    };
-                })));
-                // Filter out any falsy or empty objects if needed
-                const filteredMatches = getMatches.filter(Boolean);
-                return this.success(res, filteredMatches, '');
+                const response = yield api_1.sportsApi
+                    .get(`/get-series-redis/${EventTypeID}`)
+                    .then((series) => __awaiter(this, void 0, void 0, function* () {
+                    console.log(series, "series is here hahhahahahahahaha");
+                    const getMatches = series.data.data.map((s) => __awaiter(this, void 0, void 0, function* () {
+                        return s.match.map((fm) => {
+                            var _a;
+                            fm.series = s.competition;
+                            fm.matchId = fm.event.id;
+                            fm.matchDateTime = fm.event.openDate;
+                            fm.name = fm.event.name;
+                            fm.seriesId = (_a = s.competition) === null || _a === void 0 ? void 0 : _a.id;
+                            fm.sportId = EventTypeID;
+                            fm.active = matchIds.indexOf(parseInt(fm.event.id)) > -1 ? true : false;
+                            return fm;
+                        });
+                    }));
+                    return Promise.all([...getMatches]);
+                }))
+                    .then((m) => {
+                    return m
+                        .filter((element) => {
+                        return !Array.isArray(element) || element.length !== 0;
+                    })
+                        .flat();
+                })
+                    .catch((e) => console.log('error', e));
+                return this.success(res, response, '');
             }
             catch (e) {
-                console.error('Error in getSeriesWithMarket:', e);
-                return this.fail(res, e.message || e);
+                return this.fail(res, e);
             }
         });
+        // getSeriesWithMarket = async (req: Request, res: Response): Promise<any> => {
+        //   try {
+        //     const { EventTypeID } = req.query
+        //     if (!EventTypeID) return this.fail(res, 'EventTypeID is required field')
+        //     // Get matchIds from DB
+        //     const alreadyAdded = await Match.find({ active: true }, { matchId: 1 })
+        //     const matchIds = alreadyAdded.map((match: any) => match.matchId)
+        //     // Fetch from external API
+        //     const response = await axios.get(`http://82.29.164.133:3000/bxpro/v1/allmatch`)
+        //     const seriesData = response?.data?.data
+        //     if (!seriesData) return this.success(res, [], 'No data from API')
+        //     // Map over series data to format it
+        //     const getMatches = await Promise.all(
+        //       seriesData.map(async (s: any) => {
+        //         return {
+        //           event: s.event,
+        //           series: s.series,
+        //           matchId: parseInt(s.event.id), // make sure this is the right field
+        //           matchDateTime: s.event.openDate,
+        //           name: s.event.name,
+        //           seriesId: s.competition?.id?.toString() || '',  // fixed typo 'ompetition'
+        //           sportId: 4,
+        //           active: matchIds.includes(parseInt(s.event.id))  // consistent with matchId
+        //         }
+        //       })
+        //     )
+        //     // Filter out any falsy or empty objects if needed
+        //     const filteredMatches = getMatches.filter(Boolean)
+        //     return this.success(res, filteredMatches, '')
+        //   } catch (e: any) {
+        //     console.error('Error in getSeriesWithMarket:', e)
+        //     return this.fail(res, e.message || e)
+        //   }
+        // }
         this.getSeriesWithMarketWithDate = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const { EventTypeID } = req.query;
@@ -408,7 +408,7 @@ class SportsController extends ApiController_1.ApiController {
                     console.log(e.response);
                 });
                 yield matchData.map((match) => __awaiter(this, void 0, void 0, function* () {
-                    // await this.marketesData(match, syncData)
+                    yield this.marketesData(match, syncData);
                     const isFancy = yield this.fancyData(match);
                     const isBookMaker = yield this.bookmakermarketesData(match);
                     let isT10 = false;
@@ -669,7 +669,7 @@ class SportsController extends ApiController_1.ApiController {
                         sportId: match.sportId,
                         matchId: match.matchId,
                         marketId: market.SelectionId,
-                        fancyName: market.RunnerName.toLowerCase(),
+                        fancyName: market.RunnerName,
                         gtype: market.gtype,
                         sr_no: market.sr_no ? market.sr_no : market.srno ? parseInt(market.srno) : 1,
                         ballByBall: type,
@@ -1066,9 +1066,9 @@ class SportsController extends ApiController_1.ApiController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { fancy } = req.body;
-                // if (fancy.gtype == "khado" || fancy.gtype == "oddeven" || fancy.gtype == "meter" || fancy.RunnerName.includes(' run bhav ') || fancy.RunnerName.includes(" Caught out ") || fancy.RunnerName.includes(' ball No ') || fancy.RunnerName.includes(' Run bhav ') || fancy.RunnerName.includes(' run bhav') || fancy.RunnerName.includes('.3 over ')) {
-                //   return this.fail(res, 'not fancy added')
-                // }
+                if (fancy.gtype == "khado" || fancy.gtype == "oddeven" || fancy.gtype == "meter" || fancy.RunnerName.includes(' run bhav ') || fancy.RunnerName.includes(" Caught out ") || fancy.RunnerName.includes(' ball No ') || fancy.RunnerName.includes(' Run bhav ') || fancy.RunnerName.includes(' run bhav') || fancy.RunnerName.includes('.3 over ')) {
+                    return this.fail(res, 'not fancy added');
+                }
                 let type = '';
                 if (fancy.RunnerName.includes(' ball run ')) {
                     type = 'ballRun';
@@ -1083,7 +1083,7 @@ class SportsController extends ApiController_1.ApiController {
                     matchId: fancy.matchId,
                     marketId: fancy.SelectionId,
                     active: type != "ballRun" ? true : true,
-                    fancyName: fancy.RunnerName.toLowerCase(),
+                    fancyName: fancy.RunnerName,
                     gtype: fancy.gtype ? fancy.gtype : 'session',
                     sr_no: fancy.sr_no,
                     ballByBall: type,

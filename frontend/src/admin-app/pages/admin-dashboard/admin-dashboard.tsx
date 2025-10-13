@@ -17,7 +17,7 @@ import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import { useAppSelector } from "../../../redux/hooks";
 import { selectUserData } from "../../../redux/actions/login/loginSlice";
-import User from "../../../models/User";
+import User, { RoleType } from "../../../models/User";
 
 import UserService from "../../../services/user.service";
 import userService from "../../../services/user.service";
@@ -287,14 +287,61 @@ const AdminDashboard = () => {
 
   const [activeId, setActiveId] = React.useState(null);
 
+
+
+  const getRoleOptions = (): { key: RoleType; label: string }[] => {
+    const userRole = userState?.user?.role as RoleType;
+
+    const allRoles = {
+      admin: "Super Admin",
+      sadmin: "Admin",
+      suadmin: "Sub Admin",
+      smdl: "Master",
+      mdl: "Super",
+      dl: "Agent",
+      user: "Client",
+    };
+
+    const roleMap: Record<RoleType, RoleType[]> = {
+      [RoleType.admin]: [
+        RoleType.sadmin,
+        RoleType.suadmin,
+        RoleType.smdl,
+        RoleType.mdl,
+        RoleType.dl,
+        RoleType.user,
+      ],
+      [RoleType.sadmin]: [RoleType.suadmin ,RoleType.smdl, RoleType.mdl,  RoleType.dl, RoleType.user,],
+      [RoleType.suadmin]: [RoleType.smdl, RoleType.mdl, RoleType.dl, RoleType.user,],
+
+      [RoleType.smdl]: [RoleType.mdl, RoleType.dl, RoleType.user],
+      [RoleType.mdl]: [RoleType.dl, RoleType.user],
+      [RoleType.dl]: [RoleType.user],
+      [RoleType.user]: [],
+    };
+
+    const allowedRoles = roleMap[userRole] || [];
+
+    return allowedRoles.map((key) => ({
+      key,
+      label: allRoles[key],
+    }));
+  };
+
+
+ 
+
+  
+
   const dashboardItems = [
     {
       id: "1",
       name: "Agent",
-      items: [
-        { title: "Agent", link: "/list-clients", icon: "fa-regular fa-circle-user fa-2x me-3" },
-        { title: "Client", link: "/list-clients", icon: "fa-regular fa-circle-user fa-2x me-3" },
-      ],
+      items: getRoleOptions().map((role) =>({
+        title: role.label,
+        link: `/list-clients/${userState?.user?.username}/${role.key}`,
+        icon: "fa-regular fa-circle-user fa-2x me-3",
+      })),
     },
     {
       id: "2",
@@ -363,12 +410,15 @@ const AdminDashboard = () => {
       }
     }, [userState?.user?.username]);
 
+    
+
   return (
     <>
       {/* {mobileSubheader.subheaderdesktopadmin(
         "Market Analysis",
         "You can view your cricket card books from sport menu."
       )} */}
+
 
       <div className="container-fluid">
         <div className="row">
@@ -560,7 +610,21 @@ const AdminDashboard = () => {
                   </div> */}
                   <i className="fa-regular fa-circle-user fa-2x me-3"></i>
                   <div>
-                    <p className="fw-bold mb-1">Agent</p>
+                    <p className="fw-bold mb-1">{userState?.user?.role === "admin"
+                          ? "Super Admin"
+                          : userState?.user?.role === "sadmin"
+                          ? "Admin"
+                          : userState?.user?.role === "suadmin"
+                          ? "Sub Admin"
+                          : userState?.user?.role === "smdl"
+                          ? "Master"
+                          : userState?.user?.role === "mdl"
+                          ? "Super"
+                          : userState?.user?.role === "dl"
+                          ? "Agent"
+                          : userState?.user?.role === "user"
+                          ? "Client"
+                          : ""}</p>
                     <small>My Team</small>
                   </div>
                 </div>

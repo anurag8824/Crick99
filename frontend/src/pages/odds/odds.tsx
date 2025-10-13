@@ -159,7 +159,7 @@ const Odds = () => {
     <div className='cricket-iframe'>
         <iframe
           style={{ width: '100%', height:'190px', }}
-          src={`https://sportsradarapi.turnkeyxgaming.com/html/cricket.html?eventid=${currentMatch?.matchId}`}
+          src={`https://score.akamaized.uk/?id=${currentMatch?.matchId}`}
         ></iframe>
         </div>
       )

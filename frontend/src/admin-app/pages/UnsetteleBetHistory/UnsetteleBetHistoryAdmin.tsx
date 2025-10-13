@@ -13,7 +13,7 @@ import betService from '../../../services/bet.service'
 import { AxiosResponse } from 'axios'
 import BetListComponent from './bet-list.component'
 import { useWebsocketUser } from '../../../context/webSocketUser'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import User, { RoleType } from '../../../models/User'
 import { selectUserData } from '../../../redux/actions/login/loginSlice'
 
@@ -128,7 +128,7 @@ const UnsetteleBetHistoryAdmin = ({ hideHeader, matchId }: any) => {
       });
     }
   };
-
+// k
   const handleSelectAll = () => {
     setSelectAll(!selectAll) // Toggle the state of "Select All" checkbox
     const updatedHistory = bethistory.docs.map((item: any) => ({
@@ -180,10 +180,27 @@ const UnsetteleBetHistoryAdmin = ({ hideHeader, matchId }: any) => {
   }
   console.log(sportList,"spoers list")
 
+    const navigate = useNavigate();
+
   return (
     <>
-      {!hideHeader && mobileSubheader.subheaderdesktopadmin(params.type=='deleted'?'Deleted Bet History':'Unsettled Bet History')}
-      <div className='container-fluid'>
+      {/* {!hideHeader && mobileSubheader.subheaderdesktopadmin(params.type=='deleted'?'Deleted Bet History':'Unsettled Bet History')} */}
+      <div className='container-fluid mt-1'>
+      <div
+        style={{ background: "#0f2327" }}
+        className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex"
+      >
+        <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
+        Unsettled Bet History
+        </span>
+        <button
+          onClick={() => navigate(-1)}
+          type="button"
+          className="btn bg-primary text-white"
+        >
+          <span>Back</span>
+        </button>
+      </div>
         <div className='row'>
           <div className={!isMobile ? 'col-md-12 mt-1' : 'col-md-12 padding-custom'}>
             <div className=''>

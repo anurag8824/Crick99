@@ -73,9 +73,15 @@ class BetService {
   getBetListByIds(betIds: Array<string>, page: number) {
     return api.post(`get-bet-list-by-ids`, { betIds, page });
   }
+
   deleteCurrentBet(id: string) {
     return api.delete(`delete-current-bet/${id}`);
   }
+
+  undodeleteCurrentBet(id: string) {
+    return api.post(`undo-delete-current-bet/${id}`);
+  }
+
   betLock(data: any) {
     return api.post(`bet-lock`, data);
   }

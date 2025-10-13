@@ -10,7 +10,7 @@ import SubmitButton from "../../../components/SubmitButton";
 
 const generateCaptcha = () => {
   const chars =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    "123456789";
   let captcha = "";
   for (let i = 0; i < 4; i++) {
     captcha += chars.charAt(Math.floor(Math.random() * chars.length));

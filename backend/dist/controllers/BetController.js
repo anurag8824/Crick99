@@ -2327,6 +2327,25 @@ class BetController extends ApiController_1.ApiController {
                 return this.fail(res, e);
             }
         });
+        this.undodeleteCurrentBet = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                let status = 'pending';
+                const userbet = yield Bet_1.Bet.findOneAndUpdate({ _id: ObjectId(req.params.id) }, { $set: { status } });
+                console.log(userbet, "userbet");
+                const betAmount = parseFloat(userbet === null || userbet === void 0 ? void 0 : userbet.loss.toString());
+                console.log(betAmount, "Bet ammount HHHHH");
+                const userId = userbet.userId;
+                const json = {};
+                let exposer = yield this.getexposerfunction({ _id: userbet.userId }, true, json);
+                let exposer2 = yield this.getcasinoexposerfunction({ _id: userbet.userId }, true, json);
+                // balance event here
+                return this.success(res, { success: true }, 'Bet Reverse successfully');
+            }
+            catch (e) {
+                console.log(e);
+                return this.fail(res, e);
+            }
+        });
         this.deleteBets = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const { ids } = req.body;
@@ -2343,7 +2362,7 @@ class BetController extends ApiController_1.ApiController {
                     }));
                 }
                 // balance event here
-                return this.success(res, { success: true }, "Bet deleted successfully");
+                return this.success(res, { success: true }, "Get deleted Bet successfully");
             }
             catch (e) {
                 return this.fail(res, e);

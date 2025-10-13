@@ -2,7 +2,7 @@ import { AxiosResponse } from 'axios'
 import moment from 'moment'
 import React, { MouseEvent } from 'react'
 import ReactPaginate from 'react-paginate'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import IMatch from '../../../models/IMatch'
 import { CustomLink } from '../../../pages/_layout/elements/custom-link'
 import matchService from '../../../services/match.service'
@@ -120,10 +120,29 @@ const ActiveMatches = () => {
     setPage(1)
   }
 
+  const navigate = useNavigate()
+
   return (
     <>
-      {mobileSubheader.subheaderdesktopadmin('Match List')}
-      <div className='container-fluid'>
+      {/* {mobileSubheader.subheaderdesktopadmin('Match List')} */}
+      
+      <div className='container-fluid mt-1'>
+
+      <div
+        style={{ background: "#0f2327" }}
+        className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex"
+      >
+        <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
+        Match List
+        </span>
+        <button
+          onClick={() => navigate(-1)}
+          type="button"
+          className="btn bg-primary text-white"
+        >
+          <span>Back</span>
+        </button>
+      </div>
         <div className='row justify-content-md-center'>
           <div className='col-md-4 p-2'>
             <label>&nbsp;</label>
@@ -151,13 +170,13 @@ const ActiveMatches = () => {
             <table className='table table-bordered'>
               <thead>
                 <tr>
-                  <th>In Play</th>
-                  <th>Game</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                  <th>Bet Limit</th>
-                  <th>Manage Fancy</th>
-                  <th>Rollback</th>
+                  <th style={{ backgroundColor: "#0f2327",color:"white"  }}>In Play</th>
+                  <th style={{ backgroundColor: "#0f2327",color:"white"  }}>Game</th>
+                  <th style={{ backgroundColor: "#0f2327",color:"white"  }}>Status</th>
+                  <th style={{ backgroundColor: "#0f2327",color:"white"  }}>Action</th>
+                  <th style={{ backgroundColor: "#0f2327",color:"white"  }}>Bet Limit</th>
+                  <th style={{ backgroundColor: "#0f2327",color:"white"  }}>Manage Fancy</th>
+                  <th style={{ backgroundColor: "#0f2327",color:"white"  }}>Rollback</th>
                 </tr>
               </thead>
               <tbody>

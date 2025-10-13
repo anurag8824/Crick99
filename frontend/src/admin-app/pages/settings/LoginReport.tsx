@@ -79,7 +79,7 @@ const LoginReport = () => {
                 >
                   COUNTRY
                 </th>
-                <th
+                {/* <th
                   className="p-1 small text-center no-sort sorting_disabled"
                   style={{
                     width: 81,
@@ -88,7 +88,7 @@ const LoginReport = () => {
                   }}
                 >
                   REGION
-                </th>
+                </th> */}
                 <th
                   className="p-1 small text-center no-sort sorting_disabled"
                   style={{
@@ -130,9 +130,9 @@ const LoginReport = () => {
                   className={index % 2 === 0 ? "even" : "odd"}
                 >
                   <td className="small pl-2 pr-0">{row.country}</td>
-                  <td>
+                  {/* <td>
                     <span className="">{row.region}</span>
-                  </td>
+                  </td> */}
                   <td>
                     <span className="t">{row.org}</span>
                   </td>

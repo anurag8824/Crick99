@@ -330,8 +330,10 @@ const DisplayMatchBets = () => {
 
             <div className="filters mb-3 d-flex gap-2 flex justify-between p-4 bg-light">
               <select
+              style={{background:"#0f2327", color:"white"}}
                 value={selectedUserM}
                 onChange={(e) => setSelectedUserM(e.target.value)}
+                className="rounded p-1"
               >
                 <option>All Users</option>
                 {users.map((u) => (
@@ -340,6 +342,8 @@ const DisplayMatchBets = () => {
               </select>
 
               <select
+               style={{background:"#0f2327", color:"white"}}
+               className="rounded p-1"
                 value={selectedMarket}
                 onChange={(e) => setSelectedMarket(e.target.value)}
               >
@@ -357,23 +361,24 @@ const DisplayMatchBets = () => {
               <table className="table table-striped table-bordered table-hover">
                 <thead className="small">
                   <tr>
-                    <th className="pt-2 pb-2">Client</th>
-                    <th className="pt-0 pb-0">Amount</th>
-                    <th className="pt-0 pb-0">Rate</th>
-                    <th className="pt-0 pb-0">Type</th>
-                    <th className="pt-0 pb-0">PnL</th>
-                    <th className="pt-0 pb-0">OddsType</th>
-                    <th className="pt-0 pb-0">Agent</th>
-                    <th className="pt-0 pb-0">Team</th>
-                    <th className="pt-0 pb-0">Date</th>
-                    <th className="pt-0 pb-0">IP</th>
+                    <th style={{background:"#0f2327", color:"white"}} className="pt-2 pb-2">Client</th>
+                    <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Amount</th>
+                    <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Rate</th>
+                    <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Type</th>
+                    <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">PnL</th>
+                    <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">OddsType</th>
+                    <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Agent</th>
+                    <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Team</th>
+                    <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Date</th>
+                    <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">IP</th>
                   </tr>
                 </thead>
                 <tbody className="small">
                   {filteredBets?.map((bet, index) => (
                     <tr key={index}>
-                      <td className="p-1 pt-2 small pr-0">{bet?.userName}</td>
+                      <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="p-1 pt-2 small pr-0">{bet?.userName}</td>
                       <td
+                      style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}
                         className={`pt-2 pb-1 ${
                           bet?.profitLoss < 0
                             ? "text-red-500"
@@ -382,11 +387,11 @@ const DisplayMatchBets = () => {
                       >
                         {bet?.stack}
                       </td>
-                      <td className="pt-2 pb-1">{bet?.odds.toFixed(2)}</td>
-                      <td className="pt-2 pb-1">
+                      <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="pt-2 pb-1">{bet?.odds.toFixed(2)}</td>
+                      <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="pt-2 pb-1">
                         {bet?.isBack ? (
                           <button
-                            className="btn-yes btn btn-sm p-1 ng-scope gap-1 d-flex"
+                            className="btn-yes btn btn-sm ng-scope gap-1 d-flex"
                             style={{ fontSize: "xx-small", color: "black" }}
                           >
                             <span
@@ -427,6 +432,7 @@ const DisplayMatchBets = () => {
             </td> */}
 
                       <td
+                      style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}
                         className={`pt-2 pb-1 ${
                           bet?.profitLoss < 0
                             ? "text-red-500"
@@ -435,19 +441,20 @@ const DisplayMatchBets = () => {
                       >
                         {(bet?.profitLoss).toFixed()}
                       </td>
-                      <td className="pt-2 pb-1">{bet?.marketName}</td>
-                      <td className="pt-2 pb-1">{bet?.parentNameStr}</td>
-                      <td className="pt-2 pb-1">{bet?.selectionName}</td>
+                      <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="pt-2 pb-1">{bet?.marketName}</td>
+                      <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="pt-2 pb-1">{bet?.parentNameStr}</td>
+                      <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="pt-2 pb-1">{bet?.selectionName}</td>
 
                       <td
                         className="pt-2 pb-1 text-nowrap"
-                        style={{ fontSize: "xx-small" }}
+                        style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" ,fontSize: "xx-small" }}
                       >
                         {moment(bet?.betClickTime).format(dateFormat)}
                       </td>
                       <td
+                      style={{background : bet.isBack ? "#72BBEF" : "#faa9ba",fontSize: "xx-small" }}
                         className="pt-2 pb-1"
-                        style={{ fontSize: "xx-small" }}
+                   
                       >
                         {bet?.userIp?.split(":").slice(0, 4).join(":")}
                       </td>

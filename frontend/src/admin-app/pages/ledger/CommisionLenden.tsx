@@ -254,7 +254,7 @@ const CommisionLenden: React.FC = () => {
         style={{ background: "#0f2327" }}
         className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex"
       >
-        <span className="text-4xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
+        <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
           Commision Len Den
         </span>
         <CustomLink

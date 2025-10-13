@@ -314,7 +314,7 @@ const SportsDetails = () => {
                 Name
               </th>
 
-              <th
+              {/* <th
                 className="sorting_disabled"
                 rowSpan={1}
                 colSpan={1}
@@ -325,39 +325,25 @@ const SportsDetails = () => {
                 }}
               >
                 Setting
-              </th>
+              </th> */}
               <th
                 className="sorting_disabled"
                 rowSpan={1}
                 colSpan={1}
                 style={{ width: "63px", background: "#0f2327", color: "white" }}
               >
-                Time
+               Date & Time
               </th>
+            
               <th
                 className="sorting_disabled"
                 rowSpan={1}
                 colSpan={1}
                 style={{ width: "63px", background: "#0f2327", color: "white" }}
               >
-                Competition
+                View
               </th>
-              <th
-                className="sorting_disabled"
-                rowSpan={1}
-                colSpan={1}
-                style={{ width: "63px", background: "#0f2327", color: "white" }}
-              >
-                Status
-              </th>
-              <th
-                className="sorting_disabled"
-                rowSpan={1}
-                colSpan={1}
-                style={{ width: "63px", background: "#0f2327", color: "white" }}
-              >
-                Declare
-              </th>
+            
             </tr>
           </thead>
           <tbody className="small">
@@ -389,22 +375,22 @@ const SportsDetails = () => {
 
                       <CustomLink
                         className="dropdown-item  text-lg  text-blackcall-event font-semibold "
-                        to={`/report-bets/${item.matchId}`}
+                        to={`/odds/${item.matchId}`}
                       >
                         Match and Session Position
                       </CustomLink>
 
-                      <CustomLink
+                      {/* <CustomLink
                         className="dropdown-item  text-lg  text-blackcall-event font-semibold"
-                        to={`/report-bets/${item.matchId}`}
+                        to={`//${item.matchId}`}
                       >
                         Match and Session Plus Minus
-                      </CustomLink>
+                      </CustomLink> */}
                       <CustomLink
                         className="dropdown-item  text-lg  text-black all-event font-semibold "
                         to={`/plus-minus-2/${item.matchId}/${item.name}`}
                       >
-                        Match and Session Plus 2 Minus
+                        Match and Session Plus Minus
                       </CustomLink>
                       <CustomLink
                         className="dropdown-item  text-lg  text-black call-event font-semibold "
@@ -419,12 +405,7 @@ const SportsDetails = () => {
                       >
                         Display Session Bets
                       </CustomLink>
-                      <CustomLink
-                        className="dropdown-item text-lg text-black call-event font-semibold "
-                        to={`/match-session-bets/${item.matchId}`}
-                      >
-                        Match and Session Bet
-                      </CustomLink>
+                     
                       <CustomLink
                         className="dropdown-item text-lg text-black call-event font-semibold "
                         to={`/completed-fancies/${item.matchId}`}
@@ -440,54 +421,34 @@ const SportsDetails = () => {
                       </CustomLink>
 
 
-                      <CustomLink
+                      {/* <CustomLink
                         className="dropdown-item text-lg text-black call-event font-semibold "
                         to={`/match-bets/${item.matchId}`}
                       >
                         Agent Plus Minus
-                      </CustomLink>
+                      </CustomLink> */}
                     </div>
                   )}
                 </td>
                 <td className="ng-scope">{index + 1}</td>
                 <td className="ng-scope">
-                  <CustomLink
-                    className="flex align-items-center gap-2 text-blue-500"
-                    // to={`${
-                    //   item?.active
-                    //     ? `/odds/${item?.matchId}/${shared}`
-                    //     : `/client-bets/${item.matchId}`
-                    // }`}
-                    to={`/client-bets/${item.matchId}`}
-                  >
+                 
                     
                     {item.name}
-                  </CustomLink>
                 </td>
-                <td className="ng-scope">No change</td>
                 <td className="ng-scope">
                   {moment(item.matchDateTime).format(dateFormat)}
                 </td>
 
-                <td className="ng-scope">{item.name}</td>
-
-                <td className="ng-scope text-center align-middle ">
-                  {item.inPlay ? (
-                    <span className="text-white fs-6  bg-primary rounded p-2 text-nowrap">
-                      IN PLAY
-                    </span>
-                  ) : (
-                    <span className="">-</span>
-                  )}
+                <td className="ng-scope">
+                  <CustomLink
+                    className="flex align-items-center gap-2 text-blue-500"
+                    to={`/odds/${item?.matchId}/${shared}`}
+                  >
+                   View
+                  </CustomLink>
                 </td>
 
-                <td className="ng-scope text-center align-middle ">
-                  {item.inPlay ? (
-                    <span className="">No</span>
-                  ) : (
-                    <span className="">Yes</span>
-                  )}
-                </td>
               </tr>
             ))}
 
