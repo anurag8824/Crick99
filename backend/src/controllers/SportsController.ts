@@ -98,7 +98,7 @@ class SportsController extends ApiController {
         })
 
       await matchData.map(async (match: any) => {
-        // await this.marketesData(match, syncData)
+        await this.marketesData(match, syncData)
         const isFancy = await this.fancyData(match)
         const isBookMaker = await this.bookmakermarketesData(match)
         let isT10 = false
@@ -1067,86 +1067,87 @@ class SportsController extends ApiController {
   }
 
 
-  // getSeriesWithMarket = async (req: Request, res: Response): Promise<any> => {
-  //   try {
-  //     const { EventTypeID } = req.query
-  //     if (!EventTypeID) return this.fail(res, 'EventTypeID is required field')
-  //     const alreadyAdded = await Match.find({ active: true }, { matchId: 1 })
-  //     const matchIds = alreadyAdded.map((match: any) => match.matchId)
-  //     const response = await sportsApi
-  //       .get(`/get-series-redis/${EventTypeID}`)
-  //       .then(async (series: any) => {
-  //         console.log(series,"series is here hahhahahahahahaha")
-  //         const getMatches = series.data.data.map(async (s: any) => {
-  //           return s.match.map((fm: any) => {
-  //             fm.series = s.competition
-  //             fm.matchId = fm.event.id
-  //             fm.matchDateTime = fm.event.openDate
-  //             fm.name = fm.event.name
-  //             fm.seriesId = s.competition?.id
-  //             fm.sportId = EventTypeID
-  //             fm.active = matchIds.indexOf(parseInt(fm.event.id)) > -1 ? true : false
-  //             return fm
-  //           })
-  //         })
-  //         return Promise.all([...getMatches])
-  //       })
-  //       .then((m) => {
-  //         return m
-  //           .filter((element: any) => {
-  //             return !Array.isArray(element) || element.length !== 0
-  //           })
-  //           .flat()
-  //       })
-  //       .catch((e) => console.log('error', e))
-
-  //     return this.success(res, response, '')
-  //   } catch (e: any) {
-  //     return this.fail(res, e)
-  //   }
-  // }
-
 
   getSeriesWithMarket = async (req: Request, res: Response): Promise<any> => {
     try {
       const { EventTypeID } = req.query
       if (!EventTypeID) return this.fail(res, 'EventTypeID is required field')
-
-      // Get matchIds from DB
       const alreadyAdded = await Match.find({ active: true }, { matchId: 1 })
       const matchIds = alreadyAdded.map((match: any) => match.matchId)
-
-      // Fetch from external API
-      const response = await axios.get(`http://82.29.164.133:3000/bxpro/v1/allmatch`)
-      const seriesData = response?.data?.data
-
-      if (!seriesData) return this.success(res, [], 'No data from API')
-
-      // Map over series data to format it
-      const getMatches = await Promise.all(
-        seriesData.map(async (s: any) => {
-          return {
-            event: s.event,
-            series: s.series,
-            matchId: parseInt(s.event.id), // make sure this is the right field
-            matchDateTime: s.event.openDate,
-            name: s.event.name,
-            seriesId: s.competition?.id?.toString() || '',  // fixed typo 'ompetition'
-            sportId: 4,
-            active: matchIds.includes(parseInt(s.event.id))  // consistent with matchId
-          }
+      const response = await sportsApi
+        .get(`/get-series-redis/${EventTypeID}`)
+        .then(async (series: any) => {
+          console.log(series,"series is here hahhahahahahahaha")
+          const getMatches = series.data.data.map(async (s: any) => {
+            return s.match.map((fm: any) => {
+              fm.series = s.competition
+              fm.matchId = fm.event.id
+              fm.matchDateTime = fm.event.openDate
+              fm.name = fm.event.name
+              fm.seriesId = s.competition?.id
+              fm.sportId = EventTypeID
+              fm.active = matchIds.indexOf(parseInt(fm.event.id)) > -1 ? true : false
+              return fm
+            })
+          })
+          return Promise.all([...getMatches])
         })
-      )
+        .then((m) => {
+          return m
+            .filter((element: any) => {
+              return !Array.isArray(element) || element.length !== 0
+            })
+            .flat()
+        })
+        .catch((e) => console.log('error', e))
 
-      // Filter out any falsy or empty objects if needed
-      const filteredMatches = getMatches.filter(Boolean)
-
-      return this.success(res, filteredMatches, '')
+      return this.success(res, response, '')
     } catch (e: any) {
-      console.error('Error in getSeriesWithMarket:', e)
-      return this.fail(res, e.message || e)
+      return this.fail(res, e)
     }
   }
+
+
+  // getSeriesWithMarket = async (req: Request, res: Response): Promise<any> => {
+  //   try {
+  //     const { EventTypeID } = req.query
+  //     if (!EventTypeID) return this.fail(res, 'EventTypeID is required field')
+
+  //     // Get matchIds from DB
+  //     const alreadyAdded = await Match.find({ active: true }, { matchId: 1 })
+  //     const matchIds = alreadyAdded.map((match: any) => match.matchId)
+
+  //     // Fetch from external API
+  //     const response = await axios.get(`http://82.29.164.133:3000/bxpro/v1/allmatch`)
+  //     const seriesData = response?.data?.data
+
+  //     if (!seriesData) return this.success(res, [], 'No data from API')
+
+  //     // Map over series data to format it
+  //     const getMatches = await Promise.all(
+  //       seriesData.map(async (s: any) => {
+  //         return {
+  //           event: s.event,
+  //           series: s.series,
+  //           matchId: parseInt(s.event.id), // make sure this is the right field
+  //           matchDateTime: s.event.openDate,
+  //           name: s.event.name,
+  //           seriesId: s.competition?.id?.toString() || '',  // fixed typo 'ompetition'
+  //           sportId: 4,
+  //           active: matchIds.includes(parseInt(s.event.id))  // consistent with matchId
+  //         }
+  //       })
+  //     )
+
+  //     // Filter out any falsy or empty objects if needed
+  //     const filteredMatches = getMatches.filter(Boolean)
+
+  //     return this.success(res, filteredMatches, '')
+  //   } catch (e: any) {
+  //     console.error('Error in getSeriesWithMarket:', e)
+  //     return this.fail(res, e.message || e)
+  //   }
+  // }
 
 
   getSeriesWithMarketWithDate = async (req: Request, res: Response): Promise<any> => {
