@@ -122,8 +122,8 @@ const ActiveMarkets = () => {
         >
           <div className='modal-content'>
             <div className='modal-header'>
-              <h5>Choose To Win Match</h5>
-              <button onClick={() => setIsOpen(false)} className='close float-right'>
+              <span className='text-white'>Choose To Win Match</span>
+              <button onClick={() => setIsOpen(false)} className='close float-right text-white'>
                 X
               </button>
             </div>

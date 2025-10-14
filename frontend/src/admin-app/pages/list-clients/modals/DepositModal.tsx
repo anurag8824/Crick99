@@ -184,7 +184,7 @@ React.useEffect(() => {
               <input type='hidden' name='uid' id='uid' />
               <button
                 type='button'
-                className='btn btn-back bg-primary'
+                className='btn btn-back  bg-primary text-white'
                 data-dismiss='modal'
                 onClick={() => {
                   props.closeModal('d')
@@ -194,7 +194,7 @@ React.useEffect(() => {
                 {/* <i className='fas fa-undo ' /> */}
                 Back
               </button>
-            { loader ? <SubmitButton type='submit' className='btn btn-submit bg-primary'>
+            { loader ? <SubmitButton type='submit' className='btn btn-submit bg-primary text-white'>
                 Submit
                 {/* <i className='fas fa-sign-in-alt' /> */}
               </SubmitButton>:""}

@@ -83,7 +83,7 @@ const StatusModal = ({
       >
         <div style={{ width: "100%" }} className="modal-content">
           <div className="modal-header">
-            <h4 className="modal-title">Edit User</h4>
+            <h4 className="modal-title text-white">Edit User</h4>
           </div>
 
           <Edituser data={userDetails} />

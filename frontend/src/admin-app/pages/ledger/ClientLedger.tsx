@@ -3,6 +3,7 @@ import betService from "../../../services/bet.service";
 import { AxiosResponse } from "axios";
 import React from "react";
 import { CustomLink } from "../../../pages/_layout/elements/custom-link";
+import TopBackHeader from "../TopBackHeader";
 
 interface LedgerItem {
   _id: string;
@@ -70,21 +71,7 @@ const ClientLedger = () => {
 
   return (
     <div className=" body-wrap p-4">
-      <div
-        style={{ background: "#0f2327" }}
-        className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex"
-      >
-        <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
-          Client Ledger
-        </span>
-        <CustomLink
-          to={"/"}
-          type="button"
-          className="btn bg-primary text-white"
-        >
-          <span>Back</span>
-        </CustomLink>
-      </div>
+      <TopBackHeader name="Client Ledger" />
 
       <select
         id="select-tools-sa"

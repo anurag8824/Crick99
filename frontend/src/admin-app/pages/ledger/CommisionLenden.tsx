@@ -4,6 +4,7 @@ import betService from "../../../services/bet.service";
 import { AxiosResponse } from "axios";
 import { CustomLink } from "../../../pages/_layout/elements/custom-link";
 import { DatePicker } from "antd";
+import TopBackHeader from "../TopBackHeader";
 
 interface CommissionRow {
   name: string;
@@ -250,21 +251,7 @@ const CommisionLenden: React.FC = () => {
 
   return (
     <div style={{backgroundColor:"white"}} className=" shadow body-wrap p-md-4 pt-2 ">
-      <div
-        style={{ background: "#0f2327" }}
-        className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex"
-      >
-        <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
-          Commision Len Den
-        </span>
-        <CustomLink
-          to={"/"}
-          type="button"
-          className="btn bg-primary text-white"
-        >
-          <span>Back</span>
-        </CustomLink>
-      </div>
+      <TopBackHeader name="Commission Lenden" />
 
       <div className="container py-3">
         <div className="row align-items-end">

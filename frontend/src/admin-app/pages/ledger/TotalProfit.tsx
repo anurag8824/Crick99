@@ -4,6 +4,7 @@ import betService from "../../../services/bet.service";
 import { AxiosResponse } from "axios";
 import { CustomLink } from "../../../pages/_layout/elements/custom-link";
 import { DatePicker } from "antd";
+import { useNavigate } from "react-router-dom";
 
 interface LedgerItem {
   commissionlega: number;
@@ -53,6 +54,7 @@ const TotalProfit = () => {
   }, [optionuser]);
 
   const { RangePicker } = DatePicker;
+  const navigate = useNavigate()
 
   return (
     <div className="body-wrap p-md-4 bg-white shadow">
@@ -63,13 +65,13 @@ const TotalProfit = () => {
         <span className="text-3xl font-seminbold text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
           Profit Loss
         </span>
-        <CustomLink
-          to={"/"}
+        <button
+          onClick={() => navigate(-1)}
           type="button"
           className="btn bg-primary text-white"
         >
           <span>Back</span>
-        </CustomLink>
+        </button>
       </div>
       <div>
         <div className="container h-full w-100 mt-2 mb-20">

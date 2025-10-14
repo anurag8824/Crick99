@@ -156,6 +156,7 @@ class MatchOdds extends React.PureComponent<
     console.log(this.props.shared, "paresnt sharedddddd")
 
 
+    console.log(data, "market dataaa")
 
 
     return (

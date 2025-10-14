@@ -19,6 +19,7 @@ import { selectLoader } from "../../../redux/actions/common/commonSlice";
 import "./CommissionTable.css";
 import { useParams } from "react-router-dom";
 import { CustomLink } from "../../../pages/_layout/elements/custom-link";
+import TopBackHeader from "../TopBackHeader";
 
 const AccountStatementAdmin = () => {
   const loadingState = useAppSelector(selectLoader);
@@ -245,21 +246,7 @@ const AccountStatementAdmin = () => {
       {/* {mobileSubheader.subheaderdesktopadmin("Account Statements")} */}
       <div className="container-fluid p-4">
         <div className="row">
-          <div
-            style={{ background: "#0f2327" }}
-            className="bg-grey flex item-center justify-between px-5 py-3 gx-bg-flex"
-          >
-            <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
-              List Of All Transactions
-            </span>
-            <CustomLink
-              to={"/"}
-              type="button"
-              className="btn bg-primary text-white"
-            >
-              <span>Back</span>
-            </CustomLink>
-          </div>
+          <TopBackHeader name="List of all transactions" />
           <div
             className={
               !isMobile ? "col-md-12 mt-1" : "col-md-12 padding-custom"
@@ -332,7 +319,7 @@ const AccountStatementAdmin = () => {
                   </div>
                   <div className="col-12 col-lg-1 mbc-5">
                     <label className="label">&nbsp;</label>
-                    <button type="submit" className="btn bg-primary btn-block">
+                    <button type="submit" className="btn bg-primary btn-block text-white">
                       Submit
                     </button>
                   </div>

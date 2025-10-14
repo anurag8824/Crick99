@@ -17,7 +17,7 @@ import { useAppSelector } from "../../../redux/hooks";
 import { selectLoader } from "../../../redux/actions/common/commonSlice";
 
 import "./CommissionTable.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { CustomLink } from "../../../pages/_layout/elements/custom-link";
 
 const AccountStatementAdminDeposit = () => {
@@ -239,6 +239,7 @@ const AccountStatementAdminDeposit = () => {
   const calculateTotal = (casino: number, sports: number) => {
     return casino + sports;
   };
+  const navigate = useNavigate()
 
   return (
     <>
@@ -252,13 +253,13 @@ const AccountStatementAdminDeposit = () => {
             <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
               Deposit Amount Account Statements
             </span>
-            <CustomLink
-              to={"/"}
-              type="button"
-              className="btn bg-primary text-white"
-            >
-              <span>Back</span>
-            </CustomLink>
+            <button
+          onClick={() => navigate(-1)}
+          type="button"
+          className="btn bg-primary text-white"
+        >
+          <span>Back</span>
+        </button>
           </div>
           <div
             className={

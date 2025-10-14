@@ -229,8 +229,7 @@ const EditUser = (data: any) => {
           <div>
             <div className="add-account">
               <h2 className="m-b-20">
-                <PersonAddIcon />
-                Edit for {data?.data?.username}
+                Edit-{data?.data?.username}
               </h2>
               <form onSubmit={onSubmit}>
                 <div className="row">
@@ -555,7 +554,7 @@ const EditUser = (data: any) => {
                 <div className="row m-t-20">
                   <div className="col-md-12">
                     <div className="float-right">
-                      <SubmitButton className="btn btn-submit" type="submit">
+                      <SubmitButton className="btn btn-submit bg-primary text-white" type="submit">
                         Edit User
                       </SubmitButton>
                     </div>

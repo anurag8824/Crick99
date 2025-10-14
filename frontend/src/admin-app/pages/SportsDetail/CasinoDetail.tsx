@@ -3,6 +3,7 @@ import accountService from "../../../services/account.service";
 import { AxiosResponse } from "axios";
 import moment from "moment";
 import { CustomLink } from "../../../pages/_layout/elements/custom-link";
+import { useNavigate } from "react-router-dom";
 
 const CasinoDetail = () => {
   const [casinoData, setCasinoData] = React.useState<any>([]);
@@ -46,6 +47,8 @@ const CasinoDetail = () => {
     [key: string]: boolean;
   }>({});
 
+  const navigate = useNavigate();
+
   return (
     <div style={{ padding: "2" }} className="container-fluid p-md-4 mt-3">
       <div
@@ -55,13 +58,13 @@ const CasinoDetail = () => {
         <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
           Casino PandL Detail
         </span>
-        <CustomLink
-          to={"/"}
+        <button
+          onClick={() => navigate(-1)}
           type="button"
           className="btn bg-primary text-white"
         >
           <span>Back</span>
-        </CustomLink>
+        </button>
       </div>
 
       <div

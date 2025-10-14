@@ -338,35 +338,60 @@ class FancyController extends ApiController_1.ApiController {
                 return false;
             }
         });
+        // updatefancyresultapi = async (
+        //   req: Request,
+        //   res: Response
+        // ): Promise<Response> => {
+        //   try {
+        //     const data = req.body;
+        //     console.log(data,"data inside fncy result")
+        //     if (data.result != "" && data.message == "ok") {
+        //     //   const findFancy: any = await Fancy.findOne({
+        //     //     fancyName: data.runnerName,
+        //     //     matchId: data.matchId,
+        //     //   });
+        //       const findFancy:any = await Fancy.findOne(
+        //     { fancyName: data.runnerName, matchId: data.matchId },
+        //     {},
+        //     { collation: { locale: "en", strength: 2 } }
+        //     );
+        //       console.log(findFancy,"FGHJKL:")
+        //       if (findFancy?._id && !data.isRollback) {
+        //         console.log("hahahhahahhahah")
+        //         this.declarefancyresultAuto({
+        //           matchId: findFancy.matchId,
+        //           marketId: findFancy.marketId,
+        //           result: data.result,
+        //         });
+        //       } else if (findFancy?._id) {
+        //        await this.rollbackfancyresultbyapi({
+        //           matchId: findFancy.matchId,
+        //           marketId: findFancy.marketId,
+        //         });
+        //         this.declarefancyresultAuto({
+        //           matchId: findFancy.matchId,
+        //           marketId: findFancy.marketId,
+        //           result: data.result,
+        //         });
+        //       }
+        //       return this.success(res, {});
+        //     } else {
+        //       return this.success(res, { message: "result not found" });
+        //     }
+        //   } catch (e: any) {
+        //     return this.fail(res, e);
+        //   }
+        // };
         this.updatefancyresultapi = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const data = req.body;
-                console.log(data, "data inside fncy result");
-                if (data.result != "" && data.message == "ok") {
-                    //   const findFancy: any = await Fancy.findOne({
-                    //     fancyName: data.runnerName,
-                    //     matchId: data.matchId,
-                    //   });
-                    const findFancy = yield Fancy_1.Fancy.findOne({ fancyName: data.runnerName, matchId: data.matchId }, {}, { collation: { locale: "en", strength: 2 } });
-                    console.log(findFancy, "FGHJKL:");
+                if (data.result != '' && data.message == 'ok') {
+                    const findFancy = yield Fancy_1.Fancy.findOne({ fancyName: data.runnerName, matchId: data.matchId });
                     if ((findFancy === null || findFancy === void 0 ? void 0 : findFancy._id) && !data.isRollback) {
-                        console.log("hahahhahahhahah");
-                        this.declarefancyresultAuto({
-                            matchId: findFancy.matchId,
-                            marketId: findFancy.marketId,
-                            result: data.result,
-                        });
+                        this.declarefancyresultAuto({ matchId: findFancy.matchId, marketId: findFancy.marketId, result: data.result });
                     }
                     else if (findFancy === null || findFancy === void 0 ? void 0 : findFancy._id) {
-                        yield this.rollbackfancyresultbyapi({
-                            matchId: findFancy.matchId,
-                            marketId: findFancy.marketId,
-                        });
-                        this.declarefancyresultAuto({
-                            matchId: findFancy.matchId,
-                            marketId: findFancy.marketId,
-                            result: data.result,
-                        });
+                        this.rollbackfancyresultbyapi({ matchId: findFancy.matchId, marketId: findFancy.marketId });
                     }
                     return this.success(res, {});
                 }

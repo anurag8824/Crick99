@@ -98,13 +98,24 @@ export const AvailableToBackLay = React.memo(
 
 <span className="odd d-block">
   {market.oddsType === OddsType.BM
-    ? Number.isFinite(back?.price)
-      ? ((back.price * 100 - 100) || 0).toFixed(0)
-      : "0.00"
-    : Number.isFinite(back?.price)
-      ? ((back.price * 100 - 100) || 0).toFixed(0)
-      : "0.00"}
+    ? (() => {
+        const value = Number.isFinite(back?.price)
+          ? (back.price * 100 - 100) || 0
+          : 0
+
+        const finalValue = value > 400 ? 0 : value
+        return finalValue.toFixed(0)
+      })()
+    : (() => {
+        const value = Number.isFinite(back?.price)
+          ? (back.price * 100 - 100) || 0
+          : 0
+
+        const finalValue = value > 400 ? 0 : value
+        return finalValue.toFixed(0)
+      })()}
 </span>
+
 
      
             {/* <span className="odd d-block">{displayPrice}</span> */}
@@ -150,15 +161,26 @@ export const AvailableToBackLay = React.memo(
 
           
 
-            <span className="odd d-block">
+<span className="odd d-block">
   {market.oddsType === OddsType.BM
-    ? Number.isFinite(lay?.price)
-      ? ((lay.price * 100 - 100) || 0).toFixed(0)
-      : "0.00"
-    : Number.isFinite(lay?.price)
-      ? ((lay.price * 100 - 100) || 0).toFixed(0)
-      : "0.00"}
+    ? (() => {
+        const value = Number.isFinite(lay?.price)
+          ? (lay.price * 100 - 100) || 0
+          : 0
+
+        const finalValue = value > 400 ? 0 : value
+        return finalValue.toFixed(0)
+      })()
+    : (() => {
+        const value = Number.isFinite(lay?.price)
+          ? (lay.price * 100 - 100) || 0
+          : 0
+
+        const finalValue = value > 400 ? 0 : value
+        return finalValue.toFixed(0)
+      })()}
 </span>
+
 
 
 

@@ -5,6 +5,7 @@ import ReportModal from "./ReportModal";
 import { useAppSelector } from "../../../redux/hooks";
 import { selectUserData } from "../../../redux/actions/login/loginSlice";
 import { CustomLink } from "../../../pages/_layout/elements/custom-link";
+import { useNavigate } from "react-router-dom";
 
 type GroupedLedger = {
   username: string;
@@ -282,6 +283,8 @@ const AllReport = () => {
     handleDateFilter(false); // no date filter
   }, []);
 
+  const navigate = useNavigate();
+
   return (
     <div className=" body-wrap p-4">
       <div className="relative">
@@ -292,13 +295,13 @@ const AllReport = () => {
           <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
             All Client Ledger
           </span>
-          <CustomLink
-            to={"/"}
-            type="button"
-            className="btn bg-primary text-white"
-          >
-            <span>Back</span>
-          </CustomLink>
+          <button
+          onClick={() => navigate(-1)}
+          type="button"
+          className="btn bg-primary text-white"
+        >
+          <span>Back</span>
+        </button>
         </div>
       </div>
 

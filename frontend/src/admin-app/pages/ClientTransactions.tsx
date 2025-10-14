@@ -1,7 +1,10 @@
 import React from "react";
 import { CustomLink } from "../../pages/_layout/elements/custom-link";
+import { useNavigate } from "react-router-dom";
+import TopBackHeader from "./TopBackHeader";
 
 const ClientTransactions = () => {
+  const navigate = useNavigate();
   return (
     <div className="container-fluid ">
       <div className="ant-row ant-row-center">
@@ -9,21 +12,7 @@ const ClientTransactions = () => {
           <div className="ant-row">
             <div className="ant-card ant-card-bordered gx-card">
               <div className="ant-card-body">
-                <div
-                  style={{ background: "#0f2327" }}
-                  className="bg-grey mb-2 flex item-center justify-between px-5 py-3 gx-bg-flex"
-                >
-                  <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
-                    Client Transactions
-                  </span>
-                  <CustomLink
-                    to={"/"}
-                    type="button"
-                    className="btn bg-primary text-white"
-                  >
-                    <span>Back</span>
-                  </CustomLink>
-                </div>
+                <TopBackHeader name="Client Transactions" />
                 <div className="gx-px-2 gx-pt-3 gx-bg-flex">
                   <form id="advanced_search" className="row g-3">
                     {/* Client */}

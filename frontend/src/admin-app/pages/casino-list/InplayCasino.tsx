@@ -6,6 +6,7 @@ import casinoService from "../../../services/casino.service";
 import { AxiosResponse } from "axios";
 import { toast } from "react-toastify";
 import { CustomLink } from "../../../pages/_layout/elements/custom-link";
+import { useNavigate } from "react-router-dom";
 
 const InplayCasino = () => {
   const [casinoList, setCasinoList] = React.useState<ICasinoMatch[]>([]);
@@ -92,6 +93,8 @@ const InplayCasino = () => {
       </td>
     </tr>
   );
+  const navigate = useNavigate();
+  
   return (
     <>
       <div className="container-fluid p-4">
@@ -102,13 +105,13 @@ const InplayCasino = () => {
           <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
             Match Ledger
           </span>
-          <CustomLink
-            to={"/"}
-            type="button"
-            className="btn bg-primary text-white"
-          >
-            <span>Back</span>
-          </CustomLink>
+          <button
+          onClick={() => navigate(-1)}
+          type="button"
+          className="btn bg-primary text-white"
+        >
+          <span>Back</span>
+        </button>
         </div>
         <div className="row">
           <div

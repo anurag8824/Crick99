@@ -269,6 +269,7 @@ const AllClientLedger = () => {
       });
   }, [sendId, navigate]);
 
+
   return (
     <>
 
@@ -280,13 +281,13 @@ const AllClientLedger = () => {
           <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
             Agent Ledger
           </span>
-          <CustomLink
-            to={"/"}
-            type="button"
-            className="btn bg-primary text-white"
-          >
-            <span>Back</span>
-          </CustomLink>
+          <button
+          onClick={() => navigate(-1)}
+          type="button"
+          className="btn bg-primary text-white"
+        >
+          <span>Back</span>
+        </button>
         </div>
         <div className="parentdiv d-flex flex-column gap-2 flex-md-row justify-content-between align-items-start">
 

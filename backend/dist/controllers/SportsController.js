@@ -47,25 +47,134 @@ class SportsController extends ApiController_1.ApiController {
                 return this.fail(res, e);
             }
         });
+        // deactivateMarkets = async (req: Request, res: Response): Promise<Response> => {
+        //   try {
+        //     const  market  = req.body
+        //     console.log("ghjklhjk", req.body)
+        //     let matchDelete = false
+        //     let matchId = null
+        //     if (market && market.marketId) {
+        //       const marketData: any = await Market.findOne({ marketId: market.marketId })
+        //      let sid:any = market?.sid
+        //       matchId = marketData?.matchId
+        //       if (matchId) {
+        //         if (sid) {
+        //           // const winnerSid = market.runners.reduce((sid: number, runner: any) => {
+        //           //   if (runner.status == 'WINNER') {
+        //           //     sid = runner.selectionId
+        //           //   }
+        //           //   return sid
+        //           // }, -1)
+        //           const winnerSid = parseInt(sid)
+        //           const winnerName = marketData.runners.reduce((win: any, name: any) => {
+        //             if (name.selectionId == winnerSid) win = name.runnerName
+        //             return win
+        //           }, '')
+        //           console.log(winnerSid, "winnerSidwinnerSidwinnerSidwinnerSid")
+        //           if (winnerSid) {
+        //             // axios
+        //             //   .get(
+        //             //     `http://localhost:${process.env.PORT}/api/result-market-auto?selectionId=${winnerSid}&matchId=${marketData.matchId}&marketId=${market.marketId}`,
+        //             //   )
+        //             //   .catch((err) => console.log(err.stack))
+        //             // await Market.updateOne(
+        //             //   { matchId, marketId: marketData.marketId },
+        //             //   { result: winnerSid, resultDelcare: 'processing' },
+        //             // )
+        //             if (marketData.marketName == 'Match Odds' || marketData.marketName == 'Bookmaker') {
+        //               // await Match.updateOne({ matchId }, { active: false ,resultstring:winnerName})
+        //               await Match.updateOne(
+        //                 { matchId },
+        //                 {
+        //                   $set: {
+        //                     active: false,
+        //                     resultstring: winnerName,
+        //                   },
+        //                 }
+        //               );
+        //               //Bookmaker result
+        //               const BookMarketData: any = await Market.find({
+        //                 matchId,
+        //                 // marketName: { $in: ['Bookmaker', 'Tied Match'] },
+        //                 oddsType: OddsType.BM,
+        //               })
+        //               if (BookMarketData?.length > 0) {
+        //                 BookMarketData.map(async (bmMarket: IMarket) => {
+        //                   let bmSid = null
+        //                   if (bmMarket.marketName === 'Tied Match') {
+        //                     bmSid = bmMarket.runners.reduce((win: any, name: any) => {
+        //                       if (name.runnerName.includes('NO')) win = name.selectionId
+        //                       return win
+        //                     }, null)
+        //                   } else {
+        //                     bmSid = bmMarket.runners.reduce((win: any, name: any) => {
+        //                       if (name.runnerName.includes(winnerName)) win = name.selectionId
+        //                       return win
+        //                     }, null)
+        //                   }
+        //                   axios
+        //                     .get(
+        //                       `http://localhost:${process.env.PORT}/api/result-market-auto?selectionId=${bmSid}&matchId=${marketData.matchId}&marketId=${bmMarket.marketId}`,
+        //                     )
+        //                     .catch((err) => console.log(err.stack))
+        //                   // await Market.updateOne(
+        //                   //   { matchId, marketId: bmMarket.marketId },
+        //                   //   { result: bmSid, resultDelcare: 'processing' },
+        //                   // )
+        //                 })
+        //               }
+        //             }
+        //           }
+        //         }
+        //         const ress = await Market.updateMany(
+        //           { marketId: { $regex: `.*${market.marketId}.*` } },
+        //           { $set: { isActive: false } },
+        //         )
+        //         const activeMarkets: any = await Market.countDocuments({
+        //           matchId: matchId,
+        //           isActive: true,
+        //         })
+        //         if (activeMarkets === 0) {
+        //           matchDelete = true
+        //           await Match.updateMany({ matchId }, { $set: { active: false, inPlay: false } })
+        //           await Fancy.updateMany({ matchId }, { $set: { active: false } })
+        //           await BetLock.deleteMany({ matchId })
+        //         }
+        //         return this.success(res, { matchDelete, matchId }, 'markets deactivated')
+        //       }
+        //       return this.fail(res, 'market not deactivated')
+        //     } else if (market && market.matchId) {
+        //       await Match.updateMany(
+        //         { matchId: market.matchId },
+        //         { $set: { active: false, inPlay: false } },
+        //       )
+        //       await Fancy.updateMany({ matchId: market.matchId }, { $set: { active: false } })
+        //       await BetLock.deleteMany({ matchId: market.matchId })
+        //       return this.success(res, { matchDelete, matchId: market.matchId }, 'markets deactivated')
+        //     } else {
+        //       return this.fail(res, 'market is required')
+        //     }
+        //   } catch (e: any) {
+        //     return this.fail(res, e.stack)
+        //   }
+        // }
         this.deactivateMarkets = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const market = req.body;
+                const { market } = req.body;
                 console.log("ghjklhjk", req.body);
                 let matchDelete = false;
                 let matchId = null;
                 if (market && market.marketId) {
                     const marketData = yield Market_1.Market.findOne({ marketId: market.marketId });
-                    let sid = market === null || market === void 0 ? void 0 : market.sid;
                     matchId = marketData === null || marketData === void 0 ? void 0 : marketData.matchId;
                     if (matchId) {
-                        if (sid) {
-                            // const winnerSid = market.runners.reduce((sid: number, runner: any) => {
-                            //   if (runner.status == 'WINNER') {
-                            //     sid = runner.selectionId
-                            //   }
-                            //   return sid
-                            // }, -1)
-                            const winnerSid = parseInt(sid);
+                        if (market === null || market === void 0 ? void 0 : market.runners) {
+                            const winnerSid = market.runners.reduce((sid, runner) => {
+                                if (runner.status == 'WINNER') {
+                                    sid = runner.selectionId;
+                                }
+                                return sid;
+                            }, -1);
                             const winnerName = marketData.runners.reduce((win, name) => {
                                 if (name.selectionId == winnerSid)
                                     win = name.runnerName;
@@ -73,16 +182,14 @@ class SportsController extends ApiController_1.ApiController {
                             }, '');
                             console.log(winnerSid, "winnerSidwinnerSidwinnerSidwinnerSid");
                             if (winnerSid) {
-                                // axios
-                                //   .get(
-                                //     `http://localhost:${process.env.PORT}/api/result-market-auto?selectionId=${winnerSid}&matchId=${marketData.matchId}&marketId=${market.marketId}`,
-                                //   )
-                                //   .catch((err) => console.log(err.stack))
+                                axios_1.default
+                                    .get(`http://localhost:${process.env.PORT}/api/result-market-auto?selectionId=${winnerSid}&matchId=${marketData.matchId}&marketId=${market.marketId}`)
+                                    .catch((err) => console.log(err.stack));
                                 // await Market.updateOne(
                                 //   { matchId, marketId: marketData.marketId },
                                 //   { result: winnerSid, resultDelcare: 'processing' },
                                 // )
-                                if (marketData.marketName == 'Match Odds' || marketData.marketName == 'Bookmaker') {
+                                if (marketData.marketName == 'Match Odds') {
                                     // await Match.updateOne({ matchId }, { active: false ,resultstring:winnerName})
                                     yield Match_1.Match.updateOne({ matchId }, {
                                         $set: {

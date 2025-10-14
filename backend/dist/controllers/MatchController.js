@@ -17,9 +17,9 @@ const Match_1 = require("../models/Match");
 const ApiController_1 = require("./ApiController");
 const Market_1 = require("../models/Market");
 const axios_1 = __importDefault(require("axios"));
-// setInterval(async ()=>{
-//   await axios.get("https://api.9xbro.com/api/set-market-result-by-cron")
-// },1000*60*1)
+setInterval(() => __awaiter(void 0, void 0, void 0, function* () {
+    yield axios_1.default.get("https://api.bxpro99.xyz/api/set-market-result-by-cron");
+}), 1000 * 60 * 1);
 class MatchController extends ApiController_1.ApiController {
     constructor() {
         super(...arguments);

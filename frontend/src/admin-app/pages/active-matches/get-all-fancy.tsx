@@ -193,8 +193,8 @@ const GetAllFancy = () => {
       >
         <div className='modal-content'>
           <div className='modal-header'>
-            <h5>Set Result {fancy.fancyName}</h5>
-            <button onClick={() => setIsOpen(false)} className='close float-right'>
+            <span className='text-white'>Set Result {fancy.fancyName}</span>
+            <button onClick={() => setIsOpen(false)} className='close text-white float-right'>
               X
             </button>
           </div>

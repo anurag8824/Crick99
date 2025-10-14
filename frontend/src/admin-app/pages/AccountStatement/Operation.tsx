@@ -48,8 +48,8 @@ const OperationAdmin = () => {
     <>
     <div className="container-fluid"><div className="modal-content  form-elegant">
 			<div className="modal-header text-center pb-0">
-				<h6 style={{width: "100%;"}} className="py-2">Account Operation</h6>
-				<button  onClick={() => navigate(-1)} type="button" className="close" data-dismiss="modal" aria-label="Close">
+				<h6 style={{width: "100%;"}} className="py-2 text-white">Account Operation</h6>
+				<button  onClick={() => navigate(-1)} type="button" className="close text-white" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">×</span>
 				</button>
 			</div>
@@ -57,10 +57,10 @@ const OperationAdmin = () => {
 				 <table className="table table-striped table-bordered">
 			         <thead className=" navbar-bet99 text-dark">
 			            <tr>
-			               <th className="p-1 pl-2 small">Date</th>
-			               <th className="p-1 small text-center no-sort">Operation</th>
-			               <th className="p-1 small text-center no-sort">Done By</th>
-			               <th className="p-1 small text-center no-sort">Description</th>
+			               <th style={{background:"#0f2326" , color:"white"}} className="p-1 pl-2 small">Date</th>
+			               <th  style={{background:"#0f2326" , color:"white"}}  className="p-1 small text-center no-sort">Operation</th>
+			               <th  style={{background:"#0f2326" , color:"white"}}  className="p-1 small text-center no-sort">Done By</th>
+			               <th  style={{background:"#0f2326" , color:"white"}}  className="p-1 small text-center no-sort">Description</th>
  			            </tr>
 			         </thead>
 			         <tbody> 

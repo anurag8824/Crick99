@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useRef,
 } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import userService from "../../../services/user.service";
 import { AxiosResponse } from "axios";
 import User, { RoleName, RoleType } from "../../../models/User";
@@ -615,6 +615,8 @@ const ListClients = () => {
   console.log(getRoleOptions, "getrkollee");
 
   const unnmae = useParams().username;
+
+  const navigate = useNavigate();
   return (
     <>
       <div style={{}} className="container-fluid">
@@ -734,9 +736,13 @@ const ListClients = () => {
                     <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
                       Client Details
                     </span>
-                    <button type="button" className="btn bg-primary text-white">
-                      <span>Back</span>
-                    </button>
+                    <button
+          onClick={() => navigate(-1)}
+          type="button"
+          className="btn bg-primary text-white"
+        >
+          <span>Back</span>
+        </button>
                   </div>
 
                   <div className="col-md-12 ">
@@ -1032,16 +1038,17 @@ const ListClients = () => {
                         <th
                           style={{ backgroundColor: "#0f2327", color: "white" }}
                         >
-                          {upper?.first} Share %
+                          {/* {upper?.first} */}
+                          Share %
                         </th>
                       )}
-                      {urole !== "dl" && newtype !== "user" && (
+                      {/* {urole !== "dl" && newtype !== "user" && (
                         <th
                           style={{ backgroundColor: "#0f2327", color: "white" }}
                         >
                           {upper?.second} Share %
                         </th>
-                      )}
+                      )} */}
 
                       {/* <th>SuperShare Limit</th> */}
                       <th
@@ -1050,11 +1057,11 @@ const ListClients = () => {
                         C.Chip
                       </th>
                       {/* <th>Client (P/L)</th> */}
-                      <th
+                      {/* <th
                         style={{ backgroundColor: "#0f2327", color: "white" }}
                       >
                         {newtype === "user" ? "Engaged" : "Agent"}
-                      </th>
+                      </th> */}
                       {/* <th>Available Balance</th> */}
 
                       {/* <th>Engaged</th> */}
@@ -1069,11 +1076,11 @@ const ListClients = () => {
                         Session Comm. %
                       </th>
 
-                      <th
+                      {/* <th
                         style={{ backgroundColor: "#0f2327", color: "white" }}
                       >
                         Account Type
-                      </th>
+                      </th> */}
                       <th
                         style={{ backgroundColor: "#0f2327", color: "white" }}
                       >
@@ -1317,13 +1324,15 @@ const ListClients = () => {
                                   Action for the user - {user.username}
                                 </p>
                                 <button
-                                  className="closed bg-gray-800 text-white"
+                                  className="closed bg-gray-50 text-white"
+                                  style={{ color: "white" }}
                                   onClick={() =>
                                     user._id && handleToggle(user._id)
                                   }
                                 >
                                   <CloseButton className="text-white" />
                                 </button>
+
                                 <div className="actions-container shadow  py-2 px-2">
                                   <a
                                     className="hover:text-white   pb-2"
@@ -1345,7 +1354,7 @@ const ListClients = () => {
                                   </a>
 
                                   {/* {isAdmin(user) && */}
-                                  {userState?.user?.role == RoleType.admin && (
+                                  {/* {userState?.user?.role == RoleType.admin && (
                                     <a
                                       className=" pb-2"
                                       onClick={() => {
@@ -1356,9 +1365,9 @@ const ListClients = () => {
                                     >
                                       Exposer Limit
                                     </a>
-                                  )}
+                                  )} */}
                                   {/* isAdmin(user) && */}
-                                  {userState?.user?.role == RoleType.admin && (
+                                  {/* {userState?.user?.role == RoleType.admin && (
                                     <a
                                       className="  pb-2"
                                       onClick={() => {
@@ -1369,7 +1378,7 @@ const ListClients = () => {
                                     >
                                       Number Limit Withdrawl
                                     </a>
-                                  )}
+                                  )} */}
                                   {/* {isAdmin(user) &&
                                   user.role !== RoleType.admin && ( */}
 
@@ -1403,22 +1412,37 @@ const ListClients = () => {
                                     </a>
                                   )} */}
 
-
-
-                                {userState?.user?.role == RoleType.admin && (
-                                  <a
-                                  onClick={() =>
-                                    updateStatus(index, !user?.isLogin, "user")
-                                  }
-                                    className={`${user?.role !== RoleType.admin  ? "d-block" : "d-none"}`}
-                                  >
-                                   { user?.isLogin ?  <span  style={{ color: "red" }}>Deactivate </span> : <span  style={{ color: "green" }}> Activate</span> }
-                                    {`(${user.username})`}
-                                  </a>
-                                )}
+                                  {userState?.user?.role == RoleType.admin && (
+                                    <a
+                                      onClick={() =>
+                                        updateStatus(
+                                          index,
+                                          !user?.isLogin,
+                                          "user"
+                                        )
+                                      }
+                                      className={`${
+                                        user?.role !== RoleType.admin
+                                          ? "d-block"
+                                          : "d-none"
+                                      }`}
+                                    >
+                                      {user?.isLogin ? (
+                                        <span style={{ color: "red" }}>
+                                          Deactivate{" "}
+                                        </span>
+                                      ) : (
+                                        <span style={{ color: "green" }}>
+                                          {" "}
+                                          Activate
+                                        </span>
+                                      )}
+                                      {`(${user.username})`}
+                                    </a>
+                                  )}
 
                                   {/* )}  */}
-                                  {userState?.user?.role == RoleType.admin && (
+                                  {/* {userState?.user?.role == RoleType.admin && (
                                     <a
                                       className=" pb-2"
                                       // style={{ display: "none" }}
@@ -1429,7 +1453,7 @@ const ListClients = () => {
                                     >
                                       Min Max Detail
                                     </a>
-                                  )}
+                                  )} */}
 
                                   <CustomLink
                                     to={`/accountstatement/${user?._id}`}
@@ -1455,7 +1479,7 @@ const ListClients = () => {
                                     Login Report
                                   </CustomLink>
 
-                                  <CustomLink
+                                  {/* <CustomLink
                                     to={`/accountstatement-deposit/${user?._id}`}
                                     style={{ color: "#1e1e1e" }}
                                     className=" pb-2 fw-bold"
@@ -1465,7 +1489,7 @@ const ListClients = () => {
                                     }}
                                   >
                                     Limit Update Details
-                                  </CustomLink>
+                                  </CustomLink> */}
 
                                   <CustomLink
                                     to={`/operation/${user?.username}`}
@@ -1480,13 +1504,29 @@ const ListClients = () => {
                                   </CustomLink>
 
                                   <a
-                                    className=" pb-2"
-                                    onClick={() => {
-                                      openModal("p");
-                                      getUserDetail(user);
-                                    }}
+                                    onClick={() =>
+                                      updateStatus(index, !user?.betLock, "bet")
+                                    }
+                                    className={` ${user?.betLock ? "" : ""}`}
                                   >
-                                    Reset Password
+                                    {user?.betLock
+                                      ? "Block Casino"
+                                      : "UnBlock Casino"}
+                                  </a>
+
+                                  <a
+                                    onClick={() =>
+                                      updateStatus(
+                                        index,
+                                        !user?.betLock2,
+                                        "bet2"
+                                      )
+                                    }
+                                    className={` ${user?.betLock2 ? "" : ""}`}
+                                  >
+                                    {user?.betLock2
+                                      ? "Block Cricket"
+                                      : "UnBlock Cricket"}
                                   </a>
 
                                   {lockshow ? (
@@ -1576,12 +1616,22 @@ const ListClients = () => {
 
                                   {user.role !== RoleType.admin && (
                                     <a
-                                      className=" pb-2"
+                                      className=" pb-2 d-none"
                                       onClick={() => setLockshow(!lockshow)}
                                     >
                                       <VisibilityIcon /> Block Games
                                     </a>
                                   )}
+
+                                  <a
+                                    className=" pb-2"
+                                    onClick={() => {
+                                      openModal("p");
+                                      getUserDetail(user);
+                                    }}
+                                  >
+                                    Reset Password
+                                  </a>
 
                                   {/* {isAdmin(user) && (
                                   <a
@@ -1619,7 +1669,10 @@ const ListClients = () => {
                                       : "user"
                                   }`}
                                 >
-                                  <p className="">{user.username}</p>
+                                  <p className="">
+                                    <i className="fa fa-eye fa-xs"></i>
+                                    {user.username}
+                                  </p>
                                 </CustomLink>
                               )}
                               {user.role === RoleType.user && (
@@ -1651,12 +1704,12 @@ const ListClients = () => {
                                   : "0%"}
                               </td>
                             )}
-
+                            {/* 
                             {urole == "dl" || newtype === "user" ? (
                               ""
                             ) : (
                               <td>{user?.share ? user?.share : "0"}%</td>
-                            )}
+                            )} */}
 
                             {/* <td>
                             {user?.creditRefrences ? user.creditRefrences : 0}
@@ -1668,11 +1721,11 @@ const ListClients = () => {
                               <td>{mainBalance(user).toFixed(2)}</td>
                             )}
 
-                            {user.role === "user" ? (
+                            {/* {user.role === "user" ? (
                               <td>{finalExposer(user?.balance)}</td>
                             ) : (
                               <td>{mainBalancechild(user).toFixed(2)}</td>
-                            )}
+                            )} */}
 
                             {/* <td
                             className={
@@ -1697,7 +1750,7 @@ const ListClients = () => {
                             <td>{user.mcom}%</td>
                             <td>{user.scom}%</td>
 
-                            <td>{RoleName[user.role!]}</td>
+                            {/* <td>{RoleName[user.role!]}</td> */}
                             <th>{user?.isLogin ? "Active" : "Inactive"}</th>
                           </tr>
                         );

@@ -6474,7 +6474,7 @@ label {
 }
 
 button.btn-close::after {
-  content: '\2715';
+  /* content: '\2715'; */
 }
 
 .btn-close {

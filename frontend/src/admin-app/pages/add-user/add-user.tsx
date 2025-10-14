@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AxiosResponse } from "axios";
 import ISport from "../../../models/ISport";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { selectSportList } from "../../../redux/actions/sports/sportSlice";
 import SubmitButton from "../../../components/SubmitButton";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
@@ -42,7 +42,6 @@ const validationSchema = Yup.object().shape({
 
   share: Yup.string(),
 
-
   mcom: Yup.string(),
   // mcom: Yup.string()
   // // .required("mcom is required")
@@ -58,10 +57,8 @@ const validationSchema = Yup.object().shape({
   //   return !isNaN(num) && num >= 0 && num <= 2;
   // }),
 
-
   scom: Yup.string(),
   sendamount: Yup.number(),
-
 
   // code: Yup.string(),
 
@@ -87,7 +84,6 @@ const AddUser = () => {
   const [newbalance, setNewbalance] = React.useState({});
   const [pshared, setPshared] = React.useState();
 
-
   const [maxBalance, setMaxBalance] = React.useState<any>();
 
   const [loading, setLoading] = React.useState(false);
@@ -101,8 +97,8 @@ const AddUser = () => {
       (res: AxiosResponse<any>) => {
         console.log(res, "check balance for parent");
         const thatb = res.data?.data[0]?.balance?.balance;
-        const psharee = res?.data?.data[0]?.share
-        setPshared(psharee)
+        const psharee = res?.data?.data[0]?.share;
+        setPshared(psharee);
         setNewbalance(thatb);
         setMaxBalance(thatb);
       }
@@ -120,7 +116,7 @@ const AddUser = () => {
     case "sadmin":
       fword = "AD";
       break;
-      case "suadmin":
+    case "suadmin":
       fword = "SB";
       break;
     case "smdl":
@@ -154,7 +150,7 @@ const AddUser = () => {
     formState: { errors },
   } = useForm<User>({
     resolver: yupResolver(validationSchema, { context: { maxBalance } }),
-    mode: "onChange", 
+    mode: "onChange",
     defaultValues: {
       password: "Abcd1122",
       transactionPassword: "123456", // Automatically sets transaction password
@@ -257,12 +253,13 @@ const AddUser = () => {
   const [senddata, setSenddata] = React.useState({});
 
   const onSubmit = handleSubmit((data) => {
-
     if (Number(data.sendamount) > Number(maxBalance)) {
-      toast.error(`Client Limit cannot exceed available balance (${maxBalance})`);
+      toast.error(
+        `Client Limit cannot exceed available balance (${maxBalance})`
+      );
       return; // Prevent further execution
     }
-  
+
     setLoading(true);
 
     data.creditRefrences = data.sendamount;
@@ -319,7 +316,7 @@ const AddUser = () => {
           });
         }
       });
-      console.log(userSettingArr ,"setingnggnngrrr")
+      console.log(userSettingArr, "setingnggnngrrr");
 
       data.userSetting = userSettingArr;
     }
@@ -389,17 +386,34 @@ const AddUser = () => {
   };
 
   const userData = selectedUser ? selectedUser : userState?.user;
+  const navigate = useNavigate();
 
   return (
     <div className="container-fluid">
       <div className="row">
         <div className="col-md-12 main-container">
+          <div
+            style={{ background: "#0f2327" }}
+            className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex"
+          >
+            <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
+              Add User
+            </span>
+            <button
+              onClick={() => navigate(-1)}
+              type="button"
+              className="btn bg-primary text-white"
+            >
+              <span>Back</span>
+            </button>
+          </div>
+
           <div>
             <div className="add-account">
-              <h2 className="m-b-20">
+              {/* <h2 className="m-b-20">
                 <PersonAddIcon />
                 Create
-              </h2>
+              </h2> */}
               <form onSubmit={onSubmit}>
                 <div className="row">
                   <div className="col-md-6 personal-detail">
@@ -407,7 +421,8 @@ const AddUser = () => {
                     <div className="row">
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label htmlFor="username"> Name:</label>
+                          <label htmlFor="username"> Name: </label>
+                          <span className="text-danger">*</span>
                           <input
                             placeholder="User Name"
                             id="username"
@@ -431,6 +446,9 @@ const AddUser = () => {
                           )}
                         </div>
 
+                        <label> UserName: </label>
+                        <span className="text-danger">*</span>
+
                         <div>
                           <input
                             type="text"
@@ -441,7 +459,8 @@ const AddUser = () => {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label htmlFor="password">User password:</label>
+                          <label htmlFor="password">Password:</label>
+                          <span className="text-danger">*</span>
                           <input
                             maxLength={8}
                             placeholder="Password"
@@ -544,6 +563,7 @@ const AddUser = () => {
                         {thetype === "undefined" ? (
                           <div className={"form-group"}>
                             <label htmlFor="role">Account Type:</label>
+                            <span className="text-danger">*</span>
                             {/* <select
                             {...register("role", {
                               onChange: (e) => {
@@ -586,10 +606,10 @@ const AddUser = () => {
                         )}
                       </div>
 
-                      
                       <div className="col-md-6 d-none">
                         <div className="form-group">
                           <label htmlFor="creditrefrence">Client Limit:</label>
+                          <span className="text-danger">*</span>
                           <input
                             className="form-control"
                             placeholder="Super Limit"
@@ -612,8 +632,11 @@ const AddUser = () => {
                       {!isExposerAllow && (
                         <div className="col-md-6">
                           <div className="form-group">
-                            <label htmlFor="share">Super Share :{`(≤${pshared ? pshared : 0})`}</label>
-                            
+                            <label htmlFor="share">
+                              Super Share<span className="text-danger">*</span>{" "}
+                              :{`(≤${pshared ? pshared : 0})`}
+                            </label>
+
                             <input
                               className="form-control"
                               placeholder="Supershare Limit"
@@ -632,8 +655,9 @@ const AddUser = () => {
                       <div className="col-md-6">
                         <div className="form-group">
                           <label htmlFor="sendamount">
-                            Client Limit Balance ({maxBalance ? maxBalance : ""}
-                            )
+                            Client Limit Balance
+                            <span className="text-danger">*</span> (
+                            {maxBalance ? maxBalance : ""})
                           </label>
                           <input
                             className="form-control"
@@ -651,6 +675,7 @@ const AddUser = () => {
                       <div className="col-md-6">
                         <div className="form-group">
                           <label htmlFor="mcom">Match Commision(≤2%)</label>
+                          <span className="text-danger">*</span>
                           <input
                             className="form-control"
                             placeholder="M Comm Limit"
@@ -662,15 +687,13 @@ const AddUser = () => {
                             // required
                             type="number"
                           />
-
-                          
-                         
                         </div>
                       </div>
 
                       <div className="col-md-6">
                         <div className="form-group">
                           <label htmlFor="scom">Session Commision(≤4%)</label>
+                          <span className="text-danger">*</span>
                           <input
                             className="form-control"
                             placeholder="S Comm Limit"
@@ -881,8 +904,7 @@ const AddUser = () => {
                   </div>
                 )}
 
-
-              <div
+                <div
                   // style={{ display: "none" }}
                   className="row m-t-20 "
                   id="min-max-bet-div"
@@ -890,7 +912,9 @@ const AddUser = () => {
                   <div className="col-md-12 overflow-x-scroll">
                     {/* <h4 className="m-b-20 col-md-12"></h4> */}
                     <table className="table table-striped table-borderedddd">
-                      <thead className={` ${thetype === "sadmin" ? "d-" : "d-none"}`}>
+                      <thead
+                        className={` ${thetype === "sadmin" ? "d-" : "d-none"}`}
+                      >
                         <tr>
                           <th />
                           {sportListState.sports?.map((sports: any) =>
@@ -898,12 +922,13 @@ const AddUser = () => {
                             sports.sportId === 2 ||
                             sports.sportId === 4 ? (
                               <th key={sports._id}>
-                                {
-                                  sports.name === "Cricket" ? "Casino " :
-                                  sports.name === "Soccer" ? "Match" :
-                                  sports.name === "Tennis" ? "Fancy " :
-                                  ""
-                                }
+                                {sports.name === "Cricket"
+                                  ? "Casino "
+                                  : sports.name === "Soccer"
+                                  ? "Match"
+                                  : sports.name === "Tennis"
+                                  ? "Fancy "
+                                  : ""}
                               </th>
                             ) : (
                               <th key={sports._id} />
@@ -912,7 +937,11 @@ const AddUser = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr className={` ${thetype === "sadmin" ? "d-" : "d-none"}`}>
+                        <tr
+                          className={` ${
+                            thetype === "sadmin" ? "d-" : "d-none"
+                          }`}
+                        >
                           <td></td>
                           {sportListState.sports?.map(({ _id, sportId }) =>
                             sportId == 1 || sportId == 2 || sportId == 4 ? (
@@ -924,7 +953,11 @@ const AddUser = () => {
                             )
                           )}
                         </tr>
-                        <tr className={` ${thetype === "sadmin" ? "d" : "d-none"}`}>
+                        <tr
+                          className={` ${
+                            thetype === "sadmin" ? "d" : "d-none"
+                          }`}
+                        >
                           <td>Provide Min Bet</td>
                           {sportListState.sports?.map(({ _id, sportId }) =>
                             sportId == 1 || sportId == 2 || sportId == 4 ? (
@@ -936,7 +969,9 @@ const AddUser = () => {
                                   placeholder={""}
                                   max={userData?.userSetting?.[sportId].minBet}
                                   min={0}
-                                  defaultValue={userData?.userSetting?.[sportId].minBet}
+                                  defaultValue={
+                                    userData?.userSetting?.[sportId].minBet
+                                  }
                                   disabled={isPartnership}
                                   type="number"
                                 />
@@ -947,7 +982,11 @@ const AddUser = () => {
                             )
                           )}
                         </tr>
-                        <tr className={` ${thetype === "sadmin" ? "d-" : "d-none"}`}>
+                        <tr
+                          className={` ${
+                            thetype === "sadmin" ? "d-" : "d-none"
+                          }`}
+                        >
                           <td>Max Bet</td>
                           {sportListState.sports?.map(({ _id, sportId }) =>
                             sportId == 1 || sportId == 2 || sportId == 4 ? (
@@ -959,7 +998,11 @@ const AddUser = () => {
                             )
                           )}
                         </tr>
-                        <tr className={` ${thetype === "sadmin" ? "d-" : "d-none"}`}>
+                        <tr
+                          className={` ${
+                            thetype === "sadmin" ? "d-" : "d-none"
+                          }`}
+                        >
                           <td>Provide Min Bet</td>
                           {sportListState.sports?.map(({ _id, sportId }) =>
                             sportId == 1 || sportId == 2 || sportId == 4 ? (
@@ -970,7 +1013,9 @@ const AddUser = () => {
                                   {...register(`maxbet.${sportId}`)}
                                   placeholder={""}
                                   max={userData?.userSetting?.[sportId].maxBet}
-                                  defaultValue={userData?.userSetting?.[sportId].maxBet}
+                                  defaultValue={
+                                    userData?.userSetting?.[sportId].maxBet
+                                  }
                                   disabled={isPartnership}
                                   min={0}
                                   type="number"
@@ -982,7 +1027,11 @@ const AddUser = () => {
                             )
                           )}
                         </tr>
-                        <tr className={` ${thetype === "sadmin" ? "d" : "d-none"}`}>
+                        <tr
+                          className={` ${
+                            thetype === "sadmin" ? "d" : "d-none"
+                          }`}
+                        >
                           <td>Delay</td>
                           {sportListState.sports?.map(({ _id, sportId }) =>
                             sportId == 1 || sportId == 2 || sportId == 4 ? (
@@ -994,7 +1043,9 @@ const AddUser = () => {
                             )
                           )}
                         </tr>
-                        <tr className={` ${thetype === "sadmin" ? "" : "d-none"}`}>
+                        <tr
+                          className={` ${thetype === "sadmin" ? "" : "d-none"}`}
+                        >
                           <td>Provide Delay</td>
                           {sportListState.sports?.map(({ _id, sportId }) =>
                             sportId == 1 || sportId == 2 || sportId == 4 ? (
@@ -1005,7 +1056,9 @@ const AddUser = () => {
                                   {...register(`delay.${sportId}`)}
                                   placeholder={""}
                                   max={userData?.userSetting?.[sportId].delay}
-                                  defaultValue={userData?.userSetting?.[sportId].delay}
+                                  defaultValue={
+                                    userData?.userSetting?.[sportId].delay
+                                  }
                                   disabled={isPartnership}
                                   type="number"
                                 />
@@ -1019,7 +1072,7 @@ const AddUser = () => {
                       </tbody>
                     </table>
                   </div>
-                </div> 
+                </div>
 
                 <div className="row m-t-20">
                   <div className="col-md-12">
@@ -1046,7 +1099,11 @@ const AddUser = () => {
                 <div className="row m-t-20">
                   <div className="col-md-12">
                     <div className="float-right">
-                      <SubmitButton className="btn btn-submit bg-dark text-light" type="submit" disabled={loading}>
+                      <SubmitButton
+                        className="btn btn-submit bg-dark text-light"
+                        type="submit"
+                        disabled={loading}
+                      >
                         {loading ? "Creating..." : "Create User"}
                       </SubmitButton>
                     </div>

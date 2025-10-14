@@ -5,6 +5,7 @@ import { AxiosResponse } from "axios";
 import { useAppSelector } from "../../../redux/hooks";
 import { selectUserData } from "../../../redux/actions/login/loginSlice";
 import { CustomLink } from "../../../pages/_layout/elements/custom-link";
+import TopBackHeader from "../TopBackHeader";
 
 interface LedgerItem {
   _id: string;
@@ -74,21 +75,7 @@ const MyLedger = () => {
   const finalBalance = processedRows.length > 0 ? processedRows[0].balance : 0;
   return (
     <div className="body-wrap p-md-4 pt-2">
-      <div
-        style={{ background: "#0f2327" }}
-        className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex"
-      >
-        <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
-          My ledger
-        </span>
-        <CustomLink
-          to={"/"}
-          type="button"
-          className="btn bg-primary text-white"
-        >
-          <span>Back</span>
-        </CustomLink>
-      </div>
+      <TopBackHeader name="My Ledger" />
 
       <div>
         <div className="container w-100 mt-2 mb-5">

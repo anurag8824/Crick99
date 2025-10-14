@@ -2,6 +2,7 @@ import { AxiosResponse } from "axios";
 import React from "react";
 import betService from "../../../services/bet.service";
 import { CustomLink } from "../../../pages/_layout/elements/custom-link";
+import TopBackHeader from "../TopBackHeader";
 
 const CasinoPL = () => {
   const [data, setData] = React.useState<any[]>([]);
@@ -58,21 +59,7 @@ const CasinoPL = () => {
         <div className="container ng-scope p-4">
           <div className="row">
             <div className="col">
-              <div
-                style={{ background: "#0f2327" }}
-                className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex"
-              >
-                <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
-                  Casino PandL Detail
-                </span>
-                <CustomLink
-                  to={"/"}
-                  type="button"
-                  className="btn bg-primary text-white"
-                >
-                  <span>Back</span>
-                </CustomLink>
-              </div>
+              <TopBackHeader name="Casino P&amp;L" />
               <div className="overflow-auto">
                 <table className="table table-striped table-bordered lenden len ng-scope">
                   <thead>
@@ -114,24 +101,13 @@ const CasinoPL = () => {
                     {/* Mapped Data Rows */}
                     {data.map((item, index) => (
                       <React.Fragment key={index}>
-                        {/* Date row */}
-                        <tr className="ng-scope background-yellow">
-                          <td>{new Date(item.date).toLocaleDateString()}</td>
-
-                          <td>{item.money.toFixed(2)}</td>
-                          <td>{item.commissionlega.toFixed(2)}</td>
-                          <td>{item.commissiondega.toFixed(2)}</td>
-                          <td>{item.netpl.toFixed(2)}</td>
-                          <td></td>
-                        </tr>
-
                         {/* Narration row */}
                         <tr className="ng-scope">
-                          <td>{item.narration}</td>
-                          <td>{item.money.toFixed(2)}</td>
+                          <td>{item.narration}<br />({new Date(item.date).toLocaleDateString()})</td>
+                          <td className={`${item?.money > 0 ? "text-success" : "text-danger"}`}>{item.money.toFixed(2)}</td>
                           <td>{item.commissionlega.toFixed(2)}</td>
                           <td>{item.commissiondega.toFixed(2)}</td>
-                          <td>{item.netpl.toFixed(2)}</td>
+                          <td className={`${item?.netpl > 0 ? "text-success" : "text-danger"}`}>{item.netpl.toFixed(2)}</td>
                           <td>
                             <a className="btn hidden btn-secondary btn-sm">
                               Details

@@ -166,7 +166,7 @@ const WithdrawModal = (props: any) => {
               <input type='hidden' name='uid' id='withdraw-uid' />
               <button
                 type='button'
-                className='btn btn-back bg-primary'
+                className='btn btn-back  bg-primary text-white'
                 data-dismiss='modal'
                 onClick={() => {
                   props.closeModal('w')
@@ -176,7 +176,7 @@ const WithdrawModal = (props: any) => {
                 {/* <i className='fas fa-undo' /> */}
                 Back
               </button>
-              <SubmitButton type='submit' className='btn btn-submit bg-primary'>
+              <SubmitButton type='submit' className='btn btn-submit  bg-primary text-white'>
                 Submit
                 {/* <i className='fas fa-sign-in-alt' /> */}
               </SubmitButton>
