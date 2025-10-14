@@ -102,8 +102,7 @@ export class BetController extends ApiController {
   //   }
   // };
 
-
-  fancybetListSelection = async (
+ fancybetListSelection = async (
     req: Request,
     res: Response
   ): Promise<Response> => {
@@ -111,8 +110,7 @@ export class BetController extends ApiController {
       const bets = await Bet.aggregate([
         {
           $match: {
-            // bet_on: BetOn.FANCY,
-            bet_on: { $in: [BetOn.FANCY, BetOn.MATCH_ODDS] },
+            bet_on: BetOn.FANCY,
             status: "pending"
           }
         },
@@ -120,13 +118,9 @@ export class BetController extends ApiController {
           $group: {
             _id: "$selectionName", // group unique by selectionName
             matchId: { $first: "$matchId" },
-            marketId: { $first: "$marketId" },
-
             selectionId: { $first: "$selectionId" },
-            rmid: { $first: "$rmid" },
-             bet_on: { $first: "$bet_on" }, 
             originalId: { $first: "$_id" },  // original Mongo _id
-            customId: { $first: "$id" },    // agar tere doc me id naam ka field hai
+            customId: { $first: "$id" }      // agar tere doc me id naam ka field hai
           }
         },
         {
@@ -135,11 +129,8 @@ export class BetController extends ApiController {
             selectionName: "$_id",
             matchId: 1,
             selectionId: 1,
-            rmid: 1,
             originalId: 1,
-            customId: 1,
-            bet_on: 1, 
-            marketId:1,
+            customId: 1
           }
         }
       ]);
