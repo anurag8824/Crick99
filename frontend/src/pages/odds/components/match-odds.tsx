@@ -162,7 +162,9 @@ class MatchOdds extends React.PureComponent<
     return (
       <div className=''>
         {data &&
-          data.map((market: IMarket) => {
+          data?.filter((market: IMarket) => 
+            market.marketName?.toLowerCase() == "bookmaker"
+          )?.map((market: IMarket) => {
             const selectionsPrev: any = {}
             const oddsData = runnersData ? runnersData[market.marketId] : null
             // console.log(oddsData,"oddddssss")
