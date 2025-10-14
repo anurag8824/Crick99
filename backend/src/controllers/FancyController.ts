@@ -374,51 +374,71 @@ export class FancyController extends ApiController {
       return false;
     }
   };
-  updatefancyresultapi = async (
-    req: Request,
-    res: Response
-  ): Promise<Response> => {
+  // updatefancyresultapi = async (
+  //   req: Request,
+  //   res: Response
+  // ): Promise<Response> => {
+  //   try {
+  //     const data = req.body;
+  //     console.log(data,"data inside fncy result")
+  //     if (data.result != "" && data.message == "ok") {
+  //     //   const findFancy: any = await Fancy.findOne({
+  //     //     fancyName: data.runnerName,
+  //     //     matchId: data.matchId,
+  //     //   });
+  //       const findFancy:any = await Fancy.findOne(
+  //     { fancyName: data.runnerName, matchId: data.matchId },
+  //     {},
+  //     { collation: { locale: "en", strength: 2 } }
+  //     );
+
+  //       console.log(findFancy,"FGHJKL:")
+  //       if (findFancy?._id && !data.isRollback) {
+  //         console.log("hahahhahahhahah")
+  //         this.declarefancyresultAuto({
+  //           matchId: findFancy.matchId,
+  //           marketId: findFancy.marketId,
+  //           result: data.result,
+  //         });
+  //       } else if (findFancy?._id) {
+  //        await this.rollbackfancyresultbyapi({
+  //           matchId: findFancy.matchId,
+  //           marketId: findFancy.marketId,
+  //         });
+  //         this.declarefancyresultAuto({
+  //           matchId: findFancy.matchId,
+  //           marketId: findFancy.marketId,
+  //           result: data.result,
+  //         });
+  //       }
+  //       return this.success(res, {});
+  //     } else {
+  //       return this.success(res, { message: "result not found" });
+  //     }
+  //   } catch (e: any) {
+  //     return this.fail(res, e);
+  //   }
+  // };
+
+ updatefancyresultapi = async (req: Request, res: Response): Promise<Response> => {
     try {
       const data = req.body;
-      console.log(data,"data inside fncy result")
-      if (data.result != "" && data.message == "ok") {
-      //   const findFancy: any = await Fancy.findOne({
-      //     fancyName: data.runnerName,
-      //     matchId: data.matchId,
-      //   });
-        const findFancy:any = await Fancy.findOne(
-      { fancyName: data.runnerName, matchId: data.matchId },
-      {},
-      { collation: { locale: "en", strength: 2 } }
-      );
-
-        console.log(findFancy,"FGHJKL:")
+      if (data.result != '' && data.message == 'ok') {
+        const findFancy: any = await Fancy.findOne({ fancyName: data.runnerName, matchId: data.matchId })
         if (findFancy?._id && !data.isRollback) {
-          console.log("hahahhahahhahah")
-          this.declarefancyresultAuto({
-            matchId: findFancy.matchId,
-            marketId: findFancy.marketId,
-            result: data.result,
-          });
+          this.declarefancyresultAuto({ matchId: findFancy.matchId, marketId: findFancy.marketId, result: data.result });
         } else if (findFancy?._id) {
-         await this.rollbackfancyresultbyapi({
-            matchId: findFancy.matchId,
-            marketId: findFancy.marketId,
-          });
-          this.declarefancyresultAuto({
-            matchId: findFancy.matchId,
-            marketId: findFancy.marketId,
-            result: data.result,
-          });
+          this.rollbackfancyresultbyapi({ matchId: findFancy.matchId, marketId: findFancy.marketId });
         }
-        return this.success(res, {});
+        return this.success(res, {})
       } else {
         return this.success(res, { message: "result not found" });
       }
     } catch (e: any) {
-      return this.fail(res, e);
+      return this.fail(res, e)
     }
-  };
+  }
+
 
   declarefancyresultAuto = async ({ marketId, matchId, result }: any) => {
     try {
