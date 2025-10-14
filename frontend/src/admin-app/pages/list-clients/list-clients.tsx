@@ -872,7 +872,7 @@ const ListClients = () => {
                           )}
                         </p>
 
-                        <p className="text-right">
+                        <p className="text-right d-none">
                           {username ? (
                             <CustomLink
                               to={`#`}
@@ -1386,7 +1386,7 @@ const ListClients = () => {
                                     Edit {`(${user.username})`}
                                   </a>
 
-                                  {userState?.user?.role == RoleType.admin && (
+                                  {/* {userState?.user?.role == RoleType.admin && (
                                     <a
                                       onClick={() => {
                                         openModal("dt");
@@ -1401,7 +1401,7 @@ const ListClients = () => {
                                     >
                                       Deactivate {`(${user.username})`}
                                     </a>
-                                  )}
+                                  )} */}
 
 
 

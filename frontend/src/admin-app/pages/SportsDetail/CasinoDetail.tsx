@@ -47,7 +47,7 @@ const CasinoDetail = () => {
   }>({});
 
   return (
-    <div className=" body-wrap p-4">
+    <div style={{ padding: "2" }} className="container-fluid p-md-4 mt-3">
       <div
         style={{ background: "#0f2327" }}
         className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex"
@@ -98,12 +98,44 @@ const CasinoDetail = () => {
           <table className="table table-bordered mb-0 text-nowrap">
             <thead className="table-secondary text-center fs-6">
               <tr>
-                <th className="text-center" style={{ width: "30%" }}>
+                <th
+                  className="text-center"
+                  style={{
+                    width: "30%",
+                    backgroundColor: "#0f2327",
+                    color: "white",
+                  }}
+                >
                   Event Name
                 </th>
-                <th style={{ width: "20%" }}>Date</th>
-                <th style={{ width: "20%" }}> PnL</th>
-                <th style={{ width: "30%" }}>Action</th>
+                <th
+                  style={{
+                    width: "20%",
+                    backgroundColor: "#0f2327",
+                    color: "white",
+                  }}
+                >
+                  Date
+                </th>
+                <th
+                  style={{
+                    width: "20%",
+                    backgroundColor: "#0f2327",
+                    color: "white",
+                  }}
+                >
+                  {" "}
+                  PnL
+                </th>
+                <th
+                  style={{
+                    width: "30%",
+                    backgroundColor: "#0f2327",
+                    color: "white",
+                  }}
+                >
+                  Action
+                </th>
               </tr>
             </thead>
 
@@ -138,14 +170,14 @@ const CasinoDetail = () => {
                         </td>
 
                         <td
-                        className="p-2"
+                          className="p-2 "
                           onClick={() =>
                             setOpenMatch(
                               openMatch === matchName ? null : matchName
                             )
                           }
                         >
-                          View
+                        <button className=" text-primary "> View</button>  
                         </td>
                       </tr>
                       <tr>
@@ -168,15 +200,39 @@ const CasinoDetail = () => {
                                     <table className="table table-sm table-striped table-bordered mb-0 text-nowrap">
                                       <thead className="table-secondary text-center fs-6">
                                         <tr>
-                                          <th className="text-center">
+                                          <th
+                                            style={{
+                                              backgroundColor: "#0f2327",
+                                              color: "white",
+                                            }}
+                                            className="text-center"
+                                          >
                                             Username
                                           </th>
-                                          <th>Type</th>
-                                          <th>Rate</th>
-                                          <th>Amount</th>
-                                          <th>PnL</th>
-                                          <th>Status</th>
-                                          <th>Date/Time</th>
+                                          <th   style={{
+                                              backgroundColor: "#0f2327",
+                                              color: "white",
+                                            }}>Type</th>
+                                          <th   style={{
+                                              backgroundColor: "#0f2327",
+                                              color: "white",
+                                            }}>Rate</th>
+                                          <th   style={{
+                                              backgroundColor: "#0f2327",
+                                              color: "white",
+                                            }}>Amount</th>
+                                          <th   style={{
+                                              backgroundColor: "#0f2327",
+                                              color: "white",
+                                            }}>PnL</th>
+                                          <th   style={{
+                                              backgroundColor: "#0f2327",
+                                              color: "white",
+                                            }}>Status</th>
+                                          <th   style={{
+                                              backgroundColor: "#0f2327",
+                                              color: "white",
+                                            }}>Date/Time</th>
                                         </tr>
                                       </thead>
                                       <tbody>
@@ -190,9 +246,13 @@ const CasinoDetail = () => {
                                                 {b?.userName} (
                                                 {b?.parentNameStr})
                                               </td>
-                                              <td className="p-2">{b?.selectionName}</td>
+                                              <td className="p-2">
+                                                {b?.selectionName}
+                                              </td>
                                               <td className="p-2">{b?.odds}</td>
-                                              <td className="p-2">{b?.stack}</td>
+                                              <td className="p-2">
+                                                {b?.stack}
+                                              </td>
                                               <td
                                                 className={
                                                   b?.profitLoss >= 0

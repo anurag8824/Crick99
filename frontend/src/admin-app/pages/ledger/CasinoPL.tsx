@@ -17,7 +17,7 @@ const CasinoPL = () => {
       console.log(res, "Casino pl data");
       const items = res.data.data[0] || [];
 
-      const filteredItems = items.filter((item: any) => item.Casino === false);
+      const filteredItems = items.filter((item: any) => item.Fancy === false);
 
       const totalsCalc = {
         money: 0,
@@ -77,19 +77,24 @@ const CasinoPL = () => {
                 <table className="table table-striped table-bordered lenden len ng-scope">
                   <thead>
                     <tr className="small">
-                      <th className="small" style={{ fontWeight: "bolder" }}>
+                      <th className="small" style={{ fontWeight: "bolder" ,background: "#0f2327",
+                        color: "white",  }}>
                         Title
                       </th>
-                      <th className="small" style={{ fontWeight: "bolder" }}>
+                      <th className="small" style={{ fontWeight: "bolder" ,background: "#0f2327",
+                        color: "white",  }}>
                         P&amp;L
                       </th>
-                      <th className="small" style={{ fontWeight: "bolder" }}>
+                      <th className="small" style={{ fontWeight: "bolder" ,background: "#0f2327",
+                        color: "white",  }}>
                         Comm+
                       </th>
-                      <th className="small" style={{ fontWeight: "bolder" }}>
+                      <th className="small" style={{ fontWeight: "bolder" ,background: "#0f2327",
+                        color: "white",  }}>
                         Comm-
                       </th>
-                      <th className="small" style={{ fontWeight: "bolder" }}>
+                      <th className="small" style={{ fontWeight: "bolder" ,background: "#0f2327",
+                        color: "white",  }}>
                         Net P&amp;L
                       </th>
                       {/* <th className="small" style={{ fontWeight: "bolder" }}>Action</th> */}

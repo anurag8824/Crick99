@@ -116,19 +116,19 @@ const CasinoList = () => {
                     <thead>
                       <tr>
                         <th
-                          style={{ backgroundColor: "#0f2327" }}
+                          style={{ backgroundColor: "#0f2327" ,color:"white" }}
                           className="text-center wnwrap"
                         >
                           Code
                         </th>
                         <th
-                          style={{ backgroundColor: "#0f2327" }}
+                          style={{ backgroundColor: "#0f2327",color:"white"  }}
                           className="text-center wnwrap"
                         >
                           Name
                         </th>
                         <th
-                          style={{ backgroundColor: "#0f2327" }}
+                          style={{ backgroundColor: "#0f2327",color:"white"  }}
                           className="text-center wnwrap"
                         >
                           Slug
@@ -140,7 +140,7 @@ const CasinoList = () => {
                           Date
                         </th> */}
                         <th
-                          style={{ backgroundColor: "#0f2327" }}
+                          style={{ backgroundColor: "#0f2327",color:"white"  }}
                           className="text-center wnwrap"
                         >
                           Action

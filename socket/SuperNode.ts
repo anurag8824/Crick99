@@ -50,7 +50,7 @@ socket.on("deactivateFancy", (fancy) => {
   if (Object.keys(fancy).length > 0) {
     Object.keys(fancy).map((matchId) => {
       fancy[matchId].map((marketId: any) => {
-        io.to(matchId).emit("removeFancy", { marketId, matchId});
+        io.to(matchId).emit("removeFancy", { marketId, matchId });
       });
     });
     axios

@@ -78,7 +78,7 @@ const TotalProfit = () => {
           <div className="container py-3">
             <div className="row align-items-start">
               {/* Left Side (Date + Select) */}
-              <div className="col-10 col-md-8 d-flex flex-column flex-md-row gap-2">
+              <div className="col-8 col-md-8 d-flex flex-column flex-md-row gap-2">
                 <div className="w-100 w-md-auto mb-2 mb-md-0">
                   <RangePicker />
                 </div>
@@ -109,9 +109,9 @@ const TotalProfit = () => {
               </div>
 
               {/* Right Side (Total) */}
-              <div className="col-2 col-md-4 text-end">
+              <div className="col-2 col-md-4 text-center">
                 <div className="d-inline-block">
-                  <small className="d-block text-2xl text-muted">Total:</small>
+                  <small className="d-block md:text-2xl text-muted">Total:</small>
                   <span className="fw-semibold text-success">
                     {totalCommission.toLocaleString()}
                   </span>

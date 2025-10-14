@@ -2844,6 +2844,31 @@ export class BetController extends ApiController {
     }
   }
 
+  undodeleteCurrentBet = async (req: Request, res: Response): Promise<Response> => {
+    try {
+      let status: string = 'pending'
+      const userbet: any = await Bet.findOneAndUpdate(
+        { _id: ObjectId(req.params.id) },
+        { $set: { status } },
+      )
+      console.log(userbet, "userbet")
+      const betAmount = parseFloat(userbet?.loss.toString())
+      console.log(betAmount, "Bet ammount HHHHH")
+      const userId = userbet.userId
+
+
+      const json: any = {}
+      let exposer = await this.getexposerfunction({ _id: userbet.userId }, true, json)
+      let exposer2 = await this.getcasinoexposerfunction({ _id: userbet.userId }, true, json)
+
+      // balance event here
+      return this.success(res, { success: true }, 'Bet Reverse successfully')
+    } catch (e: any) {
+      console.log(e)
+      return this.fail(res, e)
+    }
+  }
+
   deleteBets = async (req: Request, res: Response): Promise<Response> => {
     try {
       const { ids } = req.body;
@@ -2861,7 +2886,7 @@ export class BetController extends ApiController {
         });
       }
       // balance event here
-      return this.success(res, { success: true }, "Bet deleted successfully");
+      return this.success(res, { success: true }, "Get deleted Bet successfully");
     } catch (e: any) {
       return this.fail(res, e);
     }

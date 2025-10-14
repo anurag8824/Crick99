@@ -16,7 +16,7 @@
   --secondary-bg: #000;
   --link-bg: #bbb;
   --grey-bg: #ccc;
-  --light-bg: #eee;
+  --light-bg: #1e2a3f;
   --suspended-color: #730709;
   --red-color: #ff0000;
   --yellow-color: #ffff00;
@@ -2598,7 +2598,7 @@ tr.suspended-fancy {
 }
 
 .lucky-seven-content {
-  background-color: #eee;
+  background-color: var(--light-bg);
   padding: 10px;
 }
 

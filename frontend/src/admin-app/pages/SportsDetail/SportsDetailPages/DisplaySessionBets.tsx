@@ -310,10 +310,12 @@ const DisplaySessionBets = () => {
             </div>
 
 
-            <div className="flex justify-between p-4 bg-light">
+            <div className="md:flex  justify-between p-4 bg-light">
               <select
+                style={{background:"#0f2327", color:"white"}}
                 value={selectedUserF}
                 onChange={(e) => setSelectedUserF(e.target.value)}
+                className="rounded p-1"
               >
                 <option>All Users</option>
                 {users.map((u) => (
@@ -321,9 +323,12 @@ const DisplaySessionBets = () => {
                 ))}
               </select>
 
+
               <select
+                style={{backgroundColor:"#0f2327", color:"white"}}
                 value={selectedSelection}
                 onChange={(e) => setSelectedSelection(e.target.value)}
+                className="rounded p-1 mt-2 md:mt-0"
               >
                 <option>All Selections</option>
                 {selections.map((s) => (
@@ -339,28 +344,28 @@ const DisplaySessionBets = () => {
               <table className="table table-striped table-bordered table-hover">
                 <thead className="small">
                   <tr>
-                    <th className="pt-2 pb-2">Client Name</th>
-                    <th className="pt-0 pb-0">Run</th>
-                    <th className="pt-0 pb-0">Rate</th>
-                    <th className="pt-0 pb-0">Type</th>
-                    <th className="pt-0 pb-0">Amount</th>
-                    <th className="pt-0 pb-0">Session</th>
-                    <th className="pt-0 pb-0">Creator Name</th>
-                    <th className="pt-0 pb-0">PnL</th>
-                    <th className="pt-0 pb-0">Date</th>
-                    <th className="pt-0 pb-0">IP</th>
+                    <th style={{background:"#0f2327", color:"white"}} className="pt-2 pb-2">Client Name</th>
+                    <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Run</th>
+                    <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Rate</th>
+                    <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Type</th>
+                    <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Amount</th>
+                    <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Session</th>
+                    <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Creator Name</th>
+                    <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">PnL</th>
+                    <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Date</th>
+                    <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">IP</th>
                   </tr>
                 </thead>
                 <tbody className="small">
                   {filteredBets?.map((bet, index) => (
                     <tr key={index}>
-                      <td className="p-1 pt-2 small pr-0">
+                      <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}  className="p-1 pt-2 small pr-0">
                         {bet?.parentNameStr}
                       </td>
-                      <td className="pt-2 pb-1">{bet?.odds}</td>
-                      <td className="pt-2 pb-1">{bet?.volume}</td>
+                      <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}  className="pt-2 pb-1">{bet?.odds}</td>
+                      <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}  className="pt-2 pb-1">{bet?.volume}</td>
 
-                      <td className="pt-2 pb-1">
+                      <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}  className="pt-2 pb-1">
                         {bet?.isBack ? (
                           <button
                             className="btn-yes btn btn-sm p-1 ng-scope"
@@ -403,7 +408,7 @@ const DisplaySessionBets = () => {
       )}
     </td> */}
 
-<td
+<td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} 
                         className={`pt-2 pb-1 ${
                           bet?.profitLoss < 0
                             ? "text-red-500"
@@ -413,17 +418,18 @@ const DisplaySessionBets = () => {
                         {bet?.stack}
                       </td>
 
-<td className="p-1 pt-2 small pr-0">
+<td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}  className="p-1 pt-2 small pr-0">
                         {bet?.selectionName}
                       </td>
 
 
-<td className="p-1 pt-2 small pr-0">
+<td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}  className="p-1 pt-2 small pr-0">
                         {bet.userName}
                       </td>
                      
 
                       <td
+                      style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} 
                         className={`pt-2 pb-1 ${
                           bet?.profitLoss < 0
                             ? "text-red-500"
@@ -434,15 +440,16 @@ const DisplaySessionBets = () => {
                       </td>
 
                       <td
+                      style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" ,fontSize: "xx-small"  }} 
                         className="pt-2 pb-1 text-nowrap"
-                        style={{ fontSize: "xx-small" }}
                       >
                         {moment(bet?.betClickTime).format(dateFormat)}
                         {/* ( {new Date(bet?.betClickTime).toLocaleTimeString()}) */}
                       </td>
                       <td
                         className="pt-2 pb-1"
-                        style={{ fontSize: "xx-small" }}
+                        style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" ,fontSize: "xx-small"  }} 
+
                       >
                         {bet?.userIp?.split(":")?.slice(0, 4)?.join(":")}
                       </td>

@@ -298,52 +298,7 @@ class SportsController extends ApiController {
       })
   }
 
-  // async bookmakermarketesData(match: IMatch) {
-  //   const markets = await sportsService.getBookmakerMarkets(match)
-  //   // console.log(markets?.data?.sports, "markets data from backend ibn ths codew sw")
-  //   if (markets?.data?.sports) {
-
-  //     let i = 0
-  //     // await markets.data.sports.map(async (market: any) => {
-  //     let market = markets.data.sports
-  //     let marketName = market.marketName
-  //     if (market.marketName === 'Bookmaker') {
-  //       i++
-  //       marketName = i > 1 ? `${market.marketName}${i}` : market.marketName
-  //     }
-  //     const marketsData: IMarket = {
-  //       seriesId: match.seriesId,
-  //       sportId: match.sportId,
-  //       matchId: match.matchId,
-  //       marketId: market.marketId,
-  //       marketName: marketName,
-  //       marketStartTime: market.marketStartTime,
-  //       runners: Array.isArray(market.runners)
-  //         ? market.runners.sort((a, b) => a.sortPriority - b.sortPriority)
-  //         : []      ,
-  //        isActive: true,
-  //       oddsType: OddsType.BM,
-  //     }
-  //     // if()
-  //     // console.log(marketsData, "FGHJKL")
-  //     const data34 = await Market.findOneAndUpdate(
-  //       { marketId: market.marketId, matchId: match.matchId },
-  //       marketsData,
-  //       {
-  //         new: true,
-  //         upsert: true,
-  //       },
-  //     )
-  //     // console.log("fghjkl", data34)
-
-  //     // })
-  //     return true
-  //   }
-  //   return false
-  // }
-
-
-   async  bookmakermarketesData(match: IMatch) {
+ async  bookmakermarketesData(match: IMatch) {
     const markets = await sportsService.getBookmakerMarkets(match)
     console.log(markets, "markets data from backend ibn ths codew sw")
     if (markets?.data?.sports?.length > 0) {

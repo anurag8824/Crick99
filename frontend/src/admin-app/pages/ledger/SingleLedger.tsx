@@ -271,7 +271,6 @@ const AllClientLedger = () => {
 
   return (
     <>
-      <p className="text-center bg-secondary tx-12 text-white p-1">My Ledger</p>
 
       <div className="ledger-container">
         <div

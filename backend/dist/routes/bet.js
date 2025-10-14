@@ -31,6 +31,7 @@ class BetRoute {
         this.router.get('/alluserbetList22', Passport_1.default.authenticateJWT, this.betController.alluserbetList22);
         this.router.get('/get-exposer-event', Passport_1.default.authenticateJWT, this.betController.getExposerEvent);
         this.router.delete('/delete-current-bet/:id', Passport_1.default.authenticateJWT, this.betController.deleteCurrentBet);
+        this.router.post('/undo-delete-current-bet/:id', Passport_1.default.authenticateJWT, this.betController.undodeleteCurrentBet);
         this.router.post('/delete-bets', Passport_1.default.authenticateJWT, this.betController.deleteBets);
         this.router.post('/bet-lock', bet_lock_validation_1.betLockValidation, Http_1.default.validateRequest, Passport_1.default.authenticateJWT, this.betLockController.betLock);
         this.router.get('/get-child-user-list', Passport_1.default.authenticateJWT, this.betLockController.getChildUserList);

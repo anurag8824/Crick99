@@ -1,5 +1,5 @@
 import moment from 'moment'
-import React from 'react'
+import React, { MouseEvent } from 'react'
 import { useWebsocketUser } from '../../../context/webSocketUser'
 import IBet from '../../../models/IBet'
 import { RoleType } from '../../../models/User'
@@ -12,6 +12,8 @@ import { betDateFormat } from '../../../utils/helper'
 import { isMobile } from 'react-device-detect'
 import { selectCasinoCurrentMatch } from '../../../redux/actions/casino/casinoSlice'
 import { useLocation } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { AxiosResponse } from 'axios'
 
 const MyBetComponent = () => {
   const [getMyAllBet, setMyAllBet] = React.useState<IBet[]>([])
@@ -75,7 +77,45 @@ const MyBetComponent = () => {
 
   console.log(getMyAllBet,"get my all bets")
 
+   const onTrash = (e: MouseEvent<HTMLAnchorElement>, bet: IBet) => {
+      e.preventDefault();
   
+      // Check if bet._id exists before proceeding
+      if (!bet._id) {
+        toast.error("Invalid bet data. Unable to delete.");
+        return;
+      }
+  
+      // Replace confirm with a custom modal for better UX (Optional)
+      const userConfirmed = window.confirm('Are you sure you want to delete?');
+  
+      if (userConfirmed) {
+        betService.deleteCurrentBet(bet._id).then((res: AxiosResponse) => {
+          const { success, message } = res.data.data;
+  
+          if (success) {
+            // Notify backend via socket
+            socketUser.emit('betDelete', { betId: bet._id, userId: bet.userId });
+  
+            // Show success toast notification
+            toast.success(message);
+  
+            // Update state safely
+            // setMyAllBet((prevState: any) => ({
+            //   ...prevState,
+            //   docs: prevState?.docs?.filter(({ _id }: IBet) => _id !== bet._id),
+            // }));
+            setRefreshStatus(betRefresh ? false : true);
+
+          } else {
+            toast.error('Failed to delete bet.');
+          }
+        }).catch((err) => {
+          console.error('Error deleting bet:', err);
+          toast.error('An error occurred while deleting the bet.');
+        });
+      }
+    };
 
   return (
     <div>
@@ -87,7 +127,7 @@ const MyBetComponent = () => {
         <thead className="bg-info-subtle text-warning">
           <tr>
             <th style={{background:"#2a3a5a" , border:"none", fontSize:"13px"}} className='text-warning'>#</th>
-            {userState.user.role !== RoleType.user && <th style={{background:"#2a3a5a", fontSize:"13px"}} className='text-warning' >Username</th>}
+            {userState.user.role !== RoleType.user && <th style={{background:"#2a3a5a", border:"none", fontSize:"13px"}} className='text-warning' >Username</th>}
             <th style={{background:"#2a3a5a" , border:"none" , fontSize:"13px"}} className='text-warning text-left'> Runner Name</th>
             <th style={{background:"#2a3a5a" , border:"none" , fontSize:"13px"}} className='text-warning'>Bet Mode</th>
 
@@ -101,6 +141,8 @@ const MyBetComponent = () => {
             {/* {!isMobile && <th style={{background:"#76d68f"}}> Match Date</th>} */}
             {/* <th style={{background:"#2a3a5a" , border:"none"}} className='text-warning'>Bet Status</th> */}
             {userState.user.role !== RoleType.user && <th  style={{background:"#2a3a5a" , border:"none", fontSize:"13px"}} className='text-warning' > Date</th>}
+            {userState.user.role !== RoleType.user && <th  style={{background:"#2a3a5a" , border:"none", fontSize:"13px"}} className='text-warning' > Action</th>}
+
           </tr>
         </thead>
         <tbody className='text-white'>
@@ -130,6 +172,12 @@ const MyBetComponent = () => {
               )} */}
               {/* <td className='no-wrap text-center' > {bet?.result?.result ? bet?.result?.result  :"-" } </td> */}
               {userState.user.role !== RoleType.user && <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap'>{moment.utc(bet.betClickTime).utcOffset('+05:30').format('DD/MM/YYYY hh:mm:ss A')} </td>}
+              {userState.user.role !== RoleType.user && <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap text-center'> {bet.status == 'pending' && userState?.user?.role === RoleType.admin && (
+              <a onClick={(e) => onTrash && onTrash(e, bet)} href='#'>
+                <i className='fa fa-trash' />
+              </a>
+            )}</td>}
+
               {/* <td className='no-wrap text-center' > {bet?.status} </td> */}
 
             </tr>
@@ -157,7 +205,7 @@ const MyBetComponent = () => {
         <thead className="bg-info-subtle text-warning">
           <tr>
             <th style={{background:"#2a3a5a" , border:"none", fontSize:"13px"}} className='text-warning'>#</th>
-            {userState.user.role !== RoleType.user && <th style={{background:"#2a3a5a", fontSize:"13px"}} className='text-warning' >Username</th>}
+            {userState.user.role !== RoleType.user && <th style={{background:"#2a3a5a", border:"none", fontSize:"13px"}} className='text-warning' >Username</th>}
             <th style={{background:"#2a3a5a" , border:"none" , fontSize:"13px"}} className='text-warning text-left'> Runner Name</th>
             <th style={{background:"#2a3a5a" , border:"none" , fontSize:"13px"}} className='text-warning'>Bet Mode</th>
 
@@ -171,6 +219,8 @@ const MyBetComponent = () => {
             {/* {!isMobile && <th style={{background:"#76d68f"}}> Match Date</th>} */}
             {/* <th style={{background:"#2a3a5a" , border:"none"}} className='text-warning'>Bet Status</th> */}
             {userState.user.role !== RoleType.user && <th  style={{background:"#2a3a5a" , border:"none", fontSize:"13px"}} className='text-warning' > Date</th>}
+            {userState.user.role !== RoleType.user && <th  style={{background:"#2a3a5a" , border:"none", fontSize:"13px"}} className='text-warning' > Action</th>}
+
           </tr>
         </thead>
         <tbody className='text-white'>
@@ -180,7 +230,7 @@ const MyBetComponent = () => {
                     {getMyAllBet?.filter((b:any)=>b.bet_on === "MATCH_ODDS").map((bet: IBet, index: number , ) => (
             <tr className={bet.isBack ? 'back' : 'lay'} key={bet._id}>
               <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap'> {index + 1} </td>
-              {userState.user.role !== RoleType.user && <td>{bet.userName}</td>}
+              {userState.user.role !== RoleType.user && <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}>{bet.userName}</td>}
               <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap'>
                 {' '}
                 {bet.selectionName}
@@ -203,7 +253,12 @@ const MyBetComponent = () => {
               )} */}
               <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap'> {bet.stack} </td>
               {/* <td className='no-wrap text-center' > {bet?.result?.result ? bet?.result?.result  :"-" } </td> */}
-              {userState.user.role !== RoleType.user && <td className='no-wrap'>{moment.utc(bet.betClickTime).utcOffset('+05:30').format('DD/MM/YYYY hh:mm:ss A')} </td>}
+              {userState.user.role !== RoleType.user && <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap'>{moment.utc(bet.betClickTime).utcOffset('+05:30').format('DD/MM/YYYY hh:mm:ss A')} </td>}
+              {userState.user.role !== RoleType.user && <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap text-center'> {bet.status == 'pending' && userState?.user?.role === RoleType.admin && (
+              <a onClick={(e) => onTrash && onTrash(e, bet)} href='#'>
+                <i className='fa fa-trash' />
+              </a>
+            )}</td>}
               {/* <td className='no-wrap text-center' > {bet?.status} </td> */}
             </tr>
 

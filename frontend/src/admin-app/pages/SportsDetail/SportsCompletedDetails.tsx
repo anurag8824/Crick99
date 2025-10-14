@@ -326,14 +326,7 @@ const SportsCompletedDetails = () => {
                 Time
               </th>
 
-              <th
-                className="sorting_disabled"
-                rowSpan={1}
-                colSpan={1}
-                style={{ width: "63px", background: "#0f2327", color: "white" }}
-              >
-                Declared Date
-              </th>
+           
 
               <th
                 className="sorting_disabled"
@@ -343,14 +336,14 @@ const SportsCompletedDetails = () => {
               >
                 Competition
               </th>
-              <th
+              {/* <th
                 className="sorting_disabled"
                 rowSpan={1}
                 colSpan={1}
                 style={{ width: "63px", background: "#0f2327", color: "white" }}
               >
                 Won By
-              </th>
+              </th> */}
               <th
                 className="sorting_disabled"
                 rowSpan={1}
@@ -412,17 +405,17 @@ const SportsCompletedDetails = () => {
                         <CloseButton className="text-white" />
                       </button>
 
-                      <CustomLink
+                      {/* <CustomLink
                         className="dropdown-item  text-lg  text-blackcall-event font-semibold"
                         to={`/report-bets/${item.matchId}`}
                       >
                         Match and Session Plus Minus
-                      </CustomLink>
+                      </CustomLink> */}
                       <CustomLink
                         className="dropdown-item  text-lg  text-black all-event font-semibold "
                         to={`/plus-minus-2/${item.matchId}/${item.name}`}
                       >
-                        Match and Session Plus Minus 2
+                        Match and Session Plus Minus 
                       </CustomLink>
                       <CustomLink
                         className="dropdown-item  text-lg  text-black call-event font-semibold "
@@ -437,12 +430,7 @@ const SportsCompletedDetails = () => {
                       >
                         Display Session Bets
                       </CustomLink>
-                      <CustomLink
-                        className="dropdown-item text-lg text-black call-event font-semibold "
-                        to={`/match-session-bets/${item.matchId}`}
-                      >
-                        Match and Session Bet
-                      </CustomLink>
+                    
                       <CustomLink
                         className="dropdown-item text-lg text-black call-event font-semibold "
                         to={`/completed-fancies/${item.matchId}`}
@@ -457,50 +445,32 @@ const SportsCompletedDetails = () => {
                         Rejected Bets
                       </CustomLink>
 
-                      <CustomLink
+                      {/* <CustomLink
                         className="dropdown-item text-lg text-black call-event font-semibold "
                         to={`/match-bets/${item.matchId}`}
                       >
                         Agent Plus Minus
-                      </CustomLink>
+                      </CustomLink> */}
                     </div>
                   )}
                 </td>
                 <td className="ng-scope">
-                  <CustomLink
-                    className="flex align-items-center gap-2 text-blue-500"
-                    to={`${
-                      item?.active
-                        ? `/odds/${item?.matchId}/${shared}`
-                        : `/client-bets/${item.matchId}`
-                    }`}
-                  >
+                  
                     
                     {item.name}
-                  </CustomLink>
                 </td>
                 <td className="ng-scope">
                   {/* {new Date(item.matchDateTime).toLocaleString()} */}
                   {moment(item.matchDateTime).format(dateFormat)}
                 </td>
+             
                 <td className="ng-scope">
-                  {moment(item.matchDateTime).format(dateFormat)}
-                </td>
-                <td className="ng-scope">
-                  <CustomLink
-                    className="flex align-items-center gap-2 text-blue-500"
-                    to={`${
-                      item?.active
-                        ? `/odds/${item?.matchId}/${shared}`
-                        : `/client-bets/${item.matchId}`
-                    }`}
-                  >
+                  
                     {item.name}
-                  </CustomLink>
                 </td>
-                <td className="ng-scope ">
+                {/* <td className="ng-scope ">
                   {item?.resultstring ? item?.resultstring : ""}
-                </td>
+                </td> */}
                 <td className="ng-scope">
                   <span className="pt-2 pb-1 text-warning">
                     {(() => {

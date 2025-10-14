@@ -710,7 +710,7 @@ const [userList, setUserList] = React.useState<any>({});
                 tabIndex={-1}
                 id="offcanvasWithBothOptions"
                 aria-labelledby="offcanvasWithBothOptionsLabel"
-                style={{ width: "30vh" }}
+                style={{ width: "35vh" }}
               >
                 <div className="offcanvas-header bg-theme">
                   <h5
@@ -937,19 +937,7 @@ const [userList, setUserList] = React.useState<any>({});
                         </CustomLink>
                       </li>
 
-                      <li>
-                        <CustomLink
-                          to="/casino-details"
-                          // onClick={() => setDropdownOpen3(!dropdownOpen3)}
-                          onClick={() => {toggleDrawer() ; setActiveMenu("IC");}}
-                          className={`dropdown-item ${activeMenu === "IC" ? "bg-active" : ""}`}
-                        >
-                          <b className=" text-lg gap-1">
-                            {/* <ListIcon className="text-yellow-600" /> */}
-                          International Casino  
-                          </b>
-                        </CustomLink>
-                      </li>
+                    
 
                      
                      
@@ -1098,9 +1086,9 @@ const [userList, setUserList] = React.useState<any>({});
                           to="/client-transactions"
                           className={`dropdown-item ${activeMenu === "DCDC" ? "bg-active" : ""}`}
                         >
-                          <b className="text-lg ">
+                          <b className=" font-medium ">
                             {/* <ListIcon className="text-yellow-600" /> */}
-                            (C) Debit/Credit Entry
+                            (C) Db./Cr. Entry
                           </b>
                         </CustomLink>
                       </li>
@@ -1145,7 +1133,7 @@ const [userList, setUserList] = React.useState<any>({});
                           to={`/login-report/${userState?.user?._id}`}
                           className={`dropdown-item ${activeMenu === "Logr" ? "bg-active" : ""}`}
                         >
-                          <b className=" text-lg ">
+                          <b className="font-medium ">
                             {/* <ListIcon className="text-yellow-600" /> */}
                             Login Report
                           </b>
@@ -1261,7 +1249,7 @@ const [userList, setUserList] = React.useState<any>({});
                           >
                             <b className="text-lg">
                               {/* <ListIcon className="text-yellow-600" /> */}
-                              Deleted Bets His
+                              Deleted Bet His.
                             </b>
                           </CustomLink>
                         </li>
