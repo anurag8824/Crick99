@@ -17,10 +17,10 @@ export function SuperNodeSocket() {
     socket.emit("joinMarketRoom-Super", "fancyEvents");
   });
 
-  // socket.on("newFancyAdded", (fancy) => {
-  //   console.log(fancy,"fancy from suuper node")
-  //   clientIo.emit("newFancyAdded", fancy);
-  // });
+  socket.on("newFancyAdded", (fancy) => {
+    console.log(fancy,"fancy from suuper node")
+    clientIo.emit("newFancyAdded", fancy);
+  });
 
   socket.on("getMarketData-Super", (market) => {});
 
