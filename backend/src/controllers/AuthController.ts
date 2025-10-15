@@ -128,6 +128,7 @@ export class AuthController extends ApiController {
 
       if (isDemo) {
         const dummyuser = await User.findOne({ isDemo: true });
+        console.log(dummyuser, "dummyuser")
         if (dummyuser) {
           req.body.username = dummyuser.username;
           req.body.password = '';
@@ -157,6 +158,7 @@ export class AuthController extends ApiController {
         }
       }
 
+      
       if (!req.body.username || !req.body.password) {
         return this.fail(res, 'Please, send your username and password.');
       }

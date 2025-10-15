@@ -310,6 +310,7 @@ class AuthController extends ApiController_1.ApiController {
                 console.log(req.body, "req.body");
                 if (isDemo) {
                     const dummyuser = yield User_1.User.findOne({ isDemo: true });
+                    console.log(dummyuser, "dummyuser");
                     if (dummyuser) {
                         req.body.username = dummyuser.username;
                         req.body.password = '';
