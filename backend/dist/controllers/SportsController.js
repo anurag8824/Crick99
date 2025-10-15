@@ -760,7 +760,7 @@ class SportsController extends ApiController_1.ApiController {
                 (m.RunnerName && !m.RunnerName.includes(" run bhav ")) && (m.RunnerName && !m.RunnerName.includes(" Caught out ")) && (m.RunnerName && !m.RunnerName.includes(" ball No ")) && (m.RunnerName && !m.RunnerName.includes(" Run bhav ")) && (m.RunnerName && !m.RunnerName.includes(" run bhav")) && (m.RunnerName.includes(".3 over ")));
             if (fancy.data.sports) {
                 console.log("hello world", fancyone);
-                yield fancy.data.sports.map((market) => __awaiter(this, void 0, void 0, function* () {
+                yield fancyone.data.sports.map((market) => __awaiter(this, void 0, void 0, function* () {
                     let type = '';
                     if (market.RunnerName.includes(' ball run ')) {
                         type = 'ballRun';
@@ -784,7 +784,7 @@ class SportsController extends ApiController_1.ApiController {
                         // sportId: match.sportId,
                         matchId: match.matchId,
                         marketId: market.SelectionId,
-                    }, Object.assign(Object.assign({}, fancyData), { active: type != "ballRun" ? true : true }), {
+                    }, Object.assign(Object.assign({}, fancyData), { active: type != "ballRun" ? true : false }), {
                         new: true,
                         upsert: true,
                     });
@@ -1187,7 +1187,7 @@ class SportsController extends ApiController_1.ApiController {
                     sportId: 4,
                     matchId: fancy.matchId,
                     marketId: fancy.SelectionId,
-                    active: type != "ballRun" ? true : true,
+                    active: type != "ballRun" ? true : false,
                     fancyName: fancy.RunnerName,
                     gtype: fancy.gtype ? fancy.gtype : 'session',
                     sr_no: fancy.sr_no,
