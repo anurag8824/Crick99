@@ -225,7 +225,7 @@ class MatchOdds extends React.PureComponent<
                   </span>
                 </div>
 
-        {this?.props?.userState.user.role !== RoleType.user &&         <div className='flex gap-1 mb-1'>
+        {this?.props?.userState.user.role !== RoleType.user &&  this?.props?.userState.user.role !== RoleType.user &&       <div className='flex gap-1 mb-1'>
   <button  className='btn bg-primary text-white' onClick={() => this.handleBookToggle(true)}>My Book</button>
   <button className='btn bg-primary text-white'  onClick={() => this.handleBookToggle(false)}>Ttl. Book</button>
 </div>}
