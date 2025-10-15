@@ -44,6 +44,7 @@ class MatchOdds extends React.PureComponent<
     getMarketBook: any
     remarkMarket: any
     runnersName: Record<string, string>
+    mybook: boolean
   }
 > {
   static contextType = SocketContext
@@ -75,6 +76,7 @@ class MatchOdds extends React.PureComponent<
       getMarketBook: props.getMarketBook,
       remarkMarket: remarkMarket,
       runnersName: runnersName,
+      mybook: true
     }
   }
 
@@ -142,12 +144,20 @@ class MatchOdds extends React.PureComponent<
     return this.props.currentMatch?.inPlay ? inplayl : offplayl
   }
 
+ 
+
+  handleBookToggle = (value: boolean) => {
+    this.setState({ mybook: value });
+  };
+  
 
 
   render(): React.ReactNode {
     const { data, getMarketBook } = this.props
     ///console.log(data)
     const { runnersData } = this.state
+    const { mybook } = this.state;
+
     console.log(runnersData, "kjkjjkjkjkjkjk")
 
 
@@ -214,6 +224,13 @@ class MatchOdds extends React.PureComponent<
 
                   </span>
                 </div>
+
+                <div>
+  <button onClick={() => this.handleBookToggle(true)}>My Book</button>
+  <button onClick={() => this.handleBookToggle(false)}>Ttl. Book</button>
+</div>
+
+
                 <div className='table-header'>
                   <div style={{ fontSize: "12px", backgroundColor: "#0f2326", }} className={`float-left country-name ${classforheadingfirst} min-max`}>
                     <b /><span className='text_blink'>
@@ -282,28 +299,28 @@ class MatchOdds extends React.PureComponent<
                               <span className='team-name '>
                                 <b style={{ color: "black", fontSize:"13px" , fontWeight:"500" }}>{runner.runnerName}</b>
                               </span>
+
                               <div>
+
                                 {getMarketBook && getMarketBook[`${market.marketId}_${runner.selectionId}`] ? (
                                   <span
-                                    // className={
-                                    //   getMarketBook[`${market.marketId}_${runner.selectionId}`] > 0
-                                    //     ? 'green'
-                                    //     : 'red'
-                                    // }
+                                    
                                     className={
                                       getMarketBook[`${market.marketId}_${runner.selectionId}`] > 0
                                         ? (this?.props?.userState.user.role !== RoleType.user ? 'red' : 'green')
                                         : (this?.props?.userState.user.role !== RoleType.user ? 'green' : 'red')
                                     }
                                   >
-                                    {/* {getMarketBook[
-                                      `${market.marketId}_${runner.selectionId}`
-                                    ].toLocaleString()}*{this.props.shared} */}
-                                    {
+                                    
+                                    {mybook ? <span>{
                                       this.props.shared
                                         ? (getMarketBook[`${market.marketId}_${runner.selectionId}`] * (this.props.shared / 100)).toLocaleString()
                                         : getMarketBook[`${market.marketId}_${runner.selectionId}`].toLocaleString()
-                                    }
+                                    }</span> : <span>{
+                                      this.props.shared
+                                        ? (getMarketBook[`${market.marketId}_${runner.selectionId}`]).toLocaleString()
+                                        : getMarketBook[`${market.marketId}_${runner.selectionId}`].toLocaleString()
+                                    }</span>}
 
                                   </span>
                                 ) : (
