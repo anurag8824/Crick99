@@ -378,7 +378,7 @@ class SportsController extends ApiController {
 
     if (fancy.data.sports) {
       console.log("hello world",fancyone)
-      await fancy.data.sports.map(async (market: any) => {
+      await fancyone.data.sports.map(async (market: any) => {
         let type = ''
         if (market.RunnerName.includes(' ball run ')) {
           type = 'ballRun'
@@ -407,7 +407,7 @@ class SportsController extends ApiController {
             matchId: match.matchId,
             marketId: market.SelectionId,
           },
-          { ...fancyData, active: type != "ballRun" ? true : true },
+          { ...fancyData, active: type != "ballRun" ? true : false },
           {
             new: true,
             upsert: true,
@@ -874,7 +874,7 @@ class SportsController extends ApiController {
         sportId: 4,
         matchId: fancy.matchId,
         marketId: fancy.SelectionId,
-        active: type != "ballRun" ? true : true,
+        active: type != "ballRun" ? true : false,
         fancyName: fancy.RunnerName,
         gtype: fancy.gtype ? fancy.gtype : 'session',
         sr_no: fancy.sr_no,
