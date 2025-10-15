@@ -158,6 +158,11 @@ class MatchOdds extends React.PureComponent<
 
     console.log(data, "market dataaa")
 
+    const superbook1 = data[0]?.marketId + "_" + data[0]?.runners[0]?.selectionId 
+    const superbook2 = data[0]?.marketId + "_" + data[0]?.runners[1]?.selectionId
+
+    console.log(superbook1, superbook2 , "superbook1" ,"superbook2")
+
 
     return (
       <div className=''>
