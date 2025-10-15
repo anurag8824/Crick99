@@ -9,12 +9,13 @@ import cachegoose from 'recachegoose'
 export class Database {
   // Initialize your database pool
   public static init(): void {
-    // const dsn = Locals.config().mongooseUrl+`?retryWrites=false&authSource=admin&directConnection=true`
-    // const dsn = "mongodb://admin:StrongPasswordHere@69.62.123.205:27017/infa?retryWrites=true&authSource=admin&replicaSet=rs0"
-   
-   
-    // const dsn = "mongodb://admin:Infayou8824@69.62.123.205:27017/infa?retryWrites=true&authSource=admin&replicaSet=rs0";
-  const dsn = "mongodb+srv://infayou:rahul1234@cluster0.zbf0n.mongodb.net/infa?retryWrites=true&w=majority&appName=Cluster0";
+    //old local url
+  // const dsn = "mongodb+srv://infayou:rahul1234@cluster0.zbf0n.mongodb.net/infa?retryWrites=true&w=majority&appName=Cluster0";
+
+  // new server db url
+  const dsn = "mongodb://admin:Bxpro123@168.231.116.239:27017/infa?replicaSet=rs0&authSource=admin";
+
+ 
 
     //const dsn = Locals.config().mongooseUrl 
     // 

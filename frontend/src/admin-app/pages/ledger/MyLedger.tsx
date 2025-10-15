@@ -13,7 +13,6 @@ interface LedgerItem {
   narration: string;
   createdAt: string;
   updown: number;
-  
 }
 const MyLedger = () => {
   const [tableData, setTableData] = React.useState<LedgerItem[]>([]);
@@ -41,7 +40,7 @@ const MyLedger = () => {
       balance: number;
       narration: string;
       date: string;
-      Fancy:any;
+      Fancy: any;
     }[] = [];
 
     tableData.forEach((item: any) => {
@@ -62,7 +61,7 @@ const MyLedger = () => {
           balance,
           narration: item.narration,
           date: item.createdAt,
-          Fancy:item.Fancy,
+          Fancy: item.Fancy,
         });
       }
     });
@@ -73,6 +72,20 @@ const MyLedger = () => {
 
   const processedRows = getProcessedRows();
   const finalBalance = processedRows.length > 0 ? processedRows[0].balance : 0;
+
+  let totalLena = 0;
+  let totalDena = 0;
+
+  if (finalBalance > 0) {
+    totalLena = finalBalance;
+  } else if (finalBalance < 0) {
+    totalDena = Math.abs(finalBalance);
+  }
+
+  //   const totalLena = processedRows.reduce((sum, row) => sum + row.credit, 0);
+  // const totalDena = processedRows.reduce((sum, row) => sum + Math.abs(row.debit), 0); // debit might be negative
+  // const finalBalancetop = totalLena - totalDena;
+
   return (
     <div className="body-wrap p-md-4 pt-2">
       <TopBackHeader name="My Ledger" />
@@ -95,20 +108,25 @@ const MyLedger = () => {
                 <div className="d-flex justify-content-between w-100 w-md-auto mb-2 mb-md-0">
                   <div className="col-6 col-md-4 text-start text-md-center">
                     <span className="text-success  fs-3">
-                      Lena: 0.00
+                      Lena: {totalLena.toFixed(0)}
                     </span>
                   </div>
                   <div className="col-6 col-md-4 text-end text-md-center">
                     <span className="text-danger  fs-3">
-                      Dena: 0.00
+                      Dena: {totalDena.toFixed(0)}
                     </span>
                   </div>
                 </div>
 
                 {/* Balance row */}
                 <div className="col-12 col-md-4 text-center mt-2 mt-md-0">
-                  <span className="text-success fs-3">
-                    Balance: 0.00 (Lena)
+                  <span
+                    className={`fs-3 ${
+                      finalBalance >= 0 ? "text-success" : "text-danger"
+                    }`}
+                  >
+                    Balance: {Math.abs(finalBalance).toFixed(2)} (
+                    {finalBalance >= 0 ? "Lena" : "Dena"})
                   </span>
                 </div>
               </div>
@@ -215,8 +233,8 @@ const MyLedger = () => {
                           })}
                         </td>
                         <td className="small p-1 " style={{ zIndex: 2 }}>
-                            {row.narration}
-                          </td>
+                          {row.narration}
+                        </td>
                         <td>
                           <span className="text-success p-1">
                             {row.credit.toFixed(2)}
@@ -237,8 +255,8 @@ const MyLedger = () => {
                           </span>
                         </td>
                         <td className="small p-1 " style={{ zIndex: 2 }}>
-                            {row.Fancy ? "Session" : "Match"}
-                          </td>
+                          {row.Fancy ? "Session" : "Match"}
+                        </td>
                         <td
                           className={
                             row.narration === "Settlement"
@@ -271,7 +289,7 @@ const MyLedger = () => {
 
           {/* Fixed Bottom Summary */}
           <div
-            className="row border m-0 mt-2 pb-2 pt-2 w-100"
+            className="row border hidden m-0 mt-2 pb-2 pt-2 w-100"
             style={{
               position: "fixed",
               bottom: 0,

@@ -131,8 +131,8 @@ const ClientTransactions = () => {
                         className="form-select"
                       >
                         <option value="">All</option>
-                        <option value="ledger1">Ledger 1</option>
-                        <option value="ledger2">Ledger 2</option>
+                        <option value="ledger1">Cricket</option>
+                        <option value="ledger2">Casino</option>
                       </select>
                     </div>
 

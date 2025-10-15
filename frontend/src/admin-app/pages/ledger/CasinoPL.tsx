@@ -66,7 +66,12 @@ const CasinoPL = () => {
                     <tr className="small">
                       <th className="small" style={{ fontWeight: "bolder" ,background: "#0f2327",
                         color: "white",  }}>
-                        Title
+                        Event Name
+                      </th>
+
+                      <th className="small" style={{ fontWeight: "bolder" ,background: "#0f2327",
+                        color: "white",  }}>
+                       Date & Time 
                       </th>
                       <th className="small" style={{ fontWeight: "bolder" ,background: "#0f2327",
                         color: "white",  }}>
@@ -91,10 +96,20 @@ const CasinoPL = () => {
                     {/* Total Row */}
                     <tr className="ng-scope background-black">
                       <td>Total</td>
-                      <td>{totals.money.toFixed(2)}</td>
-                      <td>{totals.commissionlega.toFixed(2)}</td>
-                      <td>{totals.commissiondega.toFixed(2)}</td>
-                      <td>{totals.netpl.toFixed(2)}</td>
+                      <td></td>
+                      <td className={totals.money >= 0 ? "text-success" : "text-danger"}>
+  {totals.money.toFixed(2)}
+</td>
+<td className={totals.commissionlega >= 0 ? "text-success" : "text-danger"}>
+  {totals.commissionlega.toFixed(2)}
+</td>
+<td className={totals.commissiondega >= 0 ? "text-success" : "text-danger"}>
+  {totals.commissiondega.toFixed(2)}
+</td>
+<td className={totals.netpl >= 0 ? "text-success" : "text-danger"}>
+  {totals.netpl.toFixed(2)}
+</td>
+
                       <td></td>
                     </tr>
 
@@ -104,6 +119,8 @@ const CasinoPL = () => {
                         {/* Narration row */}
                         <tr className="ng-scope">
                           <td>{item.narration}<br />({new Date(item.date).toLocaleDateString()})</td>
+                          <td>({new Date(item.date).toLocaleDateString()})</td>
+
                           <td className={`${item?.money > 0 ? "text-success" : "text-danger"}`}>{item.money.toFixed(2)}</td>
                           <td>{item.commissionlega.toFixed(2)}</td>
                           <td>{item.commissiondega.toFixed(2)}</td>
