@@ -188,7 +188,7 @@ def checkMaxlimit(payload,userInfo):
             return {"message": "failed", "notification": "Max Limit completed !"}
         elif payload['betOn'] == "MATCH_ODDS" and total_stack + payload['stack'] > 2500000:
             return {"message": "failed", "notification": "Max Limit completed !"}
-        elif payload['betOn'] == "FANCY" and total_stack + payload['stack'] > 250000:
+        elif payload['betOn'] == "FANCY" and total_stack + payload['stack'] > 500000:
             return {"message": "failed", "notification": "Max Limit completed !"}
 
         # Agar limit cross nahi hui to success
