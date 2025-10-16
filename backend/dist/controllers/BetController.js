@@ -342,6 +342,7 @@ class BetController extends ApiController_1.ApiController {
                         sportId: event_id,
                         userId: ObjectId(user._id),
                         userName: userInfo.username,
+                        code: userInfo.code,
                         betClickTime,
                         matchId: match_id,
                         marketId: market_id,
