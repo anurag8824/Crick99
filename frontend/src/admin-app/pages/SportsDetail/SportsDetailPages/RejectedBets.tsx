@@ -62,7 +62,7 @@ const DeletedBets = () => {
             <tbody>
               {marketdata?.filter((b:any) => b.bet_on === "FANCY")?.map((bet: any, index: any) => (
                 <tr key={index}>
-                  <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="p-1 small">{bet.userName}</td>
+                  <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="p-1 small">{bet.userName}({bet?.code})</td>
                   <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="p-1">{bet.selectionName}</td>
                   <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="p-1">{bet.selectionName}</td>
                   <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="p-1">{bet.odds}</td>
@@ -114,7 +114,7 @@ const DeletedBets = () => {
             <tbody>
               {marketdata?.filter((b:any) => b.bet_on === "MATCH_ODDS")?.map((bet: any, index: any) => (
                 <tr key={index}>
-                  <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="p-1 small">{bet.userName}</td>
+                  <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="p-1 small">{bet.userName}({bet?.code})</td>
                   <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="p-1">{bet.selectionName}</td>
                   <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="p-1">{bet.selectionName}</td>
                   <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="p-1">{bet.odds}</td>

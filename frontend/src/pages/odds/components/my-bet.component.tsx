@@ -149,7 +149,7 @@ const MyBetComponent = () => {
           {getMyAllBet?.filter((b:any)=>b.bet_on !== "MATCH_ODDS")?.map((bet: IBet, index: number , ) => (
             <tr className={bet.isBack ? 'back' : 'lay'} key={bet._id}>
               <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap'> {index + 1} </td>
-              {userState.user.role !== RoleType.user && <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}>{bet.userName}</td>}
+              {userState.user.role !== RoleType.user && <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}>{bet.userName}({bet.code})</td>}
               <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap'>
                 {' '}
                 {bet.selectionName}
@@ -230,7 +230,7 @@ const MyBetComponent = () => {
                     {getMyAllBet?.filter((b:any)=>b.bet_on === "MATCH_ODDS").map((bet: IBet, index: number , ) => (
             <tr className={bet.isBack ? 'back' : 'lay'} key={bet._id}>
               <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap'> {index + 1} </td>
-              {userState.user.role !== RoleType.user && <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}>{bet.userName}</td>}
+              {userState.user.role !== RoleType.user && <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}>{bet.userName}({bet?.code})</td>}
               <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className='no-wrap'>
                 {' '}
                 {bet.selectionName}

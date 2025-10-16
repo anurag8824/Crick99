@@ -43,7 +43,7 @@ const Completedbets = () => {
     <tbody>
       {marketdata.map((bet:any, index:any) => (
         <tr key={index}>
-          <td className="p-1 small">{bet.userName}</td>
+          <td className="p-1 small">{bet.userName}({bet?.code})</td>
           <td className="p-1">{bet.selectionName}</td>
           <td className="p-1">{bet.selectionName}</td>
           <td className="p-1">{bet.odds}</td>

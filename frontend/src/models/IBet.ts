@@ -34,6 +34,7 @@ export default interface IBet {
   betOn: IBetOn
   betClickTime?: string
   userName?: string
+  code?: string
   parentStr?: string
   parentNameStr?: string
   gtype?: string

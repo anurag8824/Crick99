@@ -881,14 +881,14 @@ const ListClients = () => {
                         <p className="text-right">
                           {username ? (
                             <CustomLink
-                              to={`/limit-clients/${userState?.user?.username}`}
+                              to={`/limit-clients/${userState?.user?.username}/${newtype}`}
                               className="btn bg-primary text-white"
                             >
                               Update Limit
                             </CustomLink>
                           ) : (
                             <CustomLink
-                            to={`/limit-clients/${userState?.user?.username}`}
+                            to={`/limit-clients/${userState?.user?.username}/${newtype}`}
                               className="btn bg-primary text-white"
                             >
                               Update Limit
@@ -1032,6 +1032,12 @@ const ListClients = () => {
                         style={{ backgroundColor: "#0f2327", color: "white" }}
                       >
                         PWD
+                      </th>
+
+                      <th
+                        style={{ backgroundColor: "#0f2327", color: "white" }}
+                      >
+                        D.O.J
                       </th>
 
                       {urole !== "dl" && newtype !== "user" && (
@@ -1694,6 +1700,8 @@ const ListClients = () => {
                                 ? "******"
                                 : user?.password}
                             </td>
+
+                            <td>{moment(user?.createdAt).format('DD/MM/YYYY')}</td>
 
                             {urole === "dl" || newtype === "user" ? (
                               ""

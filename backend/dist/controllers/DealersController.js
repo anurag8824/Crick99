@@ -584,6 +584,7 @@ class DealersController extends ApiController_1.ApiController {
                 'balance.mainBalance': 1,
                 'balance.casinoexposer': 1,
                 'balance.commision': 1,
+                createdAt: 1,
             };
             // const aggregateFilter = [
             //   {
@@ -901,6 +902,7 @@ class DealersController extends ApiController_1.ApiController {
                 parent: 1,
                 'parentBalance.balance': 1,
                 userSetting: 1,
+                createdAt: 1,
             };
             return yield User_1.User.aggregate([
                 {

@@ -640,7 +640,7 @@ const PlusMinus2 = () => {
         </div>
 
         <div
-          className="card-body bg-light p-0"
+          className="card-body d-none bg-light p-0"
           style={{
             position: "fixed",
             zIndex: "50",

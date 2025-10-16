@@ -652,6 +652,7 @@ async loginReport(req: Request, res: Response): Promise<Response> {
       'balance.mainBalance': 1,
       'balance.casinoexposer': 1,
       'balance.commision':1,
+      createdAt:1,
     }
 
     // const aggregateFilter = [
@@ -1011,6 +1012,7 @@ async loginReport(req: Request, res: Response): Promise<Response> {
       parent: 1,
       'parentBalance.balance': 1,
       userSetting: 1,
+      createdAt:1,
     }
 
     return await User.aggregate([

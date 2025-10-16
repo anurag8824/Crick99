@@ -376,7 +376,7 @@ const DisplayMatchBets = () => {
                 <tbody className="small">
                   {filteredBets?.map((bet, index) => (
                     <tr key={index}>
-                      <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="p-1 pt-2 small pr-0">{bet?.userName}</td>
+                      <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} className="p-1 pt-2 small pr-0">{bet?.userName}({bet?.code})</td>
                       <td
                       style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}
                         className={`pt-2 pb-1 ${

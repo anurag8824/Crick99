@@ -424,7 +424,7 @@ const DisplaySessionBets = () => {
 
 
 <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}  className="p-1 pt-2 small pr-0">
-                        {bet.userName}
+                        {bet.userName}({bet?.code})
                       </td>
                      
 

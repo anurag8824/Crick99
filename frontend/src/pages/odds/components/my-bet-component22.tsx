@@ -246,7 +246,7 @@ const MyBetComponent22 = () => {
                       fontSize: "12px",
                     }}
                   >
-                    {bet.userName}
+                    {bet.userName}({bet?.code})
                   </td>
                 )}
                 <td
