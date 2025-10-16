@@ -366,7 +366,7 @@ const LimitClients = () => {
       await UserService.updateDepositBalance(formData);
 
       // ✅ Success message
-      toast.success("Withdraw Balance Updated Successfully");
+      toast.success("Limit Update Successfully");
 
       // 4️⃣ Clear input field after success
       inputElement.value = "";
@@ -441,7 +441,7 @@ const LimitClients = () => {
       await UserService.updateDepositBalance(formData);
 
       // ✅ Success message
-      toast.success("Deposit Balance Updated Successfully");
+      toast.success("Limit Update Successfully");
 
       // 4️⃣ Clear input field after success
       inputElement.value = "";
