@@ -182,7 +182,7 @@ const Odds = () => {
     const tvUrl =
       currentMatch && currentMatch.sportId == '4'
         ? 'https://card.hrtvvvvvvv urllrllrr08bets.in/?event_id='
-        : 'https://card.hr08bettvvv urlrlrlrs.in/?event_id='
+        : 'https://card.hr08bettvurl.in/?event_id='
         // : 'https://hr08bets.in/sports-stream-live/index.html?eventid='
     return (
       !currentMatch?.isT10 && (
@@ -204,7 +204,9 @@ const Odds = () => {
               <iframe
                 style={{ width: '100%', height: '250px' }}
                  sandbox="allow-scripts allow-same-origin allow-popups"
-                 src={`https://livestream-v3-iframe.akamaized.uk/?eventid=${currentMatch?.matchId}`}
+                //  src={`https://livestream-v3-iframe.akamaized.uk/?eventid=${currentMatch?.matchId}`}
+
+                 src={`https://hr08bets.in/sports-stream-live/index.html?eventid=${currentMatch?.matchId}`}
 
 
                 // src={
@@ -223,7 +225,9 @@ const Odds = () => {
                 style={{ width: '100%', height: '250px' }}
                  sandbox="allow-scripts allow-same-origin allow-popups"
                 //  src={`https://betfairlivetvturnkeyxgaming.netlify.app/?url=https://livesportsstreaming.turnkeyxgaming.com/7100/index.m3u8/?eventid=${currentMatch?.matchId}`}
-                src={`https://livestream-v3-iframe.akamaized.uk/?eventid=${currentMatch?.matchId}`}
+                // src={`https://livestream-v3-iframe.akamaized.uk/?eventid=${currentMatch?.matchId}`}
+
+                src={`https://hr08bets.in/sports-stream-live/index.html?eventid=${currentMatch?.matchId}`}
 
                 // src={
                 //   currentMatch?.matchId === 34691308

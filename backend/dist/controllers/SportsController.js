@@ -760,7 +760,7 @@ class SportsController extends ApiController_1.ApiController {
                 (m.RunnerName && !m.RunnerName.includes(" run bhav ")) && (m.RunnerName && !m.RunnerName.includes(" Caught out ")) && (m.RunnerName && !m.RunnerName.includes(" ball No ")) && (m.RunnerName && !m.RunnerName.includes(" Run bhav ")) && (m.RunnerName && !m.RunnerName.includes(" run bhav")) && (m.RunnerName.includes(".3 over ")));
             if (fancy.data.sports) {
                 console.log("hello world", fancyone);
-                yield fancyone.data.sports.map((market) => __awaiter(this, void 0, void 0, function* () {
+                yield fancy.data.sports.map((market) => __awaiter(this, void 0, void 0, function* () {
                     let type = '';
                     if (market.RunnerName.includes(' ball run ')) {
                         type = 'ballRun';

@@ -878,17 +878,17 @@ const ListClients = () => {
                           )}
                         </p>
 
-                        <p className="text-right d-none">
+                        <p className="text-right">
                           {username ? (
                             <CustomLink
-                              to={`#`}
+                              to={`/limit-clients`}
                               className="btn bg-primary text-white"
                             >
                               Update Limit
                             </CustomLink>
                           ) : (
                             <CustomLink
-                              to={`#`}
+                            to={`/limit-clients`}
                               className="btn bg-primary text-white"
                             >
                               Update Limit

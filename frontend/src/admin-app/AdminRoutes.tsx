@@ -54,6 +54,12 @@ const AddUser = React.lazy(
 const ListClients = React.lazy(
   () => import("../admin-app/pages/list-clients/list-clients")
 );
+
+
+const LimitClients = React.lazy(
+  () => import("../admin-app/pages/list-clients/limit-clients")
+);
+
 const MainAdmin = React.lazy(
   () => import("../admin-app/pages/_layout/MainAdmin")
 );
@@ -144,6 +150,15 @@ const AdminRoutes = () => {
               key: "list-client",
               path: path,
               element: <ListClients />,
+            })),
+            ...[
+              "limit-clients",
+              "limit-clients/:username",
+              "limit-clients/:username/:type",
+            ].map((path) => ({
+              key: "limit-client",
+              path: path,
+              element: <LimitClients />,
             })),
             ...[
               "add-user",
