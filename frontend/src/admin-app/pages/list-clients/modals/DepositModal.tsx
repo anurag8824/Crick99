@@ -84,7 +84,7 @@ React.useEffect(() => {
           reset()
         }}
         contentLabel='Deposit'
-        className={'modal-dialog'}
+        className={'modal-dialog mx-4'}
       >
         <div className='modal-content'>
           <div className='modal-header'>

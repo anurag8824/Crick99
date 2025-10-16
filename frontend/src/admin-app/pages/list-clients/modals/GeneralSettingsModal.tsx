@@ -86,7 +86,7 @@ const GeneralSettingsModal = (props: any) => {
           reset()
         }}
         contentLabel='General Settings'
-        className={'modal-dialog'}
+        className={'modal-dialog mx-4'}
       >
         <div className='modal-content'>
           <div className='modal-header'>

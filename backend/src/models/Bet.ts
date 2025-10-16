@@ -23,6 +23,7 @@ interface IBet {
   sportId: number
   userId: PopulatedDoc<IUser>
   userName: string
+  code: string
   parentStr?: Array<string>
   parentNameStr?: string
   ratioStr?: object
@@ -69,6 +70,7 @@ const BetSchema = new Schema(
     sportId: Number,
     userId: { type: Types.ObjectId, ref: 'User', index: true },
     userName: { type: String, index: true },
+    code: { type: String, index: true },
     parentStr: [],
     parentNameStr: { type: String, index: true },
     ratioStr: Object,

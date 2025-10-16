@@ -81,9 +81,17 @@ const PasswordModal = ({
 
     UserService.updatePassword(formData).then(() => {
       closeModal("p");
-      toast.success("Password Updated Successfully");
+       // ✅ Prepare the text to copy
+      const copyText = `LINK: bxpro99.xyz/admin/login
+       ID: ${userDetails?.username}
+       PW: ${pass}`;
+      // ✅ Copy to clipboard
+      navigator.clipboard.writeText(copyText);
+      toast.success("Password Updated & Copy Successfully");
       reset();
     });
+    // copy functiolality
+
     console.log(data, "check txn");
   });
 
@@ -96,7 +104,7 @@ const PasswordModal = ({
           reset();
         }}
         contentLabel="Password"
-        className={"modal-dialog"}
+        className={"modal-dialog mx-4"}
       >
         <div className="modal-content">
           <div className="modal-header">
@@ -162,7 +170,7 @@ const PasswordModal = ({
 
                   <div className="row mb-2">
                     <div className="col-md-4 fw-bold">LINK</div>
-                    <div className="col-md-8">bxpro99.xyz</div>
+                    <div className="col-md-8">bxpro99.xyz/admin/login</div>
                   </div>
 
                   <div className="row mb-2">
@@ -209,7 +217,7 @@ const PasswordModal = ({
                 Back
               </button>
               <SubmitButton type="submit" className="btn btn-submit bg-primary text-white">
-                Submit
+                Submit & Copy
                 <i className="fas fa-sign-in-alt" />
               </SubmitButton>
             </div>

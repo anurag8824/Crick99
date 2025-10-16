@@ -65,7 +65,7 @@ const WithdrawModal = (props: any) => {
           reset()
         }}
         contentLabel='Withdraw'
-        className={'modal-dialog'}
+        className={'modal-dialog mx-4'}
       >
         <div className='modal-content'>
           <div className='modal-header'>

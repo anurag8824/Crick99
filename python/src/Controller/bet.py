@@ -464,6 +464,7 @@ def placebet(betObj, userInfo):
                 "sportId": event_id if bet_On != 'CASINO' else 5000,
                 "userId": ObjectId(userInfo['_id']),
                 "userName": userInfo.get("username", ""),
+                "code": userInfo.get("code", ""),
                 "betClickTime": datetime.now(),
                 "matchId": int(match_id),
                 "marketId": market_id,

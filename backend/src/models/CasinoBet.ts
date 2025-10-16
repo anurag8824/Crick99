@@ -5,6 +5,7 @@ import { IUser } from './User'
 interface ICasinoBet {
   userId: PopulatedDoc<IUser>
   userName: string
+  code: string
   parentStr?: Array<string>
   parentNameStr?: string
   ratioStr?: object
@@ -36,6 +37,7 @@ const CasinoBetSchema = new Schema(
   {
     userId: { type: Types.ObjectId, ref: 'User', index: true },
     userName: { type: String, index: true },
+    code: { type: String, index: true },
     parentStr: [],
     parentNameStr: { type: String, index: true },
     ratioStr: Object,

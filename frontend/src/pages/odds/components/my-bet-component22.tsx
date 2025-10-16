@@ -136,9 +136,9 @@ const MyBetComponent22 = () => {
 
       <div
         className="text-center text-white py-2"
-        style={{ marginTop: "25px", background: "#535961" }}
+        style={{ marginTop: "25px", background: "#0f2326" }}
       >
-        <div style={{ fontSize: "13px" }}>COMPLETED BETS</div>
+        <div style={{ fontSize: "13px" ,color:"white" }}>COMPLETED BETS</div>
       </div>
 
       <div
@@ -156,7 +156,7 @@ const MyBetComponent22 = () => {
               </th>
               {userState.user.role !== RoleType.user && (
                 <th
-                  className="text-center px-1 py-2"
+                  className="text-center px-2 py-2"
                   style={{
                     background: "#0f2326",
                     border: "none",

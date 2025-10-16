@@ -881,14 +881,14 @@ const ListClients = () => {
                         <p className="text-right">
                           {username ? (
                             <CustomLink
-                              to={`/limit-clients`}
+                              to={`/limit-clients/${userState?.user?.username}`}
                               className="btn bg-primary text-white"
                             >
                               Update Limit
                             </CustomLink>
                           ) : (
                             <CustomLink
-                            to={`/limit-clients`}
+                            to={`/limit-clients/${userState?.user?.username}`}
                               className="btn bg-primary text-white"
                             >
                               Update Limit
@@ -1312,7 +1312,7 @@ const ListClients = () => {
                                   user._id && handleToggle(user._id)
                                 }
                               >
-                                <ArrowDropDownIcon className="size-2 bg-primary" />
+                                <ArrowDropDownIcon className="size-2 bg-primary text-white" />
                               </button>
                               <div
                                 className={`actions-td ${

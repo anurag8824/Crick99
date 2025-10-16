@@ -29,6 +29,7 @@ const BetSchema = new mongoose_1.Schema({
     sportId: Number,
     userId: { type: mongoose_1.Types.ObjectId, ref: 'User', index: true },
     userName: { type: String, index: true },
+    code: { type: String, index: true },
     parentStr: [],
     parentNameStr: { type: String, index: true },
     ratioStr: Object,

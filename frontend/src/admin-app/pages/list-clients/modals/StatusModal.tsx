@@ -79,7 +79,7 @@ const StatusModal = ({
           reset();
         }}
         contentLabel="Status"
-        className={"modal-dialog"}
+        className={"modal-dialog mx-4"}
       >
         <div style={{ width: "100%" }} className="modal-content">
           <div className="modal-header">
