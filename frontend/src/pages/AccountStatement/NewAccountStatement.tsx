@@ -279,24 +279,24 @@ const NewAccountStatement = () => {
         return (
           <tr key={`${stmt._id}${index}`}>
          
-            <td>
+            <td style={{background : stmt?.stmt?.bet?.isBack ? "#72BBEF" : "#faa9ba" }}>
               {stmt?.stmt?.allBets
-                ? moment(stmt?.stmt?.createdAt).format(dateFormat)
+                ? moment(stmt?.stmt?.betClickTime).format(dateFormat)
                 : ""}
             </td>
-            <td>{stmt?.stmt?.bet ? stmt?.stmt?.bet?.selectionName : ""}</td>
-            <td>
+            <td style={{background : stmt?.stmt?.bet?.isBack ? "#72BBEF" : "#faa9ba" }}>{stmt?.stmt?.bet ? stmt?.stmt?.bet?.selectionName : ""}</td>
+            <td style={{background : stmt?.stmt?.bet?.isBack ? "#72BBEF" : "#faa9ba" }}>
   {stmt?.stmt?.bet?.odds
     ? ((stmt.stmt.bet.odds * 100) - 100).toFixed(0)
     : ""}
 </td>
-            <td>{stmt?.stmt?.amount ? stmt?.stmt?.amount : ""}</td>
-            <td>{stmt?.stmt?.bet?.isBack ? "Yes" : "No"}</td>
-            <td>
+            <td style={{background : stmt?.stmt?.bet?.isBack ? "#72BBEF" : "#faa9ba" }}>{stmt?.stmt?.amount ? stmt?.stmt?.amount : ""}</td>
+            <td style={{background : stmt?.stmt?.bet?.isBack ? "#72BBEF" : "#faa9ba" }}>{stmt?.stmt?.bet?.isBack ? "Yes" : "No"}</td>
+            <td style={{background : stmt?.stmt?.bet?.isBack ? "#72BBEF" : "#faa9ba" }}>
               {stmt?.stmt?.bet ? (stmt?.credit > 0 ? "Win" : "Loss") : ""}
             </td>
 
-            <td>
+            <td style={{background : stmt?.stmt?.bet?.isBack ? "#72BBEF" : "#faa9ba" }}>
               {stmt?.stmt?.bet?.bet_on === "CASINO"
                 ? stmt?.narration?.match(/winner:\s*([^,\[\]]+)?/)?.[1]?.trim()
                 : (() => {
@@ -322,8 +322,8 @@ const NewAccountStatement = () => {
               ? stmt?.narration?.match(/winner:\s*([^,\[\]]+)?/)?.[1]?.trim()
               : ""}
           </td> */}
-            <td className={`${stmt?.credit < 0 ? "total2" : "total"}`}>{stmt?.stmt?.bet ? stmt?.credit : ""}</td>
-            <td className="green wnwrap d-none">
+            <td style={{background : stmt?.stmt?.bet?.isBack ? "#72BBEF" : "#faa9ba" }} className={`${stmt?.credit < 0 ? "total2" : "total"}`}>{stmt?.stmt?.bet ? stmt?.credit : ""}</td>
+            <td style={{background : stmt?.stmt?.bet?.isBack ? "#72BBEF" : "#faa9ba" }} className="green wnwrap d-none">
               {stmt?.stmt?.bet ? stmt.closing : ""}
             </td>
           </tr>
@@ -368,22 +368,22 @@ const NewAccountStatement = () => {
         if (stmt.narration.length === 0) return null;
         return (
           <tr key={`${stmt._id}${index}`}>
-            <td>
+            <td style={{background : stmt?.stmt?.bet?.isBack ? "#72BBEF" : "#faa9ba" }}>
               {stmt?.stmt?.allBets
-                ? moment(stmt?.stmt?.createdAt).format(dateFormat)
+                ? moment(stmt?.stmt?.betClickTime).format(dateFormat)
                 : ""}
             </td>
-            <td>{stmt?.stmt?.bet ? stmt?.stmt?.bet?.selectionName : ""}</td>
-            <td>{stmt?.stmt?.bet ? stmt?.stmt?.bet?.odds || "" : ""}</td>
+            <td style={{background : stmt?.stmt?.bet?.isBack ? "#72BBEF" : "#faa9ba" }}>{stmt?.stmt?.bet ? stmt?.stmt?.bet?.selectionName : ""}</td>
+            <td style={{background : stmt?.stmt?.bet?.isBack ? "#72BBEF" : "#faa9ba" }}>{stmt?.stmt?.bet ? stmt?.stmt?.bet?.odds || "" : ""}</td>
 
-            <td>{stmt?.stmt?.amount ? stmt?.stmt?.amount : ""}</td>
-            <td>{stmt?.stmt?.bet?.isBack ? "Yes" : "No"}</td>
+            <td style={{background : stmt?.stmt?.bet?.isBack ? "#72BBEF" : "#faa9ba" }}>{stmt?.stmt?.amount ? stmt?.stmt?.amount : ""}</td>
+            <td style={{background : stmt?.stmt?.bet?.isBack ? "#72BBEF" : "#faa9ba" }}>{stmt?.stmt?.bet?.isBack ? "Yes" : "No"}</td>
 
-            <td>
+            <td style={{background : stmt?.stmt?.bet?.isBack ? "#72BBEF" : "#faa9ba" }}>
               {stmt?.stmt?.bet ? (stmt?.credit > 0 ? "Win" : "Loss") : ""}
             </td>
 
-            <td>
+            <td style={{background : stmt?.stmt?.bet?.isBack ? "#72BBEF" : "#faa9ba" }}>
               {stmt?.stmt?.bet?.bet_on === "CASINO"
                 ? stmt?.narration?.match(/winner:\s*([^,\[\]]+)?/)?.[1]?.trim()
                 : stmt?.stmt?.bet?.betResult?.result || ""}
@@ -399,8 +399,8 @@ const NewAccountStatement = () => {
               ? stmt?.narration?.match(/winner:\s*([^,\[\]]+)?/)?.[1]?.trim()
               : ""}
           </td> */}
-            <td className={`${stmt?.credit < 0 ? "total2" : "total"}`}>{stmt?.stmt?.bet ? stmt?.credit : ""}</td>
-            <td className="green wnwrap d-none">
+            <td style={{background : stmt?.stmt?.bet?.isBack ? "#72BBEF" : "#faa9ba" }} className={`${stmt?.credit < 0 ? "total2" : "total"}`}>{stmt?.stmt?.bet ? stmt?.credit : ""}</td>
+            <td style={{background : stmt?.stmt?.bet?.isBack ? "#72BBEF" : "#faa9ba" }} className="green wnwrap d-none">
               {stmt?.stmt?.bet ? stmt.closing : ""}
             </td>
           </tr>

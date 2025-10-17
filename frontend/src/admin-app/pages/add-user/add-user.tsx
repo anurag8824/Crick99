@@ -397,7 +397,7 @@ const AddUser = () => {
             className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex"
           >
             <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
-              Add User
+              Create User
             </span>
             <button
               onClick={() => navigate(-1)}
@@ -628,36 +628,33 @@ const AddUser = () => {
                         </div>
                       </div>
 
-                      {/* <DepositM depositUser={{senddata, newbalance}} /> */}
-                      {!isExposerAllow && (
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <label htmlFor="share">
-                              Super Share<span className="text-danger">*</span>{" "}
-                              :{`(≤${pshared ? pshared : 0})`}
-                            </label>
-
-                            <input
-                              className="form-control"
-                              placeholder="Supershare Limit"
-                              {...register("share")}
-                              id="share"
-                              defaultValue={0}
-                              min="0"
-                              max={pshared ? pshared : 0}
-                              // required
-                              type="number"
-                            />
-                          </div>
-                        </div>
-                      )}
 
                       <div className="col-md-6">
                         <div className="form-group">
                           <label htmlFor="sendamount">
-                            Client Limit Balance
+                           My Limit
+                            <span className="text-danger">*</span> 
+                          </label>
+                          <input
+                            className="form-control"
+                            placeholder="sendamount "
+                          
+                          value={maxBalance}
+                            min="0"
+                            // required
+                            type="number"
+                            disabled
+                          />
+                        </div>
+                      </div>
+
+
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label htmlFor="sendamount">
+                            Agent Limit
                             <span className="text-danger">*</span> (
-                            {maxBalance ? maxBalance : ""})
+                            {maxBalance?.toFixed(0) ? maxBalance?.toFixed(0) : ""})
                           </label>
                           <input
                             className="form-control"
@@ -672,18 +669,102 @@ const AddUser = () => {
                         </div>
                       </div>
 
+
+                        {!isExposerAllow && (
+                          <div className="col-md-6">
+                            <div className="form-group">
+                              <label htmlFor="share">
+                                My Match Share
+                                <span className="text-danger">*</span>
+                              </label>
+
+                              <input
+                                className="form-control"
+                                placeholder="Supershare Limit"
+                                value={pshared ? pshared : 0}
+                                defaultValue={pshared}
+                                disabled
+                              />
+                            </div>
+                          </div>
+                        )}
+
+                        {/* <DepositM depositUser={{senddata, newbalance}} /> */}
+                        {!isExposerAllow && (
+                          <div className="col-md-6">
+                            <div className="form-group">
+                              <label htmlFor="share">
+                                Agent Match Share
+                                <span className="text-danger">*</span> :
+                                {`(≤${pshared ? pshared : 0})`}
+                              </label>
+
+                              <input
+                                className="form-control"
+                                placeholder="Supershare Limit"
+                                {...register("share")}
+                                id="share"
+                                defaultValue={0}
+                                min="0"
+                                max={pshared ? pshared : 0}
+                                // required
+                                type="number"
+                              />
+                            </div>
+                          </div>
+                        )}
+
+      
+
+                        <div className="col-md-6">
+                          <div className="form-group">
+                            <label htmlFor="mcom">
+                              {" "}
+                              My Match Commision
+                            </label>
+                            <span className="text-danger">*</span>
+                            <input
+                              className="form-control"
+                              placeholder="M Comm Limit"
+                              value={2}
+                              min="0"
+                              max="2"
+                              disabled
+                            />
+                          </div>
+                        </div>
+
+                        <div className="col-md-6">
+                          <div className="form-group">
+                            <label htmlFor="mcom">
+                              Agent Match Commision(≤2%)
+                            </label>
+                            <span className="text-danger">*</span>
+                            <input
+                              className="form-control"
+                              placeholder="M Comm Limit"
+                              {...register("mcom")}
+                              id="mcom"
+                              defaultValue={0}
+                              min="0"
+                              max="2"
+                              // required
+                              type="number"
+                            />
+                          </div>
+                        </div>
+
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label htmlFor="mcom">Match Commision(≤2%)</label>
+                          <label htmlFor="scom">My Session Commision</label>
                           <span className="text-danger">*</span>
                           <input
                             className="form-control"
-                            placeholder="M Comm Limit"
-                            {...register("mcom")}
-                            id="mcom"
-                            defaultValue={0}
+                            placeholder="S Comm Limit"
+                            value={4}
                             min="0"
-                            max="2"
+                            max="4"
+                            disabled
                             // required
                             type="number"
                           />
@@ -692,7 +773,7 @@ const AddUser = () => {
 
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label htmlFor="scom">Session Commision(≤4%)</label>
+                          <label htmlFor="scom">Agent Session Commision(≤4%)</label>
                           <span className="text-danger">*</span>
                           <input
                             className="form-control"
@@ -707,6 +788,9 @@ const AddUser = () => {
                           />
                         </div>
                       </div>
+
+
+
 
                       {isExposerAllow && (
                         <div className="col-md-6 d-none ">

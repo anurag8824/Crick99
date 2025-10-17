@@ -142,7 +142,7 @@ const AccountStatement = () => {
           <tr key={`${stmt._id}${index}`}>
             {/* <td>{stmt.sr_no}</td> */}
             {/* <td className='wnwrap'>{stmt.stmt.allBets?.[0].result?.[0].betClickTime ? stmt?.stmt?.allBets?.[0].result[0]?.betClickTime : stmt.date}</td> */}
-            <td className='wnwrap'>{ stmt.date}</td>
+            <td className='wnwrap'>{moment(stmt?.updatedAt).format(dateFormat)}</td>
 
             <td
               className=''

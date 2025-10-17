@@ -564,7 +564,7 @@ const LimitClients = () => {
                             <td className="">
                               <button
                                 onClick={() => handleAdd(user)}
-                                className="btn bg-primary text-white mr-2"
+                                className="btn bg-success text-white mr-2"
                                 disabled={loadingUserId === user._id}
                               >
                                 + Add
@@ -572,7 +572,7 @@ const LimitClients = () => {
                               </button>
                               <button
                                 onClick={() => handleMinus(user)}
-                                className="btn bg-primary text-white"
+                                className="btn bg-danger text-white"
                                 disabled={loadingUserId === user._id}
                               >
                                 

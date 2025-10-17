@@ -737,12 +737,12 @@ const ListClients = () => {
                       Client Details
                     </span>
                     <button
-          onClick={() => navigate(-1)}
-          type="button"
-          className="btn bg-primary text-white"
-        >
-          <span>Back</span>
-        </button>
+                      onClick={() => navigate(-1)}
+                      type="button"
+                      className="btn bg-primary text-white"
+                    >
+                      <span>Back</span>
+                    </button>
                   </div>
 
                   <div className="col-md-12 ">
@@ -888,7 +888,7 @@ const ListClients = () => {
                             </CustomLink>
                           ) : (
                             <CustomLink
-                            to={`/limit-clients/${userState?.user?.username}/${newtype}`}
+                              to={`/limit-clients/${userState?.user?.username}/${newtype}`}
                               className="btn bg-primary text-white"
                             >
                               Update Limit
@@ -1063,11 +1063,12 @@ const ListClients = () => {
                         C.Chip
                       </th>
                       {/* <th>Client (P/L)</th> */}
-                      {/* <th
+                     { newtype == "user" || urole == "dl" ? <th
                         style={{ backgroundColor: "#0f2327", color: "white" }}
                       >
-                        {newtype === "user" ? "Engaged" : "Agent"}
-                      </th> */}
+                       Engaged
+                      </th> :""}
+                      
                       {/* <th>Available Balance</th> */}
 
                       {/* <th>Engaged</th> */}
@@ -1701,7 +1702,9 @@ const ListClients = () => {
                                 : user?.password}
                             </td>
 
-                            <td>{moment(user?.createdAt).format('DD/MM/YYYY')}</td>
+                            <td>
+                              {moment(user?.createdAt).format("DD/MM/YYYY")}
+                            </td>
 
                             {urole === "dl" || newtype === "user" ? (
                               ""
@@ -1729,11 +1732,11 @@ const ListClients = () => {
                               <td>{mainBalance(user).toFixed(2)}</td>
                             )}
 
-                            {/* {user.role === "user" ? (
+
+
+                            {urole == "dl" || newtype == "user" ? (
                               <td>{finalExposer(user?.balance)}</td>
-                            ) : (
-                              <td>{mainBalancechild(user).toFixed(2)}</td>
-                            )} */}
+                            ) : ""}
 
                             {/* <td
                             className={

@@ -51,7 +51,7 @@ const PasswordModal = ({
 
   // ✅ Function to generate password like Ab123456
   const generatePassword = () => {
-    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    const letters = "122334";
     const numbers = "0123456789";
     const firstPart =
       letters.charAt(Math.floor(Math.random() * letters.length)) +
@@ -82,7 +82,7 @@ const PasswordModal = ({
     UserService.updatePassword(formData).then(() => {
       closeModal("p");
        // ✅ Prepare the text to copy
-      const copyText = `LINK: bxpro99.xyz/admin/login
+      const copyText = `LINK: bxpro99.xyz${userDetails?.role == "user" ? "/login" : "/admin/login"}
        ID: ${userDetails?.username}
        PW: ${pass}`;
       // ✅ Copy to clipboard
@@ -170,7 +170,7 @@ const PasswordModal = ({
 
                   <div className="row mb-2">
                     <div className="col-md-4 fw-bold">LINK</div>
-                    <div className="col-md-8">bxpro99.xyz/admin/login</div>
+                    <div className="col-md-8">bxpro99.xyz{userDetails?.role == "user" ? "/login" : "/admin/login"}</div>
                   </div>
 
                   <div className="row mb-2">

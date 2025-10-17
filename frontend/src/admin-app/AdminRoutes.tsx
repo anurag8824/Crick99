@@ -227,6 +227,9 @@ const AdminRoutes = () => {
             { path: "client-bets/:id", element: <ClientBetsLedger /> },
 
             { path: "client-transactions", element: <ClientTransactions /> },
+            { path: "client-transactions/:id", element: <ClientTransactions /> },
+
+
             { path: "main-setting", element: <MainSetting /> },
 
             { path: "rules", element: <Rules /> },
