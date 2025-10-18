@@ -314,10 +314,12 @@ const MatchDetail = (props: any) => {
               </div>
             </div>
 
-            <div className='text-center'><a   onClick={() => setShowevent(!showevent)} style={{width:"100px"}} className="btn btn-primary btn-sm rounded-3 text-white">All Events</a></div>
 
 { userState.user.role === RoleType.user &&    <div className='text-center'><a   onClick={() => setShowallbets(!showallbets)} style={{width:"100px"}} className="btn btn-primary mt-2 btn-sm rounded-3 text-white">Completed Bets</a></div>
 }
+
+<div className='text-center'><a   onClick={() => setShowevent(!showevent)} style={{width:"100px"}} className="btn btn-primary btn-sm rounded-3 text-white mt-2">All Events</a></div>
+
 
 
           </div>

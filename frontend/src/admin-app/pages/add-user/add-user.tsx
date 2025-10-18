@@ -30,7 +30,7 @@ const validationSchema = Yup.object().shape({
   // transactionPassword: Yup.string().default('123456').required('Transaction Password is required'),
   password: Yup.string()
     .required("Password is required")
-    .min(8, "Password must be at least 6 characters")
+    .min(6, "Password must be at least 6 characters")
     .matches(/^[A-Z][a-z0-9_-]{3,19}$/, "Must Contain One Uppercase"),
   // passwordConfirmation: Yup.string()
   //   .required('Confirm password is required')
@@ -152,7 +152,7 @@ const AddUser = () => {
     resolver: yupResolver(validationSchema, { context: { maxBalance } }),
     mode: "onChange",
     defaultValues: {
-      password: "Abcd1122",
+      password: "Ab1122",
       transactionPassword: "123456", // Automatically sets transaction password
     },
   });
@@ -462,7 +462,7 @@ const AddUser = () => {
                           <label htmlFor="password">Password:</label>
                           <span className="text-danger">*</span>
                           <input
-                            maxLength={8}
+                            maxLength={6}
                             placeholder="Password"
                             id="password"
                             {...register("password")}
@@ -773,7 +773,7 @@ const AddUser = () => {
 
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label htmlFor="scom">Agent Session Commision(≤4%)</label>
+                          <label htmlFor="scom">Agent Session Commision(≤3%)</label>
                           <span className="text-danger">*</span>
                           <input
                             className="form-control"

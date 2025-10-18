@@ -2182,6 +2182,95 @@ class BetController extends ApiController_1.ApiController {
         this.getExposerEvent = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const user = req.user;
+                console.log(user, "exposersss");
+                var filter = [
+                    {
+                        $match: {
+                            userId: mongoose_1.Types.ObjectId(user._id),
+                            status: "pending",
+                        },
+                    },
+                    {
+                        $group: {
+                            _id: "$matchId",
+                            matchName: { $first: "$matchName" },
+                            myCount: { $sum: 1 },
+                            matchslug: { $first: "$matchDetails.slug" },
+                            matchId: { $first: "$matchDetails.matchId" },
+                        },
+                    },
+                ];
+                const bets = yield Bet_1.Bet.aggregate([
+                    {
+                        $match: {
+                            userId: mongoose_1.Types.ObjectId(user._id),
+                            status: "pending",
+                        },
+                    },
+                    {
+                        $group: {
+                            _id: "$matchId",
+                            matchName: { $first: "$matchName" },
+                            myCount: { $sum: 1 },
+                            sportId: { $first: "$sportId" },
+                            matchId: { $first: "$matchId" },
+                        },
+                    },
+                ]);
+                // const bets = await Bet.aggregate([
+                //   {
+                //     $match: {
+                //       userId: Types.ObjectId(user._id),
+                //       status: 'pending',
+                //     },
+                //   },
+                //   {
+                //     $group: {
+                //       _id: '$matchId',
+                //       matchName: { $first: '$matchName' },
+                //       myCount: { $sum: 1 },
+                //       betOn: { $first: '$bet_on' }, // Preserve the bet_on field for conditional lookup
+                //     },
+                //   },
+                //   {
+                //     $lookup: {
+                //       from: 'casinomatches', // Collection to lookup if bet_on is 'CASINO'
+                //       localField: '_id',
+                //       foreignField: '_id',
+                //       as: 'matchDetails',
+                //     },
+                //   },
+                //   {
+                //     $lookup: {
+                //       from: 'matches', // Collection to lookup if bet_on is not 'CASINO'
+                //       localField: '_id',
+                //       foreignField: '_id',
+                //       as: 'matchDetails',
+                //     },
+                //   },
+                //   {
+                //     $unwind: '$matchDetails',
+                //   },
+                //   {
+                //     $project: {
+                //       _id: 1,
+                //       matchName: 1,
+                //       myCount: 1,
+                //       matchslug: '$matchDetails.slug',
+                //       matchId: '$matchDetails.matchId',
+                //       betOn: 1, // Include the preserved bet_on field in the result
+                //     },
+                //   },
+                // ]);
+                return this.success(res, bets);
+            }
+            catch (e) {
+                return this.fail(res, e);
+            }
+        });
+        this.getExposerEventadmin = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const user = req.body;
                 var filter = [
                     {
                         $match: {

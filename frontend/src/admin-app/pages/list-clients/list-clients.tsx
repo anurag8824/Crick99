@@ -51,6 +51,7 @@ import LockIcon from "@mui/icons-material/Lock";
 import DeleteModal from "./modals/DeleteModal";
 import WalletIcon from "@mui/icons-material/Wallet";
 import { ClassNames } from "@emotion/react";
+import ReactModal from "react-modal";
 
 const ListClients = () => {
   const ref: any = React.createRef();
@@ -616,6 +617,24 @@ const ListClients = () => {
 
   const unnmae = useParams().username;
 
+  const [isOpen, setIsOpen] = React.useState<any>(false);
+
+  const [getExposerEvent, setGetExposerEvent] = React.useState<any>([]);
+
+  const getExposer = (user: any) => {
+    setIsOpen(true);
+  
+    userService
+      .getExposerEventadmin({ _id: user._id })  // send user id in body
+      .then((res: AxiosResponse) => {
+        setGetExposerEvent(res.data.data);
+      })
+      .catch((err: any) => {
+        console.error("Error fetching exposer events:", err);
+      });
+  };
+  
+
   const navigate = useNavigate();
   return (
     <>
@@ -1063,12 +1082,16 @@ const ListClients = () => {
                         C.Chip
                       </th>
                       {/* <th>Client (P/L)</th> */}
-                     { newtype == "user" || urole == "dl" ? <th
-                        style={{ backgroundColor: "#0f2327", color: "white" }}
-                      >
-                       Engaged
-                      </th> :""}
-                      
+                      {newtype == "user" || urole == "dl" ? (
+                        <th
+                          style={{ backgroundColor: "#0f2327", color: "white" }}
+                        >
+                          Engaged
+                        </th>
+                      ) : (
+                        ""
+                      )}
+
                       {/* <th>Available Balance</th> */}
 
                       {/* <th>Engaged</th> */}
@@ -1732,11 +1755,11 @@ const ListClients = () => {
                               <td>{mainBalance(user).toFixed(2)}</td>
                             )}
 
-
-
                             {urole == "dl" || newtype == "user" ? (
-                              <td>{finalExposer(user?.balance)}</td>
-                            ) : ""}
+                              <td><span onClick={() => getExposer(user)}>{finalExposer(user?.balance)}</span></td>
+                            ) : (
+                              ""
+                            )}
 
                             {/* <td
                             className={
@@ -1883,6 +1906,94 @@ const ListClients = () => {
                 </Container>
               </BModal.Body>
             </BModal>
+
+            <ReactModal
+              isOpen={isOpen}
+              onRequestClose={(e: any) => {
+                setIsOpen(false);
+              }}
+              contentLabel="Set Max Bet Limit"
+              className={"modal-dialog m-4"}
+              ariaHideApp={false}
+            >
+              <div className="modal-content">
+                <div className="modal-header text-white">
+                  My Market
+                  <button
+                    onClick={() => setIsOpen(false)}
+                    className="close float-right text-white"
+                  >
+                    <i className="fas fa-times-circle"></i>
+                  </button>
+                </div>
+                <div className="modal-body">
+                  <table className="reponsive table col-12">
+                    <tr>
+                      <th style={{ fontSize: "13px" }}>Event Name</th>
+                      <th style={{ fontSize: "13px" }}>Total Bets</th>
+                    </tr>
+
+                    {getExposerEvent.map((exposer: any) => {
+                      let casinoSlug = "";
+                      if (exposer.sportId == 5000) {
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore
+                        casinoSlug = casinoSlugs?.[exposer?.matchId];
+                      }
+                      return (
+                        <tr
+                          key={exposer.matchName}
+                          style={{ paddingBottom: "4px" }}
+                        >
+                          <td
+                            style={{
+                              backgroundColor: "",
+                              color: "white",
+                              padding: "1",
+                            }}
+                          >
+                            <div
+                              style={{
+                                marginBottom: "6px",
+                                background: "#0f2326",
+                              }}
+                            >
+                              <CustomLink
+                                style={{
+                                  color: "white",
+                                  display: "block",
+                                  padding: "2px",
+                                  fontSize: "13px",
+                                }}
+                                // onClick={() => {
+                                //   window.location.href =
+                                //     exposer.sportId &&
+                                //     Number.isInteger(+exposer.sportId) &&
+                                //     exposer.sportId != 5000
+                                //       ? `/odds/${exposer._id}`
+                                //       : `/casino/${casinoSlug}/${exposer._id}`;
+                                //   setIsOpen(false);
+                                // }}
+                                to={
+                                  exposer.sportId &&
+                                  Number.isInteger(+exposer.sportId) &&
+                                  exposer.sportId != 5000
+                                    ? `/odds/${exposer._id}`
+                                    : `/casino/${casinoSlug}/${exposer._id}`
+                                }
+                              >
+                                {exposer.matchName}
+                              </CustomLink>
+                            </div>
+                          </td>
+                          <td>{exposer.myCount}</td>
+                        </tr>
+                      );
+                    })}
+                  </table>
+                </div>
+              </div>
+            </ReactModal>
           </div>
         </div>
       </div>

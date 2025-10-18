@@ -281,7 +281,7 @@ const NewAccountStatement = () => {
          
             <td style={{background : stmt?.stmt?.bet?.isBack ? "#72BBEF" : "#faa9ba" }}>
               {stmt?.stmt?.allBets
-                ? moment(stmt?.stmt?.betClickTime).format(dateFormat)
+                ? moment(stmt?.stmt?.bet?.betClickTime).format(dateFormat)
                 : ""}
             </td>
             <td style={{background : stmt?.stmt?.bet?.isBack ? "#72BBEF" : "#faa9ba" }}>{stmt?.stmt?.bet ? stmt?.stmt?.bet?.selectionName : ""}</td>
@@ -370,7 +370,7 @@ const NewAccountStatement = () => {
           <tr key={`${stmt._id}${index}`}>
             <td style={{background : stmt?.stmt?.bet?.isBack ? "#72BBEF" : "#faa9ba" }}>
               {stmt?.stmt?.allBets
-                ? moment(stmt?.stmt?.betClickTime).format(dateFormat)
+                ? moment(stmt?.stmt?.bet?.betClickTime).format(dateFormat)
                 : ""}
             </td>
             <td style={{background : stmt?.stmt?.bet?.isBack ? "#72BBEF" : "#faa9ba" }}>{stmt?.stmt?.bet ? stmt?.stmt?.bet?.selectionName : ""}</td>

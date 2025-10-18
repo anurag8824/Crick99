@@ -21,7 +21,7 @@ const PasswordModal = ({
   const validationSchema = Yup.object().shape({
     password: Yup.string()
       .required("Password is required")
-      .min(8, "Password must be at least 8 characters"),
+      .min(6, "Password must be at least 6 characters"),
     confirmPassword: Yup.string()
       .required("Confirm password is required")
       .oneOf([Yup.ref("password")], "Passwords must match"),
@@ -49,18 +49,9 @@ const PasswordModal = ({
     setValue("transactionPassword", "123456");
   }, [setValue]);
 
-  // ✅ Function to generate password like Ab123456
+  // ✅ Function to generate password like 123456
   const generatePassword = () => {
-    const letters = "122334";
-    const numbers = "0123456789";
-    const firstPart =
-      letters.charAt(Math.floor(Math.random() * letters.length)) +
-      letters.charAt(Math.floor(Math.random() * letters.length));
-    let numberPart = "";
-    for (let i = 0; i < 6; i++) {
-      numberPart += numbers.charAt(Math.floor(Math.random() * numbers.length));
-    }
-    return firstPart + numberPart;
+    return Math.floor(100000 + Math.random() * 900000).toString();
   };
 
   const [pass, setPass] = React.useState("");

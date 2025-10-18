@@ -46,6 +46,13 @@ export class BetRoute {
       this.betController.getExposerEvent,
     )
 
+
+    this.router.post(
+      '/get-exposer-event-admin',
+      Passport.authenticateJWT,
+      this.betController.getExposerEventadmin,
+    )
+
     this.router.delete(
       '/delete-current-bet/:id',
       Passport.authenticateJWT,

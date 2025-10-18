@@ -154,7 +154,7 @@ const Odds = () => {
   const scoreBoard = () => {
     if (currentMatch && currentMatch.sportId == '4333')
       return <Score matchId={currentMatch?.matchId} isT10={currentMatch?.isT10 || false} />
-    else if (currentMatch)
+    else if (new Date(currentMatch?.matchDateTime).getTime() < new Date().getTime())
       return (
     <div className='cricket-iframe'>
         <iframe
@@ -185,7 +185,7 @@ const Odds = () => {
         : 'https://card.hr08bettvurl.in/?event_id='
         // : 'https://hr08bets.in/sports-stream-live/index.html?eventid='
     return (
-      !currentMatch?.isT10 && (
+      !currentMatch?.isT10 && new Date(currentMatch?.matchDateTime).getTime() < new Date().getTime() &&  (
         <div className='card m-b-10' style={{ border: '0px none' }}>
           {!isMobile ? (
             <div className='card-header'>
@@ -199,7 +199,7 @@ const Odds = () => {
           ) : (
             ''
           )}
-          {!isMobile && isTvShow && (
+          {!isMobile && isTvShow && new Date(currentMatch?.matchDateTime).getTime() < new Date().getTime() && (
             <div className='card-body p0'>
               <iframe
                 style={{ width: '100%', height: '250px' }}
@@ -219,7 +219,7 @@ const Odds = () => {
               LIVE TV 
             </div>
           )}
-          {isMobile && (
+          {isMobile && new Date(currentMatch?.matchDateTime).getTime() < new Date().getTime() && (
             <div className='card-body p0'>
               <iframe
                 style={{ width: '100%', height: '250px' }}

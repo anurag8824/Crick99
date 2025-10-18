@@ -177,7 +177,7 @@ const ClientTransactions = () => {
     if (!hasDefaultSet) {
       const defaultClient = combined?.find((item) => item.ChildId === ctid);
       const defaultList = listData?.filter(
-        (item) => item.ChildId === ctid && item.settled === true
+        (item) => item.ChildId === ctid 
       );
 
       setSelectedClient(defaultClient);
@@ -196,7 +196,7 @@ const ClientTransactions = () => {
     setSelectedClient(newClient);
 
     const newClientList = listData?.filter(
-      (item) => item.ChildId === selectedId && item.settled === true
+      (item) => item.ChildId === selectedId 
     );
     setSelectedClientList(newClientList?.reverse());
 

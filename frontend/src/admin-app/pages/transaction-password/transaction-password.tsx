@@ -32,17 +32,17 @@ const TransactionPassword = () => {
     if (!passobj['new_password']) {
       errormsg['new_password'] = 'Please Enter New Password'
     } else {
-      if (passobj['new_password']?.length < 8) {
-        errormsg['new_password'] = 'Password must be at least 8 characters long'
+      if (passobj['new_password']?.length < 6) {
+        errormsg['new_password'] = 'Password must be at least 6 characters long'
       } else if (/Abcd1122/i.test(passobj['new_password'])) {
         errormsg['new_password'] = 'Do not use old the password'
       }
     }
 
     // const regEx: any = /^(?=[^a-z]*[a-z])(?=[^A-Z]*[A-Z])(?=\D*\d)[A-Za-z0-9]{8,32}$/
-    if (passobj['new_password']?.length < 8 ) {
+    if (passobj['new_password']?.length < 6 ) {
       errormsg['new_password'] =
-        'password length must be greater 8'
+        'password length must be greater 6'
     }
     if (!passobj['confirm_password']) {
       errormsg['confirm_password'] = 'Please Enter Confirm Password'

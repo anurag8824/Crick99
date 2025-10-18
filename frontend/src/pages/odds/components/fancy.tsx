@@ -409,7 +409,7 @@ class Fancy extends React.Component<
 
   fancyheader = (title: string) => {
     return (
-      <div className='table-header text-dark'>
+      <div className='table-header' style={{color:"white"}}>
         <div style={{fontSize:"13px" ,backgroundColor:"#0f2326", }} className={`float-left ${isMobile ? 'bg-theme' : 'bg-theme'} country-name box-6`}>
          <span className='text_blink' style={{fontSize:"13px" , }} >SESSION</span>
         </div>
@@ -472,7 +472,7 @@ class Fancy extends React.Component<
           <div className={`${clsgrid}`} style={{ padding: isMobile ? '0px' : '' }}>
             {fancies?.overBallNo?.length > 0 && (
               <div>
-                {!isMobile && <div className='market-title mt-1'>Over by Over Session Market</div>}
+                {!isMobile && <div className='market-title mt-1' style={{color:"white"}}>Over by Over Session Market</div>}
                 {this.fancyheader('Over by Over Session Market')}
                 {/* Over by over session here*/}
                 {fancies && <FancyList fancies={fancies.overBallNo} fancyUpdate={fancyUpdate} />}
@@ -480,7 +480,7 @@ class Fancy extends React.Component<
             )}
             {fancies?.ballRun?.length > 0 && (
               <div>
-                {!isMobile && <div className='market-title mt-1'>Ball by Ball Session Market</div>}
+                {!isMobile && <div className='market-title mt-1' style={{color:"white"}}>Ball by Ball Session Market</div>}
                 {this.fancyheader('Ball by Ball Session Market')}
 
                 {/* Ball by Ball Session here*/}

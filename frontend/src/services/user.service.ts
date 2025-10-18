@@ -101,6 +101,12 @@ class UserService {
   getExposerEvent() {
     return api.get('/get-exposer-event')
   }
+
+  getExposerEventadmin(data: any) {
+    return api.post('/get-exposer-event-admin', data);
+  }
+  
+  
 }
 
 export default new UserService()

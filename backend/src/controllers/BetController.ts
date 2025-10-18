@@ -2684,6 +2684,7 @@ export class BetController extends ApiController {
   getExposerEvent = async (req: Request, res: Response): Promise<Response> => {
     try {
       const user: any = req.user;
+      console.log(user, "exposersss")
       var filter: any = [
         {
           $match: {
@@ -2770,6 +2771,99 @@ export class BetController extends ApiController {
       return this.fail(res, e);
     }
   };
+
+  getExposerEventadmin = async (req: Request, res: Response): Promise<Response> => {
+    try {
+      const user: any = req.body;
+
+      var filter: any = [
+        {
+          $match: {
+            userId: Types.ObjectId(user._id),
+            status: "pending",
+          },
+        },
+        {
+          $group: {
+            _id: "$matchId",
+            matchName: { $first: "$matchName" },
+            myCount: { $sum: 1 },
+            matchslug: { $first: "$matchDetails.slug" },
+            matchId: { $first: "$matchDetails.matchId" },
+          },
+        },
+      ];
+      const bets = await Bet.aggregate([
+        {
+          $match: {
+            userId: Types.ObjectId(user._id),
+            status: "pending",
+          },
+        },
+        {
+          $group: {
+            _id: "$matchId",
+            matchName: { $first: "$matchName" },
+            myCount: { $sum: 1 },
+            sportId: { $first: "$sportId" },
+            matchId: { $first: "$matchId" },
+          },
+        },
+      ]);
+
+      // const bets = await Bet.aggregate([
+      //   {
+      //     $match: {
+      //       userId: Types.ObjectId(user._id),
+      //       status: 'pending',
+      //     },
+      //   },
+      //   {
+      //     $group: {
+      //       _id: '$matchId',
+      //       matchName: { $first: '$matchName' },
+      //       myCount: { $sum: 1 },
+      //       betOn: { $first: '$bet_on' }, // Preserve the bet_on field for conditional lookup
+      //     },
+      //   },
+      //   {
+      //     $lookup: {
+      //       from: 'casinomatches', // Collection to lookup if bet_on is 'CASINO'
+      //       localField: '_id',
+      //       foreignField: '_id',
+      //       as: 'matchDetails',
+      //     },
+      //   },
+      //   {
+      //     $lookup: {
+      //       from: 'matches', // Collection to lookup if bet_on is not 'CASINO'
+      //       localField: '_id',
+      //       foreignField: '_id',
+      //       as: 'matchDetails',
+      //     },
+      //   },
+      //   {
+      //     $unwind: '$matchDetails',
+      //   },
+      //   {
+      //     $project: {
+      //       _id: 1,
+      //       matchName: 1,
+      //       myCount: 1,
+      //       matchslug: '$matchDetails.slug',
+      //       matchId: '$matchDetails.matchId',
+      //       betOn: 1, // Include the preserved bet_on field in the result
+      //     },
+      //   },
+      // ]);
+
+      return this.success(res, bets);
+    } catch (e: any) {
+      return this.fail(res, e);
+    }
+  };
+
+
   getBetListByIds = async (req: Request, res: Response): Promise<Response> => {
     try {
       const { betIds, page } = req.body;
