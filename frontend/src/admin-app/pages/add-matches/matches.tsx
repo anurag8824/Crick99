@@ -75,8 +75,8 @@ const MatchesPage = () => {
           });
 
           const uniqueEvents = sortedMatches.filter((event, index, self) =>
-            // index === self.findIndex((e) => e.matchId === event.matchId && event.seriesId != 1)
-          index === self.findIndex((e) => e.matchId === event.matchId)
+            index === self.findIndex((e) => e.matchId === event.matchId && event.seriesId == 1)
+          // index === self.findIndex((e) => e.matchId === event.matchId)
 
           );
 
