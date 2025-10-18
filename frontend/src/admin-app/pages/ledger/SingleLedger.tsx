@@ -352,7 +352,7 @@ const AllClientLedger = () => {
                       <td>{row.amount.toFixed(2)}</td>
                       {/* <td>{row.settled.toFixed(2)}</td> */}
                       <td  className="">
-                        <CustomLink  to={`/client-transactions/${row.ChildId}`}>
+                        <CustomLink  to={`/client-transactions/${sendId}/${row.ChildId}`}>
                           <svg
                             stroke="currentColor"
                             fill="currentColor"
@@ -458,7 +458,7 @@ const AllClientLedger = () => {
                       {/* <td>{row.settled.toFixed(2)}</td> */}
                       {/* <td className="bg-final2 text-white">{row.final.toFixed(2)}</td> */}
                       <td className="">
-                        <CustomLink  to={`/client-transactions/${row.ChildId}`}>
+                      <CustomLink  to={`/client-transactions/${sendId}/${row.ChildId}`}>
                           <svg
                             stroke="currentColor"
                             fill="currentColor"

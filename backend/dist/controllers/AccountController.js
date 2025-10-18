@@ -915,7 +915,8 @@ class AccountController extends ApiController_1.ApiController {
                     money: amount,
                     narration: "Settlement",
                     umoney: amount,
-                    settled: true
+                    settled: true,
+                    settletype: type
                 });
                 yield allledager_1.ledger.create({
                     ParentId: ChildId,
@@ -923,7 +924,8 @@ class AccountController extends ApiController_1.ApiController {
                     money: amount,
                     narration: "Settlement",
                     umoney: amount,
-                    settled: true
+                    settled: true,
+                    settletype: type
                 });
                 return this.success(res, { msg: "sucess" });
             }

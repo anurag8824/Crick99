@@ -28,7 +28,7 @@ interface GroupedEntry {
   ChildId: string;
 }
 
-const ClientTransactions = () => {
+const ChildTransactions = () => {
   const userState = useAppSelector(selectUserData);
 
   const [showModal, setShowModal] = React.useState(false);
@@ -156,9 +156,11 @@ const ClientTransactions = () => {
 
   const ctid = useParams().id;
 
+  const sendId = useParams().pid;
+
   React.useEffect(() => {
     betService
-      .oneledger()
+      .pponeledger(sendId)
       .then((res: AxiosResponse<{ data: LedgerEntry[][] }>) => {
         setListData(res?.data?.data[0]);
         const { lenaArray, denaArray } = processLedgerData(res?.data?.data);
@@ -211,7 +213,7 @@ const ClientTransactions = () => {
     <div className="container-fluid ">
       <div className="row row-center">
         <div className="col col-xs-24 col-lg-24">
-          <div className="parentdiv d-none d-flexxxx flex-column gap-2 flex-md-row justify-content-between align-items-start">
+          <div className="parentdiv d-none d-flexx flex-column gap-2 flex-md-row justify-content-between align-items-start">
             <div className="childdiv1 w-100">
               <div
                 style={{ backgroundColor: "#10bf35" }}
@@ -220,7 +222,7 @@ const ClientTransactions = () => {
                 <span className="flex mx-3 text-white justify-between text-2xl">
                   <div className="justify-content-start ">Lena </div>{" "}
                   <div className="justify-content-end">
-                    {lenaTotals?.amount?.toFixed(2)}
+                    {lenaTotals.amount.toFixed(2)}
                   </div>
                 </span>
               </div>
@@ -260,7 +262,7 @@ const ClientTransactions = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {lena.map((row) => (
+                    {lena?.map((row) => (
                       <tr key={row.ChildId}>
                         <td>
                           <CustomLink
@@ -281,7 +283,7 @@ const ClientTransactions = () => {
                               setModalType("lena");
                               setShowModal(true);
                             }}
-                            to={`/client-transactions/${row.ChildId}`}
+                            to={`/client-transactions/${row?.ChildId}`}
                           >
                             <span>
                               <svg
@@ -771,7 +773,7 @@ const ClientTransactions = () => {
                     </div>
                   )}
 
-                  <div className="row overflow-auto mb-20">
+<div className="row overflow-auto mb-20">
                     <div className="col-sm-12">
                       <table
                         className="table table-striped table-bordered LedgerList dataTable no-footer"
@@ -949,4 +951,4 @@ const ClientTransactions = () => {
   );
 };
 
-export default ClientTransactions;
+export default ChildTransactions;

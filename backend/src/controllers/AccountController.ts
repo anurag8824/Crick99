@@ -1425,7 +1425,8 @@ getAccountStmtListUserLedger = async (req: Request, res: Response) => {
         money:amount,
         narration:"Settlement",
         umoney:amount,
-        settled:true
+        settled:true,
+        settletype:type
       })
       await ledger.create ({
   
@@ -1434,7 +1435,8 @@ getAccountStmtListUserLedger = async (req: Request, res: Response) => {
         money:amount,
         narration:"Settlement",
         umoney : amount,
-        settled:true
+        settled:true,
+        settletype:type
       })
       return this.success(res, {msg:"sucess"})
     } catch (error) {

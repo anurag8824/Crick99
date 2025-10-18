@@ -29,6 +29,7 @@ import DisplaySessionBets from "./pages/SportsDetail/SportsDetailPages/DisplaySe
 import MatchSessionBets from "./pages/SportsDetail/SportsDetailPages/MatchSessionBets";
 import CompletedFancies from "./pages/SportsDetail/SportsDetailPages/CompletedFancies";
 import PlusMinus2 from "./pages/SportsDetail/SportsDetailPages/PlusMinus2";
+import ChildTransactions from "./pages/ChildTransactions";
 
 const ActiveMarkets = React.lazy(
   () => import("../admin-app/pages/active-matches/active-markets")
@@ -228,6 +229,9 @@ const AdminRoutes = () => {
 
             { path: "client-transactions", element: <ClientTransactions /> },
             { path: "client-transactions/:id", element: <ClientTransactions /> },
+
+            { path: "client-transactions/:pid/:id", element: <ChildTransactions /> },
+
 
 
             { path: "main-setting", element: <MainSetting /> },
