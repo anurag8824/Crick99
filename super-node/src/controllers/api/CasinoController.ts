@@ -218,8 +218,8 @@
 // const resultDetail = async (slug: string, mid: string): Promise<boolean> => {
 //   try {
 //     // const res = await axios.get(`http://168.231.116.239:3000/detailresult2/${slug}/${mid}`);
-//     const res = await axios.get(`http://69.62.123.205:7000/api/v/casino/result?mid=${mid}`);
-//     // http://69.62.123.205:7000/api/v/casino/result?mid=106250611180237
+//     const res = await axios.get(`http://168.231.116.239:7000/api/v/casino/result?mid=${mid}`);
+//     // http://168.231.116.239:7000/api/v/casino/result?mid=106250611180237
 
 //     console.log(res.data, "Response for resultDetails");
 
@@ -1018,11 +1018,11 @@ const fetchData = async (type: string) => {
     // type = type ===  ""
 
     const tableDataResponse = await axios.get(
-      `http://168.231.116.239:3000/tabledata/infa/${type}`
+      `http://168.231.116.239:3000/tabledata2/${type}`
     );
     // const iframeResponse = await axios.get(`http://168.231.116.239:3000/iframe/${type}`);
     const casinoResultResponse = await axios.get(
-      `http://168.231.116.239:3000/casinoresult/infa/${type}`
+      `http://168.231.116.239:3000/casinoresult2/${type}`
     );
     const iframeResponse: any = {};
 
@@ -1230,7 +1230,7 @@ const sids = async (data: any, type: any) => {
 const resultDetail = async (slug: string, mid: string): Promise<boolean> => {
   try {
     const res = await axios.get(
-      `http://168.231.116.239:3000/detailresult/infa/${slug}/${mid}`
+      `http://168.231.116.239:3000/detailresult2/${slug}/${mid}`
     );
     console.log(res.data, "Response for resultDetails");
 
@@ -1807,15 +1807,14 @@ export default class CasinoController extends ApiController {
             //   runnerName: templateRunner.RunnerName,
             // },"hello world yuijok")
             let bhav: any = live?.b;
-            let lbhav:any = live?.l
             // console.log(xyz,"inside teen pattu ")
 
-            if (xyz == "lucky7B" || xyz == "lucky7") {
+            if (xyz == "lucky7") {
               if (
                 templateRunner.RunnerName === "High Card" ||
                 templateRunner.RunnerName === "Low Card"
               ) {
-                bhav = parseFloat(bhav) - 0.05;
+                bhav = parseFloat(bhav) - 0.03;
               } else if (templateRunner.RunnerName === "Even") {
                 bhav = parseFloat(bhav) - 0.13;
               } else if (templateRunner.RunnerName == "Odd") {
@@ -1823,10 +1822,10 @@ export default class CasinoController extends ApiController {
               } else if (templateRunner.RunnerName.includes("Card ")) {
                 bhav = parseFloat(bhav) - 1;
               }
-            } else if (xyz == "dt20" || xyz == "dt20b") {
+            } else if (xyz == "dt20") {
               let name = templateRunner.RunnerName;
               if (name == "Dragon" || name == "Tiger") {
-                bhav = parseFloat(bhav) - 0.05;
+                bhav = parseFloat(bhav) - 0.03;
               } else if (name == "Dragon Even") {
                 bhav = parseFloat(bhav) - 0.15;
               } else if (name == "Dragon Odd") {
@@ -1850,18 +1849,7 @@ export default class CasinoController extends ApiController {
               }else if( name == "Player B"){
                 bhav = parseFloat(bhav) - 0.05;
             }
-            
           }
-          else if(xyz== "AAA" || xyz == "aaa" ){
-              let name = templateRunner.RunnerName;
-                            console.log("Hahahahhahah",name)
-
-              if(name == "Amar" || name == "Akbar" || name == "Anthony"){
-                bhav = parseFloat(bhav) -0.05;
-                lbhav = parseFloat(lbhav)+0.05;
-              }
-
-            }
 
             return {
               RunnerName: templateRunner.RunnerName,
@@ -1869,7 +1857,7 @@ export default class CasinoController extends ApiController {
               // b1: bhav > 0 ? bhav?.toString() : "0.00" || "0.00",
               b1: bhav > 0 ? bhav.toFixed(2) : "0.00",
 
-              l1: lbhav != 0.05 ? lbhav?.toFixed(2) : "0.00",
+              l1: live.l || "0.00",
               gstatus: live.gstatus === "OPEN" ? "1" : "0",
               max: live.max || 100000,
               min: live.min || 100,
@@ -1978,7 +1966,6 @@ export default class CasinoController extends ApiController {
     type = type === "warcasino" ? "war" : type;
     type = type === "race2020" ? "race20" : type;
     type = type === "Andarbahar" ? "ab20" : type;
-
     type = type === "dt20b" ? "dt202" : type;
     type = type === "dragontiger1Day" ? "dt6" : type;
     type = type === "card32b" ? "card32eu" : type;
@@ -1994,7 +1981,7 @@ export default class CasinoController extends ApiController {
       if (type === "AAA") type = "aaa";
 
       let response = await axios.get(
-        `http://168.231.116.239:3000/tabledata/infa/${type}`
+        `http://168.231.116.239:3000/tabledata2/${type}`
       );
       let data = response.data;
 
@@ -2044,14 +2031,13 @@ export default class CasinoController extends ApiController {
 
       console.log(singleMarket, "singleMarket");
       let bhav: any = singleMarket?.b;
-      let lbhav :any = singleMarket?.l
 
-      if (type === "lucky7eu" || type === "lucky7") {
+      if (type === "lucky7") {
         if (
           singleMarket?.nat === "High Card" ||
           singleMarket?.nat === "Low Card"
         ) {
-          bhav = parseFloat(bhav) - 0.05;
+          bhav = parseFloat(bhav) - 0.03;
         } else if (singleMarket?.nat === "Even") {
           bhav = parseFloat(bhav) - 0.13; // ✅ updated from 0.05 → 0.13
         } else if (singleMarket?.nat === "Odd") {
@@ -2063,10 +2049,10 @@ export default class CasinoController extends ApiController {
         ) {
           bhav = parseFloat(bhav) - 1;
         }
-      } else if (type === "dt20" || type === "dt202") {
+      } else if (type === "dt20") {
         let name = singleMarket?.nat;
         if (name === "Dragon" || name === "Tiger") {
-          bhav = parseFloat(bhav) - 0.05;
+          bhav = parseFloat(bhav) - 0.03;
         } else if (name === "Dragon Even") {
           bhav = parseFloat(bhav) - 0.15; // ✅ updated from 0.04 → 0.15
         } else if (name === "Dragon Odd") {
@@ -2086,17 +2072,8 @@ export default class CasinoController extends ApiController {
         if(name == "Player A"){
           bhav = parseFloat(bhav) - 0.03;
         }else if( name == "Player B"){
-          bhav = parseFloat(bhav) - 0.03;
+          bhav = parseFloat(bhav) - 0.05;
       }
-     }
-     else if(type == "AAA" || type == "aaa"){
-    let name = singleMarket?.nat;
-    if(name === "Amar" || name == "Akbar" || name == "Anthony"){
-      bhav = parseFloat(bhav)-0.05;
-      lbhav = parseFloat(bhav)+0.05
-    }
-
-
      }
 
 
@@ -2106,7 +2083,7 @@ export default class CasinoController extends ApiController {
           sid: singleMarket?.sid ?? "defaultSid", // Default value for sid
           nat: singleMarket?.nat ?? "", // Default empty string for optional string fields
           b1: bhav.toString() ?? 0,
-          l1:lbhav?.toString() ?? 0,// Default 0 for numbers
+          l1:singleMarket?.l?.toString(),// Default 0 for numbers
           max: singleMarket?.max ?? 0,
           min: singleMarket?.min ?? 0,
           gstatus: singleMarket?.gstatus ?? "",
@@ -2153,13 +2130,14 @@ export default class CasinoController extends ApiController {
     type = type === "1-CARD-ONE-DAY" ? "teen1" : type;
     type = type === "1-CARD-ONE-DAY" ? "teen1" : type;
     type = type === "fivewicket" ? "cricketv3" : type;
+    type = type === "AAA"? "aaa":type
 
     try {
-      const iframeResponse = await axios.get(
-        `http://168.231.116.239:3000/iframe/infa/${type}`
-      );
-      console.log(iframeResponse.data, "ifrmmmamamamamam");
-      return res.status(200).json({ tv: iframeResponse?.data?.data?.tv_url });
+      // const iframeResponse = await axios.get(
+      //   `http://168.231.116.239:3000/iframe2/${type}`
+      // );
+      // console.log(iframeResponse.data, "ifrmmmamamamamam");
+      return res.status(200).json({ tv: `https://live.cricketid.xyz/casino-tv?id=${type}`});
     } catch (error) {
       console.log(error);
       return res.status(500).json({ error: "Internal Server Error" });

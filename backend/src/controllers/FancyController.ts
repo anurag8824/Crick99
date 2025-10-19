@@ -24,7 +24,7 @@ import { BetStake } from "../models/BetStake";
 
 var ObjectId = require("mongoose").Types.ObjectId;
 
-export class FancyController extends ApiController {
+export class FancyController extends ApiController { 
   // activeFancies = async (req: Request, res: Response): Promise<Response> => {
   //   try {
   //     const { matchId, gtype }: any = req.query;
