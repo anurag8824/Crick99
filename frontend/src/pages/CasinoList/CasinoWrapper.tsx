@@ -593,14 +593,15 @@ const CasinoWrapper = (props: any) => {
                     background: "#000",
                   }}
                 >
-                  {newtv && gameId && (
+                  {gameId && (
                     <iframe
                       title="stream"
                       width="100%"
                       height={isMobile ? "220" : "420"}
                       style={{ border: "0px" }}
                       // src={casinoMatchData?.tv}
-                      src={newtv}
+                      // src={newtv}
+                       src={`https://live.cricketid.xyz/casino-tv?id=${gameIdMap[gameId]}`}
 
                       // src={`https://hr08bets.in/casino-live/?id=${gameId}`}
                       // src={`https://sfront.starrexch.me/casino-tv?id=${gameId}`}
