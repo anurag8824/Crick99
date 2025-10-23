@@ -480,7 +480,7 @@ const CasinoWrapper = (props: any) => {
     card32b: "card32eu",
     baccarat2: "baccarat2",
     dt20: "dt20",
-    lucky7B: "lukcy7eu",
+    lucky7B: "lucky7eu",
     Tp1Day: "teen",
     // race2020: 3036,
     teen20: "teen20",
