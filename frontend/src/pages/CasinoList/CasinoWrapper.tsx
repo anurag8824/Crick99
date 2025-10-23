@@ -513,7 +513,7 @@ const CasinoWrapper = (props: any) => {
   // Assume `gameCode` comes from API response
   // const gameCode: string | undefined = liveMatchData?.gameCode;
 
-  const gameId = gameCode ? gameIdMap?.[gameCode] ?? null : null;
+  const gameId = gameCode ? gameIdMap[gameCode] ?? null : null;
    if( ! casinoMatchData){
      return(
       <div> <div
@@ -617,6 +617,8 @@ const CasinoWrapper = (props: any) => {
                       // src={`https://sfront.starrexch.me/casino-tv?id=${gameId}`}
                     ></iframe>
                   )}
+                  {gameIdMap[gameId]}slug
+
                   {/* <iframe src='https://diamond.igtechgaming.com/freecasino/tvop?id=lucky7' width="100%"></iframe> */}
                   {casinoMatchData && (
                     <CasinoTimer lastOdds={casinoMatchData} />
