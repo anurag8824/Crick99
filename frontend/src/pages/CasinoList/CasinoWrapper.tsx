@@ -208,6 +208,10 @@ const CasinoWrapper = (props: any) => {
       ? "aaa"
       : gameCode === "lucky7B"
       ? "lucky7eu"
+      : gameCode === "dt20b" ?
+      "dt202"
+      : gameCode === "Tp1Day" ? 
+      "teen"
       : gameCode;
     axios.get(`https://socket3.bxpro99.xyz/api/get-casino-tv/${tvGameCode}`).then((res)=>{
       console.log(res,"ressss of caisono tv")
