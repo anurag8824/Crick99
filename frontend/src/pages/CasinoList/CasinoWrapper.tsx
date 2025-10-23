@@ -217,7 +217,7 @@ const CasinoWrapper = (props: any) => {
       console.log(res,"ressss of caisono tv")
       setNewtv(res?.data?.tv)
     })
-   }, []);
+   }, [gameCode]);
 
   console.log(newtv, "newtvvvvvv");
 
