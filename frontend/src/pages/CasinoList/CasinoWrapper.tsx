@@ -611,13 +611,13 @@ const CasinoWrapper = (props: any) => {
                       style={{ border: "0px" }}
                       // src={casinoMatchData?.tv}
                       // src={newtv}
-                       src={`https://live.cricketid.xyz/casino-tv?id=${gameIdMap[gameId]}`}
+                       src={`https://live.cricketid.xyz/casino-tv?id=${gameId}`}
 
                       // src={`https://hr08bets.in/casino-live/?id=${gameId}`}
                       // src={`https://sfront.starrexch.me/casino-tv?id=${gameId}`}
                     ></iframe>
                   )}
-                  {gameIdMap[gameId]}slug
+                  {/* {gameIdMap[gameId]}slug */}
 
                   {/* <iframe src='https://diamond.igtechgaming.com/freecasino/tvop?id=lucky7' width="100%"></iframe> */}
                   {casinoMatchData && (
