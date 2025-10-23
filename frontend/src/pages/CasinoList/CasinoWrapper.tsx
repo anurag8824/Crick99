@@ -119,6 +119,8 @@ const CasinoWrapper = (props: any) => {
     }
   }, [userState.user, casinoMatchData?.match_id]);
 
+  
+
   const getMatchLiveInfoInterval = async () => {
     /// const ref = useRef();
     casinoService.getLiveCasinoData(gameCode).then((res) => {
@@ -200,24 +202,24 @@ const CasinoWrapper = (props: any) => {
     }
   }, [updateOdds, checkRoundIdChange]);
 
-  // React.useEffect(() => {
-  //   const tvGameCode =
-  //   gameCode === "AAA"
-  //     ? "aaa"
-  //     : gameCode === "lucky7B"
-  //     ? "lucky7eu"
-  //     : gameCode === "dt20b" ?
-  //     "dt202"
-  //     : gameCode === "Tp1Day" ?
-  //     "teen"
-  //     : gameCode;
-  //   axios.get(`https://socket3.bxpro99.xyz/api/get-casino-tv/${tvGameCode}`).then((res)=>{
-  //     console.log(res,"ressss of caisono tv")
-  //     setNewtv(res?.data?.tv)
-  //   })
-  //  }, [gameCode]);
+  React.useEffect(() => {
+    const tvGameCode =
+    gameCode === "AAA"
+      ? "aaa"
+      : gameCode === "lucky7B"
+      ? "lucky7eu"
+      : gameCode === "dt20b" ?
+      "dt202"
+      : gameCode === "Tp1Day" ? 
+      "teen"
+      : gameCode;
+    axios.get(`https://socket3.bxpro99.xyz/api/get-casino-tv/${tvGameCode}`).then((res)=>{
+      console.log(res,"ressss of caisono tv")
+      setNewtv(res?.data?.tv)
+    })
+   }, [gameCode]);
 
-  // console.log(newtv, "newtvvvvvv");
+  console.log(newtv, "newtvvvvvv");
 
   React.useEffect(() => {
     if (!interValCasino && gameCode)
@@ -512,203 +514,197 @@ const CasinoWrapper = (props: any) => {
   // const gameCode: string | undefined = liveMatchData?.gameCode;
 
   const gameId = gameCode ? gameIdMap?.[gameCode] ?? null : null;
-  if (!casinoMatchData) {
-    return (
-      <div>
-        {" "}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
-            flexDirection: "column",
-          }}
-          className="suspense-loading d-flex justify-center align-center flex-column"
-        >
-          <img src="/imgs/loading.svg" width={50} />
-        </div>
-      </div>
-    );
-  }
+   if( ! casinoMatchData){
+     return(
+      <div> <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh',
+        flexDirection: 'column',
+      }}
+      className='suspense-loading d-flex justify-center align-center flex-column'
+    >
+      <img src='/imgs/loading.svg' width={50} />
+    </div></div>
+     )
+   }
 
   return (
     <>
-      <div
-        className={` mtc-5 row5  mt-4 casino-container-box  ${
-          gameCode === "cricket2020" ? "cc-20" : ""
-        }`}
-        style={{
-          background: "#121a2a",
-          maxWidth: "1200px",
-          margin: "0 auto",
-          borderRadius: "10px",
-        }}
-      >
-        <div className="col-12 col-lg-12  rounded ">
-          <div className="cards m-b-10 my-bet">
+      
+        <div
+          className={` mtc-5 row5  mt-4 casino-container-box  ${
+            gameCode === "cricket2020" ? "cc-20" : ""
+          }`}
+          style={{ background: "#121a2a" , maxWidth: "1200px" , margin: "0 auto" ,borderRadius: "10px" }}
+        >
+          <div
+          
+            className="col-12 col-lg-12  rounded "
+          >
+            <div className="cards m-b-10 my-bet">
             <div
-              style={{
-                background: "#121a2a",
-                border: "none",
-                borderBottom: ".5px solid gray",
-                paddingTop: "3px",
-              }}
-              className="card-heade mb-2 px-2 py-3 text-white casino d-flex flex-column flex-md-row justify-content-between align-items-center"
-            >
-              {/* Left side - Title */}
-              <h6
-                style={{ color: "gold", fontSize: "1.8rem", margin: "0" }}
-                className="card-title m-0 text-center text-md-start"
-              >
-                {liveMatchData?.title || ""}
-              </h6>
+  style={{
+    background: "#121a2a",
+    border: "none",
+    borderBottom: ".5px solid gray",
+    paddingTop: "3px",
+  }}
+  className="card-heade mb-2 px-2 py-3 text-white casino d-flex flex-column flex-md-row justify-content-between align-items-center"
+>
+  {/* Left side - Title */}
+  <h6 style={{color: "gold",
+    fontSize: "1.8rem",
+    margin: "0"}} className="card-title m-0 text-center text-md-start">
+    {liveMatchData?.title || ""}
+  </h6>
 
-              {/* Right side - Grid (Round ID & Rules) */}
-              <div
-                className="d-grid text-center text-md-end mt-2 mt-md-0"
-                style={{ gap: "4px", width: "100%", maxWidth: "250px" }}
-              >
-                <span className="fw-12 bg-secondary text-center rounded text-underline cursor-pointer">
-                  Round ID:{" "}
-                  {casinoMatchData?.match_id
-                    ? casinoMatchData?.match_id
-                    : "3495634563948563"}
-                </span>
-                <span
-                  className="fw-12 bg-secondary text-center rounded text-underline cursor-pointer"
-                  onClick={showRules}
-                >
-                  RULES
-                </span>
-              </div>
-            </div>
+  {/* Right side - Grid (Round ID & Rules) */}
+  <div
+    className="d-grid text-center text-md-end mt-2 mt-md-0"
+    style={{ gap: "4px", width: "100%", maxWidth: "250px" }}
+  >
+    <span className="fw-12 bg-secondary text-center rounded text-underline cursor-pointer">
+      Round ID:{" "}
+      {casinoMatchData?.match_id
+        ? casinoMatchData?.match_id
+        : "3495634563948563"}
+    </span>
+    <span
+      className="fw-12 bg-secondary text-center rounded text-underline cursor-pointer"
+      onClick={showRules}
+    >
+      RULES
+    </span>
+  </div>
+</div>
 
-            <div
-              className={`card-body ${gameCode}`}
-              style={{
-                padding: "0px",
-                position: "relative",
-                // minHeight: "400px",
-              }}
-            >
-              {!isMobile && casinoMatchData && casinoMatchData.scoreCard ? (
-                <Score scoreData={casinoMatchData.scoreCard} />
-              ) : (
-                ""
-              )}
+
               <div
+                className={`card-body ${gameCode}`}
                 style={{
                   padding: "0px",
                   position: "relative",
-                  height: `${isMobile ? "220" : "420"}`,
-                  background: "#000",
+                  // minHeight: "400px",
                 }}
               >
-                {gameId && (
-                  <iframe
-                    title="stream"
-                    width="100%"
-                    height={isMobile ? "220" : "420"}
-                    style={{ border: "0px" }}
-                    // src={casinoMatchData?.tv}
-                    // src={newtv}
-                    src={`https://live.cricketid.xyz/casino-tv?id=${gameIdMap[gameId]}`}
-
-                    // src={`https://hr08bets.in/casino-live/?id=${gameId}`}
-                    // src={`https://sfront.starrexch.me/casino-tv?id=${gameId}`}
-                  ></iframe>
-                )}
-                {/* <iframe src='https://diamond.igtechgaming.com/freecasino/tvop?id=lucky7' width="100%"></iframe> */}
-                {casinoMatchData && <CasinoTimer lastOdds={casinoMatchData} />}
-                {casinoMatchData && (
-                  <CasinoTitle lastResult={casinoMatchData} />
-                )}
-                {(gameCode == "onedaypoker" && casinoMatchData?.desc != "") ||
-                (gameCode == "onedaypoker20" && casinoMatchData?.desc != "")
-                  ? oneDayPokerDescription(casinoMatchData?.desc)
-                  : ""}
-                {gameCode == "cricket2020" && (
-                  <CricketVideoPopup20
-                    data={updateOdds}
-                    checkRoundIdChange={checkRoundIdChange}
-                    betCount={betCount}
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-          <div
-            className={`card-body ${gameCode}`}
-            style={{ padding: "0px", position: "relative" }}
-          >
-            {renderUiData(gameCode)}
-
-            {(liveMatchData?.remark != "" &&
-              liveMatchData?.slug != "Superover" &&
-              liveMatchData?.slug != "fivewicket") ||
-            (liveMatchData?.event_data?.remark != "" &&
-              liveMatchData?.slug != "Superover" &&
-              liveMatchData?.slug != "fivewicket") ? (
-              <div className="notice-casino-odds d-none">
-                <div className="marqueeN">
-                  <p>
-                    {liveMatchData?.remark || liveMatchData?.event_data?.remark}
-                  </p>
-                </div>
-              </div>
-            ) : (
-              ""
-            )}
-          </div>
-          {casinoMatchData?.id && (
-            <LastResults lastResult={casinoMatchData} gameId={gameCode} />
-          )}
-        </div>
-        <div className="col-12 col-lg-12 ">
-          <div id="sidebar-right" className=" ">
-            <div className="ps">
-              <div className="sidebar-right-inner">
-                {marketDataList.stake && (
-                  <PlaceBetBox stake={marketDataList.stake} />
+                {!isMobile && casinoMatchData && casinoMatchData.scoreCard ? (
+                  <Score scoreData={casinoMatchData.scoreCard} />
+                ) : (
+                  ""
                 )}
                 <div
-                  style={{ background: "none" }}
-                  className="card m-b-10 my-bet "
+                  style={{
+                    padding: "0px",
+                    position: "relative",
+                    height: `${isMobile ? "220" : "420"}`,
+                    background: "#000",
+                  }}
                 >
-                  {/* <div className="card-header d-flex justify-content-between align-items-center"> */}
-                  <h1 className="section-title text-center text-warning">
-                    OPEN BETS
-                  </h1>
-                  {/* <a
+                  {gameId && (
+                    <iframe
+                      title="stream"
+                      width="100%"
+                      height={isMobile ? "220" : "420"}
+                      style={{ border: "0px" }}
+                      // src={casinoMatchData?.tv}
+                      // src={newtv}
+                       src={`https://live.cricketid.xyz/casino-tv?id=${gameIdMap[gameId]}`}
+
+                      // src={`https://hr08bets.in/casino-live/?id=${gameId}`}
+                      // src={`https://sfront.starrexch.me/casino-tv?id=${gameId}`}
+                    ></iframe>
+                  )}
+                  {/* <iframe src='https://diamond.igtechgaming.com/freecasino/tvop?id=lucky7' width="100%"></iframe> */}
+                  {casinoMatchData && (
+                    <CasinoTimer lastOdds={casinoMatchData} />
+                  )}
+                  {casinoMatchData && (
+                    <CasinoTitle lastResult={casinoMatchData} />
+                  )}
+                  {(gameCode == "onedaypoker" && casinoMatchData?.desc != "") ||
+                  (gameCode == "onedaypoker20" && casinoMatchData?.desc != "")
+                    ? oneDayPokerDescription(casinoMatchData?.desc)
+                    : ""}
+                  {gameCode == "cricket2020" && (
+                    <CricketVideoPopup20
+                      data={updateOdds}
+                      checkRoundIdChange={checkRoundIdChange}
+                      betCount={betCount}
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+            <div
+              className={`card-body ${gameCode}`}
+              style={{ padding: "0px", position: "relative" }}
+            >
+              {renderUiData(gameCode)}
+
+              {(liveMatchData?.remark != "" &&
+                liveMatchData?.slug != "Superover" &&
+                liveMatchData?.slug != "fivewicket") ||
+              (liveMatchData?.event_data?.remark != "" &&
+                liveMatchData?.slug != "Superover" &&
+                liveMatchData?.slug != "fivewicket") ? (
+                <div className="notice-casino-odds d-none">
+                  <div className="marqueeN">
+                    <p>
+                      {liveMatchData?.remark ||
+                        liveMatchData?.event_data?.remark}
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+            {casinoMatchData?.id && (
+              <LastResults lastResult={casinoMatchData} gameId={gameCode} />
+            )}
+          </div>
+          <div className="col-12 col-lg-12 ">
+            <div id="sidebar-right" className=" ">
+              <div className="ps">
+                <div className="sidebar-right-inner">
+                  {marketDataList.stake && (
+                    <PlaceBetBox stake={marketDataList.stake} />
+                  )}
+                  <div style={{background:"none"}} className="card m-b-10 my-bet ">
+                    {/* <div className="card-header d-flex justify-content-between align-items-center"> */}
+                    <h1 className="section-title text-center text-warning">OPEN BETS</h1>
+                      {/* <a
                         href="#"
                         onClick={showAllBet}
                         className="card-title d-inline-block float-right"
                       >
                         View All
                       </a> */}
-                  {/* <CustomLink
+                      {/* <CustomLink
                         to={"/completed-casino"}
                         className="card-title d-inline-block btn-danger p-1 rounded"
                       >
                         Result
                       </CustomLink> */}
-                  {/* </div> */}
-                  <div className="card-body text-warning">
-                    <MyBetComponent />
+                    {/* </div> */}
+                    <div className="card-body text-warning">
+                      <MyBetComponent />
+                    </div>
                   </div>
+                  {/* {gameCode == "onedaypoker" && <OnedaypokerRules />} */}
+                  {/* {gameCode == "Superover" && <SoRules />} */}
+                  {/* {gameCode == "opentp" && <Openteenpatti />} */}
+                  {/* {gameCode == "fivewicket" && <Cricketv />} */}
+                  {/* {gameCode == "teen20" && <T20 />} */}
                 </div>
-                {/* {gameCode == "onedaypoker" && <OnedaypokerRules />} */}
-                {/* {gameCode == "Superover" && <SoRules />} */}
-                {/* {gameCode == "opentp" && <Openteenpatti />} */}
-                {/* {gameCode == "fivewicket" && <Cricketv />} */}
-                {/* {gameCode == "teen20" && <T20 />} */}
               </div>
             </div>
           </div>
         </div>
-      </div>
-
+      
       {rulesModel ? (
         <CasinoRulesDetail
           title={casinoMatchData.title}
