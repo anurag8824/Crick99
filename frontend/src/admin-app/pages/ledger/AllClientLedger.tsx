@@ -731,8 +731,8 @@ const AllClientLedger = () => {
                         </td>
 
                         <td>{(row.amount - row.settled).toFixed(2)}</td>
-                        <td>{row.settled.toFixed(2)}</td>
-                        <td>{row.amount.toFixed(2)}</td>amount
+                        {/* <td>{row.settled.toFixed(2)}</td> */}
+                        {/* <td>{row.amount.toFixed(2)}</td>amount */}
 
                         <td className="">
                           <CustomLink
