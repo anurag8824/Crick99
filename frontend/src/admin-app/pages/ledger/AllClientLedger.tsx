@@ -729,8 +729,11 @@ const AllClientLedger = () => {
                             <i className="fa fa-eye fa-xs"></i> {row.agent}
                           </CustomLink>
                         </td>
+
                         <td>{(row.amount - row.settled).toFixed(2)}</td>
-                        {/* <td>{row.settled.toFixed(2)}</td> */}
+                        <td>{row.settled.toFixed(2)}</td>
+                        <td>{row.amount.toFixed(2)}</td>amount
+
                         <td className="">
                           <CustomLink
                             onClick={() => {

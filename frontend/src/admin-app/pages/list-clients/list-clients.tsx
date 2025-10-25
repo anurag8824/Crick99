@@ -876,8 +876,9 @@ const ListClients = () => {
                     </div> */}
                   </div>
                   <div className="float-right my-4  col-md-12 mx-auto grid gap-2 ">
-                    {userState?.user?.username === unnmae &&
-                    getRoleOptions().some((role) => role.key === newtype) ? (
+                    {/* { */}
+                    {/* // userState?.user?.username === unnmae && */}
+                    {/* // getRoleOptions().some((role) => role.key === newtype) ? ( */}
                       <div className="flex item-center justify-around">
                         <p className="text-right">
                           {username ? (
@@ -915,9 +916,9 @@ const ListClients = () => {
                           )}
                         </p>
                       </div>
-                    ) : (
-                      ""
-                    )}
+                    {/* // ) : (
+                    //   ""
+                    // )} */}
 
                     <div className="flexxx hidden item-center gap-1">
                       <input

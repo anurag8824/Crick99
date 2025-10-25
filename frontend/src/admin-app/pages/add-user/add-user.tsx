@@ -13,11 +13,12 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AxiosResponse } from "axios";
 import ISport from "../../../models/ISport";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { selectSportList } from "../../../redux/actions/sports/sportSlice";
 import SubmitButton from "../../../components/SubmitButton";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import DepositM from "../list-clients/modals/DepositM";
+import userService from "../../../services/user.service";
 
 const validationSchema = Yup.object().shape({
   username: Yup.string()
@@ -81,8 +82,15 @@ const AddUser = () => {
   const [isExposerAllow, setExposerAllow] = React.useState(false);
   const sportListState = useAppSelector<{ sports: ISport[] }>(selectSportList);
 
+  const [uplineParent, setUplineParent] = React.useState<any>(null);
+
   const [newbalance, setNewbalance] = React.useState({});
   const [pshared, setPshared] = React.useState();
+  const [searchParams] = useSearchParams();
+  const [callbacklist, setcallbacklist] = React.useState(false);
+
+  const [users, setUserList] = React.useState<any>();
+  const [upperlist, setUpperlist] = React.useState<any>();
 
   const [maxBalance, setMaxBalance] = React.useState<any>();
 
@@ -90,7 +98,9 @@ const AddUser = () => {
 
   React.useEffect(() => {
     // const userState = useAppSelector<{ user: User }>(selectUserData);
-    const username = userState?.user?.username;
+    const username = uplineParent
+      ? uplineParent?.username
+      : userState?.user?.username;
 
     console.log(username, "testagentmaster");
     UserService.getParentUserDetail(username).then(
@@ -103,7 +113,7 @@ const AddUser = () => {
         setMaxBalance(thatb);
       }
     );
-  }, [userState]);
+  }, [userState, uplineParent]);
 
   const { username } = useParams();
 
@@ -114,10 +124,10 @@ const AddUser = () => {
 
   switch (thetype) {
     case "sadmin":
-      fword = "AD";
+      fword = "ADM";
       break;
     case "suadmin":
-      fword = "SB";
+      fword = "AD";
       break;
     case "smdl":
       fword = "MA";
@@ -160,12 +170,15 @@ const AddUser = () => {
   // const sendamount = watch("sendamount")
 
   React.useEffect(() => {
-    if (username) {
-      UserService.getUserDetail(username).then((res: AxiosResponse<any>) => {
+    if (uplineParent ? uplineParent?.username : username) {
+      UserService.getUserDetail(
+        uplineParent ? uplineParent?.username : username
+      ).then((res: AxiosResponse<any>) => {
+        console.log(res.data.data, "restststsd");
         setSelectedUser(res.data.data);
       });
     }
-  }, [username]);
+  }, [username, uplineParent]);
 
   React.useEffect(() => {
     const validRoles = Object.values(RoleType);
@@ -253,6 +266,7 @@ const AddUser = () => {
   const [senddata, setSenddata] = React.useState({});
 
   const onSubmit = handleSubmit((data) => {
+    console.log(data, "before sendongg datat");
     if (Number(data.sendamount) > Number(maxBalance)) {
       toast.error(
         `Client Limit cannot exceed available balance (${maxBalance})`
@@ -322,7 +336,7 @@ const AddUser = () => {
     }
 
     // Parent Name
-    data.parent = userData?.username;
+    data.parent = uplineParent ? uplineParent?.username : userData?.username;
 
     data.code = sendcode;
     data.pshare = pshared;
@@ -341,8 +355,8 @@ const AddUser = () => {
           setSenddata(data);
           console.log(ress, "resss ");
           toast.success("User successfully created");
-          reset();
-          window.location.reload();
+          // reset();
+          // window.location.reload();
         } else {
           setLoading(false); // Also stop in case of unexpected message
           toast.error(ress?.data?.message);
@@ -388,6 +402,84 @@ const AddUser = () => {
   const userData = selectedUser ? selectedUser : userState?.user;
   const navigate = useNavigate();
 
+  const [searchObj, setSearchObj] = React.useState<any>({
+    type: "",
+    username: "",
+    status: "",
+    search: "",
+  });
+
+  React.useEffect(() => {
+    const search = searchParams.get("search") ? searchParams.get("search") : "";
+    getList({
+      username: userState?.user?.username!,
+      search: search!,
+      type: "",
+    });
+    // setPage(1);
+  }, [username, searchParams.get("search"), callbacklist]);
+
+  const getList = (obj: {
+    username: string;
+    type: string;
+    search: string;
+    status?: string;
+    page?: number;
+  }) => {
+    if (!obj.page) obj.page = 1;
+    userService.getUserList(obj).then((res: AxiosResponse<any>) => {
+      setSearchObj(obj);
+      console.log(res.data.data.items, "add user list data");
+      setUserList(res.data.data);
+      // clientlistdata(res.data.data.items);
+    });
+  };
+
+  let addtype = "";
+
+  switch (thetype) {
+    case "sadmin":
+      addtype = "admin";
+      break;
+    case "suadmin":
+      addtype = "sadmin";
+      break;
+    case "smdl":
+      addtype = "suadmin";
+      break;
+    case "mdl":
+      addtype = "smdl";
+      break;
+    case "dl":
+      addtype = "mdl";
+      break;
+    case "user":
+      addtype = "dl";
+      break;
+    default:
+      addtype = "";
+      break;
+  }
+
+  console.log(addtype, "check add user type");
+
+  const filterred = users?.items?.filter((u: any) => u?.role === addtype);
+
+  console.log(filterred, "filter useres for add user");
+
+  // Step 3: Handle select change
+  const handleSelectChange = (e: any) => {
+    const selectedUsername = e.target.value;
+    const selectedUserff = filterred?.find(
+      (u: any) => u.username === selectedUsername
+    );
+    setUplineParent(selectedUserff);
+  };
+
+  React.useEffect(() => {
+    console.log(uplineParent, "Currently selected upline parent data");
+  }, [uplineParent]);
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -414,10 +506,43 @@ const AddUser = () => {
                 <PersonAddIcon />
                 Create
               </h2> */}
+
               <form onSubmit={onSubmit}>
+                <div></div>
+
                 <div className="row">
                   <div className="col-md-6 personal-detail">
                     {/* <h4 className="m-b-20 col-md-12">Personal Detail</h4> */}
+
+                    {filterred?.length > 0 ? (
+                      <div className="mb-10 justify-between flex items-center">
+                        <label>Select Upperline:</label>
+                        <select
+                          onChange={handleSelectChange}
+                          className="border rounded-0 p-2"
+                        >
+                          <option value="">-- Select User --</option>
+                          {filterred?.map((user: any) => (
+                            <option key={user._id} value={user.username}>
+                              {user.username}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+
+                    {uplineParent && (
+                      <div className="mt-3 hidden p-2 border rounded bg-gray-50">
+                        <strong>Selected User:</strong> {uplineParent?.username}{" "}
+                        <br />
+                        Role: {uplineParent?.role} <br />
+                        Share: {uplineParent?.share} <br />
+                        Main Balance: {uplineParent?.balance?.mainBalance}
+                      </div>
+                    )}
+
                     <div className="row">
                       <div className="col-md-6">
                         <div className="form-group">
@@ -429,7 +554,7 @@ const AddUser = () => {
                             {...register("username")}
                             defaultValue={""}
                             type="text"
-                            className="form-control"
+                            className="form-control rounded-0"
                             // required
                           />
                           <span
@@ -452,12 +577,12 @@ const AddUser = () => {
                         <div>
                           <input
                             type="text"
-                            className="form-control username"
+                            className="form-control username rounded-0"
                             value={sendcode}
                           />
                         </div>
                       </div>
-                      <div className="col-md-6">
+                      <div className="col-md-6 mt-4">
                         <div className="form-group">
                           <label htmlFor="password">Password:</label>
                           <span className="text-danger">*</span>
@@ -467,7 +592,7 @@ const AddUser = () => {
                             id="password"
                             {...register("password")}
                             type="password"
-                            className="form-control"
+                            className="form-control rounded-0"
                             // required
                           />
                           {errors?.password && (
@@ -608,7 +733,7 @@ const AddUser = () => {
 
                       <div className="col-md-6 d-none">
                         <div className="form-group">
-                          <label htmlFor="creditrefrence">Client Limit:</label>
+                          <label htmlFor="creditrefrence">Limit</label>
                           <span className="text-danger">*</span>
                           <input
                             className="form-control"
@@ -628,18 +753,16 @@ const AddUser = () => {
                         </div>
                       </div>
 
-
                       <div className="col-md-6">
                         <div className="form-group">
                           <label htmlFor="sendamount">
-                           My Limit
-                            <span className="text-danger">*</span> 
+                            My Coins
+                            <span className="text-danger">*</span>
                           </label>
                           <input
-                            className="form-control"
+                            className="form-control rounded-0"
                             placeholder="sendamount "
-                          
-                          value={maxBalance}
+                            value={maxBalance}
                             min="0"
                             // required
                             type="number"
@@ -648,16 +771,18 @@ const AddUser = () => {
                         </div>
                       </div>
 
-
                       <div className="col-md-6">
                         <div className="form-group">
                           <label htmlFor="sendamount">
-                            Agent Limit
+                            Coins
                             <span className="text-danger">*</span> (
-                            {maxBalance?.toFixed(0) ? maxBalance?.toFixed(0) : ""})
+                            {maxBalance?.toFixed(0)
+                              ? maxBalance?.toFixed(0)
+                              : ""}
+                            )
                           </label>
                           <input
-                            className="form-control"
+                            className="form-control rounded-0"
                             placeholder="sendamount "
                             {...register("sendamount")}
                             id="sendamount"
@@ -669,97 +794,121 @@ const AddUser = () => {
                         </div>
                       </div>
 
-
-                        {!isExposerAllow && (
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label htmlFor="share">
-                                My Match Share
-                                <span className="text-danger">*</span>
-                              </label>
-
-                              <input
-                                className="form-control"
-                                placeholder="Supershare Limit"
-                                value={pshared ? pshared : 0}
-                                defaultValue={pshared}
-                                disabled
-                              />
-                            </div>
-                          </div>
-                        )}
-
-                        {/* <DepositM depositUser={{senddata, newbalance}} /> */}
-                        {!isExposerAllow && (
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label htmlFor="share">
-                                Agent Match Share
-                                <span className="text-danger">*</span> :
-                                {`(≤${pshared ? pshared : 0})`}
-                              </label>
-
-                              <input
-                                className="form-control"
-                                placeholder="Supershare Limit"
-                                {...register("share")}
-                                id="share"
-                                defaultValue={0}
-                                min="0"
-                                max={pshared ? pshared : 0}
-                                // required
-                                type="number"
-                              />
-                            </div>
-                          </div>
-                        )}
-
-      
-
+                      {!isExposerAllow && (
                         <div className="col-md-6">
+                          <p
+                            style={{ fontSize: "22px", paddingBottom: "10px" }}
+                          >
+                            Match Share And Commission
+                          </p>
                           <div className="form-group">
-                            <label htmlFor="mcom">
-                              {" "}
-                              My Match Commision
+                            <label htmlFor="share">
+                              My Match Share
+                              <span className="text-danger">*</span>
                             </label>
-                            <span className="text-danger">*</span>
+
                             <input
-                              className="form-control"
-                              placeholder="M Comm Limit"
-                              value={2}
-                              min="0"
-                              max="2"
+                              className="form-control rounded-0"
+                              placeholder="Supershare Limit"
+                              value={pshared ? pshared : 0}
+                              defaultValue={pshared}
                               disabled
                             />
                           </div>
                         </div>
+                      )}
 
+                      {/* <DepositM depositUser={{senddata, newbalance}} /> */}
+                      {!isExposerAllow && (
                         <div className="col-md-6">
                           <div className="form-group">
-                            <label htmlFor="mcom">
-                              Agent Match Commision(≤2%)
+                            <label htmlFor="share">
+                              Match Share
+                              <span className="text-danger">*</span> :
+                              {`(≤${pshared ? pshared : 0})`}
                             </label>
-                            <span className="text-danger">*</span>
+
                             <input
-                              className="form-control"
-                              placeholder="M Comm Limit"
-                              {...register("mcom")}
-                              id="mcom"
+                              className="form-control rounded-0"
+                              placeholder="Share Limit"
+                              {...register("share")}
+                              id="share"
                               defaultValue={0}
                               min="0"
-                              max="2"
+                              max={pshared ? pshared : 0}
                               // required
                               type="number"
                             />
                           </div>
                         </div>
+                      )}
+
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label htmlFor="mcom"> Commision type</label>
+                          <span className="text-danger">*</span>
+                          <input
+                            className="form-control rounded-0"
+                            placeholder="M Comm Limit"
+                            value={"Bet by bet"}
+                            min="0"
+                            max="2"
+                            disabled
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label htmlFor="mcoms"> Commision Type</label>
+                          <span className="text-danger">*</span>
+                          <select className="form-select">
+                            <option value="">Select Comm Type</option>
+                            <option value="Payment Diya">No. Comm</option>
+                            <option value="Payment Liya">Bet By Bet</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label htmlFor="mcom"> My Match Commision</label>
+                          <span className="text-danger">*</span>
+                          <input
+                            className="form-control rounded-0"
+                            placeholder="M Comm Limit"
+                            value={2}
+                            min="0"
+                            max="2"
+                            disabled
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label htmlFor="mcom">Match Commision(≤2%)</label>
+                          <span className="text-danger">*</span>
+                          <input
+                            className="form-control rounded-0"
+                            placeholder="M Comm Limit"
+                            {...register("mcom")}
+                            id="mcom"
+                            defaultValue={0}
+                            min="0"
+                            max="2"
+                            // required
+                            type="number"
+                          />
+                        </div>
+                      </div>
 
                       <div className="col-md-6">
                         <div className="form-group">
                           <label htmlFor="scom">My Session Commision</label>
                           <span className="text-danger">*</span>
                           <input
-                            className="form-control"
+                            className="form-control rounded-0"
                             placeholder="S Comm Limit"
                             value={4}
                             min="0"
@@ -773,10 +922,10 @@ const AddUser = () => {
 
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label htmlFor="scom">Agent Session Commision(≤3%)</label>
+                          <label htmlFor="scom">Session Commision(≤3%)</label>
                           <span className="text-danger">*</span>
                           <input
-                            className="form-control"
+                            className="form-control rounded-0"
                             placeholder="S Comm Limit"
                             {...register("scom")}
                             id="scom"
@@ -789,8 +938,83 @@ const AddUser = () => {
                         </div>
                       </div>
 
+                      {!isExposerAllow && (
+                        <div className="col-md-6">
+                          <p
+                            style={{ fontSize: "22px", paddingBottom: "10px" }}
+                          >
+                            Casino Share And Commission
+                          </p>
+                          <div className="form-group">
+                            <label htmlFor="shareffff">
+                              My Casino Share
+                              <span className="text-danger">*</span>
+                            </label>
 
+                            <input
+                              className="form-control rounded-0"
+                              placeholder="Supershare Limit"
+                              value={pshared ? pshared : 0}
+                              defaultValue={pshared}
+                              disabled
+                            />
+                          </div>
+                        </div>
+                      )}
 
+                      {/* <DepositM depositUser={{senddata, newbalance}} /> */}
+                      {!isExposerAllow && (
+                        <div className="col-md-6">
+                          <div className="form-group">
+                            <label htmlFor="shareffff">
+                              Casino Share
+                              <span className="text-danger">*</span> :
+                              {`(≤${pshared ? pshared : 0})`}
+                            </label>
+
+                            <input
+                              className="form-control rounded-0"
+                              placeholder="Casino Share"
+                              defaultValue={0}
+                              min="0"
+                              max={pshared ? pshared : 0}
+                              // required
+                              type="number"
+                            />
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label htmlFor="mcomdddc"> My Casino Commision</label>
+                          <span className="text-danger">*</span>
+                          <input
+                            className="form-control rounded-0"
+                            placeholder="M Comm Limit"
+                            value={2}
+                            min="0"
+                            max="2"
+                            disabled
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label htmlFor="mcomddd">Casino Commision(≤2%)</label>
+                          <span className="text-danger">*</span>
+                          <input
+                            className="form-control rounded-0"
+                            placeholder="M Comm Limit"
+                            defaultValue={0}
+                            min="0"
+                            max="2"
+                            // required
+                            type="number"
+                          />
+                        </div>
+                      </div>
 
                       {isExposerAllow && (
                         <div className="col-md-6 d-none ">
@@ -802,7 +1026,7 @@ const AddUser = () => {
                               {...register("exposerLimit")}
                               defaultValue={""}
                               type="number"
-                              className="form-control"
+                              className="form-control rounded-0"
                               min="0"
                               // required
                             />

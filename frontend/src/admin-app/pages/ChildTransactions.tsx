@@ -750,27 +750,58 @@ const ChildTransactions = () => {
                     //   </div>
                     // </div>
 
-                    <div className="rows d-flex g-2 p-3 mb-3 border rounded bg-light">
+
+                    <div className="rows d-flex g-2 p-3 mb-3  rounded bg-light">
                       <div className="col-4 col-md-4">
-                        <span className="text-dangedr fw-bold">
-                          Dena {selectedClient?.amount.toFixed()}
+                        <span
+                          className={`fw-bold ${
+                            selectedClient?.settled < 0
+                              ? "text-danger"
+                              : "text-success"
+                          }`}
+                        >
+                          Dena {selectedClient?.settled.toFixed()}
                         </span>
                       </div>
                       <div className="col-4 col-md-4">
-                        <span className="text-succedss fw-bold">
-                          Lena {selectedClient?.final.toFixed(2)}
+                        <span
+                          className={`fw-bold ${
+                            selectedClient?.amount < 0
+                              ? "text-danger"
+                              : "text-success"
+                          }`}
+                        >
+                          Lena {selectedClient?.amount.toFixed(2)}
                         </span>
                       </div>
                       <div className="col-4 col-md-4">
-                        <span className="text-dangerd fw-bold">
+                        <span
+                          className={`fw-bold ${
+                            selectedClient?.amount - selectedClient?.settled < 0
+                              ? "text-danger"
+                              : "text-success"
+                          }`}
+                        >
                           Balance{" "}
                           {(
+                            selectedClient?.amount - selectedClient?.settled
+                          ).toFixed(2)}
+
+{
+                            selectedClient?.amount - selectedClient?.settled < 0
+                              ? "(Lena)"
+                              : "(Dena)"
+                          }
+                          {/* {(
                             Math.abs(selectedClient?.amount) +
                             Math.abs(selectedClient?.settled)
-                          ).toFixed()}
+                          ).toFixed()} */}
                         </span>
                       </div>
                     </div>
+
+
+                  
                   )}
 
 <div className="row overflow-auto mb-20">
@@ -869,7 +900,25 @@ const ChildTransactions = () => {
                         </thead>
 
                         <tbody>
-                          {selectedClientList?.map((row: any, index: any) => (
+                          {selectedClientList?.reduce((acc: any[], row: any, index: number) => {
+    // calculate previous cumulative balance
+    const prevBalance = acc.length > 0 ? acc[acc.length - 1].balance : 0;
+
+    // calculate commission
+    const commission =
+      userState?.user?.role === "dl" ? row?.commissiondega || 0 : 0;
+
+    // money after commission
+    const money = (row?.money || 0) - commission;
+
+    // new cumulative balance
+    const newBalance = prevBalance + money;
+
+    // push with balance
+    acc.push({ ...row, balance: newBalance });
+
+    return acc;
+  }, [])?.reverse()?.map((row: any, index: any) => (
                             <tr
                               key={row.id}
                               role="row"

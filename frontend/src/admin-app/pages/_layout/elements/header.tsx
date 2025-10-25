@@ -752,8 +752,7 @@ const [userList, setUserList] = React.useState<any>({});
                  
 
                   <li className={` ${activeMenu === "User" ? "bg-active" : ""} nav-item dropdown  group relative`}>
-                    <CustomLink
-                      to={"/list-clients"}
+                    <p
                       className=" py-2 flex-row flex gap-2 items-center cursor-pointer"
                       onClick={() => {setDropdownOpen(!dropdownOpen); setActiveMenu("User");}}
                      
@@ -781,7 +780,7 @@ const [userList, setUserList] = React.useState<any>({});
                       </b>
                      
 
-                    </CustomLink>
+                    </p>
 
                     { dropdownOpen ? <div  className="dropdown-menuj bg-neutral-700 pl-md-5 mt-2 grid space-y-4   absolutek z-50 hiddenj group-hover:block w-full">
                       {getRoleOptions().map((role) => (
@@ -1362,8 +1361,7 @@ const [userList, setUserList] = React.useState<any>({});
                  
 
                   <li className={` ${activeMenu === "User" ? "bg-active" : ""} nav-item dropdown  md:w-60 group relative`}>
-                    <CustomLink
-                      to={"/list-clients"}
+                    <p
                       className="md:flex py-2  md:flex-row flex flex-col gap-2 items-center cursor-pointer"
                       onClick={() => {setDropdownOpen(!dropdownOpen); setActiveMenu("User");}}
                      
@@ -1391,7 +1389,7 @@ const [userList, setUserList] = React.useState<any>({});
                       </b>
                      
 
-                    </CustomLink>
+                    </p>
 
                     { dropdownOpen ? <div  className="dropdown-menuj bg-neutral-700 pl-md-5 mt-2 grid space-y-4   absolutek z-50 hiddenj group-hover:block w-full">
                       {getRoleOptions().map((role) => (

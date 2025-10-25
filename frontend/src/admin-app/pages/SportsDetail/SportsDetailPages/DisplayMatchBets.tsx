@@ -19,6 +19,7 @@ interface LedgerItem {
 }
 
 interface MatchItem {
+  runners: any;
   marketName: any;
   parentNameStr: any;
   volume: any;
@@ -184,7 +185,7 @@ const DisplayMatchBets = () => {
       });
 
       console.log(result, "resulllttttt");
-      setStack(result);
+      // setStack(result);
 
       setmarketData(filtered[0].bets);
 
@@ -205,6 +206,65 @@ const DisplayMatchBets = () => {
     }
 
     setFilteredBets(filtered);
+
+
+
+    const runners = filtered[0]?.runners || [];
+      console.log(runners, "mathced bets");
+
+      const result = runners.map((runner: any) => {
+        const { selectionId, runnerName } = runner;
+
+        // Step 4: Filter bets for this selectionId
+        const matchedBets = filtered.filter(
+          (bet: any) => bet.selectionId === selectionId
+        );
+
+        // Match bets for opposite team
+        const oppositeBets = filtered.filter(
+          (bet: any) => bet.selectionId !== selectionId
+        );
+
+        // Step 5: Sum up the stack values
+        // const totalStack = matchedBets.reduce(
+        //   (sum: number, bet: any) => sum + (bet.stack || 0),
+        //   0
+        // );
+
+        console.log(matchedBets, "matched bets for this selection");
+
+        const totalStack = matchedBets?.reduce(
+          (sum: number, bet: any) =>
+            sum +
+            (bet?.isBack
+              ? -((bet?.stack || 0) * (1 - bet?.odds))
+              : (bet?.stack || 0) * (1 - bet?.odds)),
+          0
+        );
+
+        const oppositeProfitLoss = oppositeBets.reduce(
+          (sum: number, bet: any) =>
+            sum + (bet?.isBack ? -bet?.stack || 0 : bet?.stack || 0),
+          0
+        );
+
+        console.log(totalStack, "sum of stack");
+
+        // Step 6: Return structured object
+        return {
+          selectionId,
+          runnerName,
+          totalStack,
+          profitLoss: oppositeProfitLoss,
+        };
+      });
+
+      console.log(result, "resulllttttt");
+      setStack(result);
+
+
+
+
 
     // Update total PL by selectionName (Team)
     const plByTeam: Record<string, number> = {};
@@ -290,21 +350,59 @@ const DisplayMatchBets = () => {
 
 <div style={{ background: "#0f2327" }} className="text-white font-bold py-2 text-lg">BOOKMAKER</div>
 
+<div className="row d-none">
+          <div className="col-md-6">
+            <table
+              className="table table-striped table-bordered"
+              style={{ width: "100%" }}
+            >
+              <thead>
+                <tr>
+                  <th className="pt-1 pb-1">Runner</th>
+                  <th className="pt-1 pb-1">Book</th>
+                </tr>
+              </thead>
+              <tbody>
+                {stack && (
+                  <>
+                    {stack?.map((team, index) => (
+                      <tr key={index}>
+                        <td className="pt-1 pb-1">{team?.runnerName}</td>
+                        <td
+                          className={`pt-1 pb-1 ${(((team?.totalStack || 0) + (team?.profitLoss || 0)) * (shared * 0.01)) > 0 
+                              ? "text-red-500"
+                              : "text-green-500"
+                            }`}
+                        >
+                        {/* <p>{team?.profitLoss}</p> */}
+                        {(((team?.totalStack || 0) + (team?.profitLoss || 0)) * (shared * 0.01)).toFixed(2)}
+
+                        </td>{" "}
+                        {/* Or any amount if available */}
+                      </tr>
+                    ))}
+                  </>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
             <div className="d-flex flex-wrap gap-3 my-3 overflow-auto">
-              {Object.entries(totalPLByTeam).map(([team, pl]) => (
+              {stack?.map((team, pl) => (
                 <div
                   key={`team-${team}`}
                   className={`cardd text-white p-3 flex-shrink-0`}
                   style={{
                     minWidth: "200px",
-                    backgroundColor: pl < 0 ? "#dc3545" : "#28a745", // red or green
+                    backgroundColor: (((team?.totalStack || 0) + (team?.profitLoss || 0)) * (shared * 0.01)) < 0 ? "#dc3545" : "#28a745", // red or green
                   }}
                 >
                   <div className="d-flex align-items-center">
                     <i className="fa-solid fa-chart-column fa-2x me-3"></i>
                     <div>
-                      <h1 className="h4 fw-bold mb-2">{pl.toFixed(0)}</h1>
-                      <p className="mb-0 fs-5">{team}</p>
+                      <h1 className="h4 fw-bold mb-2">  {(((team?.totalStack || 0) + (team?.profitLoss || 0)) * (shared * 0.01)).toFixed(2)}</h1>
+                      <p className="mb-0 fs-5">{team?.runnerName}</p>
                       <small>(0)</small>
                     </div>
                   </div>

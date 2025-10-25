@@ -176,9 +176,7 @@ const ClientTransactions = () => {
     // ✅ sirf tabhi default set karo jab user ne khud select nahi kiya ho
     if (!hasDefaultSet) {
       const defaultClient = combined?.find((item) => item.ChildId === ctid);
-      const defaultList = listData?.filter(
-        (item) => item.ChildId === ctid 
-      );
+      const defaultList = listData?.filter((item) => item.ChildId === ctid);
 
       setSelectedClient(defaultClient);
       setSelectedClientList(defaultList?.reverse());
@@ -196,7 +194,7 @@ const ClientTransactions = () => {
     setSelectedClient(newClient);
 
     const newClientList = listData?.filter(
-      (item) => item.ChildId === selectedId 
+      (item) => item.ChildId === selectedId
     );
     setSelectedClientList(newClientList?.reverse());
 
@@ -748,24 +746,48 @@ const ClientTransactions = () => {
                     //   </div>
                     // </div>
 
-                    <div className="rows d-flex g-2 p-3 mb-3 border rounded bg-light">
+                    <div className="rows d-flex g-2 p-3 mb-3  rounded bg-light">
                       <div className="col-4 col-md-4">
-                        <span className="text-dangedr fw-bold">
-                          Dena {selectedClient?.amount.toFixed()}
+                        <span
+                          className={`fw-bold ${
+                            selectedClient?.settled < 0
+                              ? "text-danger"
+                              : "text-success"
+                          }`}
+                        >
+                          Dena {selectedClient?.settled.toFixed()}
                         </span>
                       </div>
                       <div className="col-4 col-md-4">
-                        <span className="text-succedss fw-bold">
-                          Lena {selectedClient?.final.toFixed(2)}
+                        <span
+                          className={`fw-bold ${
+                            selectedClient?.amount < 0
+                              ? "text-danger"
+                              : "text-success"
+                          }`}
+                        >
+                          Lena {selectedClient?.amount.toFixed(2)}
                         </span>
                       </div>
                       <div className="col-4 col-md-4">
-                        <span className="text-dangerd fw-bold">
+                        <span
+                          className={`fw-bold ${
+                            selectedClient?.amount - selectedClient?.settled < 0
+                              ? "text-danger"
+                              : "text-success"
+                          }`}
+                        >
                           Balance{" "}
                           {(
+                            selectedClient?.amount - selectedClient?.settled
+                          ).toFixed(2)}
+                          {selectedClient?.amount - selectedClient?.settled < 0
+                            ? "(Lena)"
+                            : "(Dena)"}
+                          {/* {(
                             Math.abs(selectedClient?.amount) +
                             Math.abs(selectedClient?.settled)
-                          ).toFixed()}
+                          ).toFixed()} */}
                         </span>
                       </div>
                     </div>
@@ -833,15 +855,15 @@ const ClientTransactions = () => {
                         Balance
                       </th> */}
                             <th
-                        className="p-1 small text-center  no-sort sorting_disabled"
-                        style={{
-                          width: 97,
-                          backgroundColor: "#0f2327",
-                          color: "white",
-                        }}
-                      >
-                        Payment Type
-                      </th>
+                              className="p-1 small text-center  no-sort sorting_disabled"
+                              style={{
+                                width: 97,
+                                backgroundColor: "#0f2327",
+                                color: "white",
+                              }}
+                            >
+                              Payment Type
+                            </th>
                             <th
                               className="p-1 small no-sort sorting_disabled"
                               style={{
@@ -861,44 +883,88 @@ const ClientTransactions = () => {
                                 color: "white",
                               }}
                             >
+                              Balance
+                            </th>
+
+                            <th
+                              className="p-1 small no-sort sorting_disabled"
+                              style={{
+                                width: 127,
+                                backgroundColor: "#0f2327",
+                                color: "white",
+                              }}
+                            >
                               Done
                             </th>
                           </tr>
                         </thead>
 
                         <tbody>
-                          {selectedClientList?.map((row: any, index: any) => (
-                            <tr
-                              key={row.id}
-                              role="row"
-                              className={index % 2 === 0 ? "even" : "odd"}
-                            >
-                              <td className="small pl-2 pr-0">
-                                {new Date(row.updatedAt).toLocaleString(
-                                  "en-US",
-                                  {
-                                    month: "short", // Apr
-                                    day: "2-digit", // 16
-                                    hour: "2-digit", // 04
-                                    minute: "2-digit", // 09
-                                    hour12: true, // PM/AM format
-                                  }
-                                )}
-                              </td>
-                              <td className="small p-1 " style={{ zIndex: 2 }}>
-                                CASH
-                              </td>
-                              <td>
-                                <span className="text-successr p-1">
-                                  {row?.money > 0 ? row?.money?.toFixed(2) : 0}
-                                </span>
-                              </td>
-                              <td>
-                                <span className="text-dangerr p-1">
-                                  {row?.money < 0 ? row?.money?.toFixed(2) : 0}
-                                </span>
-                              </td>
-                              {/* <td>
+                          {selectedClientList
+                            ?.reduce((acc: any[], row: any, index: number) => {
+                              // calculate previous cumulative balance
+                              const prevBalance =
+                                acc.length > 0
+                                  ? acc[acc.length - 1].balance
+                                  : 0;
+
+                              // calculate commission
+                              const commission =
+                                userState?.user?.role === "dl"
+                                  ? row?.commissiondega || 0
+                                  : 0;
+
+                              // money after commission
+                              const money = (row?.money || 0) - commission;
+
+                              // new cumulative balance
+                              const newBalance = prevBalance + money;
+
+                              // push with balance
+                              acc.push({ ...row, balance: newBalance });
+
+                              return acc;
+                            }, [])?.reverse()
+                            ?.map((row: any, index: any) => (
+                              <tr
+                                key={row.id}
+                                role="row"
+                                className={index % 2 === 0 ? "even" : "odd"}
+                              >
+                                <td className="small pl-2 pr-0">
+                                  {new Date(row.updatedAt).toLocaleString(
+                                    "en-US",
+                                    {
+                                      month: "short", // Apr
+                                      day: "2-digit", // 16
+                                      hour: "2-digit", // 04
+                                      minute: "2-digit", // 09
+                                      hour12: true, // PM/AM format
+                                    }
+                                  )}
+                                </td>
+                                <td
+                                  className="small p-1 "
+                                  style={{ zIndex: 2 }}
+                                >
+                                  CASH
+                                </td>
+
+                                <td>
+                                  <span className="text-successr p-1">
+                                    {row?.money > 0
+                                      ? row?.money?.toFixed(2)
+                                      : 0}
+                                  </span>
+                                </td>
+                                <td>
+                                  <span className="text-dangerr p-1">
+                                    {row?.money < 0
+                                      ? row?.money?.toFixed(2)
+                                      : 0}
+                                  </span>
+                                </td>
+                                {/* <td>
                           <span
                             className={
                               row?.balance >= 0 ? "text-danger" : "text-danger"
@@ -907,34 +973,53 @@ const ClientTransactions = () => {
                             {row?.balance?.toFixed(2)}
                           </span>
                         </td> */}
-                              <td className="small p-1 " style={{ zIndex: 2 }}>
-                          {row?.settletype}
-                        </td>
-                              <td
-                                className={
-                                  row?.narration === "Settlement"
-                                    ? "bg-yellow-400"
-                                    : ""
-                                }
-                              >
-                                <span
-                                  className="badge badge-primary p-1"
-                                  style={{ fontSize: "xx-small" }}
-                                >
-                                  🏆
-                                </span>
-                                <span
-                                  className="small p-0 "
+                                <td
+                                  className="small p-1 "
                                   style={{ zIndex: 2 }}
                                 >
-                                  {row?.narration}
-                                </span>
-                              </td>
-                              <td className="small p-1 " style={{ zIndex: 2 }}>
-                                SELF
-                              </td>
-                            </tr>
-                          ))}
+                                  {row?.settletype}
+                                </td>
+
+                                {/* {(row.profit - row.fammount).toFixed(2)} */}
+                                <td
+                                  className={
+                                    row?.narration === "Settlement"
+                                      ? "bg-yellow-400"
+                                      : ""
+                                  }
+                                >
+                                  <span
+                                    className="badge badge-primary p-1"
+                                    style={{ fontSize: "xx-small" }}
+                                  >
+                                    🏆
+                                  </span>
+                                  <span
+                                    className="small p-0 "
+                                    style={{ zIndex: 2 }}
+                                  >
+                                    {row?.narration}
+                                  </span>
+                                </td>
+
+                                <td
+                                  className={`fw-bold ${
+                                    row.balance < 0
+                                      ? "text-danger"
+                                      : "text-success"
+                                  }`}
+                                >
+                                  {row.balance.toFixed(2)}
+                                </td>
+
+                                <td
+                                  className="small p-1 "
+                                  style={{ zIndex: 2 }}
+                                >
+                                  SELF
+                                </td>
+                              </tr>
+                            ))}
                         </tbody>
                       </table>
                     </div>
