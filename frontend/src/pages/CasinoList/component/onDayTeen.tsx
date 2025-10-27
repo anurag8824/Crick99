@@ -19,11 +19,11 @@ const OneDayTeen = (props: any) => {
           <tr key={key} className={`${clsstatus} ${heightdata}`}>
             
             
-            <td className={clsnamehead} style={{ paddingLeft: "10px" }}>
-               <span className={clsnamehead} style={{paddingLeft:"5px", color:"white"}}>
+            <td className={clsnamehead} style={{ paddingLeft: "10px" ,background:"#1e2a3f" , color:"white" }}>
+               <span className={clsnamehead} style={{paddingLeft:"5px", color:"white" ,}}>
                 <Limitinfo nameString={'lbmarket'} min={100} max={10000} />
                 </span>
-              <b>{ItemNew.RunnerName}</b>
+              <b >{ItemNew.RunnerName}</b>
               <CasinoPnl sectionId={ItemNew.SelectionId} matchId={liveMatchData.match_id} />
             </td>
             
@@ -43,10 +43,10 @@ const OneDayTeen = (props: any) => {
             <table className='table coupon-table table table-bordered'>
               <thead>
                 <tr>
-                  <th className={"box-6"}>
+                  <th className={"box-6"} style={{ background:"#1e2a3f" , color:"white"}}>
                   </th>
-                  <th className={`back ${"box-2"}`}>BACK</th>
-                  <th className={`lay-color ${"box-2"}`}>LAY</th>
+                  <th className={`back ${"box-2"}`} style={{background:"#1e2a3f" , color:"white"}}>BACK</th>
+                  <th className={`lay-color ${"box-2"}`} style={{background:"#1e2a3f" , color:"white"}}>LAY</th>
                 </tr>
               </thead>
               <tbody>

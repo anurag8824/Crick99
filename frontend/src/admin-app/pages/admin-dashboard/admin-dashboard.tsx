@@ -70,10 +70,10 @@ const AdminDashboard = () => {
     UserService.getParentUserDetail(username).then(
       (res: AxiosResponse<any>) => {
         console.log(res, "check balance for parent");
-        const thatb = res.data?.data[0];
+        const thatb = res?.data?.data[0];
         setDetail(thatb);
-        setNewbalance(thatb.balance.balance);
-        setShared(thatb.share);
+        setNewbalance(thatb?.balance?.balance);
+        setShared(thatb?.share);
       }
     );
   }, [userState]);
@@ -106,8 +106,8 @@ const AdminDashboard = () => {
 
     userService.getUserList(fullObj).then((res: AxiosResponse<any>) => {
       setSearchObj(fullObj); // ✅ Now matches the expected state shape
-      console.log(res.data.data, "lista i want to render");
-      setUserList(res.data.data);
+      console.log(res?.data?.data, "lista i want to render");
+      setUserList(res?.data?.data);
     });
   };
 

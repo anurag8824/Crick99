@@ -46,18 +46,18 @@ const LayButton = (props: any) => {
     }
     const ItemMarket: any = lastOdds?.[selectionid] || {}
     return <>
-     <td className={`back teen-section ${clsnamename}`}>
+     <td className={`back teen-section ${clsnamename}`}  style={{background:"#1e2a3f" , color:"white"}}>
               <button className='back' onClick={() => onBet(true, ItemMarket)}>
-                <span className='odd'>{ItemMarket.b1}</span>{' '}
-                <span className='fw-12 laysize' style={{display:"block"}}>{nFormatter(ItemMarket.bs1, 2)}</span>
+                <span className='odd'  style={{background:"#1e2a3f" , color:"white"}}>{ItemMarket.b1}</span>{' '}
+                <span className='fw-12 laysize' style={{display:"block" , color:"white"}}>{nFormatter(ItemMarket.bs1, 2)}</span>
               </button>
             </td>
-            <td className={`lay teen-section ${clsnamename}`}>
+            <td className={`lay teen-section ${clsnamename}`}  style={{background:"#1e2a3f" , color:"white"}}>
               <button className='lay' onClick={() => onBet(false, ItemMarket)}>
                 <span className='odd'>
-                  <b>{ItemMarket.l1}</b>
+                  <b  style={{background:"#1e2a3f" , color:"white"}}>{ItemMarket.l1}</b>
                 </span>
-                <span className='fw-12 laysize' style={{display:"block"}}>{nFormatter(ItemMarket.ls1, 2)}</span>
+                <span className='fw-12 laysize' style={{display:"block" , color:"white"}}>{nFormatter(ItemMarket.ls1, 2)}</span>
               </button>
             </td>
     </>

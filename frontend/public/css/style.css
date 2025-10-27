@@ -8605,7 +8605,7 @@ footer p {
 .Tp1Day th {
   font-size: 16px !important;
   padding: 3px !important;
-  color: #000 !important;
+  color: #000;
 }
 
 .Tp1Day thead {

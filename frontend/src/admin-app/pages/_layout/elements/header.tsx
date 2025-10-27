@@ -1003,7 +1003,7 @@ const [userList, setUserList] = React.useState<any>({});
                         </CustomLink>
                       </li>
 
-                      <li>
+                      <li className="hidden">
                         <CustomLink
                           to="/all-settlement"
                           // onClick={() => setDropdownOpen3(!dropdownOpen3)}
@@ -1020,6 +1020,26 @@ const [userList, setUserList] = React.useState<any>({});
                           </b>
                         </CustomLink>
                       </li>
+
+                      {getRoleOptions()?.map((role) => (
+                        <li key={role.key}>
+                          <CustomLink
+                               to="/all-settlement"
+                            // onClick={() => setDropdownOpen(!dropdownOpen)}
+                            //  onClick={toggleDrawer}
+                            onClick={() => { toggleDrawer();  setActiveMenu("Aillled");}}
+                            className="dropdown-item hover:bg-gray-400"
+                          >
+                            <b className=" text-lg">
+                              {/* <ListIcon className="text-yellow-600" /> */}
+                              {role.label} Ledger
+                              {/* ({userList?.items?.filter((i: any) => i.role === `${role.key}`)?.length}) */}
+                            </b>
+                          </CustomLink>
+                        </li>
+                      ))}
+
+
 
                       
 
@@ -1078,7 +1098,8 @@ const [userList, setUserList] = React.useState<any>({});
                       aria-labelledby="navbarDropdownMenuLink"
                       // style={{background:"#424242"}}
                     >
-                      <li>
+                      <li className="hidden"
+                  >
                         <CustomLink
                         //  onClick={() => setDropdownOpen3(!dropdownOpen3)}
                         onClick={() => {toggleDrawer() ; setActiveMenu("DCDC");}}
@@ -1091,6 +1112,24 @@ const [userList, setUserList] = React.useState<any>({});
                           </b>
                         </CustomLink>
                       </li>
+
+                      {getRoleOptions()?.map((role) => (
+                        <li key={role.key}>
+                          <CustomLink
+                         to="/client-transactions"
+                            // onClick={() => setDropdownOpen(!dropdownOpen)}
+                            //  onClick={toggleDrawer}
+                            onClick={() => { toggleDrawer();  setActiveMenu("Aillled");}}
+                            className="dropdown-item hover:bg-gray-400"
+                          >
+                             <b className=" font-medium ">
+                              {/* <ListIcon className="text-yellow-600" /> */}
+                              {role.label} Cr./Db. Entry
+                              {/* ({userList?.items?.filter((i: any) => i.role === `${role.key}`)?.length}) */}
+                            </b>
+                          </CustomLink>
+                        </li>
+                      ))}
 
                     </div> :""}
                   </li>
@@ -1624,7 +1663,7 @@ const [userList, setUserList] = React.useState<any>({});
                         </CustomLink>
                       </li>
 
-                      <li>
+                      <li className="hidden">
                         <CustomLink
                           to="/all-settlement"
                           // onClick={() => setDropdownOpen3(!dropdownOpen3)}
@@ -1637,10 +1676,32 @@ const [userList, setUserList] = React.useState<any>({});
                             {userState?.user?.role === RoleType.dl
                               ? "Client"
                               : "Agent"}{" "}
-                            Ledger
+                            Ledger Ollld
                           </b>
                         </CustomLink>
                       </li>
+
+                      
+
+                      {getRoleOptions().map((role) => (
+                        <li key={role.key}>
+                          <CustomLink
+                              to="/all-settlement"
+                            // onClick={() => setDropdownOpen(!dropdownOpen)}
+                            //  onClick={toggleDrawer}
+                            onClick={() => { toggleDrawer(); setDropdownOpen(!dropdownOpen) ; setActiveMenu("AllLed");}}
+                            className="dropdown-item hover:bg-gray-400"
+                          >
+                            <b className=" mobile-style md:text-lg text-xs text-white  md:flex md:flex-row flex flex-col items-center gap-1">
+                              {/* <ListIcon className="text-yellow-600" /> */}
+                              {role.label} Ledger
+                              {/* ({userList?.items?.filter((i: any) => i.role === `${role.key}`)?.length}) */}
+                            </b>
+                          </CustomLink>
+                        </li>
+                      ))}
+
+                    
 
                       
 
@@ -1699,7 +1760,7 @@ const [userList, setUserList] = React.useState<any>({});
                       aria-labelledby="navbarDropdownMenuLink"
                       // style={{background:"#424242"}}
                     >
-                      <li>
+                      <li className="hidden">
                         <CustomLink
                         //  onClick={() => setDropdownOpen3(!dropdownOpen3)}
                         onClick={() => {toggleDrawer() ; setActiveMenu("DCDC");}}
@@ -1708,10 +1769,28 @@ const [userList, setUserList] = React.useState<any>({});
                         >
                           <b className=" md:text-lg text-xs md:flex md:flex-row flex text-white flex-col items-center gap-1">
                             {/* <ListIcon className="text-yellow-600" /> */}
-                            (C) Debit/Credit Entry
+                            (C) Debit/Credit Entry olldd
                           </b>
                         </CustomLink>
                       </li>
+
+                      {getRoleOptions()?.map((role) => (
+                        <li key={role.key}>
+                          <CustomLink
+                             to="/client-transactions"
+                            // onClick={() => setDropdownOpen(!dropdownOpen)}
+                            //  onClick={toggleDrawer}
+                            onClick={() => { toggleDrawer(); setDropdownOpen(!dropdownOpen) ; setActiveMenu("AllLed");}}
+                            className="dropdown-item hover:bg-gray-400"
+                          >
+                            <b className=" mobile-style md:text-lg text-xs text-white  md:flex md:flex-row flex flex-col items-center gap-1">
+                              {/* <ListIcon className="text-yellow-600" /> */}
+                              {role.label} Cr./Db. Entry
+                              {/* ({userList?.items?.filter((i: any) => i.role === `${role.key}`)?.length}) */}
+                            </b>
+                          </CustomLink>
+                        </li>
+                      ))}
 
                     </div> :""}
                   </li>

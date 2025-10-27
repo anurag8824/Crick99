@@ -66,18 +66,18 @@ const TeenPatti20 = (props: any) => {
       return (
         (
           <tr key={key} className={` ${heightdata}`}>
-            <td className={clsnamehead} style={{paddingLeft:"10px"}}>
+            <td  className={clsnamehead} style={{paddingLeft:"10px", background: "#1e2a3f", color:"white"}}>
               <b>{ItemNew.RunnerName}</b>
             </td>
-            <td className={`back teen-section ${clsstatus} ${clsnamename}`}>
+            <td className={`back teen-section ${clsstatus} ${clsnamename}`} style={{background: "#1e2a3f", color:"white"}}>
               <button className='back' onClick={() => onBet(true, Item)}>
-                <span className='odd'>{Item.b1}</span>{' '}
+                <span className='odd' style={{color:"white"}}>{Item.b1}</span>{' '}
                 <CasinoPnl sectionId={ItemNew.SelectionId} matchId={liveMatchData?.match_id} classData={'text-center'} />
               </button>
             </td>
-            <td className={`back teen-section box-4 ${clsstatus2}`}>
+            <td className={`back teen-section box-4 ${clsstatus2}`} style={{background: "#1e2a3f", color:"white"}}>
               <button className='back' onClick={() => onBet(true, ItemOther)}>
-                <span className='odd'>
+                <span className='odd' style={{color:"white"}}>
                   <b>{otherMarket.RunnerName}</b>
                 </span>{' '}
                 <CasinoPnl sectionId={otherMarket.SelectionId} matchId={liveMatchData?.match_id} classData={'text-center'} />
@@ -97,11 +97,11 @@ const TeenPatti20 = (props: any) => {
             <table className='table coupon-table table table-bordered suspendwidth'>
               <thead style={{borderBottom:"0px"}}>
                 <tr>
-                  <th className={'box-4'} style={{ paddingLeft: "10px" }}>
+                  <th className={'box-4'} style={{ paddingLeft: "10px" , background: "#1e2a3f", color:"white"}}>
                     <Limitinfo nameString={'lbmarket'} min={100} max={10000} />
                   </th>
-                  <th className={`back ${"box-2"}`}>BACK</th>
-                  <th className={`back ${"box-4"}`}></th>
+                  <th className={`back ${"box-2"}`} style={{background: "#1e2a3f", color:"white"}}>BACK</th>
+                  <th className={`back ${"box-4"}`} style={{background: "#1e2a3f", color:"white"}}></th>
                 </tr>
               </thead>
               <tbody>

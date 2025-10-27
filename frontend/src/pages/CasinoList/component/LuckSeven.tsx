@@ -42,7 +42,7 @@ const LuckSeven = (props: any) => {
         let title2 = market2.RunnerName == 'Red' ? <span className="card-icon"> <span className={"card-red"}>{"[{"}</span> </span> : market2.RunnerName;
         title2 = market2.RunnerName == 'Black' ? <span className="card-icon"> <span className={"card-black"}>{"]}"}</span> </span> : title2;
 
-        return <div className="lucky-seven-content m-b-10 col-6 rounded-3" style={{ padding: '10px' }}>
+        return <div className="lucky-seven-content  m-b-10 col-6 rounded-3" style={{ padding: '10px' , display:"none" }}>
            
             <div className="row m-t-10">
                 <div className="col-6 text-center">

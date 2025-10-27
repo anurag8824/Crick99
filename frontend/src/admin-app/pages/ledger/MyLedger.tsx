@@ -31,7 +31,13 @@ const MyLedger = () => {
     });
   }, []);
 
-  const getProcessedRows = () => {
+
+
+
+
+
+
+  const getProcessedRowsolddd = () => {
     let balance = 0;
     const result: {
       id: string;
@@ -69,6 +75,74 @@ const MyLedger = () => {
     // Reverse so [0][2] is on top and [0][0] at bottom
     return result.reverse();
   };
+
+  const getProcessedRows = () => {
+    let balance = 0;
+  
+    // Step 1: Filter and prepare relevant items
+    const filtered = tableData.filter((item: any) => {
+      const isSettled = item.settled === true;
+      const isChildMatch = item.ChildId === userState.user._id;
+      return !isSettled || (isSettled && isChildMatch);
+    });
+  
+    // Step 2: Group by (ChildId + narration + sign)
+    const groupedMap = new Map();
+  
+    filtered.forEach((item: any) => {
+      const sign = item.umoney >= 0 ? "positive" : "negative";
+      const key = `${item.ChildId}_${item.matchId}_${sign}`;
+  
+      if (!groupedMap.has(key)) {
+        groupedMap.set(key, { ...item }); // clone item
+      } else {
+        const existing = groupedMap.get(key);
+        // Sum umoney and money
+        existing.umoney += item.umoney;
+        existing.money += item.money;
+        existing.updown += item.updown;
+        // Keep latest date
+        if (new Date(item.createdAt) > new Date(existing.createdAt)) {
+          existing.createdAt = item.createdAt;
+          existing.narration = item.narration;
+        }
+        groupedMap.set(key, existing);
+      }
+    });
+  
+    const groupedData = Array.from(groupedMap.values());
+  
+    // Step 3: Compute running balance and processed rows
+    const result: {
+      id: string;
+      credit: number;
+      debit: number;
+      balance: number;
+      narration: string;
+      date: string;
+      Fancy: any;
+    }[] = [];
+  
+    groupedData.forEach((item: any) => {
+      const money = item.umoney;
+      const credit = money > 0 ? money : 0;
+      const debit = money < 0 ? money : 0; // keep negative
+      balance += money;
+  
+      result.push({
+        id: item._id,
+        credit,
+        debit,
+        balance,
+        narration: item.narration,
+        date: item.createdAt,
+        Fancy: item.Fancy,
+      });
+    });
+  
+    return result.reverse(); // latest first
+  };
+  
 
   const processedRows = getProcessedRows();
   const finalBalance = processedRows.length > 0 ? processedRows[0].balance : 0;
@@ -217,7 +291,7 @@ const MyLedger = () => {
                   </thead>
 
                   <tbody>
-                    {processedRows.map((row, index) => (
+                    {processedRows?.map((row, index) => (
                       <tr
                         key={row.id}
                         role="row"
@@ -281,110 +355,8 @@ const MyLedger = () => {
               </div>
             </div>
 
-            <div className="row">
-              <div className="col-sm-12 col-md-5"></div>
-              <div className="col-sm-12 col-md-7"></div>
-            </div>
           </div>
 
-          {/* Fixed Bottom Summary */}
-          <div
-            className="row border hidden m-0 mt-2 pb-2 pt-2 w-100"
-            style={{
-              position: "fixed",
-              bottom: 0,
-              zIndex: 50,
-              left: 0,
-              background: "white",
-            }}
-          >
-            <div
-              className="p-1 col-7 without-commission btn btn-sm btn-danger"
-              style={{ display: "none" }}
-            >
-              <span
-                className="badge badge-light"
-                style={{
-                  position: "relative",
-                  bottom: 0,
-                  fontSize: "xx-small",
-                }}
-              >
-                (AMT.)
-              </span>{" "}
-              -13,956
-            </div>
-            <div
-              className="p-1 small col-5 without-commission btn btn-sm btn-success"
-              style={{ display: "none" }}
-            >
-              <span
-                className="badge badge-light"
-                style={{
-                  position: "relative",
-                  bottom: 0,
-                  fontSize: "xx-small",
-                }}
-              >
-                (COMM.)
-              </span>{" "}
-              14,635
-            </div>
-            {/* <div className="pt-2 col-5 row-title text-center with-commission">
-              TOTAL
-            </div>
-            <div className="pt-2 pr-1 pl-1 col-7 with-commission btn btn-sm btn-success">
-              {(finalBalance).toFixed(2)}
-            </div> */}
-            <div className="pt-2 col-5 row-title text-center with-commission">
-              TOTAL
-            </div>
-            <div
-              className={`pt-2 pr-1 pl-1 col-7 with-commission btn btn-sm ${
-                finalBalance >= 0 ? "btn-success" : "btn-danger"
-              }`}
-            >
-              {finalBalance.toFixed(2)}
-            </div>
-          </div>
-
-          {/* Modal */}
-          <div
-            className="modal fade"
-            id="bets-list"
-            tabIndex={-1}
-            role="dialog"
-            aria-labelledby="myModalLabel"
-            aria-hidden="true"
-          >
-            <div className="modal-dialog modal-dialog-centered" role="document">
-              <div className="modal-content form-elegant">
-                <div className="modal-header text-center pb-0">
-                  <h6 style={{ width: "100%" }} className="pt-2">
-                    -
-                  </h6>
-                  <button
-                    type="button"
-                    className="close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">×</span>
-                  </button>
-                </div>
-                <div className="modal-body"></div>
-                <div className="modal-footer pt-2 mb-1 text-center">
-                  <button
-                    type="button"
-                    className="btn btn-info"
-                    data-dismiss="modal"
-                  >
-                    Close ❌
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>

@@ -39,6 +39,8 @@ const ChildTransactions = () => {
   const [remark, setRemark] = React.useState<string>("");
   const [modalType, setModalType] = React.useState<string>("");
 
+  const [modalTypeF, setModalTypeF] = React.useState(""); // All / Payment Diya / Payment Liya
+
   const [lena, setLena] = React.useState<GroupedEntry[]>([]);
   const [dena, setDena] = React.useState<GroupedEntry[]>([]);
 
@@ -154,6 +156,9 @@ const ChildTransactions = () => {
   const [selectedClientList, setSelectedClientList] = React.useState<any>();
   const [hasDefaultSet, setHasDefaultSet] = React.useState(false); // NEW FLAG
 
+  const [selectedClientListFiltered, setSelectedClientListFiltered] =
+    React.useState<any>();
+
   const ctid = useParams().id;
 
   const sendId = useParams().pid;
@@ -178,12 +183,11 @@ const ChildTransactions = () => {
     // ✅ sirf tabhi default set karo jab user ne khud select nahi kiya ho
     if (!hasDefaultSet) {
       const defaultClient = combined?.find((item) => item.ChildId === ctid);
-      const defaultList = listData?.filter(
-        (item) => item.ChildId === ctid 
-      );
+      const defaultList = listData?.filter((item) => item.ChildId === ctid);
 
       setSelectedClient(defaultClient);
-      setSelectedClientList(defaultList?.reverse());
+      setSelectedClientList(defaultList);
+      setSelectedClientListFiltered(defaultList);
       setHasDefaultSet(true); // ab dobara set nahi hoga
     }
   }, [ctid, combined, listData]);
@@ -198,13 +202,30 @@ const ChildTransactions = () => {
     setSelectedClient(newClient);
 
     const newClientList = listData?.filter(
-      (item) => item.ChildId === selectedId 
+      (item) => item.ChildId === selectedId
     );
-    setSelectedClientList(newClientList?.reverse());
+    setSelectedClientList(newClientList);
+    setSelectedClientListFiltered(newClientList);
 
     // ✅ user ne khud change kiya, to default set flag true rakho
     setHasDefaultSet(true);
   };
+
+  // 🎯 Step 4: Filter logic when modalType changes
+  React.useEffect(() => {
+    if (!selectedClientList) return;
+
+    if (modalTypeF === "" || modalTypeF === "All") {
+      // Show all if "All" selected
+      setSelectedClientListFiltered(selectedClientList);
+    } else {
+      // Filter by settletype
+      const filtered = selectedClientList.filter(
+        (item: any) => item.settletype === modalTypeF
+      );
+      setSelectedClientListFiltered(filtered);
+    }
+  }, [modalTypeF, selectedClientList]);
 
   console.log(selectedClientList, "selelcteddClient list");
 
@@ -750,7 +771,6 @@ const ChildTransactions = () => {
                     //   </div>
                     // </div>
 
-
                     <div className="rows d-flex g-2 p-3 mb-3  rounded bg-light">
                       <div className="col-4 col-md-4">
                         <span
@@ -786,12 +806,9 @@ const ChildTransactions = () => {
                           {(
                             selectedClient?.amount - selectedClient?.settled
                           ).toFixed(2)}
-
-{
-                            selectedClient?.amount - selectedClient?.settled < 0
-                              ? "(Lena)"
-                              : "(Dena)"
-                          }
+                          {selectedClient?.amount - selectedClient?.settled < 0
+                            ? "(Lena)"
+                            : "(Dena)"}
                           {/* {(
                             Math.abs(selectedClient?.amount) +
                             Math.abs(selectedClient?.settled)
@@ -799,12 +816,28 @@ const ChildTransactions = () => {
                         </span>
                       </div>
                     </div>
-
-
-                  
                   )}
 
-<div className="row overflow-auto mb-20">
+<div className="col-12 col-md-6 col-lg-4 mb-4">
+                    <label
+                      htmlFor="advanced_search_paymentType"
+                      className="form-label"
+                    >
+                      Payment Type <span className="text-danger">*</span>
+                    </label>
+                    <select
+                      className="form-select"
+                      aria-required="true"
+                      value={modalTypeF}
+                      onChange={(e) => setModalTypeF(e.target.value)}
+                    >
+                      <option value="">All</option>
+                      <option value="Payment Diya">Payment Diya</option>
+                      <option value="Payment Liya">Payment Liya</option>
+                    </select>
+                  </div>
+
+                  <div className="row overflow-auto mb-20">
                     <div className="col-sm-12">
                       <table
                         className="table table-striped table-bordered LedgerList dataTable no-footer"
@@ -812,7 +845,7 @@ const ChildTransactions = () => {
                         style={{ minWidth: 700, width: 1110 }}
                         role="grid"
                       >
-                        <thead className="navbar-bet99 text-dark">
+                         <thead className="navbar-bet99 text-dark">
                           <tr role="row">
                             <th
                               className="p-1 pl-2 small sorting_disabled pr-0"
@@ -866,15 +899,15 @@ const ChildTransactions = () => {
                         Balance
                       </th> */}
                             <th
-                        className="p-1 small text-center  no-sort sorting_disabled"
-                        style={{
-                          width: 97,
-                          backgroundColor: "#0f2327",
-                          color: "white",
-                        }}
-                      >
-                        Payment Type
-                      </th>
+                              className="p-1 small text-center  no-sort sorting_disabled"
+                              style={{
+                                width: 97,
+                                backgroundColor: "#0f2327",
+                                color: "white",
+                              }}
+                            >
+                              Payment Type
+                            </th>
                             <th
                               className="p-1 small no-sort sorting_disabled"
                               style={{
@@ -894,62 +927,88 @@ const ChildTransactions = () => {
                                 color: "white",
                               }}
                             >
+                              Balance
+                            </th>
+
+                            <th
+                              className="p-1 small no-sort sorting_disabled"
+                              style={{
+                                width: 127,
+                                backgroundColor: "#0f2327",
+                                color: "white",
+                              }}
+                            >
                               Done
                             </th>
                           </tr>
                         </thead>
 
-                        <tbody>
-                          {selectedClientList?.reduce((acc: any[], row: any, index: number) => {
-    // calculate previous cumulative balance
-    const prevBalance = acc.length > 0 ? acc[acc.length - 1].balance : 0;
+                        <tbody className="hidden">
+                          {selectedClientList
+                            ?.reduce((acc: any[], row: any, index: number) => {
+                              // calculate previous cumulative balance
+                              const prevBalance =
+                                acc.length > 0
+                                  ? acc[acc.length - 1].balance
+                                  : 0;
 
-    // calculate commission
-    const commission =
-      userState?.user?.role === "dl" ? row?.commissiondega || 0 : 0;
+                              // calculate commission
+                              const commission =
+                                userState?.user?.role === "dl"
+                                  ? row?.commissiondega || 0
+                                  : 0;
 
-    // money after commission
-    const money = (row?.money || 0) - commission;
+                              // money after commission
+                              const money = (row?.money || 0) - commission;
 
-    // new cumulative balance
-    const newBalance = prevBalance + money;
+                              // new cumulative balance
+                              const newBalance = prevBalance + money;
 
-    // push with balance
-    acc.push({ ...row, balance: newBalance });
+                              // push with balance
+                              acc.push({ ...row, balance: newBalance });
 
-    return acc;
-  }, [])?.reverse()?.map((row: any, index: any) => (
-                            <tr
-                              key={row.id}
-                              role="row"
-                              className={index % 2 === 0 ? "even" : "odd"}
-                            >
-                              <td className="small pl-2 pr-0">
-                                {new Date(row.updatedAt).toLocaleString(
-                                  "en-US",
-                                  {
-                                    month: "short", // Apr
-                                    day: "2-digit", // 16
-                                    hour: "2-digit", // 04
-                                    minute: "2-digit", // 09
-                                    hour12: true, // PM/AM format
-                                  }
-                                )}
-                              </td>
-                              <td className="small p-1 " style={{ zIndex: 2 }}>
-                                CASH
-                              </td>
-                              <td>
-                                <span className="text-successr p-1">
-                                  {row?.money > 0 ? row?.money?.toFixed(2) : 0}
-                                </span>
-                              </td>
-                              <td>
-                                <span className="text-dangerr p-1">
-                                  {row?.money < 0 ? row?.money?.toFixed(2) : 0}
-                                </span>
-                              </td>
-                              {/* <td>
+                              return acc;
+                            }, [])
+                            ?.reverse()
+                            ?.map((row: any, index: any) => (
+                              <tr
+                                key={row.id}
+                                role="row"
+                                className={index % 2 === 0 ? "even" : "odd"}
+                              >
+                                <td className="small pl-2 pr-0">
+                                  {new Date(row.updatedAt).toLocaleString(
+                                    "en-US",
+                                    {
+                                      month: "short", // Apr
+                                      day: "2-digit", // 16
+                                      hour: "2-digit", // 04
+                                      minute: "2-digit", // 09
+                                      hour12: true, // PM/AM format
+                                    }
+                                  )}
+                                </td>
+                                <td
+                                  className="small p-1 "
+                                  style={{ zIndex: 2 }}
+                                >
+                                  CASH
+                                </td>
+                                <td>
+                                  <span className="text-successr p-1">
+                                    {row?.money > 0
+                                      ? row?.money?.toFixed(2)
+                                      : 0}
+                                  </span>
+                                </td>
+                                <td>
+                                  <span className="text-dangerr p-1">
+                                    {row?.money < 0
+                                      ? row?.money?.toFixed(2)
+                                      : 0}
+                                  </span>
+                                </td>
+                                {/* <td>
                           <span
                             className={
                               row?.balance >= 0 ? "text-danger" : "text-danger"
@@ -958,35 +1017,362 @@ const ChildTransactions = () => {
                             {row?.balance?.toFixed(2)}
                           </span>
                         </td> */}
-                              <td className="small p-1 " style={{ zIndex: 2 }}>
-                          {row?.settletype}
-                        </td>
-                              <td
-                                className={
-                                  row?.narration === "Settlement"
-                                    ? "bg-yellow-400"
-                                    : ""
-                                }
-                              >
-                                <span
-                                  className="badge badge-primary p-1"
-                                  style={{ fontSize: "xx-small" }}
-                                >
-                                  🏆
-                                </span>
-                                <span
-                                  className="small p-0 "
+                                <td
+                                  className="small p-1 "
                                   style={{ zIndex: 2 }}
                                 >
-                                  {row?.narration}
-                                </span>
-                              </td>
-                              <td className="small p-1 " style={{ zIndex: 2 }}>
-                                SELF
-                              </td>
-                            </tr>
-                          ))}
+                                  {row?.settletype}
+                                </td>
+                                <td
+                                  className={
+                                    row?.narration === "Settlement"
+                                      ? "bg-yellow-400"
+                                      : ""
+                                  }
+                                >
+                                  <span
+                                    className="badge badge-primary p-1"
+                                    style={{ fontSize: "xx-small" }}
+                                  >
+                                    🏆
+                                  </span>
+                                  <span
+                                    className="small p-0 "
+                                    style={{ zIndex: 2 }}
+                                  >
+                                    {row?.narration}
+                                  </span>
+                                </td>
+                                <td
+                                  className="small p-1 "
+                                  style={{ zIndex: 2 }}
+                                >
+                                  SELF
+                                </td>
+                              </tr>
+                            ))}
                         </tbody>
+
+{/*                         
+                        {(() => {
+                          // 🧠 Step 1: Group by matchId
+                          const groupedMap = new Map();
+
+                          selectedClientListFiltered?.forEach((item: any) => {
+                            const key = item.matchId; // grouping key
+
+                            if (!groupedMap.has(key)) {
+                              groupedMap.set(key, { ...item }); // clone first one
+                            } else {
+                              const existing = groupedMap.get(key);
+
+                              // 🔢 Sum money
+                              existing.money += item.money;
+
+                              // 🔢 Optionally sum commission too (if needed)
+                              existing.commissiondega =
+                                (existing.commissiondega || 0) +
+                                (item.commissiondega || 0);
+
+                              // 🕓 Keep latest date + narration reference
+                              if (
+                                new Date(item.createdAt) >
+                                new Date(existing.createdAt)
+                              ) {
+                                existing.createdAt = item.createdAt;
+                                existing.narration = item.narration;
+                              }
+
+                              groupedMap.set(key, existing);
+                            }
+                          });
+
+                          // Convert map → array
+                          const groupedList = Array.from(groupedMap.values());
+
+                          // 🧮 Step 2: Calculate balances safely
+                          const balanceArray =
+                            groupedList?.reduce((acc: number[], row: any) => {
+                              const prevBalance =
+                                acc.length > 0 ? acc[acc.length - 1] : 0;
+                              const commission =
+                                userState?.user?.role === "dl"
+                                  ? row?.commissiondega || 0
+                                  : 0;
+                              const money = (row?.money || 0) - commission;
+                              const newBalance = prevBalance + money;
+                              acc.push(newBalance);
+                              return acc;
+                            }, []) || [];
+
+                          // 🔁 Step 3: Reverse only balances
+                          const reversedBalances = [
+                            ...(balanceArray || []),
+                          ].reverse();
+
+                          // 🧾 Step 4: Render table
+                          return (
+                            <tbody>
+                              {groupedList
+                                ?.reverse()
+                                ?.map((row: any, index: number) => (
+                                  <tr
+                                    key={row._id || index}
+                                    role="row"
+                                    className={index % 2 === 0 ? "even" : "odd"}
+                                  >
+                                    <td className="small pl-2 pr-0">
+                                      {new Date(row.updatedAt).toLocaleString(
+                                        "en-US",
+                                        {
+                                          month: "short",
+                                          day: "2-digit",
+                                          hour: "2-digit",
+                                          minute: "2-digit",
+                                          hour12: true,
+                                        }
+                                      )}
+                                    </td>
+
+                                    <td
+                                      className="small p-1"
+                                      style={{ zIndex: 2 }}
+                                    >
+                                      CASH
+                                    </td>
+
+                                    <td>
+                                      <span className="text-success p-1">
+                                        {row.money > 0
+                                          ? row.money.toFixed(2)
+                                          : 0}
+                                      </span>
+                                    </td>
+
+                                    <td>
+                                      <span className="text-danger p-1">
+                                        {row.money < 0
+                                          ? row.money.toFixed(2)
+                                          : 0}
+                                      </span>
+                                    </td>
+
+                                    <td
+                                      className="small p-1"
+                                      style={{ zIndex: 2 }}
+                                    >
+                                      {row?.settletype || ""}
+                                    </td>
+
+                                    <td
+                                      className={
+                                        row?.narration === "Settlement"
+                                          ? "bg-yellow-400"
+                                          : ""
+                                      }
+                                    >
+                                      <span
+                                        className="badge badge-primary p-1"
+                                        style={{ fontSize: "xx-small" }}
+                                      >
+                                        🏆
+                                      </span>
+                                      <span
+                                        className="small p-0"
+                                        style={{ zIndex: 2 }}
+                                      >
+                                        {row?.narration}
+                                      </span>
+                                    </td>
+
+                                    ✅ Reversed balance display
+                                    <td
+                                      className={`fw-bold ${
+                                        reversedBalances[index] < 0
+                                          ? "text-danger"
+                                          : "text-success"
+                                      }`}
+                                    >
+                                      {reversedBalances[index]?.toFixed(2)}
+                                    </td>
+
+                                    <td
+                                      className="small p-1"
+                                      style={{ zIndex: 2 }}
+                                    >
+                                      SELF
+                                    </td>
+                                  </tr>
+                                ))}
+                            </tbody>
+                          );
+                        })()} */}
+
+{(() => {
+                          // 🧠 Step 1: Split data — with & without matchId
+                          const withMatchId =
+                            selectedClientListFiltered?.filter(
+                              (x: any) => x.matchId
+                            ) || [];
+                          const withoutMatchId =
+                            selectedClientListFiltered?.filter(
+                              (x: any) => !x.matchId
+                            ) || [];
+
+                          // 🧠 Step 2: Group "withMatchId" items
+                          const groupedMap = new Map();
+
+                          withMatchId.forEach((item: any) => {
+                            const key = item.matchId;
+
+                            if (!groupedMap.has(key)) {
+                              groupedMap.set(key, { ...item });
+                            } else {
+                              const existing = groupedMap.get(key);
+
+                              // 🔢 Sum money + commission
+                              existing.money += item.money;
+                              existing.commissiondega =
+                                (existing.commissiondega || 0) +
+                                (item.commissiondega || 0);
+
+                              // 🕓 Keep latest narration & date
+                              if (
+                                new Date(item.createdAt) >
+                                new Date(existing.createdAt)
+                              ) {
+                                existing.createdAt = item.createdAt;
+                                existing.narration = item.narration;
+                              }
+
+                              groupedMap.set(key, existing);
+                            }
+                          });
+
+                          // Convert grouped map → array
+                          const groupedList = Array.from(groupedMap.values());
+
+                          // 🧩 Step 3: Merge grouped + ungrouped
+                          const finalList = [...groupedList, ...withoutMatchId];
+
+                          // 🧮 Step 4: Calculate balances safely
+                          const balanceArray =
+                            finalList?.reduce((acc: number[], row: any) => {
+                              const prevBalance =
+                                acc.length > 0 ? acc[acc.length - 1] : 0;
+                              const commission =
+                                userState?.user?.role === "dl"
+                                  ? row?.commissiondega || 0
+                                  : 0;
+                              const money = (row?.money || 0) - commission;
+                              const newBalance = prevBalance + money;
+                              acc.push(newBalance);
+                              return acc;
+                            }, []) || [];
+
+                          // 🔁 Step 5: Reverse only balances
+                          const reversedBalances = [
+                            ...(balanceArray || []),
+                          ].reverse();
+
+                          // 🧾 Step 6: Render table
+                          return (
+                            <tbody>
+                              {finalList
+                                ?.reverse()
+                                ?.map((row: any, index: number) => (
+                                  <tr
+                                    key={row._id || index}
+                                    role="row"
+                                    className={index % 2 === 0 ? "even" : "odd"}
+                                  >
+                                    <td className="small pl-2 pr-0">
+                                      {new Date(row.updatedAt).toLocaleString(
+                                        "en-US",
+                                        {
+                                          month: "short",
+                                          day: "2-digit",
+                                          hour: "2-digit",
+                                          minute: "2-digit",
+                                          hour12: true,
+                                        }
+                                      )}
+                                    </td>
+
+                                    <td
+                                      className="small p-1"
+                                      style={{ zIndex: 2 }}
+                                    >
+                                      CASH
+                                    </td>
+
+                                    <td>
+                                      <span className="text-successss p-1">
+                                        {row.money > 0
+                                          ? row.money.toFixed(2)
+                                          : 0}
+                                      </span>
+                                    </td>
+
+                                    <td>
+                                      <span className="text-dangerrrr p-1">
+                                        {row.money < 0
+                                          ? row.money.toFixed(2)
+                                          : 0}
+                                      </span>
+                                    </td>
+
+                                    <td
+                                      className="small p-1"
+                                      style={{ zIndex: 2 }}
+                                    >
+                                      {row?.settletype || ""}
+                                    </td>
+
+                                    <td
+                                      className={
+                                        row?.narration === "Settlement"
+                                          ? "bg-yellow-400"
+                                          : ""
+                                      }
+                                    >
+                                      <span
+                                        className="badge badge-primary p-1"
+                                        style={{ fontSize: "xx-small" }}
+                                      >
+                                        🏆
+                                      </span>
+                                      <span
+                                        className="small p-0"
+                                        style={{ zIndex: 2 }}
+                                      >
+                                        {row?.narration}
+                                      </span>
+                                    </td>
+
+                                    {/* ✅ Reversed balance display */}
+                                    <td
+                                      className={`fw-bold ${
+                                        reversedBalances[index] < 0
+                                          ? "text-dangffer"
+                                          : "text-succffess"
+                                      }`}
+                                    >
+                                      {reversedBalances[index]?.toFixed(2)}
+                                    </td>
+
+                                    <td
+                                      className="small p-1"
+                                      style={{ zIndex: 2 }}
+                                    >
+                                      SELF
+                                    </td>
+                                  </tr>
+                                ))}
+                            </tbody>
+                          );
+                        })()}
+
                       </table>
                     </div>
                   </div>
