@@ -38,7 +38,7 @@ const CasinoKeyWise = () => {
         style={{ background: "#0f2327" }}
         className="bg-grey flex item-center justify-between px-3 py-3"
       >
-        <span className="text-xl text-white">
+        <span className="text-xl text-white uppercase">
           {matchName} ({moment(date).format("MM/DD/YYYY")})
         </span>
         <button
