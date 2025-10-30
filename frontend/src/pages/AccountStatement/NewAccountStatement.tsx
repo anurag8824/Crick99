@@ -139,19 +139,26 @@ const NewAccountStatement = () => {
       if (!stmt?.narration || !stmt?.stmt?.bet) return;
 
       const gameName = stmt.narration.split(" /")[0]?.trim();
-      const rawDate = moment(stmt.date, "MMM DD, YYYY hh:mm A").format(
-        "YYYY-MM-DD"
-      );
+      const rawDate = moment(stmt.date, "MMM DD, YYYY hh:mm A").format("YYYY-MM-DD");
 
-      if (!grouped[gameName]) {
-        grouped[gameName] = { stmts: [] };
-      }
+      // Unique key = gameName + date
+    const groupKey = `${gameName}__${rawDate}`;
 
-      grouped[gameName].stmts.push(stmt);
+
+    if (!grouped[groupKey]) {
+      grouped[groupKey] = {
+        gameName,
+        date: rawDate,
+        stmts: [],
+        wonBy: null,
+      };
+    }
+
+    grouped[groupKey].stmts.push(stmt);
 
       // wonBy निकालना (CASINO वाले exclude)
       if (
-        !grouped[gameName].wonBy && // पहले से set न हो
+        !grouped[groupKey].wonBy &&
         stmt?.stmt?.bet?.bet_on !== "CASINO" &&
         stmt?.stmt?.bet?.gameResult?.result
       ) {
@@ -161,7 +168,7 @@ const NewAccountStatement = () => {
             (r: any) => String(r.selectionId) === String(gameResult.result)
           );
           if (winner) {
-            grouped[gameName].wonBy = winner.runnerName;
+            grouped[groupKey].wonBy = winner.runnerName;
           }
         }
       }
@@ -192,45 +199,53 @@ const NewAccountStatement = () => {
     //     totalDebit += stmt.credit;
     //   });
 
-    Object.entries(grouped).forEach(([gameName, data]: any) => {
-      let totalCredit = 0;
-      let totalDebit = 0;
+     // Sort by date descending
+  const sortedEntries = Object.entries(grouped).sort(
+    (a: any, b: any) => new Date(b[1].date).getTime() - new Date(a[1].date).getTime()
+  );
 
-      data.stmts.forEach((stmt: any) => {
-        totalCredit += stmt.credit;
-        totalDebit += stmt.debit;
-      });
+  sortedEntries.forEach(([groupKey, data]: any) => {
+    let totalCredit = 0;
+    let totalDebit = 0;
 
-      runningBalance += totalCredit;
+    data.stmts.forEach((stmt: any) => {
+      totalCredit += stmt.credit ;
+      totalDebit += stmt.debit;
+    });
 
-      //  console.log( sortedEntries,"soottedd")
+    runningBalance += totalCredit;
 
-      tableRows.unshift(
-        <tr key={`${gameName}`}>
-          <td
-            className="custom-link"
-            onClick={() => setSelectedGroup(gameName)}
-            style={{
-              cursor: "pointer",
-              color: "#007bff",
-              textDecoration: "underline",
-            }}
-          >
-            {gameName}
-          </td>
-          <td>
-            {data.wonBy ? (
-              data.wonBy
-            ) : (
-              <span
-                className="badge badge-primary p-1 ng-binding"
-                style={{ fontSize: "xx-small" }}
-              >
-                <i style={{ fontSize: "10px" }} className="fas fa-trophy"></i>
-              </span>
-            )}
-          </td>
-          <td className="green">
+    // tableRows.unshift(  ye agar latest baalnce ko uaor kre tb aur niche wala date ko sbse upar rkhe 
+
+    tableRows.push(
+      <tr key={groupKey}>
+        <td
+          className="custom-link"
+          onClick={() => setSelectedGroup(groupKey)}
+          style={{
+            cursor: "pointer",
+            color: "#007bff",
+            textDecoration: "underline",
+          }}
+        >
+          {data.gameName}{" "}
+          <span style={{ color: "#555", fontSize: "11px" }}>
+            ({moment(data.date).format("MMM DD, YYYY")})
+          </span>
+        </td>
+        <td>
+          {data.wonBy ? (
+            data.wonBy
+          ) : (
+            <span
+              className="badge badge-primary p-1 ng-binding"
+              style={{ fontSize: "xx-small" }}
+            >
+              <i style={{ fontSize: "10px" }} className="fas fa-trophy"></i>
+            </span>
+          )}
+        </td>
+        <td className="green">
             {totalCredit >= 0 ? totalCredit.toFixed(2) : "0.00"}
           </td>
           <td className="red">
@@ -239,11 +254,12 @@ const NewAccountStatement = () => {
           <td className={runningBalance >= 0 ? "green" : "green"}>
             {runningBalance.toFixed(2)}
           </td>
-        </tr>
-      );
-    });
+      </tr>
+    );
+  });
 
-    return tableRows;
+  return tableRows;
+
   };
 
   const getAcHtml22 = () => {
@@ -251,15 +267,19 @@ const NewAccountStatement = () => {
 
     let totalPnl = 0;
 
+    // 🔹 Split the selectedGroup into gameName and date
+  const [selectedGameName, selectedDate] = selectedGroup
+  ? selectedGroup.split("__")
+  : ["", ""];
+
     // Extract gameName and date from narration and filter
-    const filteredItems = currentItems?.filter((stmt: any) => {
-      if (!stmt?.narration) return false;
-      const gameName = stmt.narration.split(" /")[0]?.trim();
-      const rawDate = moment(stmt.date, "MMM DD, YYYY hh:mm A").format(
-        "YYYY-MM-DD"
-      );
-      return selectedGroup === gameName;
-    });
+    // 🔹 Filter items for that specific game + date
+  const filteredItems = currentItems?.filter((stmt: any) => {
+    if (!stmt?.narration || !stmt?.stmt?.bet) return false;
+    const gameName = stmt.narration.split(" /")[0]?.trim();
+    const rawDate = moment(stmt.date, "MMM DD, YYYY hh:mm A").format("YYYY-MM-DD");
+    return gameName === selectedGameName && rawDate === selectedDate;
+  });
 
     console.log(filteredItems, "filtereed");
 
@@ -347,15 +367,16 @@ const NewAccountStatement = () => {
 
     // let totalPnl = 0;
 
-    // Extract gameName and date from narration and filter
-    const filteredItems = currentItems?.filter((stmt: any) => {
-      if (!stmt?.narration) return false;
-      const gameName = stmt.narration.split(" /")[0]?.trim();
-      const rawDate = moment(stmt.date, "MMM DD, YYYY hh:mm A").format(
-        "YYYY-MM-DD"
-      );
-      return selectedGroup === gameName;
-    });
+    const [selectedGameName, selectedDate] = selectedGroup
+    ? selectedGroup.split("__")
+    : ["", ""];
+  
+  const filteredItems = currentItems?.filter((stmt: any) => {
+    if (!stmt?.narration || !stmt?.stmt?.bet) return false;
+    const gameName = stmt.narration.split(" /")[0]?.trim();
+    const rawDate = moment(stmt.date, "MMM DD, YYYY hh:mm A").format("YYYY-MM-DD");
+    return gameName === selectedGameName && rawDate === selectedDate;
+  });
 
     const rowsSession = filteredItems
       ?.filter?.((stmt: any) => stmt?.stmt?.bet?.bet_on === "FANCY")
@@ -582,7 +603,14 @@ const NewAccountStatement = () => {
               {selectedGroup ? (
                 <div>
                   <div style={{ fontSize: "16px" }} className="text-center">
-                    ({selectedGroup})
+                  {selectedGroup && (
+    <>
+      {selectedGroup.split("__")[0]}{" "}
+      <span style={{ fontSize: "12px", color: "#666" }}>
+        ({moment(selectedGroup.split("__")[1]).format("MMM DD, YYYY")})
+      </span>
+    </>
+  )}
                   </div>
                   {/* <div  className="match-name text-center ng-binding">
                     {selectedGroup}

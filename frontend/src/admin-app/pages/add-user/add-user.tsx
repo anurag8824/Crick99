@@ -77,6 +77,12 @@ const validationSchema = Yup.object().shape({
 const AddUser = () => {
   const userState = useAppSelector<{ user: User }>(selectUserData);
   console.log(userState, "user admin details");
+
+
+  const selfrole:any = userState?.user?.role;
+
+  const thetype:any = useParams().type;
+
   const [selectedUser, setSelectedUser] = React.useState<User>();
   const [isPartnership, setIsPartnership] = React.useState(false);
   const [isExposerAllow, setExposerAllow] = React.useState(false);
@@ -117,8 +123,29 @@ const AddUser = () => {
 
   const { username } = useParams();
 
-  const thetype = useParams().type;
   console.log(thetype, "the type for code");
+
+
+
+   // ✅ Define disallowed combinations
+   const allowedPairs: Record<string, string[]> = {
+    sadmin: ["admin"], // agar thetype = sadmin aur selfrole = admin → skip
+    suadmin: ["sadmin"],
+    smdl: ["suadmin"],
+    mdl: ["smdl"],
+    dl: ["mdl"],
+    user: ["dl"],
+  };
+
+    // ✅ Helper function to check if combination is disallowed
+    const isallowed = React.useMemo(() => {
+      const sallowed = allowedPairs[thetype];
+      return sallowed?.includes(selfrole) ?? false;
+    }, [thetype, selfrole]);
+
+console.log(isallowed, "is disallowed or not");
+
+
 
   let fword = "";
 
@@ -355,8 +382,8 @@ const AddUser = () => {
           setSenddata(data);
           console.log(ress, "resss ");
           toast.success("User successfully created");
-          // reset();
-          // window.location.reload();
+          reset();
+          window.location.reload();
         } else {
           setLoading(false); // Also stop in case of unexpected message
           toast.error(ress?.data?.message);
@@ -409,15 +436,7 @@ const AddUser = () => {
     search: "",
   });
 
-  React.useEffect(() => {
-    const search = searchParams.get("search") ? searchParams.get("search") : "";
-    getList({
-      username: userState?.user?.username!,
-      search: search!,
-      type: "",
-    });
-    // setPage(1);
-  }, [username, searchParams.get("search"), callbacklist]);
+  
 
   const getList = (obj: {
     username: string;
@@ -434,6 +453,16 @@ const AddUser = () => {
       // clientlistdata(res.data.data.items);
     });
   };
+
+  React.useEffect(() => {
+    const search = searchParams.get("search") ? searchParams.get("search") : "";
+    getList({
+      username: userState?.user?.username!,
+      search: search!,
+      type: "",
+    });
+    // setPage(1);
+  }, [username, searchParams.get("search"), callbacklist , thetype , userState?.user?.username]);
 
   let addtype = "";
 
@@ -489,7 +518,16 @@ const AddUser = () => {
             className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex"
           >
             <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
-              Create User
+              Create User 
+              {/* {thetype === "sadmin"
+  ? "(Admin)"
+  : thetype === "suadmin"
+  ? "(SubAdmin)"
+  : thetype === "mdl"
+  ? "(Manager)"
+  : thetype === "dl"
+  ? "(Dealer)"
+  : "(User)"} */}
             </span>
             <button
               onClick={() => navigate(-1)}
@@ -524,7 +562,7 @@ const AddUser = () => {
                           <option value="">-- Select User --</option>
                           {filterred?.map((user: any) => (
                             <option key={user._id} value={user.username}>
-                              {user.username}
+                              {user.username}({user.code})
                             </option>
                           ))}
                         </select>
@@ -532,6 +570,8 @@ const AddUser = () => {
                     ) : (
                       ""
                     )}
+
+                   {/* { !isallowed && uplineParent  ? "hide nhi hoga "  :  "nivhe wlaa hide hoga" } */}
 
                     {uplineParent && (
                       <div className="mt-3 hidden p-2 border rounded bg-gray-50">
@@ -1406,7 +1446,7 @@ const AddUser = () => {
                 </div>
                 <div className="row m-t-20">
                   <div className="col-md-12">
-                    <div className="float-right">
+                   { isallowed || uplineParent ? <div className="float-right">
                       <SubmitButton
                         className="btn btn-submit bg-dark text-light"
                         type="submit"
@@ -1414,7 +1454,7 @@ const AddUser = () => {
                       >
                         {loading ? "Creating..." : "Create User"}
                       </SubmitButton>
-                    </div>
+                    </div> : <div className="float-right"> Select upline </div> }
                   </div>
                 </div>
               </form>

@@ -908,7 +908,7 @@ const [userList, setUserList] = React.useState<any>({});
                         </CustomLink>
                       </li>
 
-                      <li>
+                      <li className="hidden">
                         <CustomLink
                            to="/casino-pl"
                           // onClick={() => setDropdownOpen3(!dropdownOpen3)}
@@ -1569,7 +1569,7 @@ const [userList, setUserList] = React.useState<any>({});
                         </CustomLink>
                       </li>
 
-                      <li>
+                      <li className="hidden">
                         <CustomLink
                            to="/casino-pl"
                           // onClick={() => setDropdownOpen3(!dropdownOpen3)}

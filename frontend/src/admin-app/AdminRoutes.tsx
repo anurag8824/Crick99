@@ -30,6 +30,8 @@ import MatchSessionBets from "./pages/SportsDetail/SportsDetailPages/MatchSessio
 import CompletedFancies from "./pages/SportsDetail/SportsDetailPages/CompletedFancies";
 import PlusMinus2 from "./pages/SportsDetail/SportsDetailPages/PlusMinus2";
 import ChildTransactions from "./pages/ChildTransactions";
+import CasinoKeyWise from "./pages/SportsDetail/CasinoKeyWise";
+import CasinoBetsWise from "./pages/SportsDetail/CasinoBetsWise";
 
 const ActiveMarkets = React.lazy(
   () => import("../admin-app/pages/active-matches/active-markets")
@@ -55,7 +57,6 @@ const AddUser = React.lazy(
 const ListClients = React.lazy(
   () => import("../admin-app/pages/list-clients/list-clients")
 );
-
 
 const LimitClients = React.lazy(
   () => import("../admin-app/pages/list-clients/limit-clients")
@@ -228,11 +229,15 @@ const AdminRoutes = () => {
             { path: "client-bets/:id", element: <ClientBetsLedger /> },
 
             { path: "client-transactions", element: <ClientTransactions /> },
-            { path: "client-transactions/:id", element: <ClientTransactions /> },
+            {
+              path: "client-transactions/:id",
+              element: <ClientTransactions />,
+            },
 
-            { path: "client-transactions/:pid/:id", element: <ChildTransactions /> },
-
-
+            {
+              path: "client-transactions/:pid/:id",
+              element: <ChildTransactions />,
+            },
 
             { path: "main-setting", element: <MainSetting /> },
 
@@ -271,6 +276,15 @@ const AdminRoutes = () => {
             },
 
             { path: "casino-details", element: <CasinoDetail /> },
+
+            {
+              path: "casino-detail/:matchName/:date",
+              element: <CasinoKeyWise />,
+            },
+            {
+              path: "casino-detail/:matchName/:date/:marketId",
+              element: <CasinoBetsWise />,
+            },
 
             { path: "login-report/:id", element: <LoginReport /> },
 

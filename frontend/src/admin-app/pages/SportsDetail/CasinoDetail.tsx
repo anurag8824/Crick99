@@ -4,27 +4,21 @@ import { AxiosResponse } from "axios";
 import moment from "moment";
 import { CustomLink } from "../../../pages/_layout/elements/custom-link";
 import { useNavigate } from "react-router-dom";
+import { Modal } from "react-bootstrap";
 
 const CasinoDetail = () => {
   const [casinoData, setCasinoData] = React.useState<any>([]);
   const [openMatch, setOpenMatch] = React.useState<string | null>(null);
 
-  const [filteredData, setFilteredData] = React.useState<any>([]);
   const [startDate, setStartDate] = React.useState("");
   const [endDate, setEndDate] = React.useState("");
 
-  const handleFilter = () => {
-    if (!startDate || !endDate) return;
+  const [selectedBets, setSelectedBets] = React.useState<any[]>([]);
+  const [showModal, setShowModal] = React.useState(false);
 
-    const start = moment(startDate).startOf("day");
-    const end = moment(endDate).endOf("day");
-
-    const filtered = casinoData.filter((item: any) => {
-      const betTime = moment(item.betClickTime);
-      return betTime.isBetween(start, end, undefined, "[]"); // inclusive
-    });
-
-    setFilteredData(filtered);
+  const handleShowBets = (bets: any[]) => {
+    setSelectedBets(bets);
+    setShowModal(true);
   };
 
   React.useEffect(() => {
@@ -32,12 +26,17 @@ const CasinoDetail = () => {
       console.log(res, "casinoooo data");
       const allData = res?.data?.data?.bets?.reverse() || [];
       setCasinoData(allData);
-      setFilteredData(allData); //
     });
   }, []);
 
-  const groupedData = filteredData.reduce((acc: any, bet: any) => {
-    const key = bet.matchName;
+  const totalProfitLoss = casinoData?.reduce(
+    (sum: any, b: any) => sum + b.profitLoss,
+    0
+  );
+
+  const groupedData = casinoData.reduce((acc: any, bet: any) => {
+    const dateKey = moment(bet.betClickTime).format("YYYY-MM-DD");
+    const key = `${bet.matchName}_${dateKey}`;
     if (!acc[key]) acc[key] = [];
     acc[key].push(bet);
     return acc;
@@ -50,434 +49,362 @@ const CasinoDetail = () => {
   const navigate = useNavigate();
 
   return (
-    <div style={{ padding: "2" }} className="container-fluid p-md-4 mt-3">
-      <div
-        style={{ background: "#0f2327" }}
-        className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex"
-      >
-        <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
-          Casino PandL Detail
-        </span>
-        <button
-          onClick={() => navigate(-1)}
-          type="button"
-          className="btn bg-primary text-white"
+    <>
+      <div style={{ padding: "2" }} className="container-fluid p-md-4 mt-3">
+        <div
+          style={{ background: "#0f2327" }}
+          className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex"
         >
-          <span>Back</span>
-        </button>
-      </div>
-
-      <div
-        style={{ fontSize: "12px" }}
-        className="d-flex gap-2 align-items-end mb-3  flex-wrap"
-      >
-        <div className="me-1">
-          <label className="form-label mb-1 ">Start Date</label>
-          <input
-            type="date"
-            value={startDate}
-            className="form-control p-1"
-            onChange={(e) => setStartDate(e.target.value)}
-          />
-        </div>
-        <div className="me-1">
-          <label className="form-label mb-1">End Date</label>
-          <input
-            type="date"
-            value={endDate}
-            className="form-control p-1"
-            onChange={(e) => setEndDate(e.target.value)}
-          />
-        </div>
-        <div>
-          <button className="btn bg-primary text-white" onClick={handleFilter}>
-            Submit
+          <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
+            Casino PandL Detail
+          </span>
+          <button
+            onClick={() => navigate(-1)}
+            type="button"
+            className="btn bg-primary text-white"
+          >
+            <span>Back</span>
           </button>
         </div>
-      </div>
 
-      <div className="card-content">
-        <div className=" coupon-table" style={{ overflowX: "auto" }}>
-          <table className="table table-bordered mb-0 text-nowrap">
-            <thead className="table-secondary text-center fs-6">
-              <tr>
-                <th
-                  className="text-center"
-                  style={{
-                    width: "30%",
-                    backgroundColor: "#0f2327",
-                    color: "white",
-                  }}
+        <div
+          className="mb-3 p-3 rounded"
+          style={{ backgroundColor: "#f0f2f5" }}
+        >
+          <div className="row">
+            <div className="col-md-4">
+              <div className="statistic">
+                <div className="statistic-title fw-semibold mb-1">P/L</div>
+                <div
+                  className="statistic-content text-success"
+                  style={{ color: " rgb(82, 196, 26)" }}
                 >
-                  Event Name
-                </th>
-                <th
-                  style={{
-                    width: "20%",
-                    backgroundColor: "#0f2327",
-                    color: "white",
-                  }}
-                >
-                  Date
-                </th>
-                <th
-                  style={{
-                    width: "20%",
-                    backgroundColor: "#0f2327",
-                    color: "white",
-                  }}
-                >
-                  {" "}
-                  PnL
-                </th>
-                <th
-                  style={{
-                    width: "30%",
-                    backgroundColor: "#0f2327",
-                    color: "white",
-                  }}
-                >
-                  Action
-                </th>
-              </tr>
-            </thead>
+                  <span className="statistic-value">
+                  <span
+  className={`statistic-value-int font-bold text-xl ${
+    totalProfitLoss >= 0 ? "text-success" : "text-danger"
+  }`}
+>
+  {totalProfitLoss?.toFixed(2)}
+</span>
 
-            <tbody>
-              {Object.entries(groupedData).map(
-                ([matchName, bets]: [string, any[]], i) => {
-                  const totalPnL = bets.reduce(
-                    (sum, b) => sum + b.profitLoss,
-                    0
-                  );
-                  const isPositive = totalPnL >= 0;
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-                  return (
-                    <>
-                      <tr key={i}>
-                        <td className="mb-2 ng-binding p-2">{matchName}</td>
+        <div className="card-content">
+          <div className=" coupon-table" style={{ overflowX: "auto" }}>
+            <table className="table table-bordered mb-0 text-nowrap">
+              <thead className="table-secondary text-center fs-6">
+                <tr>
+                  <th
+                    className="text-center"
+                    style={{
+                      width: "30%",
+                      backgroundColor: "#0f2327",
+                      color: "white",
+                    }}
+                  >
+                    Event Name
+                  </th>
+                  <th
+                    style={{
+                      width: "20%",
+                      backgroundColor: "#0f2327",
+                      color: "white",
+                    }}
+                  >
+                    Date
+                  </th>
+                  <th
+                    style={{
+                      width: "20%",
+                      backgroundColor: "#0f2327",
+                      color: "white",
+                    }}
+                  >
+                    {" "}
+                    PnL
+                  </th>
+                  <th
+                    style={{
+                      width: "30%",
+                      backgroundColor: "#0f2327",
+                      color: "white",
+                    }}
+                  >
+                    Action
+                  </th>
+                </tr>
+              </thead>
 
-                        <td className="p-2">
-                          {bets[0]?.betClickTime
-                            ? moment(bets[0].betClickTime).format(
-                                "MM/DD/YYYY h:mm a"
-                              )
-                            : "-"}
-                        </td>
+              <tbody>
+                {Object.entries(groupedData).map(
+                  ([key, bets]: [string, any[]], i) => {
+                    const [matchName, dateKey] = key.split("_");
+                    const totalPnL = bets.reduce(
+                      (sum, b) => sum + b.profitLoss,
+                      0
+                    );
+                    const isPositive = totalPnL >= 0;
 
-                        <td
-                          className={`mb-0 p-2 ${
-                            isPositive ? "text-danger" : "text-success"
-                          } fw-bold`}
-                        >
-                          {totalPnL.toFixed(2)}
-                        </td>
+                    return (
+                      <React.Fragment key={i}>
+                        <tr>
+                          <td className="mb-2 ng-binding p-2 uppercase">{matchName}</td>
 
-                        <td
-                          className="p-2 "
-                          onClick={() =>
-                            setOpenMatch(
-                              openMatch === matchName ? null : matchName
-                            )
-                          }
-                        >
-                        <button className=" text-primary "> View</button>  
-                        </td>
-                      </tr>
-                      <tr>
-                        {openMatch === matchName &&
-                          (() => {
-                            // Move this to your component scope (not here inside JSX)
-                            const isExpanded =
-                              expandedMatches[matchName] || false;
-                            const displayedBets = isExpanded
-                              ? bets
-                              : bets.slice(0, 20);
+                          <td className="p-2">
+                            {moment(dateKey).format("MM/DD/YYYY")}
+                          </td>
 
-                            return (
-                              <td colSpan={4} className="p-0">
-                                <div
-                                  className="table-responsive"
-                                  style={{ overflowX: "scroll" }}
-                                >
-                                  <div>
-                                    <table className="table table-sm table-striped table-bordered mb-0 text-nowrap">
-                                      <thead className="table-secondary text-center fs-6">
-                                        <tr>
-                                          <th
-                                            style={{
-                                              backgroundColor: "#0f2327",
-                                              color: "white",
-                                            }}
-                                            className="text-center"
-                                          >
-                                            Username
-                                          </th>
-                                          <th   style={{
-                                              backgroundColor: "#0f2327",
-                                              color: "white",
-                                            }}>Type</th>
-                                          <th   style={{
-                                              backgroundColor: "#0f2327",
-                                              color: "white",
-                                            }}>Rate</th>
-                                          <th   style={{
-                                              backgroundColor: "#0f2327",
-                                              color: "white",
-                                            }}>Amount</th>
-                                          <th   style={{
-                                              backgroundColor: "#0f2327",
-                                              color: "white",
-                                            }}>PnL</th>
-                                          <th   style={{
-                                              backgroundColor: "#0f2327",
-                                              color: "white",
-                                            }}>Status</th>
-                                          <th   style={{
-                                              backgroundColor: "#0f2327",
-                                              color: "white",
-                                            }}>Date/Time</th>
-                                        </tr>
-                                      </thead>
-                                      <tbody>
-                                        {displayedBets?.map(
-                                          (b: any, j: number) => (
+                          <td
+                            className={`mb-0 p-2 ${
+                              isPositive ? "text-danger" : "text-success"
+                            } fw-bold`}
+                          >
+                            {totalPnL.toFixed(2)}
+                          </td>
+
+                          <td
+                            className="p-2 hidden "
+                            onClick={() =>
+                              setOpenMatch(openMatch === key ? null : key)
+                            }
+                          >
+                            {" "}
+                            <button className=" text-primary ">
+                              {" "}
+                              View
+                            </button>{" "}
+                          </td>
+
+                          <td
+                            className="p-2 "
+                            // onClick={() =>
+                            //   setOpenMatch(openMatch === key ? null : key)
+                            // }
+                            // onClick={() => navigate(`/casino-detail/${matchName}/${dateKey}`)}
+                          >
+                            <CustomLink
+                              to={`/casino-detail/${matchName}/${dateKey}`}
+                              className=" text-primary "
+                            >
+                              {" "}
+                              View
+                            </CustomLink>
+                          </td>
+                        </tr>
+
+                        {openMatch === key && (
+                          <tr>
+                            <td colSpan={4} className="p-0">
+                              <hr className="my-1" />
+                              {/* Here combined with the match Id */}
+                              <div
+                                className="table-responsive"
+                                style={{ overflowX: "scroll" }}
+                              >
+                                <div>
+                                  <table className="table table-sm table-striped table-bordered mb-0 text-nowrap">
+                                    <thead className="table-secondary text-center fs-6">
+                                      <tr>
+                                        <th
+                                          style={{
+                                            backgroundColor: "#0f2327",
+                                            color: "white",
+                                          }}
+                                          className="text-center"
+                                        >
+                                          Event ID
+                                        </th>
+
+                                        <th
+                                          style={{
+                                            backgroundColor: "#0f2327",
+                                            color: "white",
+                                          }}
+                                        >
+                                          Date
+                                        </th>
+                                        <th
+                                          style={{
+                                            backgroundColor: "#0f2327",
+                                            color: "white",
+                                          }}
+                                        >
+                                          Winner
+                                        </th>
+
+                                        <th
+                                          style={{
+                                            backgroundColor: "#0f2327",
+                                            color: "white",
+                                          }}
+                                        >
+                                          PnL
+                                        </th>
+
+                                        <th
+                                          style={{
+                                            backgroundColor: "#0f2327",
+                                            color: "white",
+                                          }}
+                                        >
+                                          Action
+                                        </th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      {Object.entries(
+                                        bets.reduce((acc: any, b: any) => {
+                                          const marketKey = b.marketId;
+                                          if (!acc[marketKey])
+                                            acc[marketKey] = [];
+                                          acc[marketKey].push(b);
+                                          return acc;
+                                        }, {})
+                                      ).map(
+                                        (
+                                          [marketId, marketBets]: [
+                                            string,
+                                            any[]
+                                          ],
+                                          j
+                                        ) => {
+                                          const totalMarketPnL =
+                                            marketBets.reduce(
+                                              (sum, b) => sum + b.profitLoss,
+                                              0
+                                            );
+                                          const winner =
+                                            marketBets[0]?.selectionName || "-";
+
+                                          return (
                                             <tr
                                               key={j}
                                               className="text-center align-middle fs-6"
                                             >
                                               <td className="p-2">
-                                                {b?.userName} (
-                                                {b?.parentNameStr})
+                                                {marketId}
                                               </td>
                                               <td className="p-2">
-                                                {b?.selectionName}
-                                              </td>
-                                              <td className="p-2">{b?.odds}</td>
-                                              <td className="p-2">
-                                                {b?.stack}
-                                              </td>
-                                              <td
-                                                className={
-                                                  b?.profitLoss >= 0
-                                                    ? "text-success"
-                                                    : "text-danger"
-                                                }
-                                              >
-                                                {b?.profitLoss.toFixed(2)}
-                                              </td>
-                                              <td className="p-2">
-                                                <span
-                                                  className={`badge rounded-pill text-light ${
-                                                    b?.profitLoss >= 0
-                                                      ? "bg-success"
-                                                      : "bg-danger"
-                                                  }`}
-                                                >
-                                                  {b?.profitLoss >= 0
-                                                    ? "Win"
-                                                    : "Lost"}
-                                                </span>
-                                              </td>
-                                              <td className="p-2">
-                                                {moment(b?.betClickTime).format(
+                                                {moment(
+                                                  marketBets[0]?.betClickTime
+                                                ).format(
                                                   "MM/DD/YYYY h:mm:ss a"
                                                 )}
                                               </td>
-                                            </tr>
-                                          )
-                                        )}
-                                      </tbody>
-                                    </table>
-                                  </div>
 
-                                  {bets.length > 20 && (
-                                    <div className="text-center mt-2">
-                                      <button
-                                        className="btn btn-sm btn-primary text-light"
-                                        onClick={(e) => {
-                                          e.stopPropagation(); // prevent closing match on button click
-                                          setExpandedMatches((prev) => ({
-                                            ...prev,
-                                            [matchName]: !isExpanded,
-                                          }));
-                                        }}
-                                      >
-                                        {isExpanded ? "View Less" : "View All"}
-                                      </button>
-                                    </div>
-                                  )}
-                                </div>
-                              </td>
-                            );
-                          })()}
-                      </tr>
-                    </>
-                  );
-                }
-              )}
-            </tbody>
-          </table>
-
-          <div className="hidden">
-            {Object.entries(groupedData).map(
-              ([matchName, bets]: [string, any[]], i) => {
-                const totalPnL = bets.reduce((sum, b) => sum + b.profitLoss, 0);
-                const isPositive = totalPnL >= 0;
-
-                return (
-                  <React.Fragment key={i}>
-                    <div className="container mt-2 p-0">
-                      <div className="card single-match text-center my-2">
-                        <a
-                          className=""
-                          style={{
-                            cursor: "pointer",
-                            backgroundColor: "#f8f9fa",
-                          }}
-                          onClick={() =>
-                            setOpenMatch(
-                              openMatch === matchName ? null : matchName
-                            )
-                          }
-                        >
-                          <h5 className="mb-2 ng-binding">{matchName}</h5>
-
-                          <div className="d-flex p-1 justify-content-between">
-                            <p className="">Start On</p>
-                            <p className="">
-                              {bets[0]?.betClickTime
-                                ? moment(bets[0].betClickTime).format(
-                                    "MM/DD/YYYY h:mm a"
-                                  )
-                                : "-"}
-                            </p>
-                          </div>
-
-                          <div className="d-flex p-1 justify-content-between">
-                            <p className="mb-0">Total PnL:</p>
-                            <p
-                              className={`mb-0 ${
-                                isPositive ? "text-danger" : "text-success"
-                              } fw-bold`}
-                            >
-                              {totalPnL.toFixed(2)}
-                            </p>
-                          </div>
-
-                          {openMatch === matchName &&
-                            (() => {
-                              // Move this to your component scope (not here inside JSX)
-
-                              const isExpanded =
-                                expandedMatches[matchName] || false;
-                              const displayedBets = isExpanded
-                                ? bets
-                                : bets.slice(0, 20);
-
-                              return (
-                                <div>
-                                  <div
-                                    className="table-responsive"
-                                    style={{ overflowX: "scroll" }}
-                                  >
-                                    <div style={{ minWidth: "750px" }}>
-                                      <table className="table table-sm table-striped table-bordered mb-0 text-nowrap">
-                                        <thead className="table-secondary text-center fs-6">
-                                          <tr>
-                                            <th className="text-center">
-                                              Username
-                                            </th>
-                                            <th>Type</th>
-                                            <th>Rate</th>
-                                            <th>Amount</th>
-                                            <th>PnL</th>
-                                            <th>Status</th>
-                                            <th>Date/Time</th>
-                                          </tr>
-                                        </thead>
-                                        <tbody>
-                                          {displayedBets?.map(
-                                            (b: any, j: number) => (
-                                              <tr
-                                                key={j}
-                                                className="text-center align-middle fs-6"
+                                              <td className="p-2">{winner}</td>
+                                              <td
+                                                className={
+                                                  totalMarketPnL >= 0
+                                                    ? "text-success fw-bold p-2"
+                                                    : "text-danger fw-bold p-2"
+                                                }
                                               >
-                                                <td>
-                                                  {b?.userName} (
-                                                  {b?.parentNameStr})
-                                                </td>
-                                                <td>{b?.selectionName}</td>
-                                                <td>{b?.odds}</td>
-                                                <td>{b?.stack}</td>
-                                                <td
-                                                  className={
-                                                    b?.profitLoss >= 0
-                                                      ? "text-success"
-                                                      : "text-danger"
+                                                {totalMarketPnL.toFixed(2)}
+                                              </td>
+                                              <td className="p-2">
+                                                <button
+                                                  className="btn btn-sm bg-primary text-white p-1"
+                                                  onClick={() =>
+                                                    handleShowBets(marketBets)
                                                   }
                                                 >
-                                                  {b?.profitLoss.toFixed(2)}
-                                                </td>
-                                                <td>
-                                                  <span
-                                                    className={`badge rounded-pill text-light ${
-                                                      b?.profitLoss >= 0
-                                                        ? "bg-success"
-                                                        : "bg-danger"
-                                                    }`}
-                                                  >
-                                                    {b?.profitLoss >= 0
-                                                      ? "Win"
-                                                      : "Lost"}
-                                                  </span>
-                                                </td>
-                                                <td>
-                                                  {moment(
-                                                    b?.betClickTime
-                                                  ).format(
-                                                    "MM/DD/YYYY h:mm:ss a"
-                                                  )}
-                                                </td>
-                                              </tr>
-                                            )
-                                          )}
-                                        </tbody>
-                                      </table>
-                                    </div>
-
-                                    {bets.length > 20 && (
-                                      <div className="text-center mt-2">
-                                        <button
-                                          className="btn btn-sm btn-primary text-light"
-                                          onClick={(e) => {
-                                            e.stopPropagation(); // prevent closing match on button click
-                                            setExpandedMatches((prev) => ({
-                                              ...prev,
-                                              [matchName]: !isExpanded,
-                                            }));
-                                          }}
-                                        >
-                                          {isExpanded
-                                            ? "View Less"
-                                            : "View All"}
-                                        </button>
-                                      </div>
-                                    )}
-                                  </div>
+                                                  Show Bets
+                                                </button>
+                                              </td>
+                                            </tr>
+                                          );
+                                        }
+                                      )}
+                                    </tbody>
+                                  </table>
                                 </div>
-                              );
-                            })()}
-                        </a>
-                      </div>
-                    </div>
-                  </React.Fragment>
-                );
-              }
-            )}
+                              </div>
+                            </td>
+                          </tr>
+                        )}
+                      </React.Fragment>
+                    );
+                  }
+                )}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
-    </div>
+
+      <Modal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        size="lg"
+        centered
+      >
+        <Modal.Header closeButton style={{ color: "white" }}>
+          <Modal.Title style={{ color: "white" }}>Bet Details</Modal.Title>
+          <style>
+            {`
+      .btn-close {
+        filter: invert(1); /* makes the close icon white */
+      }
+    `}
+          </style>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="table-responsive">
+            <table className="table table-sm table-striped table-bordered text-nowrap">
+              <thead className="table-secondary text-center fs-6">
+                <tr>
+                  <th>Username</th>
+                  <th>Selection</th>
+                  <th>Rate</th>
+                  <th>Amount</th>
+                  <th>PnL</th>
+                  <th>Status</th>
+                  <th>Date/Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                {selectedBets.map((b: any, i: number) => (
+                  <tr key={i} className="text-center align-middle fs-6">
+                    <td>
+                      {b.userName} ({b.parentNameStr})
+                    </td>
+                    <td>{b.selectionName}</td>
+                    <td>{b.odds}</td>
+                    <td>{b.stack}</td>
+                    <td
+                      className={
+                        b.profitLoss >= 0 ? "text-success" : "text-danger"
+                      }
+                    >
+                      {b.profitLoss.toFixed(2)}
+                    </td>
+                    <td>
+                      <span
+                        className={`badge rounded-pill text-light ${
+                          b.profitLoss >= 0 ? "bg-success" : "bg-danger"
+                        }`}
+                      >
+                        {b.profitLoss >= 0 ? "Win" : "Lost"}
+                      </span>
+                    </td>
+                    <td>
+                      {moment(b.betClickTime).format("MM/DD/YYYY h:mm:ss a")}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </Modal.Body>
+      </Modal>
+    </>
   );
 };
 
