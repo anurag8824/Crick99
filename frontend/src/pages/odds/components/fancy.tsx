@@ -428,6 +428,8 @@ class Fancy extends React.Component<
     const clsgrid = isMobile ? 'col-12' : 'col-12'
     const { fancyType } = this.props
 
+    console.log( fancies,"fancies from frhjvkjgvvjontend  side heyy worldd render method")
+
     return (
       <>
         <ul role='tablist' className='nav nav-tabs fancy-group' aria-label='Tabs'>
