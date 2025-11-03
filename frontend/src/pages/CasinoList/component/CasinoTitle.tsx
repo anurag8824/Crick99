@@ -506,58 +506,103 @@ const CasinoTitle = (props: any) => {
     )
   }
 
+  // const teen20 = () => {
+  //   return (
+  //     <div className='video-overlay'>
+  //       <div className='videoCards'>
+  //       <div className=''>
+  //           <div className='mr-20'>
+  //             <p className='m-b-0 text-white'>
+  //               <b>
+  //                 <span className=''>Player A</span>
+  //               </b>
+  //             </p>
+  //             <div className='imgspace d-flex'>
+  //               <img
+  //                 alt=''
+  //                 src={`/imgs/casino/cards/${lastResult.C1 == "1" ? "patti_back" : lastResult.C1}.png`}
+  //               />
+  //               <img
+  //                 alt=''
+  //                 src={`/imgs/casino/cards/${lastResult.C3  == "1" ? "patti_back" : lastResult.C3}.png`}
+  //               />
+  //               <img
+  //                 alt=''
+  //                 src={`/imgs/casino/cards/${lastResult.C5 == "1" ? "patti_back" : lastResult.C5}.png`}
+  //               />
+  //             </div>
+  //           </div>
+  //           <div className='mr-20'>
+  //             <p className='m-b-0 text-white'>
+  //               <b>
+  //                 <span className=''>Player B</span>
+  //               </b>
+  //             </p>
+  //             <div className='imgspace d-flex'>
+  //               <img
+  //                 alt=''
+  //                 src={`/imgs/casino/cards/${lastResult.C2 == "1" ? "patti_back" : lastResult.C2}.png`}
+  //               />
+  //               <img
+  //                 alt=''
+  //                 src={`/imgs/casino/cards/${lastResult.C4 == "1" ? "patti_back" : lastResult.C4}.png`}
+  //               />
+  //               <img
+  //                 alt=''
+  //                 src={`/imgs/casino/cards/${lastResult.C6 == "1" ? "patti_back" : lastResult.C6}.png`}
+  //               />
+  //             </div>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   )
+  // }
+
   const teen20 = () => {
+    // Split string into array
+    const cards = lastResult.card?.split(",") || [];
+  
     return (
-      <div className='video-overlay'>
-        <div className='videoCards'>
-        <div className=''>
-            <div className='mr-20'>
-              <p className='m-b-0 text-white'>
-                <b>
-                  <span className=''>Player A</span>
-                </b>
+      <div className="video-overlay">
+        <div className="videoCards">
+          <div className="">
+            {/* Player A */}
+            <div className="mr-20">
+              <p className="m-b-0 text-white">
+                <b><span>Player A</span></b>
               </p>
-              <div className='imgspace d-flex'>
-                <img
-                  alt=''
-                  src={`/imgs/casino/cards/${lastResult.C1 == "1" ? "patti_back" : lastResult.C1}.png`}
-                />
-                <img
-                  alt=''
-                  src={`/imgs/casino/cards/${lastResult.C3  == "1" ? "patti_back" : lastResult.C3}.png`}
-                />
-                <img
-                  alt=''
-                  src={`/imgs/casino/cards/${lastResult.C5 == "1" ? "patti_back" : lastResult.C5}.png`}
-                />
+              <div className="imgspace d-flex">
+                {cards?.slice(0, 3).map((card:any, i:any) => (
+                  <img
+                    key={i}
+                    alt=""
+                    src={`/imgs/casino/cards/${card === "1" ? "patti_back" : card}.png`}
+                  />
+                ))}
               </div>
             </div>
-            <div className='mr-20'>
-              <p className='m-b-0 text-white'>
-                <b>
-                  <span className=''>Player B</span>
-                </b>
+  
+            {/* Player B */}
+            <div className="mr-20">
+              <p className="m-b-0 text-white">
+                <b><span>Player B</span></b>
               </p>
-              <div className='imgspace d-flex'>
-                <img
-                  alt=''
-                  src={`/imgs/casino/cards/${lastResult.C2 == "1" ? "patti_back" : lastResult.C2}.png`}
-                />
-                <img
-                  alt=''
-                  src={`/imgs/casino/cards/${lastResult.C4 == "1" ? "patti_back" : lastResult.C4}.png`}
-                />
-                <img
-                  alt=''
-                  src={`/imgs/casino/cards/${lastResult.C6 == "1" ? "patti_back" : lastResult.C6}.png`}
-                />
+              <div className="imgspace d-flex">
+                {cards.slice(3, 6).map((card:any, i:any) => (
+                  <img
+                    key={i}
+                    alt=""
+                    src={`/imgs/casino/cards/${card === "1" ? "patti_back" : card}.png`}
+                  />
+                ))}
               </div>
             </div>
           </div>
         </div>
       </div>
-    )
-  }
+    );
+  };
 
   const poker6player = () => {
     return (
