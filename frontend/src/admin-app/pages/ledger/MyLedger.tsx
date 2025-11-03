@@ -90,8 +90,8 @@ const MyLedger = () => {
     const groupedMap = new Map();
   
     filtered.forEach((item: any) => {
-      const sign = item.umoney >= 0 ? "positive" : "negative";
-      const key = `${item.ChildId}_${item.matchId}_${sign}`;
+      // const sign = item.umoney >= 0 ? "positive" : "negative";
+      const key = `${item.ChildId}_${item.matchId}`;
   
       if (!groupedMap.has(key)) {
         groupedMap.set(key, { ...item }); // clone item

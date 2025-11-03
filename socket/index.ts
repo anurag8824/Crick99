@@ -189,17 +189,17 @@ server.listen(PORT, () => {
   console.log(`listening on *:${PORT}`);
 });
 
-// redisReplica.subscribe("saveCasinoData", (message: any) => {
-//   const data = JSON.parse(message);
+redisReplica.subscribe("saveCasinoData", (message: any) => {
+  const data = JSON.parse(message);
 
-//   axios
-//     .post(`${process.env.CLIENT_NODE_URL}/save-casino-match`, {
-//       data: {
-//         mid: data.mid,
-//         gameType: data.gameType,
-//         ...{ ...data.data, status: "processing" },
-//       },
-//     })
-//     .then(() => {})
-//     .catch((err: any) => console.log("save casino match", err.stack));
-// });
+  axios
+    .post(`${process.env.CLIENT_NODE_URL}/save-casino-match`, {
+      data: {
+        mid: data.mid,
+        gameType: data.gameType,
+        ...{ ...data.data, status: "processing" },
+      },
+    })
+    .then(() => {})
+    .catch((err: any) => console.log("save casino match", err.stack));
+});

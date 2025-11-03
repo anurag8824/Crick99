@@ -1757,7 +1757,7 @@ const ListClients = () => {
                             )}
 
                             {urole == "dl" || newtype == "user" ? (
-                              <td><span onClick={() => getExposer(user)}>{finalExposer(user?.balance)}</span></td>
+                              <td><span className="text-primary" onClick={() => getExposer(user)}>{finalExposer(user?.balance)}</span></td>
                             ) : (
                               ""
                             )}
