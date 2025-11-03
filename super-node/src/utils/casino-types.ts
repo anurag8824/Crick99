@@ -69,13 +69,13 @@
 //   worliinstant: () => import("../event-json/worliinstant.json"),
 // };
 
-
 export const types: any = {
   lucky7: "lucky7",
   lucky7eu: "lucky7eu",
   lucky7B: "lucky7B",
   teen3: "teen3",
   teen20b: "teen20b",
+  teen20: "teen20",
   queen: "Queen",
   aaa: "AAA",
   ddb: "ddb",
@@ -146,6 +146,7 @@ export const eventJson :any = {
 export const newCasino = [
   "teen3",
   "teen20b",
+  "teen20",
   "lucky7eu",
   "lucky7",
   "teen",

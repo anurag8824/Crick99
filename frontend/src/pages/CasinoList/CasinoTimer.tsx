@@ -7,11 +7,11 @@ const CasinoTimer = (props:any) => {
     // }
     useEffect(() => {
        /// counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
-       if(lastOdds?.slug!='Tp1Day' && lastOdds.autotime!='')
+       if(lastOdds?.slug!='Tp1Day' && (lastOdds.autotime!='' || lastOdds.lt!='' ))
        {
-        setCounter(parseInt(lastOdds.autotime));
+        setCounter(parseInt(lastOdds.autotime || lastOdds.lt));
        }
-    }, [lastOdds.autotime]);
+    }, [lastOdds.autotime ,lastOdds.lt]);
     useEffect(() => {
         /// counter > 0 && setTimeout(() => setCounter(counter - 1), 1000);
         if(lastOdds?.slug=='Tp1Day')
