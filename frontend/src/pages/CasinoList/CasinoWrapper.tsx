@@ -298,13 +298,13 @@ const CasinoWrapper = (props: any) => {
             liveMatchData={liveMatchData}
           />
         );
-      case "lucky7B":
+      case "lucky7eu":
       case "lucky7":
         return (
           <LuckSeven lastOdds={updateOdds} liveMatchData={liveMatchData} />
         );
       case "dt20":
-      case "dt20b":
+      case "dt202":
         return (
           <DragonTigerA lastOdds={updateOdds} liveMatchData={liveMatchData} />
         );
@@ -319,7 +319,7 @@ const CasinoWrapper = (props: any) => {
             liveMatchData={liveMatchData}
           />
         );
-      case "Tp1Day":
+      case "teen":
         return (
           <OneDayTeen lastOdds={updateOdds} liveMatchData={liveMatchData} />
         );
