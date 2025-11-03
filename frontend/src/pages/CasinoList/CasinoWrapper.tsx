@@ -326,7 +326,7 @@ const CasinoWrapper = (props: any) => {
       case "baccarat":
       case "baccarat2":
         return <Baccarat lastOdds={updateOdds} liveMatchData={liveMatchData} />;
-      case "poker6player":
+      case "poker6":
         return (
           <Sixplayerpoker lastOdds={updateOdds} liveMatchData={liveMatchData} />
         );
@@ -351,7 +351,7 @@ const CasinoWrapper = (props: any) => {
         return <Cmeter20 lastOdds={updateOdds} liveMatchData={liveMatchData} />;
       case "card32b":
         return <Card32B lastOdds={updateOdds} liveMatchData={liveMatchData} />;
-      case "onedaypoker":
+      case "poker":
         return (
           <Onedaypoker lastOdds={updateOdds} liveMatchData={liveMatchData} />
         );
@@ -359,7 +359,7 @@ const CasinoWrapper = (props: any) => {
         return (
           <Twentydaypoker lastOdds={updateOdds} liveMatchData={liveMatchData} />
         );
-      case "opentp":
+      case "teen8":
         return <OpenTeen lastOdds={updateOdds} liveMatchData={liveMatchData} />;
       case "testtp":
         return <TestTp lastOdds={updateOdds} liveMatchData={liveMatchData} />;
@@ -627,7 +627,7 @@ const CasinoWrapper = (props: any) => {
                   {casinoMatchData && (
                     <CasinoTitle lastResult={casinoMatchData} />
                   )}
-                  {(gameCode == "onedaypoker" && casinoMatchData?.desc != "") ||
+                  {(gameCode == "poker" && casinoMatchData?.desc != "") ||
                   (gameCode == "onedaypoker20" && casinoMatchData?.desc != "")
                     ? oneDayPokerDescription(casinoMatchData?.desc)
                     : ""}
