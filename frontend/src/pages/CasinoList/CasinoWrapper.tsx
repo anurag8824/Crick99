@@ -603,7 +603,7 @@ const CasinoWrapper = (props: any) => {
                     background: "#000",
                   }}
                 >
-                  {gameId && (
+                  {gameCode && (
                     <iframe
                       title="stream"
                       width="100%"
