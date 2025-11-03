@@ -612,7 +612,7 @@ const CasinoWrapper = (props: any) => {
                       // src={casinoMatchData?.tv}
                       // src={newtv}
                       //  src={`https://live.cricketid.xyz/casino-tv?id=${gameId}`}
-                       src={`https://sfront.starrexch.me/casino-tv?id=${gameId}`}
+                       src={`https://sfront.starrexch.me/casino-tv?id=${gameCode}`}
 
                       // src={`https://hr08bets.in/casino-live/?id=${gameId}`}
                       // src={`https://sfront.starrexch.me/casino-tv?id=${gameId}`}
