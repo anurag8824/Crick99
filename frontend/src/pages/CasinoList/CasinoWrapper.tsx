@@ -125,7 +125,7 @@ const CasinoWrapper = (props: any) => {
     /// const ref = useRef();
     casinoService.getLiveCasinoData(gameCode).then((res) => {
       // console.log(res,"responseis here")
-      const fullMarketData = res?.data;
+      const fullMarketData = res?.data?.data;
       console.log(res?.data, "fullMarketData");
       if (casinoMatchData?.match_id != fullMarketData?.match_id) {
         // dispatch(betPopup({ isOpen: false, betData: { ...betValues.betData, stack: 0, pnl: 0 } }))
