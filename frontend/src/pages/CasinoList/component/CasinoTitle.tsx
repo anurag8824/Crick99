@@ -236,7 +236,7 @@ const CasinoTitle = (props: any) => {
   }
 
   const lucky7B = () => {
-    const cardName = lastResult && lastResult.C1 != undefined ? lastResult.C1 : '1'
+    const cardName = lastResult && lastResult.card != undefined ? lastResult.card : '1'
     // console.log(img,"img")
 
     return (
@@ -253,21 +253,41 @@ const CasinoTitle = (props: any) => {
     )
   }
 
-  const dt20 = () => {
-    return (
-      <div className='video-overlay'>
-       <div className='imgspace d-flex'>
-          <img
-            src={`/imgs/casino/cards/${lastResult.C1 == "1" ? "patti_back" : lastResult.C1}.png`}
-          />{' '}
+  // const dt20 = () => {
+  //   return (
+  //     <div className='video-overlay'>
+  //      <div className='imgspace d-flex'>
+  //         <img
+  //           src={`/imgs/casino/cards/${lastResult.C1 == "1" ? "patti_back" : lastResult.C1}.png`}
+  //         />{' '}
           
-          <img
-            src={`/imgs/casino/cards/${lastResult?.C2 == "1" ? "patti_back" : lastResult?.C2}.png`}
-          />
+  //         <img
+  //           src={`/imgs/casino/cards/${lastResult?.C2 == "1" ? "patti_back" : lastResult?.C2}.png`}
+  //         />
+  //       </div>
+  //     </div>
+  //   )
+  // }
+
+  const dt20 = () => {
+    // card string ko array me split karo
+    const cards = lastResult.card?.split(",") || [];
+  
+    return (
+      <div className="video-overlay">
+        <div className="imgspace d-flex">
+          {cards.map((card:any, i:any) => (
+            <img
+              key={i}
+              alt=""
+              src={`/imgs/casino/cards/${card === "1" ? "patti_back" : card}.png`}
+            />
+          ))}
         </div>
       </div>
-    )
-  }
+    );
+  };
+  
 
   const poker = () => {
     return (
@@ -343,59 +363,105 @@ const CasinoTitle = (props: any) => {
     )
   }
 
-  const onedayteen = () => {
-    return (
-      <div className='video-overlay'>
-        <div className='videoCards'>
-          <div>
-            <div className='mr-20'>
-              <p className='m-b-0 text-white'>
-                <b>
-                  <span className=''>Player A</span>
-                </b>
-              </p>
-              <div className='imgspace d-flex'>
-                <img
-                  alt=''
-                  src={`/imgs/casino/cards/${lastResult.C1 ==  "1" ? "patti_back" : lastResult.C1}.png`}
-                />
+  // const onedayteen = () => {
+  //   return (
+  //     <div className='video-overlay'>
+  //       <div className='videoCards'>
+  //         <div>
+  //           <div className='mr-20'>
+  //             <p className='m-b-0 text-white'>
+  //               <b>
+  //                 <span className=''>Player A</span>
+  //               </b>
+  //             </p>
+  //             <div className='imgspace d-flex'>
+  //               <img
+  //                 alt=''
+  //                 src={`/imgs/casino/cards/${lastResult.C1 ==  "1" ? "patti_back" : lastResult.C1}.png`}
+  //               />
 
-                <img
-                  alt=''
-                  src={`/imgs/casino/cards/${lastResult.C3==  "1" ? "patti_back" : lastResult.C3}.png`}
-                />
-                <img
-                  alt=''
-                  src={`/imgs/casino/cards/${lastResult.C5 ==  "1" ? "patti_back" : lastResult.C5}.png`}
-                />
+  //               <img
+  //                 alt=''
+  //                 src={`/imgs/casino/cards/${lastResult.C3==  "1" ? "patti_back" : lastResult.C3}.png`}
+  //               />
+  //               <img
+  //                 alt=''
+  //                 src={`/imgs/casino/cards/${lastResult.C5 ==  "1" ? "patti_back" : lastResult.C5}.png`}
+  //               />
+  //             </div>
+  //           </div>
+  //           <div className='mr-20'>
+  //             <p className='m-b-0 text-white'>
+  //               <b>
+  //                 <span className=''>Player B</span>
+  //               </b>
+  //             </p>
+  //             <div className='imgspace d-flex'>
+  //               <img
+  //                 alt=''
+  //                 src={`/imgs/casino/cards/${lastResult.C2 ==  "1" ? "patti_back" : lastResult.C2}.png`}
+  //               />
+  //               <img
+  //                 alt=''
+  //                 src={`/imgs/casino/cards/${lastResult.C4 ==  "1" ? "patti_back" : lastResult.C4}.png`}
+  //               />
+  //               <img
+  //                 alt=''
+  //                 src={`/imgs/casino/cards/${lastResult.C6 ==  "1" ? "patti_back" : lastResult.C6}.png`}
+  //               />
+  //             </div>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   )
+  // }
+
+  const onedayteen = () => {
+    // Card string ko array me split karte hain
+    const cards = lastResult.card?.split(",") || [];
+  
+    return (
+      <div className="video-overlay">
+        <div className="videoCards">
+          <div>
+            {/* Player A */}
+            <div className="mr-20">
+              <p className="m-b-0 text-white">
+                <b><span>Player A</span></b>
+              </p>
+              <div className="imgspace d-flex">
+                {cards.filter((_:any, i:any) => i % 2 === 0).map((card:any, i:any) => (
+                  <img
+                    key={i}
+                    alt=""
+                    src={`/imgs/casino/cards/${card === "1" ? "patti_back" : card}.png`}
+                  />
+                ))}
               </div>
             </div>
-            <div className='mr-20'>
-              <p className='m-b-0 text-white'>
-                <b>
-                  <span className=''>Player B</span>
-                </b>
+  
+            {/* Player B */}
+            <div className="mr-20">
+              <p className="m-b-0 text-white">
+                <b><span>Player B</span></b>
               </p>
-              <div className='imgspace d-flex'>
-                <img
-                  alt=''
-                  src={`/imgs/casino/cards/${lastResult.C2 ==  "1" ? "patti_back" : lastResult.C2}.png`}
-                />
-                <img
-                  alt=''
-                  src={`/imgs/casino/cards/${lastResult.C4 ==  "1" ? "patti_back" : lastResult.C4}.png`}
-                />
-                <img
-                  alt=''
-                  src={`/imgs/casino/cards/${lastResult.C6 ==  "1" ? "patti_back" : lastResult.C6}.png`}
-                />
+              <div className="imgspace d-flex">
+                {cards.filter((_:any, i:any) => i % 2 !== 0).map((card:any, i:any) => (
+                  <img
+                    key={i}
+                    alt=""
+                    src={`/imgs/casino/cards/${card === "1" ? "patti_back" : card}.png`}
+                  />
+                ))}
               </div>
             </div>
           </div>
         </div>
       </div>
-    )
-  }
+    );
+  };
+  
 
   const dtl20 = () => {
     return (
@@ -1054,25 +1120,25 @@ const CasinoTitle = (props: any) => {
           )}
 
           {lastResult.slug == 'race2020' ? race2020() : ''}
-          {(lastResult.slug == 'lucky7B' ||
+          {(lastResult.slug == 'lucky7eu' ||
             lastResult.slug == 'lucky7' ||
             lastResult.slug == 'AAA' ||
             lastResult.slug == 'ddb') &&
             lucky7B()}
           {(lastResult.slug == 'dt20' ||
-            lastResult.slug == 'dt20b' ||
+            lastResult.slug == 'dt202' ||
             lastResult.slug == 'dragontiger1Day') &&
             dt20()}
-          {(lastResult.slug == 'onedaypoker' || lastResult.slug == 'onedaypoker20') &&
+          {(lastResult.slug == 'poker' || lastResult.slug == 'onedaypoker20') &&
             poker()}
 
-          {lastResult.slug == 'Tp1Day' && lastResult?.match_id > 0 && onedayteen()}
+          {lastResult.slug == 'teen' && lastResult?.match_id > 0 && onedayteen()}
           {((!isMobile && lastResult.slug == 'dtl20') || lastResult.slug == 'war') &&
             dtl20()}
 
-          {lastResult.slug == 'opentp' && opentp()}
+          {lastResult.slug == 'teen8' && opentp()}
           {lastResult.slug == 'teen20' && teen20()}
-          {lastResult.slug == 'poker6player' && poker6player()}
+          {lastResult.slug == 'poker6' && poker6player()}
           {lastResult.slug == 'testtp' && testtp()}
           {(lastResult.slug == 'Cards3J' ||
             lastResult.slug == 'worliinstant' ||
