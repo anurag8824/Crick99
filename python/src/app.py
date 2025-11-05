@@ -92,6 +92,7 @@ def getFancyOdds(MatchID, selection_id):
 def placebetuser(userinfo):
     try:
         payload = request.data.decode('utf-8')
+        print("payload",payload)
         # print(payload)
         if payload != '':
             response =  placebet(payload, userinfo)
