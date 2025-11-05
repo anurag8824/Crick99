@@ -513,7 +513,31 @@ const CasinoWrapper = (props: any) => {
   // Assume `gameCode` comes from API response
   // const gameCode: string | undefined = liveMatchData?.gameCode;
 
+
+  const fortv: Record<any, any> = {
+    testtp: "teen9",
+    AAA:"aaa",
+    ddb:"btable",
+    dragontiger1Day:"dt6",
+    onedaypoker20:"poker20",
+    card32b:"card32eu",
+    cmeter2020:"cmeter",
+    Cards3J:"3cardj",
+    Superover:"superover",
+    fivewicket:"cricketv3",
+    cricket2020:"cmatch20",
+    race2020:"race20",
+    warcasino:"war",
+    Andarbahar:"ab20",
+    Andarbahar2:"abj",
+    worliinstant:"worli2",
+    //other codes remain same
+  }
+
   const gameId = gameCode ? gameIdMap[gameCode] ?? null : null;
+
+  const mappedCode = gameCode ? fortv?.[gameCode] ??  gameCode : gameCode; 
+
    if( ! casinoMatchData){
      return(
       <div> <div
@@ -612,7 +636,9 @@ const CasinoWrapper = (props: any) => {
                       // src={casinoMatchData?.tv}
                       // src={newtv}
                       //  src={`https://live.cricketid.xyz/casino-tv?id=${gameId}`}
-                       src={`https://sfront.starrexch.me/casino-tv?id=${gameCode}`}
+                      //  src={`https://sfront.starrexch.me/casino-tv?id=${gameCode}`}
+
+                       src={`https://sfront.starrexch.me/casino-tv?id=${mappedCode}`}
 
                       // src={`https://hr08bets.in/casino-live/?id=${gameId}`}
                       // src={`https://sfront.starrexch.me/casino-tv?id=${gameId}`}
