@@ -27,7 +27,7 @@ const LayButton = (props: any) => {
                         marketId: item?.mid || item?.marketId,
                         marketName: item.MarketName,
                         matchId: liveMatchData?.event_data?.match_id || 0,
-                        selectionName: item.runnerName,
+                        selectionName: item.runnerName || item.RunnerName,
                         selectionId: item?.sid ? parseInt(item?.sid) : item?.sectionId,
                         pnl: 0,
                         stack: 0,

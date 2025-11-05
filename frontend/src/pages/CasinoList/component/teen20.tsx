@@ -33,7 +33,7 @@ const TeenPatti20 = (props: any) => {
                     marketId: item.mid,
                     marketName: item.MarketName,
                     matchId: liveMatchData?.event_data?.match_id || 0,
-                    selectionName: item.runnerName,
+                    selectionName: item.nation || item.runnerName || item.RunnerName, 
                     selectionId: parseInt(item.sid),
                     pnl: 0,
                     stack: 0,

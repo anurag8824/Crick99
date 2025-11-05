@@ -65,7 +65,7 @@ const OpenTeen = (props: any) => {
             marketId: item.mid,
             marketName: item.MarketName,
             matchId: liveMatchData?.event_data?.match_id || 0,
-            selectionName: item.nation,
+            selectionName: item.nation || item.runnerName || item.RunnerName, 
             selectionId: item.sid,
             pnl: 0,
             stack: 0,

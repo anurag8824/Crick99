@@ -69,43 +69,46 @@ const CasinoResultDetail = (props: any) => {
             <i className='mx-5 fas fa-spinner fa-spin'></i>
           </div>
         ) : (
-          // <div
-          //   dangerouslySetInnerHTML={{ __html: casinoResult?.html || '' }}
-          //   className={popupdata.slug}
-          // /> old one 
+          <div
+            dangerouslySetInnerHTML={{ __html: casinoResult?.html || '' }}
+            className={popupdata.slug}
+          />
+          //  old one 
 
-          <div className={`card bg-gray shadow-m mb-3 p-2 small ${popupdata.slug}`} style={{ maxWidth: "" }}>
-            <div className="card-bod">
-              <h6 className="card-title mb-2 text-muted">Result Summary</h6>
+          // for another api another than manish
 
-              <div className='d-flex justify-content-between '>
-                <div className='borderr'>
-                  <ul className="list-unstyled mb-0">
-                    <li><strong>Winner:</strong> {casinoResult?.html?.winnerName}</li>
-                    <li><strong>Odd/Even:</strong> {casinoResult?.html?.winnersString?.includes('Even') ? 'Even' : 'Odd'}</li>
-                    <li><strong>Color:</strong> {casinoResult?.html?.winnersString?.includes('Black') ? 'Black' : 'Red'}</li>
-                    <li><strong>Card:</strong> {casinoResult?.html?.result}</li>
-                    {/* <li><strong>Line:</strong> {casinoResult?.html?.resultsids?.replace(/SID/g, '').split(',').join(' ')}</li> */}
-                    {/* <li><strong>Status:</strong> {casinoResult?.html?.status}</li> */}
+          // <div className={`card bg-gray shadow-m mb-3 p-2 small ${popupdata.slug}`} style={{ maxWidth: "" }}>
+          //   <div className="card-bod">
+          //     <h6 className="card-title mb-2 text-muted">Result Summary</h6>
 
-                  </ul></div>
+          //     <div className='d-flex justify-content-between '>
+          //       <div className='borderr'>
+          //         <ul className="list-unstyled mb-0">
+          //           <li><strong>Winner:</strong> {casinoResult?.html?.winnerName}</li>
+          //           <li><strong>Odd/Even:</strong> {casinoResult?.html?.winnersString?.includes('Even') ? 'Even' : 'Odd'}</li>
+          //           <li><strong>Color:</strong> {casinoResult?.html?.winnersString?.includes('Black') ? 'Black' : 'Red'}</li>
+          //           <li><strong>Card:</strong> {casinoResult?.html?.result}</li>
+          //           {/* <li><strong>Line:</strong> {casinoResult?.html?.resultsids?.replace(/SID/g, '').split(',').join(' ')}</li> */}
+          //           {/* <li><strong>Status:</strong> {casinoResult?.html?.status}</li> */}
 
-                <div className="d-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, auto)", gap: "6px" }}>
-                {casinoResult?.html?.C1 ?  <img style={{height:"35px", width:"auto", marginInlineEnd:"1px"}} src={`/imgs/casino/cards/${casinoResult?.html?.C1}.png`}/> : ""} 
-                {casinoResult?.html?.C3 ?  <img style={{height:"35px", width:"auto", marginInlineEnd:"1px"}} src={`/imgs/casino/cards/${casinoResult?.html?.C3}.png`}/> : ""} 
-                {casinoResult?.html?.C5 ?  <img style={{height:"35px", width:"auto", marginInlineEnd:"1px"}} src={`/imgs/casino/cards/${casinoResult?.html?.C5}.png`}/> : ""}  
-                {casinoResult?.html?.C2 ?  <img style={{height:"35px", width:"auto", marginInlineEnd:"1px"}} src={`/imgs/casino/cards/${casinoResult?.html?.C2}.png`}/> : ""} 
-                {casinoResult?.html?.C4 ?  <img style={{height:"35px", width:"auto", marginInlineEnd:"1px"}} src={`/imgs/casino/cards/${casinoResult?.html?.C4}.png`}/> : ""} 
-                {casinoResult?.html?.C6 ?  <img style={{height:"35px", width:"auto", marginInlineEnd:"1px"}} src={`/imgs/casino/cards/${casinoResult?.html?.C6}.png`}/> : ""} 
+          //         </ul></div>
+
+          //       <div className="d-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, auto)", gap: "6px" }}>
+          //       {casinoResult?.html?.C1 ?  <img style={{height:"35px", width:"auto", marginInlineEnd:"1px"}} src={`/imgs/casino/cards/${casinoResult?.html?.C1}.png`}/> : ""} 
+          //       {casinoResult?.html?.C3 ?  <img style={{height:"35px", width:"auto", marginInlineEnd:"1px"}} src={`/imgs/casino/cards/${casinoResult?.html?.C3}.png`}/> : ""} 
+          //       {casinoResult?.html?.C5 ?  <img style={{height:"35px", width:"auto", marginInlineEnd:"1px"}} src={`/imgs/casino/cards/${casinoResult?.html?.C5}.png`}/> : ""}  
+          //       {casinoResult?.html?.C2 ?  <img style={{height:"35px", width:"auto", marginInlineEnd:"1px"}} src={`/imgs/casino/cards/${casinoResult?.html?.C2}.png`}/> : ""} 
+          //       {casinoResult?.html?.C4 ?  <img style={{height:"35px", width:"auto", marginInlineEnd:"1px"}} src={`/imgs/casino/cards/${casinoResult?.html?.C4}.png`}/> : ""} 
+          //       {casinoResult?.html?.C6 ?  <img style={{height:"35px", width:"auto", marginInlineEnd:"1px"}} src={`/imgs/casino/cards/${casinoResult?.html?.C6}.png`}/> : ""} 
 
 
 
                   
-                  </div>
+          //         </div>
                 
-              </div>
-            </div>
-          </div>
+          //     </div>
+          //   </div>
+          // </div>
 
 
         )}
