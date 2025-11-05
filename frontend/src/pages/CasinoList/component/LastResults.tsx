@@ -545,7 +545,7 @@ const LastResults = (props: any) => {
           break;
   
         case 'dt20':
-        case 'dt20b':
+        case 'dt202':
         case 'dragontiger1Day':
           clsname = gameWiseResultStyle['dt20'][value]?.clsname || '';
           shortName = gameWiseResultStyle['dt20'][value]?.shortName || '';
