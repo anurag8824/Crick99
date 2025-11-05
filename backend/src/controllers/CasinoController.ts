@@ -1172,8 +1172,9 @@ export class CasinoController extends ApiController {
     try {
       let casinoType: any = await CasinoGameResult.findOne({ mid: roundId })
       console.log(casinoType,"caisnotype")
-      // const html = casinoType?.data?.html old one
-      const html = casinoType?.data
+      const html = casinoType?.data?.html 
+      // old one for another than manish api
+      // const html = casinoType?.data
       return this.success(res, { html })
     } catch (e: any) {
       return this.fail(res, e.stack)
