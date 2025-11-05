@@ -54,7 +54,7 @@ const TeenPatti20 = (props: any) => {
     const clsnamehead = 'box-4'
     const clsnamename = 'box-2'
     const heightdata = ''
-    return ([0 ,1].map((ItemIndex: any, key: number) => {
+    return ([0,1,10 ,11].map((ItemIndex: any, key: number) => {
       const ItemNew = liveMatchData?.defaultMarkets?.[ItemIndex].Runners?.[0] || {}
       const Item: any = lastOdds?.[ItemNew.SelectionId] || {}
       const clsstatus =
