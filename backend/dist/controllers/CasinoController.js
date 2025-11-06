@@ -498,11 +498,71 @@ class CasinoController extends ApiController_1.ApiController {
                 yield CasinoGameResult_1.CasinoGameResult.updateMany({ mid: marketId, gameType: casinoType }, { $set: { 'data.status': 'done', 'data.result-over': 'done' } });
             }));
         };
+        this.canculatePnltwo = ({ ItemBetList, selectionId, sid50, resultsids, data }) => {
+            try {
+                const sids = JSON.parse(data.sids);
+                const ratio = sids.reduce((acc, item) => {
+                    if (item.winner == `SID${ItemBetList.selectionId}`) {
+                        acc.percent = item.ration;
+                        acc.win = true;
+                        acc.totalrun = (item === null || item === void 0 ? void 0 : item.totalrun) || 0;
+                    }
+                    return acc;
+                }, { percent: 0, win: false, totalrun: 0 });
+                let profit_type = ItemBetList.isBack === true && ratio.win
+                    ? 'profit'
+                    : ItemBetList.isBack === false && !ratio.win
+                        ? 'profit'
+                        : 'loss';
+                let profitLossAmt = 0;
+                if (profit_type == 'profit') {
+                    if (ItemBetList.isBack === true) {
+                        profitLossAmt =
+                            (parseFloat(ItemBetList.odds.toString()) - 1) *
+                                parseFloat(ItemBetList.stack.toString());
+                    }
+                    else if (ItemBetList.isBack === false) {
+                        profitLossAmt = parseFloat(ItemBetList.stack.toString());
+                    }
+                }
+                else if (profit_type == 'loss') {
+                    if (ItemBetList.isBack === true) {
+                        profitLossAmt = parseFloat(ItemBetList.stack.toString()) * -1;
+                    }
+                    else if (ItemBetList.isBack === false) {
+                        profitLossAmt =
+                            (parseFloat(ItemBetList.odds.toString()) - 1) *
+                                parseFloat(ItemBetList.stack.toString()) *
+                                -1;
+                    }
+                }
+                profitLossAmt = ratio.percent != 0 ? profitLossAmt * (ratio.percent / 100) : profitLossAmt;
+                return {
+                    profit_type,
+                    profitLossAmt,
+                };
+            }
+            catch (error) {
+                return { profit_type: "loss", profitLossAmt: 0 };
+            }
+        };
         this.canculatePnl = ({ ItemBetList, selectionId, sid50, resultsids, data }) => {
+            console.log(ItemBetList, resultsids, data, "heelo eowwddnfflkanklvnlknklnjbnljnjdabnlanI");
             sid50 = sid50 ? sid50.split(',') : '';
             let profit_type = 'loss', profitLossAmt = 0;
             let fancy = false;
             switch (ItemBetList.gtype) {
+                case 'luck7eu':
+                case 'teen':
+                case 'teen8':
+                case 'dt202':
+                case 'poker':
+                case 'poker6':
+                case 'lucky7':
+                    let caldata = this.canculatePnltwo({ ItemBetList, selectionId, sid50, resultsids, data });
+                    profit_type = caldata.profit_type;
+                    profitLossAmt = caldata.profitLossAmt;
+                    break;
                 case 'queen':
                 case 'card32':
                 case 'card32a':
@@ -548,7 +608,9 @@ class CasinoController extends ApiController_1.ApiController {
                 case 'warcasino':
                 case 'Andarbahar':
                 case 'Andarbahar2':
+                case 'dt202':
                     if (resultsids) {
+                        console.log("hello wrold , hello world , hello world , hello world ,, hello world ", ItemBetList.stack);
                         let totalPoints = 0;
                         profit_type =
                             ItemBetList.isBack === true && resultsids.indexOf(`SID${ItemBetList.selectionId}`) > -1
@@ -577,9 +639,11 @@ class CasinoController extends ApiController_1.ApiController {
                                 profitLossAmt =
                                     (parseFloat(ItemBetList.odds.toString()) - 1) *
                                         parseFloat(ItemBetList.stack.toString());
+                                console.log(profitLossAmt, "profit loss ammount dlskjglal;dnkdfghjklfdsdtfyuiuoutdrsghiojdfgjkhhhg");
                             }
                             else {
                                 profitLossAmt = parseFloat(ItemBetList.stack.toString());
+                                console.log(profitLossAmt, "profit loss ammount dlskjglal;dnkdfghjklfdsdtfyuiuoutdrsghiojdfgjkhhhg");
                             }
                         }
                         else if (profit_type == 'loss') {
@@ -669,7 +733,7 @@ class CasinoController extends ApiController_1.ApiController {
                             ItemBetList.odds = 5;
                         }
                         if (ItemBetList.gtype == 'Tp1Day') {
-                            ItemBetList.odds = ItemBetList.odds;
+                            ItemBetList.odds = ItemBetList.odds / 100 + 1;
                         }
                         if (resultsids && resultsids.length > 0) {
                             profit_type =
@@ -1035,13 +1099,15 @@ class CasinoController extends ApiController_1.ApiController {
             }
         });
         this.htmlCards = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            var _b;
             const { type, roundId } = req.params;
             console.log(type, roundId, "ddf");
             try {
                 let casinoType = yield CasinoGameResult_1.CasinoGameResult.findOne({ mid: roundId });
                 console.log(casinoType, "caisnotype");
-                // const html = casinoType?.data?.html old one
-                const html = casinoType === null || casinoType === void 0 ? void 0 : casinoType.data;
+                const html = (_b = casinoType === null || casinoType === void 0 ? void 0 : casinoType.data) === null || _b === void 0 ? void 0 : _b.html;
+                // old one for another than manish api
+                // const html = casinoType?.data
                 return this.success(res, { html });
             }
             catch (e) {

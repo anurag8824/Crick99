@@ -405,17 +405,17 @@ const SportsCompletedDetails = () => {
                         <CloseButton className="text-white" />
                       </button>
 
-                      {/* <CustomLink
+                      <CustomLink
                         className="dropdown-item  text-lg  text-blackcall-event font-semibold"
-                        to={`/report-bets/${item.matchId}`}
+                        to={`/pl-reports/${item.matchId}/${item.name}`}
                       >
-                        Match and Session Plus Minus
-                      </CustomLink> */}
+                        Match and Session Plus Minus Report
+                      </CustomLink>
                       <CustomLink
                         className="dropdown-item  text-lg  text-black all-event font-semibold "
                         to={`/plus-minus-2/${item.matchId}/${item.name}`}
                       >
-                        Match and Session Plus Minus 
+                        Match and Session Plus Minus 2
                       </CustomLink>
                       <CustomLink
                         className="dropdown-item  text-lg  text-black call-event font-semibold "

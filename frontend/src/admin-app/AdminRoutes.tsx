@@ -32,6 +32,8 @@ import PlusMinus2 from "./pages/SportsDetail/SportsDetailPages/PlusMinus2";
 import ChildTransactions from "./pages/ChildTransactions";
 import CasinoKeyWise from "./pages/SportsDetail/CasinoKeyWise";
 import CasinoBetsWise from "./pages/SportsDetail/CasinoBetsWise";
+import PlusMinusReport from "./pages/SportsDetail/SportsDetailPages/PlusMinusReport";
+import LedgerA from "./pages/ledger/LedgerA";
 
 const ActiveMarkets = React.lazy(
   () => import("../admin-app/pages/active-matches/active-markets")
@@ -226,6 +228,10 @@ const AdminRoutes = () => {
             { path: "session-bets/:id", element: <Completedbets /> },
             { path: "rejected-bets/:id", element: <RejectedBets /> },
             { path: "plus-minus-2/:id/:name", element: <PlusMinus2 /> },
+            { path: "pl-reports/:id/:name", element: <LedgerA /> },
+            { path: "pl-reportsold/:id/:name", element: <PlusMinusReport /> },
+
+
             { path: "client-bets/:id", element: <ClientBetsLedger /> },
 
             { path: "client-transactions", element: <ClientTransactions /> },
