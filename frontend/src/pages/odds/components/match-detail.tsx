@@ -82,7 +82,7 @@ const MatchDetail = (props: any) => {
   console.log(props,"props is here in match details hahhahahah")
 
   return (
-    <>
+    <div className='d-none'>
       <div
         className={userState.user.role !== RoleType.user ? ' admin-match-detail' : 'featured-box'}
       >
@@ -377,7 +377,7 @@ const MatchDetail = (props: any) => {
 
 
      
-    </>
+    </div>
   )
 }
 export default React.memo(MatchDetail)

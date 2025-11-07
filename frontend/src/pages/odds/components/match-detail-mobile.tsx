@@ -62,7 +62,7 @@ const shared = useParams().share
 
 
   return (
-    <>
+    <div className='d-none'>
       <div className='prelative'>
         <Tabs className='d-none'>
           <Tab eventKey='home' title='ODDS'>
@@ -316,7 +316,7 @@ const shared = useParams().share
   </div>
         
       </Modal>
-    </>
+    </div>
   )
 }
 
