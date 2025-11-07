@@ -831,6 +831,27 @@ class AccountController extends ApiController_1.ApiController {
             catch (error) {
             }
         });
+        this.clinetladger22muid = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { sendIds } = req.body; // array of ids
+                if (!Array.isArray(sendIds) || sendIds.length === 0) {
+                    return res.status(400).json({ message: "No IDs provided" });
+                }
+                const results = yield Promise.all(sendIds.map((id) => __awaiter(this, void 0, void 0, function* () {
+                    const user = yield User_1.User.findById(id);
+                    if (!user)
+                        return null;
+                    const ldata = yield allledager_1.ledger.find({ ParentId: id });
+                    const ddata = yield allledager_1.ledger.find({ ChildId: id });
+                    return [ldata, ddata, { user }];
+                })));
+                return this.success(res, results.filter(Boolean));
+            }
+            catch (error) {
+                console.error(error);
+                return res.status(500).json({ message: "Server error" });
+            }
+        });
         this.iframeurl = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const id = req.body.id;

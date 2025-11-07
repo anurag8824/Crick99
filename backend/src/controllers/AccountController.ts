@@ -1314,6 +1314,31 @@ getAccountStmtListUserLedger = async (req: Request, res: Response) => {
     }
   }
 
+  clinetladger22muid = async (req: Request, res: Response) => {
+    try {
+      const { sendIds } = req.body; // array of ids
+      if (!Array.isArray(sendIds) || sendIds.length === 0) {
+        return res.status(400).json({ message: "No IDs provided" });
+      }
+  
+      const results = await Promise.all(
+        sendIds.map(async (id) => {
+          const user = await User.findById(id);
+          if (!user) return null;
+          const ldata = await ledger.find({ ParentId: id });
+          const ddata = await ledger.find({ ChildId: id });
+          return [ldata, ddata, { user }];
+        })
+      );
+  
+      return this.success(res, results.filter(Boolean));
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Server error" });
+    }
+  };
+  
+
   iframeurl = async (req:Request,res:Response)=>{
     try {
       const id = req.body.id

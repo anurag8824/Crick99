@@ -37,6 +37,7 @@ class AccountRoutes {
         this.router.post('/profit-loss', Passport_1.default.authenticateJWT, this.AccountController.profitloss);
         this.router.get("/all-client-ledger/one", Passport_1.default.authenticateJWT, this.AccountController.clinetladger);
         this.router.post("/all-client-ledger/ppone", Passport_1.default.authenticateJWT, this.AccountController.clinetladger22);
+        this.router.post("/all-client-ledger/pponemuid", Passport_1.default.authenticateJWT, this.AccountController.clinetladger22muid);
         this.router.get("/all-client-ledger/two", Passport_1.default.authenticateJWT, this.AccountController.allClientLedger);
         this.router.post("/settle", Passport_1.default.authenticateJWT, this.AccountController.settelement);
         this.router.post("/settle2", Passport_1.default.authenticateJWT, this.AccountController.settelement2);

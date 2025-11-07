@@ -53,6 +53,11 @@ class BetService {
   pponeledger(sendId: string | undefined) {
     return api.post("all-client-ledger/ppone",  { sendId });
   }
+
+  pponeledgerMultiple(ids: string[]) {
+    return api.post("all-client-ledger/pponemuid", { sendIds: ids });
+  }
+  
  
   iframeUrl(data:any){
     return api.post("iframe-url",data)

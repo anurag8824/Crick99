@@ -74,6 +74,9 @@ export class AccountRoutes {
     this.router.get("/all-client-ledger/one",Passport.authenticateJWT,this.AccountController.clinetladger) 
     this.router.post("/all-client-ledger/ppone",Passport.authenticateJWT,this.AccountController.clinetladger22) 
 
+    this.router.post("/all-client-ledger/pponemuid",Passport.authenticateJWT,this.AccountController.clinetladger22muid) 
+
+
     this.router.get("/all-client-ledger/two",Passport.authenticateJWT,this.AccountController.allClientLedger) 
 
     this.router.post("/settle",Passport.authenticateJWT,this.AccountController.settelement)
