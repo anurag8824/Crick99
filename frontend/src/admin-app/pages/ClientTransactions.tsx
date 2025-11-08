@@ -309,10 +309,10 @@ const rolePatterns: Record<any, any> = {
 // ✅ Determine which usernames to include
 const pattern = rolePatterns[roleonly?.toLowerCase()] || "";
 
-// ✅ Filter combined data based on username includes that pattern
+// ✅ Filter combined data based on username prefix (starts with)
 const filteredCombined = pattern
   ? combined?.filter((item) =>
-      item?.agent?.toUpperCase().includes(pattern.toUpperCase())
+      item?.agent?.toUpperCase().startsWith(pattern.toUpperCase())
     )
   : combined;
 
