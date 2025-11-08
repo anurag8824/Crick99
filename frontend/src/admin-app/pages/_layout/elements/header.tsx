@@ -1116,7 +1116,7 @@ const [userList, setUserList] = React.useState<any>({});
                       {getRoleOptions()?.map((role) => (
                         <li key={role.key}>
                           <CustomLink
-                         to="/client-transactions"
+                         to={`/client-transactions-role/${role.key}`}
                             // onClick={() => setDropdownOpen(!dropdownOpen)}
                             //  onClick={toggleDrawer}
                             onClick={() => { toggleDrawer();  setActiveMenu("Aillled");}}
@@ -1777,7 +1777,7 @@ const [userList, setUserList] = React.useState<any>({});
                       {getRoleOptions()?.map((role) => (
                         <li key={role.key}>
                           <CustomLink
-                             to="/client-transactions"
+                             to={`/client-transactions-role/${role.key}`}
                             // onClick={() => setDropdownOpen(!dropdownOpen)}
                             //  onClick={toggleDrawer}
                             onClick={() => { toggleDrawer(); setDropdownOpen(!dropdownOpen) ; setActiveMenu("AllLed");}}

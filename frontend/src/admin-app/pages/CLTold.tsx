@@ -28,7 +28,7 @@ interface GroupedEntry {
   ChildId: string;
 }
 
-const ClientTransactions = () => {
+const ClientTransactionsOLD = () => {
   const userState = useAppSelector(selectUserData);
 
   const [showModal, setShowModal] = React.useState(false);
@@ -160,10 +160,8 @@ const ClientTransactions = () => {
     React.useState<any>();
 
   const ctid = useParams().id;
-  const roleonly:any = useParams().role;
 
   React.useEffect(() => {
-    if(!ctid) return;
     betService
       .oneledger()
       .then((res: AxiosResponse<{ data: LedgerEntry[][] }>) => {
@@ -173,72 +171,6 @@ const ClientTransactions = () => {
         setDena(denaArray);
       });
   }, [userState, ctid]);
-
-
-  React.useEffect(() => {
-    if (ctid) return; // agar ctid hai to yeh effect skip karo
-    const fetchRecursiveLedger = async (ids: string[], visited = new Set<string>()) => {
-      let allEntries: any[] = [];
-  
-      for (const id of ids) {
-        if (visited.has(id)) continue; // avoid infinite loops
-        visited.add(id);
-  
-        try {
-          const res = await betService.pponeledger(id);
-          const data = res?.data?.data || [];
-  
-          allEntries.push(...data.flat());
-  
-          // Extract next-level ChildIds
-          const nextIds = data.flat().map((item: any) => item.ChildId).filter(Boolean);
-  
-          if (nextIds.length > 0) {
-            const deeper = await fetchRecursiveLedger(nextIds, visited);
-            allEntries.push(...deeper);
-          }
-        } catch (err) {
-          console.error("Error in recursive ledger for", id, err);
-        }
-      }
-  
-      return allEntries;
-    };
-  
-    const loadLedgerData = async () => {
-      try {
-        // Step 1: top-level ledger
-        const res = await betService.oneledger();
-        const topData = res?.data?.data || [];
-  
-        const { lenaArray, denaArray } = processLedgerData(topData);
-        setLena(lenaArray);
-        setListData(topData[0] || []); // assuming first set is the main list
-        setDena(denaArray);
-  
-        // Step 2: collect all top-level ChildIds
-        const allIds = [...lenaArray, ...denaArray].map((x) => x.ChildId);
-  
-        // Step 3: recursively fetch all sub-ledgers until fully resolved
-        const recursiveEntries = await fetchRecursiveLedger(allIds);
-  
-        if (recursiveEntries.length > 0) {
-          // Step 4: merge with existing and process again
-          const merged = [...topData.flat(), ...recursiveEntries];
-          const { lenaArray: finalLena, denaArray: finalDena } = processLedgerData([merged]);
-          setLena(finalLena);
-          setDena(finalDena);
-          setListData(merged);
-        }
-      } catch (error) {
-        console.error("Recursive Ledger Load Error:", error);
-      }
-    };
-  
-    loadLedgerData();
-  }, [userState, roleonly]);
-  
-  
 
   const combined = [...lena, ...dena];
 
@@ -256,7 +188,7 @@ const ClientTransactions = () => {
       setSelectedClientListFiltered(defaultList);
       setHasDefaultSet(true); // ab dobara set nahi hoga
     }
-  }, [ctid, combined, listData,roleonly]);
+  }, [ctid, combined, listData]);
 
   console.log("Combined Data:", combined);
 
@@ -291,30 +223,9 @@ const ClientTransactions = () => {
       );
       setSelectedClientListFiltered(filtered);
     }
-  }, [modalTypeF, selectedClientList ,roleonly]);
+  }, [modalTypeF, selectedClientList]);
 
   console.log(selectedClientList, "selelcteddClient list");
-
-
-  // ✅ Map roleonly → username pattern
-const rolePatterns: Record<any, any> = {
-  sadmin: "ADM",
-  suadmin: "AD",
-  smdl: "MA",
-  mdl: "SA",
-  dl: "A",
-  user: "CL",
-};
-
-// ✅ Determine which usernames to include
-const pattern = rolePatterns[roleonly?.toLowerCase()] || "";
-
-// ✅ Filter combined data based on username includes that pattern
-const filteredCombined = pattern
-  ? combined.filter((item) =>
-      item?.agent?.toUpperCase().includes(pattern.toUpperCase())
-    )
-  : combined;
 
   const navigate = useNavigate();
   return (
@@ -686,7 +597,7 @@ const filteredCombined = pattern
                         onChange={handleSelectChange}
                       >
                         <option value="">Select User</option>
-                        {filteredCombined.map((item, index) => (
+                        {combined.map((item, index) => (
                           <option key={index} value={item.ChildId}>
                             {item.agent}
                           </option>
@@ -1606,4 +1517,4 @@ const filteredCombined = pattern
   );
 };
 
-export default ClientTransactions;
+export default ClientTransactionsOLD;

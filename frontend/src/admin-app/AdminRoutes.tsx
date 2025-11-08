@@ -235,6 +235,8 @@ const AdminRoutes = () => {
             { path: "client-bets/:id", element: <ClientBetsLedger /> },
 
             { path: "client-transactions", element: <ClientTransactions /> },
+            { path: "client-transactions-role/:role", element: <ClientTransactions /> },
+
             {
               path: "client-transactions/:id",
               element: <ClientTransactions />,
