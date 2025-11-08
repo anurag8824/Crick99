@@ -311,7 +311,7 @@ const pattern = rolePatterns[roleonly?.toLowerCase()] || "";
 
 // ✅ Filter combined data based on username includes that pattern
 const filteredCombined = pattern
-  ? combined.filter((item) =>
+  ? combined?.filter((item) =>
       item?.agent?.toUpperCase().includes(pattern.toUpperCase())
     )
   : combined;
