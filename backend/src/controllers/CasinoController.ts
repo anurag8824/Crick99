@@ -600,7 +600,7 @@ export class CasinoController extends ApiController {
       profitLossAmt = 0
     let fancy = false
     switch (ItemBetList.gtype) {
-      case 'luck7eu':
+      case 'lucky7eu':
       case 'teen':
       case 'teen8':
       case 'dt202':
