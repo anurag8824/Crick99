@@ -5,9 +5,14 @@ import { Market, OddsType } from '../models/Market'
 import axios from 'axios'
 
 
-setInterval(async ()=>{
-  await axios.get("https://api.bxpro99.xyz/api/set-market-result-by-cron")
-},1000*60*1)
+setInterval(async () => {
+  try {
+    const response = await axios.get("https://api.bxpro99.xyz/api/set-market-result-by-cron");
+    console.log("Response:", response.data);
+  } catch (err) {
+    console.error("Error:", err.message || err);
+  }
+}, 1000 * 60 * 1);
 
 
 
