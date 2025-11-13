@@ -319,7 +319,7 @@ interface GroupedEntry {
   tCom?: number;
   gTotal?: number;
   upDownShare?: number;
-  balance?: number;
+  balance?: any;
   role?: string;
 }
 
@@ -394,7 +394,7 @@ const RecursiveLedger: React.FC<LedgerNodeProps> = ({ parentId, level = 0 }) => 
 
       const money = Number(entry?.money) || 0;
       const fammount = Number(entry?.fammount) || 0;
-      const commissiondega = Number(entry?.commissiondega) || 0;
+      const commissiondega = Number(entry?.commissionlega) || 0;
       const updown = Number(entry?.umoney) || 0;
 
       if (entry.Fancy) {
@@ -418,7 +418,7 @@ const RecursiveLedger: React.FC<LedgerNodeProps> = ({ parentId, level = 0 }) => 
         const totalAmt = match + session;
         const totalCom = matchCom + sessionCom;
         const netAmt = totalAmt - totalCom;
-        const finalBalance = netAmt + upDownShare;
+        const finalBalance = netAmt - upDownShare;
         const settled = settledMap[ChildId] || 0;
         const final = finalBalance + settled;
 
@@ -436,7 +436,7 @@ const RecursiveLedger: React.FC<LedgerNodeProps> = ({ parentId, level = 0 }) => 
           tCom: totalCom,
           gTotal: netAmt,
           upDownShare,
-          balance: finalBalance,
+          balance: finalBalance.toFixed(2),
           role,
         });
       }

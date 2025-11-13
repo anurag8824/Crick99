@@ -546,7 +546,7 @@ const PlusMinusReport = () => {
                         <td className="ng-scope">
                           <span
                             className={
-                              row.match < 0 ? "text-danger" : "text-success"
+                              row.match < 0 ? "text-success" : "text-danger"
                             }
                           >
                             {`${row.match.toFixed(2)}`}
@@ -556,7 +556,7 @@ const PlusMinusReport = () => {
                         <td className="ng-scope">
                           <span
                             className={
-                              row.session < 0 ? "text-danger" : "text-success"
+                              row.session < 0 ? "text-success" : "text-danger"
                             }
                           >
                             {`${row.session.toFixed(2)}`}
@@ -566,7 +566,7 @@ const PlusMinusReport = () => {
                         <td className="ng-scope">
                           <span
                             className={
-                              row.total < 0 ? "text-danger" : "text-success"
+                              row.total < 0 ? "text-success" : "text-danger"
                             }
                           >
                             {row.totall}
@@ -586,7 +586,7 @@ const PlusMinusReport = () => {
                         <td className="ng-scope">
                           <span
                             className={
-                              row.gTotal < 0 ? "text-danger" : "text-success"
+                              row.gTotal < 0 ? "text-success" : "text-danger"
                             }
                           >
                             {row.gTotal.toFixed(2)}
@@ -597,8 +597,8 @@ const PlusMinusReport = () => {
                           <span
                             className={
                               row.upDownShare < 0
-                                ? "text-danger"
-                                : "text-success"
+                                ? "text-success"
+                                : "text-danger"
                             }
                           >
                             {userState.user.role == "dl"
@@ -610,7 +610,7 @@ const PlusMinusReport = () => {
                         <td className="ng-scope">
                           <span
                             className={
-                              row.balance < 0 ? "text-danger" : "text-success"
+                              row.balance < 0 ? "text-success" : "text-danger"
                             }
                           >
                             {userState.user.role == "dl"

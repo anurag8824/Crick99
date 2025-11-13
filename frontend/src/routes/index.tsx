@@ -31,6 +31,8 @@ const Completegames = React.lazy(() => import('../pages/dashboard/completegames'
 
 const Login = React.lazy(() => import('../pages/login/login'))
 const Odds = React.lazy(() => import('../pages/odds/odds'))
+const MyBetComponent22Admin = React.lazy(() => import('../pages/odds/components/my-bet-component22-admin'))
+
 const ProfitLoss = React.lazy(() => import('../pages/PlReport/ProfitLoss'))
 const UnsetteleBetHistory = React.lazy(
   () => import('../pages/UnsetteleBetHistory/UnsetteleBetHistory'),
@@ -113,6 +115,11 @@ const Routers = () => {
             { path: 'settings/security-auth', element: <SecurityAuth /> },
             { path: '/depositstatement', element: <DepositStatement /> },
             { path: '/withdrawstatement', element: <WithdrawStatement /> },
+            { path: 'completedbetsadmin/:id', element: <MyBetComponent22Admin /> },
+          
+
+
+           
           ],
         },
         ...AdminRoutes(),

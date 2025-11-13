@@ -82,7 +82,7 @@ const CasinoDetail = () => {
                   <span className="statistic-value">
                   <span
   className={`statistic-value-int font-bold text-xl ${
-    totalProfitLoss >= 0 ? "text-success" : "text-danger"
+    totalProfitLoss >= 0 ? "text-danger" : "text-success"
   }`}
 >
   {totalProfitLoss?.toFixed(2)}

@@ -625,9 +625,60 @@ const CasinoTitle = (props: any) => {
   //   )
   // }
 
+  // const teen20 = () => {
+  //   // Split string into array
+  //   const cards = lastResult.card?.split(",") || [];
+  
+  //   return (
+  //     <div className="video-overlay">
+  //       <div className="videoCards">
+  //         <div className="">
+  //           {/* Player A */}
+  //           <div className="mr-20">
+  //             <p className="m-b-0 text-white">
+  //               <b><span>Player A</span></b>
+  //             </p>
+  //             <div className="imgspace d-flex">
+  //               {cards?.slice(0, 2,4).map((card:any, i:any) => (
+  //                 <img
+  //                   key={i}
+  //                   alt=""
+  //                   src={`/imgs/casino/cards/${card === "1" ? "patti_back" : card}.png`}
+  //                 />
+  //               ))}
+  //             </div>
+  //           </div>
+  
+  //           {/* Player B */}
+  //           <div className="mr-20">
+  //             <p className="m-b-0 text-white">
+  //               <b><span>Player B</span></b>
+  //             </p>
+  //             <div className="imgspace d-flex">
+  //               {cards.slice(1,3 ,5).map((card:any, i:any) => (
+  //                 <img
+  //                   key={i}
+  //                   alt=""
+  //                   src={`/imgs/casino/cards/${card === "1" ? "patti_back" : card}.png`}
+  //                 />
+  //               ))}
+  //             </div>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // };
+
+
   const teen20 = () => {
     // Split string into array
     const cards = lastResult.card?.split(",") || [];
+  
+    // Player A ke liye 0,2,4 index cards
+    const playerA = cards.filter((_:any, i:any) => [0, 2, 4].includes(i));
+    // Player B ke liye 1,3,5 index cards
+    const playerB = cards.filter((_:any, i:any) => [1, 3, 5].includes(i));
   
     return (
       <div className="video-overlay">
@@ -639,7 +690,7 @@ const CasinoTitle = (props: any) => {
                 <b><span>Player A</span></b>
               </p>
               <div className="imgspace d-flex">
-                {cards?.slice(0, 3).map((card:any, i:any) => (
+                {playerA.map((card: any, i: number) => (
                   <img
                     key={i}
                     alt=""
@@ -655,7 +706,7 @@ const CasinoTitle = (props: any) => {
                 <b><span>Player B</span></b>
               </p>
               <div className="imgspace d-flex">
-                {cards.slice(3, 6).map((card:any, i:any) => (
+                {playerB.map((card: any, i: number) => (
                   <img
                     key={i}
                     alt=""
@@ -670,6 +721,7 @@ const CasinoTitle = (props: any) => {
     );
   };
 
+  
   const poker6player = () => {
     return (
       <div className='video-overlay'>

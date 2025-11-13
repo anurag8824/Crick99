@@ -18,6 +18,8 @@ import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import MatchList from '../../dashboard/elements/match-list'
 import AllEventListInMatch from '../../dashboard/detailallevent'
+import MyBetComponent22Admin from './my-bet-component22-admin'
+import MyBetComponent22AdminCombined from './completedbetsadmincombined'
 
 const MatchDetail = (props: any) => {
   const userState = useAppSelector(selectUserData)
@@ -292,7 +294,7 @@ const MatchDetail = (props: any) => {
               </div>
 
               {userState.user.role !== RoleType.user && <div className='card-body'>
-                <MyBetComponent22 />
+                <MyBetComponent22AdminCombined />
               </div>}
             </div>
 

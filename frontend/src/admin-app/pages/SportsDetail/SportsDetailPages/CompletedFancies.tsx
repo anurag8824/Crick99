@@ -440,7 +440,7 @@ const CompletedFancies = () => {
                 ))}
               </select>
 
-              <div className={`${totalPL > 0 ? "text-success" :"text-danger"} font-bold text-xl`}> Total PL : {totalPL}</div>
+              <div className={`${totalPL > 0 ? "text-danger" :"text-success"} font-bold text-xl`}> Total PL : {totalPL}</div>
             </div>
 
             <div className="card-body p-0 overflow-x-scroll">

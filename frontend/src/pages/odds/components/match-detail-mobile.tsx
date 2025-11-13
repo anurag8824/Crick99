@@ -15,6 +15,8 @@ import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import AllEventListInMatch from '../../dashboard/detailallevent'
 import { RoleType } from '../../../models/User'
+import MyBetComponent22Admin from './my-bet-component22-admin'
+import MyBetComponent22AdminCombined from './completedbetsadmincombined'
 
 const MatchDetailWrapper = (props: any) => {
   const dispatch = useAppDispatch()
@@ -237,7 +239,7 @@ const shared = useParams().share
               </div>
 
               {userState.user.role !== RoleType.user && <div className='card-body'>
-                <MyBetComponent22 />
+                <MyBetComponent22AdminCombined />
               </div>}
 
 

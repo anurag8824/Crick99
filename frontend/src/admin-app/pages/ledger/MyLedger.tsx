@@ -306,9 +306,18 @@ const MyLedger = () => {
                             hour12: true, // PM/AM format
                           })}
                         </td>
-                        <td className="small p-1 " style={{ zIndex: 2 }}>
-                          {row.narration}
-                        </td>
+                        <td className="small p-1" style={{ zIndex: 2 }}>
+  {(() => {
+    let text = row.narration || "";
+    // 1️⃣ Numbers hatao agar start me hain
+    text = text.replace(/^\d+/, '').trim();
+    // 2️⃣ "/" ke pehle tak ka part lo (agar ho)
+    if (text.includes("/")) text = text.split("/")[0].trim();
+    return text;
+  })()}
+</td>
+
+
                         <td>
                           <span className="text-success p-1">
                             {row.credit.toFixed(2)}
@@ -338,14 +347,16 @@ const MyLedger = () => {
                               : ""
                           }
                         >
-                          <span
-                            className="badge badge-primary p-1"
-                            style={{ fontSize: "xx-small" }}
-                          >
-                            🏆
-                          </span>
+                       
                           <span className="small p-0 " style={{ zIndex: 2 }}>
-                            {row.narration}
+                          {(() => {
+    let text = row.narration || "";
+    // 1️⃣ Numbers hatao agar start me hain
+    text = text.replace(/^\d+/, '').trim();
+    // 2️⃣ "/" ke pehle tak ka part lo (agar ho)
+    if (text.includes("/")) text = text.split("/")[0].trim();
+    return text;
+  })()}
                           </span>
                         </td>
                       </tr>

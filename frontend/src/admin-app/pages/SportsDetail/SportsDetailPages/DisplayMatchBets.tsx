@@ -395,7 +395,7 @@ const DisplayMatchBets = () => {
                   className={`cardd text-white p-3 flex-shrink-0`}
                   style={{
                     minWidth: "200px",
-                    backgroundColor: (((team?.totalStack || 0) + (team?.profitLoss || 0)) * (shared * 0.01)) < 0 ? "#dc3545" : "#28a745", // red or green
+                    backgroundColor: (((team?.totalStack || 0) + (team?.profitLoss || 0)) * (shared * 0.01)) < 0 ? "#28a745" : "#dc3545", // red or green
                   }}
                 >
                   <div className="d-flex align-items-center">
