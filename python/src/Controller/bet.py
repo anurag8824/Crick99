@@ -13,11 +13,11 @@ from flask import jsonify
 from datetime import datetime
 
 
-superNodeUrl = "https://socket3.bxpro99.xyz/api/"
-casinoNodeUrl = "https://socket3.bxpro99.xyz/api/"
-
 # superNodeUrl = "http://localhost:3025/api/"
 # casinoNodeUrl = "http://localhost:3025/api/"
+
+superNodeUrl = "https://socket3.bxpro99.xyz/api/"
+casinoNodeUrl = "https://socket3.bxpro99.xyz/api/"
 
 defaultRatio: any = {
     "ownRatio": 100,
@@ -177,19 +177,19 @@ def checkMaxlimit(payload,userInfo):
         user_id = userInfo['_id']
 
         pipeline = [
-            {"$match": {"marketId": market_id,"userId":ObjectId(user_id),"matchId":int(payload['matchId']),"status":"pending"}},
+            {"$match": {"marketId": market_id,"userId":ObjectId(user_id),"matchId":int(payload['matchId'])}},
             {"$group": {"_id": None, "totalStack": {"$sum": "$stack"}}}
         ]
         result = list(Bet.aggregate(pipeline))
 
         total_stack = result[0]["totalStack"] if result else 0
 
-        if payload['betOn'] == "CASINO" and total_stack+payload['stack'] > 10000:
+        if payload['betOn'] == "CASINO" and total_stack+payload['stack'] > 20000:
             return {"message": "failed", "notification": "Max Limit completed !"}
-        elif payload['betOn'] == "MATCH_ODDS" and total_stack + payload['stack'] > 2500000:
-            return {"message": "failed", "notification": "Max Limit completed !"}
-        elif payload['betOn'] == "FANCY" and total_stack + payload['stack'] > 500000:
-            return {"message": "failed", "notification": "Max Limit completed !"}
+        # elif payload['betOn'] == "MATCH_ODDS" and total_stack + payload['stack'] > 500000:
+        #     return {"message": "failed", "notification": "Max Limit completed !"}
+        # elif payload['betOn'] == "FANCY" and total_stack + payload['stack'] > 200000:
+        #     return {"message": "failed", "notification": "Max Limit completed !"}
 
         # Agar limit cross nahi hui to success
         # return {"message": "success", "notification": "Bet allowed", "totalStack": total_stack}
@@ -464,10 +464,9 @@ def placebet(betObj, userInfo):
                 "sportId": event_id if bet_On != 'CASINO' else 5000,
                 "userId": ObjectId(userInfo['_id']),
                 "userName": userInfo.get("username", ""),
-                "code": userInfo.get("code", ""),
                 "betClickTime": datetime.now(),
                 "matchId": int(match_id),
-                "marketId": str(market_id),
+                "marketId": market_id,
                 "selectionId": int(selectionId),
                 "selectionName": selectionName,
                 "matchName": matchName,
@@ -502,6 +501,11 @@ def placebet(betObj, userInfo):
             #print(jsonObj)
             #print("runnersrunnersrunnersrunners")
             if (bet_On != BetOn['CASINO']):
+                exposerone = getexposerfunctionone(userInfo, False, jsonObj)
+                if(exposerone == "mafailed"):
+                    return error ({},"your one match Limit completed")
+                if(exposerone == "ffailed"):
+                    return error ({},"your one Session Limit completed")
                 exposer = getexposerfunction(userInfo, False, jsonObj)
                 print("exposer")
                 print(exposer)
@@ -975,6 +979,67 @@ def getexposerfunction(user, update_status, current_bet):
                     {'userId': ObjectId(user['_id'])}, update_ob, {'new': True, 'upsert': True})
 
             return total_exposer
+        else:
+            return 'failed'
+
+    except Exception as e:
+        print(e)
+        return 'failed'
+
+
+def getexposerfunctionone(user, update_status, current_bet):
+    try:
+        user_bets = list(Bet.find({'status': 'pending', 'userId': ObjectId(
+            user['_id']),"marketId":current_bet['marketId']}, {'_id': 1, 'matchId': 1}))
+        event_ids = list(set([current_bet['matchId']]))
+        # print(event_ids)
+        complete_bet_list = list(
+            Bet.find({'status': 'pending', 'userId': ObjectId(user['_id']),'marketId':current_bet['marketId']}))
+        complete_bet_list.append(current_bet)
+        # print(complete_bet_list)
+        if event_ids:
+            match_list = list(Match.find({'matchId': {'$in': event_ids}}))
+            new_match_list = []
+            for item in match_list:
+                markets = list(Market.find({'matchId': item['matchId']}))
+                item['markets'] = markets
+                new_match_list.append(item)
+
+            fancy_expo = 0
+            main_expo = 0
+
+            for item in new_match_list:
+                event_data = item['markets']
+                if event_data:
+                    for event_event in event_data:
+                        bet_list = [item_bet for item_bet in complete_bet_list if
+                                    item_bet['matchId'] == item['matchId'] and
+                                    item_bet['bet_on'] == BetOn['MATCH_ODDS'] and
+                                    item_bet['marketId'] == event_event['marketId']]
+                        profit = get_match_odds_exposer(bet_list, item)
+                        # print(profit)
+                        expo_li = [key for key in profit.values()
+                                   if float(key) < 0]
+                        main_expo += float(abs(min(expo_li)) if expo_li else 0)
+
+                fancy_bet_list = [item_bet for item_bet in complete_bet_list if
+                                  item_bet['matchId'] == item['matchId'] and
+                                  item_bet['bet_on'] == BetOn['FANCY']]
+                #print(complete_bet_list)
+                #print("fancy_bet_listfancy_bet_listfancy_bet_list")
+                fancypl = get_fancy_position(fancy_bet_list)
+                print(fancypl,"fancy pnl")
+                fancy_expo += float(sum(abs(val) for val in fancypl.values()))
+
+                if(current_bet['bet_on']== "FANCY"):
+                    if(fancy_expo > 250000):
+                        return 'ffailed'
+                else:
+                    if(main_expo > 1000000):
+                        return 'mafailed'      
+
+            
+            
         else:
             return 'failed'
 
