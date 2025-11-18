@@ -242,7 +242,7 @@ class MatchOdds extends React.PureComponent<
         : this.offplaylimit(market);
       return value >= 1000 ? (value / 1000).toFixed(0) + 'K' : value;
     })()
-  } */}200K
+  } */}300K
 </span>
 
 

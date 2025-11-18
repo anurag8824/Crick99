@@ -140,7 +140,7 @@ export const FancyList = React.memo(
                               nameString={fancy.marketId}
                               min={userState?.user?.userSetting?.[2]?.minBet ??
                                 "N/A"}
-                              max={250000} />
+                              max={100000} />
                           </div>
 
                           {/* RIGHT SIDE */}
