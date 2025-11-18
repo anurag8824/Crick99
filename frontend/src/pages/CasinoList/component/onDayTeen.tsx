@@ -21,7 +21,7 @@ const OneDayTeen = (props: any) => {
             
             <td className={clsnamehead} style={{ paddingLeft: "10px" ,background:"#1e2a3f" , color:"white" }}>
                <span className={clsnamehead} style={{paddingLeft:"5px", color:"white" ,}}>
-                <Limitinfo nameString={'lbmarket'} min={100} max={10000} />
+                <Limitinfo nameString={'lbmarket'} min={100} max={20000} />
                 </span>
               <b >{ItemNew.RunnerName}</b>
               <CasinoPnl sectionId={ItemNew.SelectionId} matchId={liveMatchData.match_id} />

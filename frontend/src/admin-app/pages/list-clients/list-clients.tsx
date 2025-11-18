@@ -1522,7 +1522,7 @@ const ListClients = () => {
                                     Limit Update Details
                                   </CustomLink> */}
 
-                                  <CustomLink
+                                  {/* <CustomLink
                                     to={`/operation/${user?.username}`}
                                     style={{ color: "#1e1e1e" }}
                                     className=" pb-2 fw-bold"
@@ -1532,7 +1532,7 @@ const ListClients = () => {
                                     }}
                                   >
                                     Account Operation
-                                  </CustomLink>
+                                  </CustomLink> */}
 
                                   <a
                                     onClick={() =>

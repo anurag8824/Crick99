@@ -62,7 +62,7 @@ const AndarBhar = (props: any) => {
               { (
                   <td style={{background:"#121a2a",width:"100%" , border:"none"}}>
                     <div id='nation1' className='p-title text-center' style={{marginBottom:"2px", backgroundColor:"#121a2a", color:"white"}}>
-                      {ItemNew.MarketName} <div className='fs-6 d-flex text-success'>MAX:10000</div> 
+                      {ItemNew.MarketName} <div className='fs-6 d-flex text-success'>MAX:20000</div> 
                     </div>
                   </td>
                 )}
@@ -71,7 +71,7 @@ const AndarBhar = (props: any) => {
               { !isMobile && (
                   <td style={{width:"10%" , background:"#121a2a", border:"none"}}>
                     <div  id='nation1' className='p-title text-center' style={{marginBottom:"2px", backgroundColor:"#121a2a" , color:"white"}}>
-                      {ItemNew.MarketName}<div className='fs-6 d-flex text-success'>MAX:10000</div> 
+                      {ItemNew.MarketName}<div className='fs-6 d-flex text-success'>MAX:20000</div> 
                     </div>
                   </td>
                 )}

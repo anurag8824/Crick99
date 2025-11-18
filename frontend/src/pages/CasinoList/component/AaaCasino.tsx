@@ -17,7 +17,7 @@ const AaaCasino = (props: any) => {
         <div className='row'>
           <div className='col-12 text-right'>
             {/* <Limitinfo nameString={'layback'} min={liveMatchData?.event_data?.min} max={liveMatchData?.event_data?.max} clsName={'tx-right'} /> */}
-            <Limitinfo nameString={'layback'} min={liveMatchData?.event_data?.min} max={10000} clsName={'tx-right'} />
+            <Limitinfo nameString={'layback'} min={liveMatchData?.event_data?.min} max={20000} clsName={'tx-right'} />
 
           </div>
         </div>
@@ -54,7 +54,7 @@ const AaaCasino = (props: any) => {
         <thead >
           <tr >
             <th colSpan={3} style={{ textAlign: "left" }}>
-              Max : 10000
+              Max : 20000
             </th>
           </tr>
         </thead>
@@ -148,7 +148,7 @@ const AaaCasino = (props: any) => {
           <div className='aaa-content'>
             <div className='text-right'>
              {/* <Limitinfo nameString={'oddeven'} min={liveMatchData?.event_data?.min} max={liveMatchData?.event_data?.max} clsName={'tx-right'} /> */}
-             <Limitinfo nameString={'oddeven'} min={liveMatchData?.event_data?.min} max={10000} clsName={'tx-right'} />
+             <Limitinfo nameString={'oddeven'} min={liveMatchData?.event_data?.min} max={20000} clsName={'tx-right'} />
 
             </div>
             {buttonLayout('', [1])}
@@ -158,7 +158,7 @@ const AaaCasino = (props: any) => {
         <div className='col-4 d-none' style={{paddingRight:"5px", paddingLeft:"5px"}}>
           <div className='aaa-content'>
             <div className='text-right'>
-            <Limitinfo nameString={'redblack'} min={liveMatchData?.event_data?.min} max={10000} clsName={'tx-right'} />
+            <Limitinfo nameString={'redblack'} min={liveMatchData?.event_data?.min} max={20000} clsName={'tx-right'} />
             </div>
             {buttonLayout('', [3])}
             {buttonLayout('', [4])}
@@ -168,7 +168,7 @@ const AaaCasino = (props: any) => {
         <div className='col-4 d-none ' style={{paddingLeft:"5px"}}>
           <div className='aaa-content'>
             <div className='text-right'>
-            <Limitinfo nameString={'underseven'} min={liveMatchData?.event_data?.min} max={10000} clsName={'tx-right'} />
+            <Limitinfo nameString={'underseven'} min={liveMatchData?.event_data?.min} max={20000} clsName={'tx-right'} />
             </div>
             {buttonLayout('', [5])}
             {buttonLayout('', [6])}
@@ -180,7 +180,7 @@ const AaaCasino = (props: any) => {
         <div className='row row5'>
           <div className='col-12'>
             <div className='text-right'>
-          <Limitinfo nameString={'limitinfo'} min={liveMatchData?.event_data?.min} max={10000} clsName={'tx-right'} /> 
+          <Limitinfo nameString={'limitinfo'} min={liveMatchData?.event_data?.min} max={20000} clsName={'tx-right'} /> 
             </div>
           </div>
         </div>

@@ -387,11 +387,17 @@ const SportsDetails = () => {
                         Match and Session Plus Minus
                       </CustomLink> */}
                       <CustomLink
-                        className="dropdown-item  text-lg  text-black all-event font-semibold "
-                        to={`/plus-minus-2/${item.matchId}/${item.name}`}
-                      >
-                        Match and Session Plus Minus
-                      </CustomLink>
+                                              className="dropdown-item  text-lg  text-blackcall-event font-semibold"
+                                              to={`/pl-reports/${item.matchId}/${item.name}`}
+                                            >
+                                              Match and Session Plus Minus Report
+                                            </CustomLink>
+                                            <CustomLink
+                                              className="dropdown-item  text-lg  text-black all-event font-semibold "
+                                              to={`/plus-minus-2/${item.matchId}/${item.name}`}
+                                            >
+                                              Match and Session Plus Minus 2
+                                            </CustomLink>
                       <CustomLink
                         className="dropdown-item  text-lg  text-black call-event font-semibold "
                         to={`/display-match-bets/${item.matchId}`}
@@ -413,12 +419,12 @@ const SportsDetails = () => {
                         Completed Fancies
                       </CustomLink>
 
-                      <CustomLink
+                      {/* <CustomLink
                         className="dropdown-item text-lg text-black call-event font-semibold "
                         to={`/rejected-bets/${item.matchId}`}
                       >
                         Rejected Bets
-                      </CustomLink>
+                      </CustomLink> */}
 
 
                       {/* <CustomLink

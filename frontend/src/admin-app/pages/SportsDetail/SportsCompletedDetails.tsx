@@ -438,12 +438,12 @@ const SportsCompletedDetails = () => {
                         Completed Fancies
                       </CustomLink>
 
-                      <CustomLink
+                      {/* <CustomLink
                         className="dropdown-item text-lg text-black call-event font-semibold "
                         to={`/rejected-bets/${item.matchId}`}
                       >
                         Rejected Bets
-                      </CustomLink>
+                      </CustomLink> */}
 
                       {/* <CustomLink
                         className="dropdown-item text-lg text-black call-event font-semibold "

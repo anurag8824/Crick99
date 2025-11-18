@@ -82,7 +82,7 @@ const DragonTigerA = (props: any) => {
           {buttonLayout('col-lg-3 col-4', [0, 1, 2])}
           {buttonLayout('col-lg-3 col-12', [3])}
           <span className='text-white'>
-          <Minmax  min={liveMatchData?.min} max={10000} /></span>
+          <Minmax  min={liveMatchData?.min} max={20000} /></span>
         </div>
       </div>
       {isMobile ? <div className="home_mobile d-none">

@@ -135,7 +135,12 @@ const GetAllFancy = () => {
               <tr
                 key={fancy.marketId + fancy.fancyName + index}
                 style={{
-                  backgroundColor: fancy.result ? '#5eb873' : fancy.bet ? 'yellow' : '',
+                  backgroundColor: fancy.result 
+  ? '#5eb873' 
+  : Boolean(fancy?.bet) 
+  ? '#ffff00' 
+  : ''
+,
                   color: fancy.result ? 'white' : 'black',
                 }}
                 role='row'
@@ -146,9 +151,17 @@ const GetAllFancy = () => {
                     className={`fas fa-circle ${
                       fancy.active ? 'text-success' : 'text-danger'
                     } fa-lg mr-2`}
-                  />
+                  /> 
                 </td>
-                <td className='text-left'>{fancy.fancyName}</td>
+                <td className='text-left' style={{
+                  backgroundColor: fancy.result 
+  ? '#5eb873' 
+  : Boolean(fancy?.bet) 
+  ? '#ffff00' 
+  : ''
+,
+                  color: fancy.result ? 'white' : 'black',
+                }}>{fancy.fancyName}</td>
                 <td className='text-left'>{fancy.result}</td>
                 <td className='text-left'>{fancy.active ? 'Active' : 'In-Active'}</td>
                 <td className='text-left'>{fancy.isSuspend ? 'Suspend' : 'Un-Suspend'}</td>

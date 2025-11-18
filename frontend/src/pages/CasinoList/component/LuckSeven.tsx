@@ -29,7 +29,7 @@ const LuckSeven = (props: any) => {
                 </div>
             </div>
             <div className="row m-t-10">
-                <Minmax min={liveMatchData?.min} max={10000} />
+                <Minmax min={liveMatchData?.min} max={20000} />
             </div>
         </div>
     }
@@ -62,7 +62,7 @@ const LuckSeven = (props: any) => {
                 </div>
             </div>
             <div className="row text-white">
-                <Minmax min={liveMatchData?.min} max={10000} />
+                <Minmax min={liveMatchData?.min} max={20000} />
             </div>
         </div>
     }

@@ -106,7 +106,7 @@ const CasinoQueenLayout = (props: any) => {
           </span>
           <span>
             <b>Max:</b>
-            <span>{liveMatchData?.max}</span>
+            <span>{20000}</span>
           </span>
         </div>
       </div>

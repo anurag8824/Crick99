@@ -15,7 +15,7 @@ const Onedaypoker = (props: any) => {
         <thead style={{ borderBottom: "0px" }}>
           <tr>
             <th className={clsnamehead} style={{paddingLeft:"5px" , color:"white"}}>
-              <Limitinfo nameString={'lbmarket'} min={100} max={50000} />
+              <Limitinfo nameString={'lbmarket'} min={100} max={20000} />
             </th>
             <th className={`back ${clsnamename} text-light`}>BACK</th>
             <th className={`lay-color ${clsnamename} text-light`}>LAY</th>
@@ -51,7 +51,7 @@ const Onedaypoker = (props: any) => {
         <thead style={{ borderBottom: "0px" }}>
           <tr>
             <th className={clsnamehead} style={{paddingLeft:"5px", color:"white"}}>
-              <Limitinfo nameString={'lbmarket'} min={100} max={50000} />
+              <Limitinfo nameString={'lbmarket'} min={100} max={20000} />
             </th>
             <th className={`back ${clsnamename} text-light`}>BACK</th>
             <th className={`back ${clsnamename} text-light`}>BACK</th>

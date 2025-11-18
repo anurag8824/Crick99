@@ -98,7 +98,7 @@ const TeenPatti20 = (props: any) => {
               <thead style={{borderBottom:"0px"}}>
                 <tr>
                   <th className={'box-4'} style={{ paddingLeft: "10px" , background: "#1e2a3f", color:"white"}}>
-                    <Limitinfo nameString={'lbmarket'} min={100} max={10000} />
+                    <Limitinfo nameString={'lbmarket'} min={100} max={20000} />
                   </th>
                   <th className={`back ${"box-2"}`} style={{background: "#1e2a3f", color:"white"}}>BACK</th>
                   <th className={`back ${"box-4"}`} style={{background: "#1e2a3f", color:"white"}}></th>
