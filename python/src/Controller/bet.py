@@ -1033,10 +1033,10 @@ def getexposerfunctionone(user, update_status, current_bet):
                 fancy_expo += float(sum(abs(val) for val in fancypl.values()))
 
                 if(current_bet['bet_on']== "FANCY"):
-                    if(fancy_expo > 250000):
+                    if(fancy_expo > 500000):
                         return 'ffailed'
                 else:
-                    if(main_expo > 1000000):
+                    if(main_expo > 5000000):
                         return 'mafailed'      
 
             
