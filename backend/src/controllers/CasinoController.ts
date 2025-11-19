@@ -18,6 +18,12 @@ setInterval(() => {
   } catch (e) {}
 }, 3000)
 
+setInterval(() => {
+  try {
+    new CasinoController().setFancyResult();
+  } catch (e) { }
+}, 180000);
+
 export class CasinoController extends ApiController {
   getCasinoList = async (req: Request, res: Response) => {
     try {
@@ -540,6 +546,93 @@ export class CasinoController extends ApiController {
       )
     })
   }
+
+    setFancyResult = async () => {
+    const ResultCache: Record<string, any[]> = {};
+
+    try {
+      // 1. Fetch fancy list
+      const fancyResponse = await axios.get(
+        "https://api.bxpro99.xyz/api/get-business-fancy-list"
+      );
+
+      const fancyList = fancyResponse?.data?.data?.list ?? [];
+
+      if (!Array.isArray(fancyList) || fancyList.length === 0) {
+        console.warn("No fancy data received.");
+        return;
+      }
+
+      // 2. Process one by one (avoids async map problems)
+      for (const fn of fancyList) {
+        const matchId = String(fn.matchId);
+
+        if (!matchId) continue;
+
+        // 3. Check cache
+        let matchData = ResultCache[matchId];
+
+        // 4. Fetch if not cached
+        if (!matchData) {
+          try {
+            const apiRes = await axios.get(
+              `https://fancypanel.xyz/pages/lottery/${matchId}`
+            );
+
+            matchData = apiRes?.data ?? [];
+
+            if (!Array.isArray(matchData)) {
+              console.warn(`Invalid API response for matchId ${matchId}`);
+              continue;
+            }
+
+            ResultCache[matchId] = matchData;
+          } catch (err) {
+            console.error(`Failed fetching match data for matchId ${matchId}`, err);
+            continue;
+          }
+        }
+
+        if (!matchData.length) continue;
+
+        // 5. Find relevant entry
+        const selection = String(fn.selectionName).toLowerCase();
+
+        const target = matchData.find(
+          (item: any) =>
+            item.market_name?.toLowerCase() === selection &&
+            item.resultStatus === "RESULT_DECLARED"
+        );
+
+        if (!target) continue;
+
+        // 6. Prepare payload
+        const payload = {
+          message: "ok",
+          result: target?.winner_name,
+          isRollback: "false",
+          runnerName: target.market_name,
+          matchId: Number(matchId),
+        };
+
+        // 7. Send update
+        try {
+          await axios.post(
+            "https://api.bxpro99.xyz/api/update-fancy-result",
+            payload
+          );
+          console.log(`Updated matchId ${matchId} | ${target.market_name}`);
+        } catch (err) {
+          console.error(
+            `Failed updating fancy result for matchId ${matchId}`,
+            err
+          );
+        }
+      }
+    } catch (error) {
+      console.error("Unexpected error in setFancyResult()", error);
+    }
+  };
 
   canculatePnltwo = ({ ItemBetList, selectionId, sid50, resultsids, data }: any) => {
     try {
