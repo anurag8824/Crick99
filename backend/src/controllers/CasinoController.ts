@@ -700,6 +700,7 @@ export class CasinoController extends ApiController {
       case 'poker':
       case 'poker6':
       case 'lucky7':
+      case 'teen20':
         
 
 
@@ -874,7 +875,7 @@ export class CasinoController extends ApiController {
       case 'onedaypoker':
       case 'onedaypoker20':
       case 'Tp1Day':
-      case 'teen20':
+      case 'teen200':
       case 'poker6player':
       case 'opentp':
       case 'testtp':
