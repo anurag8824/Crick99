@@ -102,7 +102,8 @@ const Login = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        background:"#8c9088"
+        background:"#0f2327",
+        overflow: "hidden"
 
 
       }}
@@ -115,18 +116,18 @@ const Login = () => {
               className="col-md-6 d-flex flex-column justify-content-center align-items-start p-4"
               style={{ borderRight: "1px solid #ddd" , background:"#0f2327" }}
             >
-              <h2 style={{color:"white"}} className="mb-3">Sign In</h2>
-              <p style={{color:"white"}} className="mb-4">
+              <p style={{color:"white", fontSize:"22px"}} className="mb-3 px-4">Sign In</p>
+              <p style={{color:"white"}} className="mb-4 px-4">
                 By Signing Up, you can avail full features of our services.
               </p>
               <img
-                src="/imgs/logo.png"
+                src="/logobx.png"
                 alt="Logo"
                 style={{ maxWidth: "200px" }}
               />
             </div>
 
-            <div className="col-md-6 pl-4">
+            <div className="col-md-6 px-5" style={{background:"#0f2327"}}>
               <div className="featured-box-login featured-box-secundary default log-fld">
                 <form
                   onSubmit={(e) => handleSubmit(e)}
