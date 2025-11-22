@@ -287,6 +287,7 @@ const EditUser = (data: any) => {
                             // value={childData.share}
                             // required
                             type="number"
+                             disabled 
                           />
                         </div>
                       </div>
