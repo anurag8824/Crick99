@@ -4,9 +4,12 @@ import bookService from '../../../../services/book.service'
 import { AxiosResponse } from 'axios'
 import { useAppSelector, useAppDispatch } from '../../../../redux/hooks'
 import { FancyBook, selectBookFancy, setBookFancy } from '../../../../redux/actions/bet/betSlice'
+import { selectUserData } from '../../../../redux/actions/login/loginSlice'
+import { RoleType } from '../../../../models/User'
 
 const BookPopup = () => {
   const bookFancy: FancyBook = useAppSelector(selectBookFancy)
+   const userState = useAppSelector(selectUserData)
   console.log(bookFancy,"bookFancy")
   const dispatch = useAppDispatch()
   const [book, setBook] = React.useState<Record<string, number>>({})
@@ -52,11 +55,18 @@ const BookPopup = () => {
               </th>
             </tr>
           </thead>
-          {Object.keys(book).length > 0 &&
+          {Object.keys(book).length > 0 && userState.user.role == RoleType.user &&
             Object.keys(book).map((itemKey) => (
               <tr key={itemKey} className={book[itemKey] < 0 ? 'lay' : 'back'}>
                 <td className='text-center'>{itemKey}</td>
                 <td className={`${book[itemKey] < 0 ? 'red' : 'green'} text-center`}>{book[itemKey]}</td>
+              </tr>
+            ))}
+            {Object.keys(book).length > 0 && userState.user.role !== RoleType.user &&
+            Object.keys(book).map((itemKey) => (
+              <tr key={itemKey} className={book[itemKey] < 0 ? 'back' : 'lay'}>
+                <td className='text-center'>{itemKey}</td>
+                <td className={`${book[itemKey] < 0 ? 'green' : 'red'} text-center`}>{- book[itemKey]}</td>
               </tr>
             ))}
         </table>
