@@ -55,14 +55,14 @@ const BookPopup = () => {
               </th>
             </tr>
           </thead>
-          {Object.keys(book).length > 0 && userState.user.role == RoleType.user &&
+          {(Object.keys(book).length > 0 && userState.user.role == RoleType.user) &&
             Object.keys(book).map((itemKey) => (
               <tr key={itemKey} className={book[itemKey] < 0 ? 'lay' : 'back'}>
                 <td className='text-center'>{itemKey}</td>
                 <td className={`${book[itemKey] < 0 ? 'red' : 'green'} text-center`}>{book[itemKey]}</td>
               </tr>
             ))}
-            {Object.keys(book).length > 0 && userState.user.role !== RoleType.user &&
+            {(Object.keys(book).length > 0 && userState.user.role !== RoleType.user) &&
             Object.keys(book).map((itemKey) => (
               <tr key={itemKey} className={book[itemKey] < 0 ? 'back' : 'lay'}>
                 <td className='text-center'>{itemKey}</td>
