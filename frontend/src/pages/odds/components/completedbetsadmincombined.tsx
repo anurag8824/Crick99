@@ -329,12 +329,12 @@ const combinedBets = React.useMemo(() => {
                   className="no-wrap px-2"
                   style={{ background: bet.isBack ? "#72BBEF" : "#faa9ba" }}
                 >
-                  {Math.abs(Number(bet?.profitLoss?.$numberDecimal)).toFixed(2)}
+                  {(Number(bet?.profitLoss?.$numberDecimal)).toFixed(2)}
                 </td>
                 <td
                   className="no-wrap text-center px-2"
                   style={{
-                    background: bet.isBack ? "#72BBEF" : "#faa9ba",
+                    background: bet.isBack ? "#dff512ff" : "#dff512ff",
                     fontSize: "15px",
                   }}
                 >
