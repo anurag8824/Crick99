@@ -244,7 +244,7 @@ const AllEventListInMatch = () => {
 
   const currentMatch = (match: IMatch) => {
     dispatch(setCurrentMatch(match))
-    window.location.href = (`/odds/${match.matchId}`)
+    window.location.href = (`/admin/odds/${match.matchId}`)
   }
 
   return (
