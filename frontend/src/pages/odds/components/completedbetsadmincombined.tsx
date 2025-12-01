@@ -359,8 +359,8 @@ const combinedBets = React.useMemo(() => {
                 style={{
                   color:
                     Number(totals.plus) + Number(totals.minus) >= 0
-                      ? "green"
-                      : "red",
+                      ? "red"
+                      : "green",
                 }}
               >
                 {Number(totals.plus) + Number(totals.minus)}
