@@ -121,7 +121,7 @@ const Login = () => {
                 By Signing Up, you can avail full features of our services.
               </p>
               <img
-                src="/logobx.png"
+                src="/logo.png"
                 alt="Logo"
                 style={{ maxWidth: "200px" }}
               />
