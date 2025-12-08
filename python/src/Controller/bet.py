@@ -1558,81 +1558,286 @@ def get_cricket_2020_book(bets: List[Dict[str, Any]], markets: List[Dict[str, An
            
     return odds_profit
 
+# def bet_list(user, match_id):
+#     try:
+#         #print(user)
+#         #print(match_id)
+
+#         number_float = float(match_id)
+#         number_int = round(number_float)
+#         print(number_int,"pritn number int")
+#         # user_id = {'userId': user['_id']} if user['role'] == 'user' else {
+#         #     'parentStr': {'$in': [user['_id']]}}
+        
+#         # bets = list(Bet.find({
+#         #     **user_id,
+#         #     'matchId': int(str(number_int)),
+#         #     'status': 'pending'
+#         # }).sort('createdAt', -1))
+#         pipeline = [
+#             {
+#                 "$match": {
+#                     **user_id,
+#                     "matchId": int(str(number_int)),
+#                     "status": "pending"
+#                 }
+#             },
+#             {
+#                 "$lookup": {
+#                     "from": "users",
+#                     "localField": "allRatio.parent",   # bet.allRatio.parent → user._id
+#                     "foreignField": "_id",
+#                     "as": "parentUsers"
+#                 }
+#             },
+#             {
+#                 "$addFields": {
+#                     "allRatio": {
+#                         "$map": {
+#                             "input": "$allRatio",
+#                             "as": "ar",
+#                             "in": {
+#                                 "parent": "$$ar.parent",
+#                                 "ratio": {
+#                                     "$let": {
+#                                         "vars": {
+#                                             "u": {
+#                                                 "$arrayElemAt": [
+#                                                     {
+#                                                         "$filter": {
+#                                                             "input": "$parentUsers",
+#                                                             "as": "p",
+#                                                             "cond": { "$eq": ["$$p._id", "$$ar.parent"] }
+#                                                         }
+#                                                     },
+#                                                     0
+#                                                 ]
+#                                             }
+#                                         },
+#                                         "in": "$$u.ratioStr.ownRatio"   # user share
+#                                     }
+#                                 }
+#                             }
+#                         }
+#                     }
+#                 }
+#             },
+#             {
+#                 "$sort": {"createdAt": -1}
+#             }
+#         ]
+
+#         bets = list(Bet.aggregate(pipeline))
+
+#         print(bets)
+#         if bets:
+#             bet_first = bets[0]
+#             #print(bet_first)
+#             if bet_first.get('bet_on') != 'CASINO':
+#                 markets = list(Market.find({
+#                     'matchId': int(str(number_int))
+#                 }))
+#                 #print(markets)
+#                 profit_list = get_odds_profit(bets, markets)
+#                 data_to_serialize = {
+#                     "message": "",
+#                     "error": False,
+#                     "code": 200,
+#                     "bets": bets,
+#                     "odds_profit": profit_list,
+#                 }
+#                 #print(data_to_serialize)
+#                 json_data = json.dumps(
+#                     data_to_serialize, cls=JSONEncoderWithObjectId)
+#                 return json_data
+#             else:
+#                 markets = CasinoMatch.find_one({
+#                     'match_id': int(str(number_int))
+#                 })
+                
+                
+#                 c20_profit = {}
+#                 #get_match_casino_exposer(bets, markets)
+#                 if(user['role']!='user'):
+#                  c20_profit = get_cricket_2020_book(bets, markets['event_data']['market'], markets) if number_int==35 else get_casino_odds_profit_admin(
+#                     bets, markets['event_data']['market'], markets, user)
+#                 else:
+#                     c20_profit = get_cricket_2020_book(bets, markets['event_data']['market'], markets) if number_int==35 else get_casino_odds_profit(
+#                     bets, markets['event_data']['market'], markets)
+#                 data_to_serialize = {
+#                     "message": "",
+#                     "error": False,
+#                     "code": 200,
+#                     "bets": bets,
+#                     "odds_profit": c20_profit,
+#                 }
+#                 print(data_to_serialize)
+#                 json_data = json.dumps(
+#                     data_to_serialize, cls=JSONEncoderWithObjectId)
+#                 return json_data
+#         else:
+#             data_to_serialize = {
+#                     "message": "",
+#                     "error": False,
+#                     "code": 200,
+#                     "bets": [],
+#                     "odds_profit": {},
+#                 }
+#                 #print(data_to_serialize)
+#             json_data = json.dumps(
+#                     data_to_serialize, cls=JSONEncoderWithObjectId)
+#             return json_data
+#     except Exception as e:
+#          return error({}, str(e))
+
 def bet_list(user, match_id):
     try:
-        #print(user)
-        #print(match_id)
-
         number_float = float(match_id)
         number_int = round(number_float)
-        print(number_int,"pritn number int")
-        user_id = {'userId': user['_id']} if user['role'] == 'user' else {
-            'parentStr': {'$in': [user['_id']]}}
-        
-        bets = list(Bet.find({
-            **user_id,
-            'matchId': int(str(number_int)),
-            'status': 'pending'
-        }).sort('createdAt', -1))
+        print(number_int, "pritn number int")
+
+        # user condition
+        user_id = (
+            {"userId": user["_id"]}
+            if user["role"] == "user"
+            else {"parentStr": {"$in": [user["_id"]]}}
+        )
+
+        # -------- PIPELINE START --------
+        pipeline = [
+            {
+                "$match": {
+                    **user_id,
+                    "matchId": int(str(number_int)),
+                    "status": "pending"
+                }
+            },
+            {
+                "$lookup": {
+                    "from": "users",
+                    "localField": "parentStr",       # parent IDs from bet
+                    "foreignField": "_id",           # user._id match
+                    "as": "parentUsers"
+                }
+            },
+            {
+                "$addFields": {
+                    "parentShare": {
+                        "$map": {
+                            "input": "$parentStr",
+                            "as": "pid",
+                            "in": {
+                                "id": "$$pid",
+                                "share": {
+                                    "$let": {
+                                        "vars": {
+                                            "u": {
+                                                "$arrayElemAt": [
+                                                    {
+                                                        "$filter": {
+                                                            "input": "$parentUsers",
+                                                            "as": "p",
+                                                            "cond": { "$eq": ["$$p._id", "$$pid"] }
+                                                        }
+                                                    },
+                                                    0
+                                                ]
+                                            }
+                                        },
+                                        "in": "$$u.share"       # <-- USERS.share field !
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            {"$sort": {"createdAt": -1}}
+        ]
+
+        # ---------- PIPELINE END ----------
+
+        bets = list(Bet.aggregate(pipeline))
         print(bets)
+
         if bets:
             bet_first = bets[0]
-            #print(bet_first)
-            if bet_first.get('bet_on') != 'CASINO':
-                markets = list(Market.find({
-                    'matchId': int(str(number_int))
-                }))
-                #print(markets)
+
+            # ---------- NORMAL MATCH ----------
+            if bet_first.get("bet_on") != "CASINO":
+                markets = list(
+                    Market.find({"matchId": int(str(number_int))})
+                )
                 profit_list = get_odds_profit(bets, markets)
-                data_to_serialize = {
+
+                response = {
                     "message": "",
                     "error": False,
                     "code": 200,
                     "bets": bets,
                     "odds_profit": profit_list,
                 }
-                #print(data_to_serialize)
-                json_data = json.dumps(
-                    data_to_serialize, cls=JSONEncoderWithObjectId)
-                return json_data
+                return json.dumps(response, cls=JSONEncoderWithObjectId)
+
+            # ---------- CASINO ----------
             else:
-                markets = CasinoMatch.find_one({
-                    'match_id': int(str(number_int))
-                })
-                
-                
-                c20_profit = {}
-                #get_match_casino_exposer(bets, markets)
-                if(user['role']!='user'):
-                 c20_profit = get_cricket_2020_book(bets, markets['event_data']['market'], markets) if number_int==35 else get_casino_odds_profit_admin(
-                    bets, markets['event_data']['market'], markets, user)
+                markets = CasinoMatch.find_one(
+                    {"match_id": int(str(number_int))}
+                )
+
+                if user["role"] != "user":
+                    c20_profit = (
+                        get_cricket_2020_book(
+                            bets,
+                            markets["event_data"]["market"],
+                            markets,
+                        )
+                        if number_int == 35
+                        else get_casino_odds_profit_admin(
+                            bets,
+                            markets["event_data"]["market"],
+                            markets,
+                            user,
+                        )
+                    )
                 else:
-                    c20_profit = get_cricket_2020_book(bets, markets['event_data']['market'], markets) if number_int==35 else get_casino_odds_profit(
-                    bets, markets['event_data']['market'], markets)
-                data_to_serialize = {
+                    c20_profit = (
+                        get_cricket_2020_book(
+                            bets,
+                            markets["event_data"]["market"],
+                            markets,
+                        )
+                        if number_int == 35
+                        else get_casino_odds_profit(
+                            bets,
+                            markets["event_data"]["market"],
+                            markets,
+                        )
+                    )
+
+                response = {
                     "message": "",
                     "error": False,
                     "code": 200,
                     "bets": bets,
                     "odds_profit": c20_profit,
                 }
-                print(data_to_serialize)
-                json_data = json.dumps(
-                    data_to_serialize, cls=JSONEncoderWithObjectId)
-                return json_data
+                return json.dumps(response, cls=JSONEncoderWithObjectId)
+
         else:
-            data_to_serialize = {
-                    "message": "",
-                    "error": False,
-                    "code": 200,
-                    "bets": [],
-                    "odds_profit": {},
-                }
-                #print(data_to_serialize)
-            json_data = json.dumps(
-                    data_to_serialize, cls=JSONEncoderWithObjectId)
-            return json_data
+            # ---------- NO BETS ----------
+            response = {
+                "message": "",
+                "error": False,
+                "code": 200,
+                "bets": [],
+                "odds_profit": {},
+            }
+            return json.dumps(response, cls=JSONEncoderWithObjectId)
+
     except Exception as e:
-         return error({}, str(e))
+        err = error({}, str(e))
+        return json.dumps(err)
+
   
 # def lena_dena()

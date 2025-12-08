@@ -26,6 +26,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CasinoController = void 0;
 const ApiController_1 = require("./ApiController");
 const CasinoMatches_1 = require("../models/CasinoMatches");
+const axios_1 = __importDefault(require("axios"));
 const Bet_1 = require("../models/Bet");
 const ObjectId = require('mongoose').Types.ObjectId;
 const FancyController_1 = require("./FancyController");
@@ -40,6 +41,12 @@ setInterval(() => {
     }
     catch (e) { }
 }, 3000);
+setInterval(() => {
+    try {
+        new CasinoController().setFancyResult();
+    }
+    catch (e) { }
+}, 180000);
 class CasinoController extends ApiController_1.ApiController {
     constructor() {
         super(...arguments);
@@ -498,6 +505,73 @@ class CasinoController extends ApiController_1.ApiController {
                 yield CasinoGameResult_1.CasinoGameResult.updateMany({ mid: marketId, gameType: casinoType }, { $set: { 'data.status': 'done', 'data.result-over': 'done' } });
             }));
         };
+        this.setFancyResult = () => __awaiter(this, void 0, void 0, function* () {
+            var _b, _c, _d, _e;
+            const ResultCache = {};
+            try {
+                // 1. Fetch fancy list
+                const fancyResponse = yield axios_1.default.get("https://api.bxpro99.xyz/api/get-business-fancy-list");
+                const fancyList = (_d = (_c = (_b = fancyResponse === null || fancyResponse === void 0 ? void 0 : fancyResponse.data) === null || _b === void 0 ? void 0 : _b.data) === null || _c === void 0 ? void 0 : _c.list) !== null && _d !== void 0 ? _d : [];
+                if (!Array.isArray(fancyList) || fancyList.length === 0) {
+                    console.warn("No fancy data received.");
+                    return;
+                }
+                // 2. Process one by one (avoids async map problems)
+                for (const fn of fancyList) {
+                    const matchId = String(fn.matchId);
+                    if (!matchId)
+                        continue;
+                    // 3. Check cache
+                    let matchData = ResultCache[matchId];
+                    // 4. Fetch if not cached
+                    if (!matchData) {
+                        try {
+                            const apiRes = yield axios_1.default.get(`https://fancypanel.xyz/pages/lottery/${matchId}`);
+                            matchData = (_e = apiRes === null || apiRes === void 0 ? void 0 : apiRes.data) !== null && _e !== void 0 ? _e : [];
+                            if (!Array.isArray(matchData)) {
+                                console.warn(`Invalid API response for matchId ${matchId}`);
+                                continue;
+                            }
+                            ResultCache[matchId] = matchData;
+                        }
+                        catch (err) {
+                            console.error(`Failed fetching match data for matchId ${matchId}`, err);
+                            continue;
+                        }
+                    }
+                    if (!matchData.length)
+                        continue;
+                    // 5. Find relevant entry
+                    const selection = String(fn.selectionName).toLowerCase();
+                    const target = matchData.find((item) => {
+                        var _a;
+                        return ((_a = item.market_name) === null || _a === void 0 ? void 0 : _a.toLowerCase()) === selection &&
+                            item.resultStatus === "RESULT_DECLARED";
+                    });
+                    if (!target)
+                        continue;
+                    // 6. Prepare payload
+                    const payload = {
+                        message: "ok",
+                        result: target === null || target === void 0 ? void 0 : target.winner_name,
+                        isRollback: "false",
+                        runnerName: target.market_name,
+                        matchId: Number(matchId),
+                    };
+                    // 7. Send update
+                    try {
+                        yield axios_1.default.post("https://api.bxpro99.xyz/api/update-fancy-result", payload);
+                        console.log(`Updated matchId ${matchId} | ${target.market_name}`);
+                    }
+                    catch (err) {
+                        console.error(`Failed updating fancy result for matchId ${matchId}`, err);
+                    }
+                }
+            }
+            catch (error) {
+                console.error("Unexpected error in setFancyResult()", error);
+            }
+        });
         this.canculatePnltwo = ({ ItemBetList, selectionId, sid50, resultsids, data }) => {
             try {
                 const sids = JSON.parse(data.sids);
@@ -559,6 +633,7 @@ class CasinoController extends ApiController_1.ApiController {
                 case 'poker':
                 case 'poker6':
                 case 'lucky7':
+                case 'teen20':
                     let caldata = this.canculatePnltwo({ ItemBetList, selectionId, sid50, resultsids, data });
                     profit_type = caldata.profit_type;
                     profitLossAmt = caldata.profitLossAmt;
@@ -723,7 +798,7 @@ class CasinoController extends ApiController_1.ApiController {
                 case 'onedaypoker':
                 case 'onedaypoker20':
                 case 'Tp1Day':
-                case 'teen20':
+                case 'teen200':
                 case 'poker6player':
                 case 'opentp':
                 case 'testtp':
@@ -1099,13 +1174,13 @@ class CasinoController extends ApiController_1.ApiController {
             }
         });
         this.htmlCards = (req, res) => __awaiter(this, void 0, void 0, function* () {
-            var _b;
+            var _f;
             const { type, roundId } = req.params;
             console.log(type, roundId, "ddf");
             try {
                 let casinoType = yield CasinoGameResult_1.CasinoGameResult.findOne({ mid: roundId });
                 console.log(casinoType, "caisnotype");
-                const html = (_b = casinoType === null || casinoType === void 0 ? void 0 : casinoType.data) === null || _b === void 0 ? void 0 : _b.html;
+                const html = (_f = casinoType === null || casinoType === void 0 ? void 0 : casinoType.data) === null || _f === void 0 ? void 0 : _f.html;
                 // old one for another than manish api
                 // const html = casinoType?.data
                 return this.success(res, { html });

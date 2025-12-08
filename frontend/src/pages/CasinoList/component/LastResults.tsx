@@ -190,7 +190,7 @@ const gameWiseResultStyle: any = {
       clsname: 'ball-runs playerb last-result',
       shortName: 'A',
     },
-    '3': {
+    '2': {
       clsname: 'ball-runs playera last-result',
       shortName: 'B',
     },

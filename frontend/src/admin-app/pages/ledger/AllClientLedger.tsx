@@ -598,7 +598,7 @@ const AllClientLedger = () => {
         // const netFinal = Math.max(0, Math.abs(rawAmount  + settledAmount));
         const netFinal = rawAmount + settledAmount;
 
-        console.log(netFinal, settledAmount, "GHJK", username);
+        console.log(netFinal, settledAmount,rawAmount, "GHJK", username);
         const baseData = {
           agent: username,
           amount: rawAmount,
@@ -607,7 +607,7 @@ const AllClientLedger = () => {
           ChildId,
         };
 
-        console.log(rawAmount - settledAmount, "raww amountt");
+        console.log(rawAmount + settledAmount, "raww amountt");
 
         if (netFinal >= 0) {
           lenaArray.push(baseData);
@@ -730,7 +730,7 @@ const AllClientLedger = () => {
                           </CustomLink>
                         </td>
 
-                        <td>{(row.amount - row.settled).toFixed(2)}</td>
+                        <td>{(row.amount + row.settled).toFixed(2)}</td>
                         {/* <td>{row.settled.toFixed(2)}</td> */}
                         {/* <td>{row.amount.toFixed(2)}</td>amount */}
 
@@ -848,7 +848,7 @@ const AllClientLedger = () => {
                             <i className="fa fa-eye fa-xs"></i> {row.agent}
                           </CustomLink>
                         </td>
-                        <td>{(row.amount - row.settled).toFixed(2)}</td>
+                        <td>{(row.amount + row.settled).toFixed(2)}</td>
                         {/* <td>{row.settled.toFixed(2)}</td> */}
                         {/* <td className="bg-final2 text-white">
                     {row.final.toFixed(2)}

@@ -808,7 +808,7 @@ const filteredCombined = pattern
                           }
 
                           const settleamount =
-                            modalType === "lena"
+                            modalType === "Payment Liya"
                               ? -Math.abs(inputAmount)
                               : Math.abs(inputAmount);
 
@@ -891,11 +891,11 @@ const filteredCombined = pattern
                         >
                           Balance{" "}
                           {(
-                            selectedClient?.amount - selectedClient?.settled
+                            selectedClient?.amount + selectedClient?.settled
                           ).toFixed(2)}
-                          {selectedClient?.amount - selectedClient?.settled < 0
-                            ? "(Lena)"
-                            : "(Dena)"}
+                          {selectedClient?.amount +selectedClient?.settled < 0
+                            ? "(Dena)"
+                            : "(Lena)"}
                           {/* {(
                             Math.abs(selectedClient?.amount) +
                             Math.abs(selectedClient?.settled)

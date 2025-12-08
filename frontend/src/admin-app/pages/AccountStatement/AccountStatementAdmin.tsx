@@ -222,7 +222,7 @@ const AccountStatementAdmin = () => {
             </td>
             <td className="green wnwrap">{stmt.closing}</td>
             {/* <td>{stmt.stmt.txnBy}</td> */}
-            {/* <td
+            <td
               onClick={(e: MouseEvent<HTMLTableCellElement>) =>
                 getBets(e, stmt.stmt)
               }
@@ -230,7 +230,7 @@ const AccountStatementAdmin = () => {
               <span className={stmt.type == "pnl" ? "label-buttonccc" : ""}>
                 {stmt.narration}
               </span>
-            </td> */}
+            </td>
           </tr>
         );
       });
