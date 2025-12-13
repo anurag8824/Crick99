@@ -88,7 +88,17 @@ const Newhome = () => {
                     className="menu-icon"
                   />
                 </div>
-                <p className="menu-label">MATKA</p>
+                <p className="menu-label">MATKA(coming soon)</p>
+              </a>
+              <a className="menu-card " href="#">
+                <div className="menu-icon-container">
+                  <img
+                    src="/imgs/aviaa.gif"
+                    alt="MATKA"
+                    className="menu-icon"
+                  />
+                </div>
+                <p className="menu-label">Aviator(coming soon)</p>
               </a>
             </div>
           </div>

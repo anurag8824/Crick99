@@ -920,7 +920,7 @@ const ListClients = () => {
                     //   ""
                     // )} */}
 
-                    <div className="flexxx hidden item-center gap-1">
+                    <div className="flex item-center gap-1">
                       <input
                         type="text"
                         placeholder="Search"
@@ -1498,7 +1498,7 @@ const ListClients = () => {
                                     Account Statement
                                   </CustomLink>
 
-                                  <CustomLink
+                                  {user?.role == "user" ? "" : <CustomLink
                                     to={`/login-report/${user?._id}`}
                                     style={{ color: "#1e1e1e" }}
                                     className=" pb-2 fw-bold"
@@ -1508,7 +1508,7 @@ const ListClients = () => {
                                     }}
                                   >
                                     Login Report
-                                  </CustomLink>
+                                  </CustomLink> }
 
                                   {/* <CustomLink
                                     to={`/accountstatement-deposit/${user?._id}`}
@@ -1717,13 +1717,19 @@ const ListClients = () => {
                             </td>
 
                             {/* <td></td> */}
-                            <td>
+                            {/* <td>
                               {urole === "dl" ||
                               urole === "mdl" ||
                               urole === "smdl" ||
                               urole === "suadmin"
                                 ? "******"
                                 : user?.password}
+                            </td> */}
+
+                            <td>
+                              {urole === "admin"
+                             ?  user?.password
+                                : "******"}
                             </td>
 
                             <td>
