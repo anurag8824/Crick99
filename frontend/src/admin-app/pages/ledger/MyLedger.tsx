@@ -76,7 +76,7 @@ const MyLedger = () => {
     return result.reverse();
   };
 
-  const getProcessedRows = () => {
+  const getProcessedRowsjustoldd = () => {
     let balance = 0;
   
     // Step 1: Filter and prepare relevant items
@@ -91,7 +91,12 @@ const MyLedger = () => {
   
     filtered.forEach((item: any) => {
       // const sign = item.umoney >= 0 ? "positive" : "negative";
-      const key = `${item.ChildId}_${item.matchId}`;
+      // const key = `${item.ChildId}_${item.matchId}`;  old key
+
+      const key =
+      item.Fancy === false
+        ? `${item.ChildId}_CASINO`
+        : `${item.ChildId}_${item.matchId}`;
   
       if (!groupedMap.has(key)) {
         groupedMap.set(key, { ...item }); // clone item
@@ -142,6 +147,88 @@ const MyLedger = () => {
   
     return result.reverse(); // latest first
   };
+
+  const getProcessedRows = () => {
+    let balance = 0;
+  
+    // Step 1: Filter
+    const filtered = tableData.filter((item: any) => {
+      const isSettled = item.settled === true;
+      const isChildMatch = item.ChildId === userState.user._id;
+      return !isSettled || (isSettled && isChildMatch);
+    });
+  
+    // Step 2: Grouping
+    const groupedMap = new Map<string, any>();
+  
+    filtered.forEach((item: any) => {
+      // 🔑 Fancy false → ek hi Casino group
+      const key =
+        item.Fancy === false
+          ? `${item.ChildId}_CASINO`
+          : `${item.ChildId}_${item.matchId}`;
+  
+      if (!groupedMap.has(key)) {
+        groupedMap.set(key, {
+          ...item,
+          narration: item.Fancy === false ? "Casino" : item.narration,
+        });
+      } else {
+        const existing = groupedMap.get(key);
+  
+        // Sum values
+        existing.umoney += item.umoney;
+        existing.money += item.money;
+        existing.updown += item.updown;
+  
+        // Latest date rakho
+        if (new Date(item.createdAt) > new Date(existing.createdAt)) {
+          existing.createdAt = item.createdAt;
+        }
+  
+        // 🔒 Fancy false ka narration hamesha Casino
+        if (item.Fancy === false) {
+          existing.narration = "Casino";
+        }
+  
+        groupedMap.set(key, existing);
+      }
+    });
+  
+    const groupedData = Array.from(groupedMap.values());
+  
+    // Step 3: Running balance
+    const result: {
+      id: string;
+      credit: number;
+      debit: number;
+      balance: number;
+      narration: string;
+      date: string;
+      Fancy: any;
+    }[] = [];
+  
+    groupedData.forEach((item: any) => {
+      const money = item.umoney;
+      const credit = money > 0 ? money : 0;
+      const debit = money < 0 ? money : 0;
+  
+      balance += money;
+  
+      result.push({
+        id: item._id,
+        credit,
+        debit,
+        balance,
+        narration: item.narration,
+        date: item.createdAt,
+        Fancy: item.Fancy,
+      });
+    });
+  
+    return result.reverse();
+  };
+  
   
 
   const processedRows = getProcessedRows();

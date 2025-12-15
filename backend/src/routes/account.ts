@@ -92,6 +92,8 @@ export class AccountRoutes {
 
 
     this.router.post("/c-reset",Passport.authenticateJWT,this.FancyController.commissionreset)
+    this.router.post("/delete-ledger-entry",Passport.authenticateJWT,this.FancyController.deleteLedgerEntry)
+
     this.router.post("/iframe-url",Passport.authenticateJWT,this.AccountController.iframeurl)
 
     

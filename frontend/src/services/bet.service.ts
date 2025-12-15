@@ -48,6 +48,10 @@ class BetService {
     return api.get("all-client-ledger/one");
   }
 
+  deleteledgerentry(id: any) {
+    return api.post(`delete-ledger-entry` , { id });
+  }
+
  
 
   pponeledger(sendId: string | undefined) {

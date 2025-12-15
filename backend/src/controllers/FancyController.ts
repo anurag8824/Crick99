@@ -3144,6 +3144,35 @@ export class FancyController extends ApiController {
         .json({ msg: "Internal Server Error", status: false });
     }
   };
+
+  deleteLedgerEntry = async (req: Request, res: Response) => {
+    console.log(req.body, "request body");
+  
+    const { id } = req.body;
+  
+    if (!id) {
+      return res.status(400).json({
+        msg: "Ledger ID is required",
+        status: false,
+      });
+    }
+  
+    try {
+      await ledger.deleteOne({ _id: id });
+  
+      return res.json({
+        msg: "Ledger entry deleted successfully",
+        status: true,
+      });
+    } catch (error) {
+      console.error("Error deleting ledger:", error);
+      return res.status(500).json({
+        msg: "Internal Server Error",
+        status: false,
+      });
+    }
+  };
+  
 }
 
 // import axios from "axios";

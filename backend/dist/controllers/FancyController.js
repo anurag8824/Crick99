@@ -1693,6 +1693,30 @@ class FancyController extends ApiController_1.ApiController {
                     .json({ msg: "Internal Server Error", status: false });
             }
         });
+        this.deleteLedgerEntry = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            console.log(req.body, "request body");
+            const { id } = req.body;
+            if (!id) {
+                return res.status(400).json({
+                    msg: "Ledger ID is required",
+                    status: false,
+                });
+            }
+            try {
+                yield allledager_1.ledger.deleteOne({ _id: id });
+                return res.json({
+                    msg: "Ledger entry deleted successfully",
+                    status: true,
+                });
+            }
+            catch (error) {
+                console.error("Error deleting ledger:", error);
+                return res.status(500).json({
+                    msg: "Internal Server Error",
+                    status: false,
+                });
+            }
+        });
     }
     //9xledger calculation
     //   async cal9xbro(userId,bet_id,profit_loss,matchId,narration,selectionId,sportId){

@@ -46,6 +46,7 @@ class AccountRoutes {
         this.router.get("/getodds", Passport_1.default.authenticateJWT, this.AccountController.PerviousOdds);
         this.router.get("/getnotice", Passport_1.default.authenticateJWT, this.AccountController.getNotice);
         this.router.post("/c-reset", Passport_1.default.authenticateJWT, this.FancyController.commissionreset);
+        this.router.post("/delete-ledger-entry", Passport_1.default.authenticateJWT, this.FancyController.deleteLedgerEntry);
         this.router.post("/iframe-url", Passport_1.default.authenticateJWT, this.AccountController.iframeurl);
     }
 }

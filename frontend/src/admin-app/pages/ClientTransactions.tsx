@@ -317,6 +317,24 @@ const filteredCombined = pattern
   : combined;
 
   const navigate = useNavigate();
+
+  const handleDelete = (id:any) =>{
+    console.log("delete clicked" , id);
+    betService.deleteledgerentry(id).then((res: AxiosResponse<{ data: any }>) => {
+      console.log("Deleted successfully", res);
+      // Refresh data after deletion
+      window.location.reload();
+      
+      
+     
+    }).catch((err) => {
+      console.error("Error deleting entry", err);
+    });
+
+
+  }
+
+  
   return (
     <div className="container-fluid ">
       <div className="row row-center">
@@ -1027,6 +1045,17 @@ const filteredCombined = pattern
                             >
                               Done
                             </th>
+
+                            <th
+                              className="p-1 small no-sort sorting_disabled"
+                              style={{
+                                width: 127,
+                                backgroundColor: "#0f2327",
+                                color: "white",
+                              }}
+                            >
+                              Action
+                            </th>
                           </tr>
                         </thead>
 
@@ -1587,6 +1616,14 @@ const filteredCombined = pattern
                                       style={{ zIndex: 2 }}
                                     >
                                       SELF
+                                    </td>
+
+
+                                    <td
+                                      className="small p-1"
+                                      style={{ zIndex: 2 }}
+                                    >
+                                     <button onClick={() => handleDelete(row?._id)}>Delete</button> 
                                     </td>
                                   </tr>
                                 ))}
