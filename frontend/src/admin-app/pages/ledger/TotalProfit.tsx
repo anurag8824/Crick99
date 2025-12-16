@@ -23,38 +23,74 @@ const TotalProfit = () => {
 
   const [totalCommission, setTotalCommission] = React.useState<number>(0);
 
+  const getGroupedProfitData = (data: any[], selectedUser: string) => {
+    const map = new Map<string, any>();
+  
+    data.forEach((item: any) => {
+      // user filter
+      if (selectedUser !== "all" && item.username !== selectedUser) return;
+  
+      const key =
+        item.Fancy === false
+          ? "CASINO"
+          : `${item.childId || item.username}_${item.matchId}`;
+  
+      if (!map.has(key)) {
+        map.set(key, {
+          ...item,
+          narration: item.Fancy === false ? "Casino" : item.narration,
+          profit: item.profit || 0,
+        });
+      } else {
+        const existing = map.get(key);
+  
+        existing.profit += item.profit || 0;
+  
+        // latest date rakho
+        if (new Date(item.createdAt) > new Date(existing.createdAt)) {
+          existing.createdAt = item.createdAt;
+        }
+  
+        if (item.Fancy === false) {
+          existing.narration = "Casino";
+        }
+  
+        map.set(key, existing);
+      }
+    });
+  
+    return Array.from(map.values());
+  };
+  
+
   React.useEffect(() => {
     betService.oneledger().then((res: AxiosResponse<any>) => {
       const allData = res.data?.data || [];
-      // const dataToUse =  allData[1] ? allData[1] : allData[0]  || [];
-      const dataToUse = allData[0];
-
+      const dataToUse = allData[0] || [];
+  
       setTableData2(dataToUse);
-      // setTabledata(res.data.data);
-
-      // Filtered data based on selected user
-      const filteredData =
-        optionuser === "all"
-          ? dataToUse
-          : dataToUse.filter((item: any) => item.username === optionuser);
-
-      const total = filteredData.reduce((sum: number, item: any) => {
-        console.log(sum, item, "sum and item hahahahhahha");
-        return sum + item?.profit;
+  
+      const grouped = getGroupedProfitData(dataToUse, optionuser);
+  
+      const total = grouped.reduce((sum: number, item: any) => {
+        return sum + (item.profit || 0);
       }, 0);
-
-      console.log(filteredData);
-
-      setTableData(filteredData);
-
+  
+      setTableData(grouped);
       setTotalCommission(total);
-
-      console.log(res, "res for lena dena jai hind !");
     });
   }, [optionuser]);
+  
 
   const { RangePicker } = DatePicker;
   const navigate = useNavigate()
+  
+  const formatNarration = (text: string = "") => {
+    let t = text.replace(/^\d+/, "").trim();
+    if (t.includes("/")) t = t.split("/")[0].trim();
+    return t;
+  };
+  
 
   return (
     <div className="body-wrap p-md-4 bg-white shadow">
@@ -201,16 +237,17 @@ const TotalProfit = () => {
                           })}
                         </td>
                         <td>
-                          <span
-                            className="badge badge-primary p-1"
-                            style={{ fontSize: "xx-small" }}
-                          >
-                            🏆
-                          </span>
-                          <span className="small p-0" style={{ zIndex: 2 }}>
-                            {row.narration}
-                          </span>
-                        </td>
+  <span
+    className="badge badge-primary p-1"
+    style={{ fontSize: "xx-small" }}
+  >
+    🏆
+  </span>
+  <span className="small p-0" style={{ zIndex: 2 }}>
+    {formatNarration(row.narration)}
+  </span>
+</td>
+
                         <td>
                           {/* <span className="text-danger">0</span> */}
                           {(row.profit < 0 ? row.profit : 0).toFixed()}
@@ -250,83 +287,12 @@ const TotalProfit = () => {
               background: "white",
             }}
           >
-            {/* <div
-              className="p-1 col-7 without-commission btn btn-sm btn-danger"
-              style={{ display: "none" }}
-            >
-              <span
-                className="badge badge-light"
-                style={{
-                  position: "relative",
-                  bottom: 0,
-                  fontSize: "xx-small",
-                }}
-              >
-                (AMT.)
-              </span>{" "}
-              -13,956
-            </div> */}
-            {/* <div
-              className="p-1 small col-5 without-commission btn btn-sm btn-success"
-              style={{ display: "none" }}
-            >
-              <span
-                className="badge badge-light"
-                style={{
-                  position: "relative",
-                  bottom: 0,
-                  fontSize: "xx-small",
-                }}
-              >
-                (COMM.)
-              </span>{" "}
-              14,635
-            </div> */}
-            {/* <div className="pt-2  col-5 row-title text-center with-commission">
-              TOTAL
-            </div>
-            <div className="pt-2 pr-1 pl-1 col-7 with-commission btn btn-sm btn-success">
-              {totalCommission.toLocaleString()}
-            </div> */}
+            
+           
           </div>
 
-          {/* Modal */}
-          {/* <div
-            className="modal fade"
-            id="bets-list"
-            tabIndex={-1}
-            role="dialog"
-            aria-labelledby="myModalLabel"
-            aria-hidden="true"
-          >
-            <div className="modal-dialog modal-dialog-centered" role="document">
-              <div className="modal-content form-elegant">
-                <div className="modal-header text-center pb-0">
-                  <h6 style={{ width: "100%" }} className="pt-2">
-                    -
-                  </h6>
-                  <button
-                    type="button"
-                    className="close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">×</span>
-                  </button>
-                </div>
-                <div className="modal-body"></div>
-                <div className="modal-footer pt-2 mb-1 text-center">
-                  <button
-                    type="button"
-                    className="btn btn-info"
-                    data-dismiss="modal"
-                  >
-                    Close ❌
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div> */}
+        
+          
         </div>
       </div>
     </div>
