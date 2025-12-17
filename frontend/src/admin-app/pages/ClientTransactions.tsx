@@ -1576,7 +1576,7 @@ const filteredCombined = pattern
                                       className="small p-1"
                                       style={{ zIndex: 2 }}
                                     >
-                                      {row?.settletype || ""}
+                                      {row?.settletype || "-"}
                                     </td>
 
                                     <td
@@ -1619,12 +1619,12 @@ const filteredCombined = pattern
                                     </td>
 
 
-                                    <td
+                                   {row?.settletype ?  <td
                                       className="small p-1"
                                       style={{ zIndex: 2 }}
                                     >
                                      <button onClick={() => handleDelete(row?._id)}>Delete</button> 
-                                    </td>
+                                    </td> : "-"}
                                   </tr>
                                 ))}
                             </tbody>

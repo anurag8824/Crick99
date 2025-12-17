@@ -468,7 +468,7 @@ const DisplayMatchBets = () => {
                     <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Agent</th>
                     <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Team</th>
                     <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Date</th>
-                    <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">IP</th>
+                    {/* <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">IP</th> */}
                   </tr>
                 </thead>
                 <tbody className="small">
@@ -549,13 +549,13 @@ const DisplayMatchBets = () => {
                       >
                         {moment(bet?.betClickTime).format(dateFormat)}
                       </td>
-                      <td
+                      {/* <td
                       style={{background : bet.isBack ? "#72BBEF" : "#faa9ba",fontSize: "xx-small" }}
                         className="pt-2 pb-1"
                    
                       >
                         {bet?.userIp?.split(":").slice(0, 4).join(":")}
-                      </td>
+                      </td> */}
                     </tr>
                   ))}
                 </tbody>

@@ -373,9 +373,9 @@ const RecursiveLedger: React.FC<LedgerNodeProps> = ({ parentId, level = 0 }) => 
   if (uname.includes("CL")) role = "CL";
   else if (uname.includes("SA")) role = "SA";
   else if (uname.includes("ADM")) role = "ADM";
-  else if (uname.includes("AD")) role = "AD";
-  else if (uname.includes("A")) role = "A";
   else if (uname.includes("MA")) role = "MA";
+  else if (uname.includes("AD")) role = "AD";
+  else if (uname.includes("A")) role = "A";  
 
   
 
@@ -480,6 +480,39 @@ const RecursiveLedger: React.FC<LedgerNodeProps> = ({ parentId, level = 0 }) => 
       </tr>
     );
   }
+
+
+
+  const clRows = entries.filter((e) => e.role === "CL");
+
+const totals = clRows.reduce(
+  (acc, row) => {
+    acc.match += row.match || 0;
+    acc.session += row.session || 0;
+    acc.amount += row.amount || 0;
+    acc.mCom += row.mCom || 0;
+    acc.sCom += row.sCom || 0;
+    acc.tCom += row.tCom || 0;
+    acc.gTotal += row.gTotal || 0;
+    acc.upDownShare += row.upDownShare || 0;
+    acc.balance += Number(row.balance) || 0;
+    return acc;
+  },
+  {
+    match: 0,
+    session: 0,
+    amount: 0,
+    mCom: 0,
+    sCom: 0,
+    tCom: 0,
+    gTotal: 0,
+    upDownShare: 0,
+    balance: 0,
+  }
+);
+
+console.log(totals, "totals");
+
 
   // 🎨 Color map by role
   const roleColors: Record<string, string> = {
@@ -603,6 +636,8 @@ const RecursiveLedger: React.FC<LedgerNodeProps> = ({ parentId, level = 0 }) => 
             </React.Fragment>
           );
         }
+
+        
   
         return null;
       })}
@@ -670,11 +705,59 @@ const RecursiveLedger: React.FC<LedgerNodeProps> = ({ parentId, level = 0 }) => 
                     {row.balance}
                   </td>
                 </tr>
+               
   
                 {/* Recursive call for any children of this CL (rare but allowed) */}
                 <RecursiveLedger parentId={row.ChildId} level={level + 1} />
               </React.Fragment>
             ))}
+
+
+{clRows.length > 0 && (
+  <tr style={{ background: "#1b3a3oof", fontWeight: "bkkold" }}>
+    <td style={{ color: "whitke" }}>TOTAL</td>
+
+    <td className={totals.match < 0 ? "text-danger" : "text-success"}>
+      {totals.match.toFixed(2)}
+    </td>
+
+    <td className={totals.session < 0 ? "text-danger" : "text-success"}>
+      {totals.session.toFixed(2)}
+    </td>
+
+    <td className={totals.amount < 0 ? "text-danger" : "text-success"}>
+      {totals.amount.toFixed(2)}
+    </td>
+
+    <td className={totals.mCom < 0 ? "text-danger" : "text-success"}>
+      {totals.mCom.toFixed(2)}
+    </td>
+
+    <td className={totals.sCom < 0 ? "text-danger" : "text-success"}>
+      {totals.sCom.toFixed(2)}
+    </td>
+
+    <td className={totals.tCom < 0 ? "text-danger" : "text-success"}>
+      {totals.tCom.toFixed(2)}
+    </td>
+
+    <td className={totals.gTotal < 0 ? "text-danger" : "text-success"}>
+      {totals.gTotal.toFixed(2)}
+    </td>
+
+    <td className={totals.upDownShare < 0 ? "text-danger" : "text-success"}>
+      {totals.upDownShare.toFixed(2)}
+    </td>
+
+    <td className={totals.balance < 0 ? "text-danger" : "text-success"}>
+      {totals.balance.toFixed(2)}
+    </td>
+  </tr>
+)}
+
+
+
+
         </>
       )}
     </>

@@ -502,7 +502,7 @@ const AllClientLedger = () => {
             </div>
           </div>
 
-          <div className="childdiv3 w-100">
+          <div className="childdiv3 w-100 hidden">
             <div
               style={{ backgroundColor: "#5cb5f5" }}
               className="py-2 my-2 rounded-3 "

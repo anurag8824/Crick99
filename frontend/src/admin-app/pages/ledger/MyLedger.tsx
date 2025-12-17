@@ -354,7 +354,7 @@ const MyLedger = () => {
                       >
                         Balance
                       </th>
-                      <th
+                      {/* <th
                         className="p-1 small text-center  no-sort sorting_disabled"
                         style={{
                           width: 97,
@@ -363,7 +363,7 @@ const MyLedger = () => {
                         }}
                       >
                         Type
-                      </th>
+                      </th> */}
                       <th
                         className="p-1 small no-sort sorting_disabled"
                         style={{
@@ -424,9 +424,9 @@ const MyLedger = () => {
                             {row.balance.toFixed(2)}
                           </span>
                         </td>
-                        <td className="small p-1 " style={{ zIndex: 2 }}>
-                          {row.Fancy ? "Session" : "Match"}
-                        </td>
+                        {/* <td className="small p-1 " style={{ zIndex: 2 }}>
+                          {row.Fancy ? "Match" : "Casino"}
+                        </td> */}
                         <td
                           className={
                             row.narration === "Settlement"

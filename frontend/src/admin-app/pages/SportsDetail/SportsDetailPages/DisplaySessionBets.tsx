@@ -85,7 +85,7 @@ const DisplaySessionBets = () => {
     const [selectedSelection, setSelectedSelection] =
       React.useState("All Selections");
     const [totalPL, setTotalPL] = React.useState(0);
-    const [selections, setSelections] = React.useState<string[]>([]);
+    const [selections, setSelections] = React.useState<any[]>([]);
   
     const [selectedUserF, setSelectedUserF] = React.useState("All Users");
 
@@ -114,9 +114,22 @@ const DisplaySessionBets = () => {
        const uniqueUsers: any = Array.from(
         new Set(fancyBets.map((b: { userName: any }) => b.userName))
       );
-      const uniqueSelections: any = Array.from(
-        new Set(fancyBets.map((b: { selectionName: any }) => b.selectionName))
+      const uniqueSelections = Array.from(
+        new Map(
+          fancyBets.map((b: any) => [
+            b.selectionName,
+            {
+              selectionName: b.selectionName,
+              result: b.fancy?.result || ""
+            }
+          ])
+        ).values()
       );
+      
+      setSelections(uniqueSelections);
+
+      console.log(uniqueSelections, "unique selections");
+      
       setUsers(uniqueUsers);
       setSelections(uniqueSelections);
 
@@ -199,17 +212,37 @@ const DisplaySessionBets = () => {
       setTotalPL(filtered.reduce((acc, b) => acc + b.profitLoss, 0));
   
       // Update selection dropdown to show only unique selections for filtered user
-      if (selectedUserF !== "All Users") {
-        const uniqueSelections = Array.from(
-          new Set(filtered.map((b) => b.selectionName))
-        );
-        setSelections(uniqueSelections);
-      } else {
-        const uniqueSelections = Array.from(
-          new Set(marketonlyf.map((b) => b.selectionName))
-        );
-        setSelections(uniqueSelections);
-      }
+      // if (selectedUserF !== "All Users") {
+      //   const uniqueSelections = Array.from(
+      //     new Set(filtered.map((b) => b.selectionName))
+      //   );
+      //   setSelections(uniqueSelections);
+      // } else {
+      //   const uniqueSelections = Array.from(
+      //     new Set(marketonlyf.map((b) => b.selectionName))
+      //   );
+      // }
+
+
+
+       // ✅ OBJECT-SAFE UNIQUE SELECTIONS
+  const uniqueSelections = Array.from(
+    new Map(
+      (selectedUserF !== "All Users" ? filtered : marketonlyf).map((b: any) => [
+        b.selectionName,
+        {
+          selectionName: b.selectionName,
+          result: b.fancy?.result || ""
+        }
+      ])
+    ).values()
+  );
+
+
+
+      
+
+      setSelections(uniqueSelections);
     }, [selectedUserF, selectedSelection, marketonlyf]);
 
   // console.log(marketData, "fmsjnsdjfksgdfjgksd");
@@ -325,16 +358,21 @@ const DisplaySessionBets = () => {
 
 
               <select
-                style={{backgroundColor:"#0f2327", color:"white"}}
-                value={selectedSelection}
-                onChange={(e) => setSelectedSelection(e.target.value)}
-                className="rounded p-1 mt-2 md:mt-0"
-              >
-                <option>All Selections</option>
-                {selections.map((s) => (
-                  <option key={s}>{s}</option>
-                ))}
-              </select>
+  style={{ backgroundColor: "#0f2327", color: "white" }}
+  value={selectedSelection}
+  onChange={(e) => setSelectedSelection(e.target.value)}
+  className="rounded p-1 mt-2 md:mt-0"
+>
+  <option value="All Selections">All Selections</option>
+
+  {selections?.map((s: any) => (
+    <option key={s.selectionName} value={s.selectionName}>
+      {s.selectionName}
+      {s.result ? ` / ${s.result}` : ""}
+    </option>
+  ))}
+</select>
+
 
               {/* <div className={`${totalPL > 0 ? "text-success" :"text-danger"} font-bold text-xl`}> Total PL : {totalPL}</div> */}
             </div>
@@ -353,7 +391,7 @@ const DisplaySessionBets = () => {
                     <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Creator Name</th>
                     <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">PnL</th>
                     <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Date</th>
-                    <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">IP</th>
+                    {/* <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">IP</th> */}
                   </tr>
                 </thead>
                 <tbody className="small">
@@ -446,13 +484,13 @@ const DisplaySessionBets = () => {
                         {moment(bet?.betClickTime).format(dateFormat)}
                         {/* ( {new Date(bet?.betClickTime).toLocaleTimeString()}) */}
                       </td>
-                      <td
+                      {/* <td
                         className="pt-2 pb-1"
                         style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" ,fontSize: "xx-small"  }} 
 
                       >
                         {bet?.userIp?.split(":")?.slice(0, 4)?.join(":")}
-                      </td>
+                      </td> */}
                     </tr>
                   ))}
                 </tbody>
