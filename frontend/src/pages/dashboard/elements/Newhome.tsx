@@ -93,7 +93,7 @@ const Newhome = () => {
               <a className="menu-card " href="#">
                 <div className="menu-icon-container">
                   <img
-                    src="/imgs/aviaa.gif"
+                    src="/imgs/av.png"
                     alt="MATKA"
                     className="menu-icon"
                   />
