@@ -280,6 +280,19 @@ class UserBookController extends ApiController_1.ApiController {
             clientData = Object.assign(Object.assign({}, clientData), { totalmasterb, availableB, downlineob, upperlvell, avpl, downcr, downpl, mypl });
             return this.success(res, clientData);
         });
+        this.getMybookSP = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const user = req.user;
+            const currentUser = yield User_1.User.findOne({ _id: ObjectId(user._id) });
+            const users = yield User_1.User.aggregate([
+                {
+                    $match: {
+                        parentId: user === null || user === void 0 ? void 0 : user._id,
+                        parentStr: { $elemMatch: { $eq: ObjectId(user._id) } },
+                    },
+                },
+            ]);
+            return this.success(res, users);
+        });
         this.getFinalSuperParentId = (parentId, parentStr) => __awaiter(this, void 0, void 0, function* () {
             return "";
         });

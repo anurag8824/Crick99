@@ -44,7 +44,7 @@ class Fancy extends React.Component<
     const session = props.fancies
     const updateFancy: Record<string, IFancy> = {}
     const typesFancy: any = {}
-    console.log(session,"session from the frrontend  Hello Worrld ")
+    // console.log(session,"session from the frrontend  Hello Worrld ")
     session
       .sort((a: any, b: any) => a.sr_no - b.sr_no)
       .forEach((fancy: LFancy) => {
@@ -121,7 +121,7 @@ class Fancy extends React.Component<
     this.interval = setInterval(handler, 500)
 
     const socketHandler = (fancy: IFancy) => {
-      console.log(fancy ,"socket fancy is here")
+      // console.log(fancy ,"socket fancy is here")
       this.setState({ fancyUpdate: { ...this.state.fancyUpdate, [fancy.SelectionId]: fancy } })
     }
     this.context.socket.on('getFancyData', socketHandler)
@@ -319,11 +319,11 @@ class Fancy extends React.Component<
   
 
   suspendedFancy = () => {
-    console.log("hellow world hahahahha")
+    // console.log("hellow world hahahahha")
     this.props.socketUser.on('suspendedFancy', (data:any) => {
       const fancy :any = data.fancy;
       const type : any = data.type
-      console.log("this is suspendedFancy socket ",fancy,type)
+      // console.log("this is suspendedFancy socket ",fancy,type)
       const fancies = [...this.state.fancies[this.FancyBallTypes(fancy.fancyName)]]
 
       const fanciesIndex = fancies.findIndex(
@@ -428,7 +428,7 @@ class Fancy extends React.Component<
     const clsgrid = isMobile ? 'col-12' : 'col-12'
     const { fancyType } = this.props
 
-    console.log( fancies,"fancies from frhjvkjgvvjontend  side heyy worldd render method")
+    // console.log( fancies,"fancies from frhjvkjgvvjontend  side heyy worldd render method")
 
     return (
       <>

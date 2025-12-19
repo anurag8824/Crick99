@@ -570,6 +570,7 @@ class DealersController extends ApiController_1.ApiController {
                 scom: 1,
                 code: 1,
                 parentId: 1,
+                parentNameStr: 1,
                 role: 1,
                 creditRefrences: 1,
                 exposerLimit: 1,
@@ -614,6 +615,21 @@ class DealersController extends ApiController_1.ApiController {
                 {
                     $unwind: '$balance',
                 },
+                // 🔥 Parent User Lookup
+                {
+                    $lookup: {
+                        from: 'users',
+                        localField: 'parentId',
+                        foreignField: '_id',
+                        as: 'parentUser',
+                    },
+                },
+                {
+                    $unwind: {
+                        path: '$parentUser',
+                        preserveNullAndEmptyArrays: true,
+                    },
+                },
                 {
                     $lookup: {
                         from: 'users',
@@ -647,11 +663,13 @@ class DealersController extends ApiController_1.ApiController {
                     $addFields: {
                         childBalance: {
                             $ifNull: [{ $arrayElemAt: ['$childBalanceArray.totalChildBalance', 0] }, 0]
-                        }
+                        },
+                        // 🔥 Parent Name
+                        parentNameStr: '$parentUser.username',
                     }
                 },
                 {
-                    $project: Object.assign(Object.assign({}, select), { childBalance: 1 })
+                    $project: Object.assign(Object.assign({}, select), { parentNameStr: 1, childBalance: 1 })
                 }
             ];
             let filters = [];

@@ -638,6 +638,7 @@ async loginReport(req: Request, res: Response): Promise<Response> {
       scom:1,
       code:1,
       parentId: 1,
+      parentNameStr:1,
       role: 1,
       creditRefrences: 1,
       exposerLimit: 1,
@@ -683,6 +684,21 @@ async loginReport(req: Request, res: Response): Promise<Response> {
   {
     $unwind: '$balance',
   },
+   // 🔥 Parent User Lookup
+   {
+    $lookup: {
+      from: 'users',
+      localField: 'parentId',
+      foreignField: '_id',
+      as: 'parentUser',
+    },
+  },
+  {
+    $unwind: {
+      path: '$parentUser',
+      preserveNullAndEmptyArrays: true,
+    },
+  },
   {
     $lookup: {
       from: 'users',
@@ -716,12 +732,15 @@ async loginReport(req: Request, res: Response): Promise<Response> {
     $addFields: {
       childBalance: {
         $ifNull: [{ $arrayElemAt: ['$childBalanceArray.totalChildBalance', 0] }, 0]
-      }
+      },
+       // 🔥 Parent Name
+       parentNameStr: '$parentUser.username',
     }
   },
   {
     $project: {
       ...select,
+      parentNameStr: 1,
       childBalance: 1
     }
   }

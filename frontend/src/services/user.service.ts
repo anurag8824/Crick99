@@ -16,6 +16,10 @@ class UserService {
     return api.get(`/get-user-list?status=${getStatus}&page=${page}`)
   }
 
+  getMyBookSP() {
+    return api.get('/get-mybook' ,)
+  }
+
   getUserBook() {
     return api.get('/get-user-book')
   }

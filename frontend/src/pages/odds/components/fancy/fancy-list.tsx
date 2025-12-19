@@ -31,7 +31,7 @@ export const FancyList = React.memo(
     fancyUpdate: Record<string, IFancy>;
   }) => {
     const userState = useAppSelector(selectUserData);
-    console.log(userState, "isuyererer in fancylist"); // Debugging user state
+    // console.log(userState, "isuyererer in fancylist"); // Debugging user state
 
     const loading = useAppSelector(selectLoader);
     const dispatch = useAppDispatch();

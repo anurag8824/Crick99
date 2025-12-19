@@ -16,6 +16,7 @@ import { useAppSelector } from '../../../redux/hooks'
 import { selectUserData } from '../../../redux/actions/login/loginSlice'
 import User, { RoleType } from '../../../models/User'
 import { useParams } from 'react-router-dom'
+import MyBookShow from './my-book-show'
 
 interface Props {
   data: IMarket[]
@@ -154,9 +155,11 @@ class MatchOdds extends React.PureComponent<
 
   render(): React.ReactNode {
     const { data, getMarketBook } = this.props
-    ///console.log(data)
+    console.log(this.props.bet , "betsttss")
     const { runnersData } = this.state
     const { mybook } = this.state;
+
+    console.log(this.state.mybook, "mybookkkkkkkk")
 
     console.log(runnersData, "kjkjjkjkjkjkjk")
 
@@ -171,13 +174,13 @@ class MatchOdds extends React.PureComponent<
     const superid1 = data[0]?.marketId + "_" + data[0]?.runners[0]?.selectionId 
     const superid2 = data[0]?.marketId + "_" + data[0]?.runners[1]?.selectionId
 
-    console.log(superid1, superid2 , "superbook1" ,"superbook2")
+    // console.log(superid1, superid2 , "superbook1" ,"superbook2")
 
     const superbook1 = getMarketBook[superid1];
-    console.log(superbook1, "this is the value of superbook2");
+    // console.log(superbook1, "this is the value of superbook2");
 
     const superbook2 = getMarketBook[superid2];
-    console.log(superbook2, "this is the value of superbook2");
+    // console.log(superbook2, "this is the value of superbook2");
 
 
     return (
@@ -225,8 +228,10 @@ class MatchOdds extends React.PureComponent<
                   </span>
                 </div>
 
+                <MyBookShow />
+
         {this?.props?.userState.user.role !== RoleType.user &&  this?.props?.userState.user.role !== RoleType.admin &&       <div className='flex gap-1 mb-1'>
-  <button  className='btn bg-primary text-white' onClick={() => this.handleBookToggle(true)}>My Book</button>
+  {/* <button  className='btn bg-primary text-white' onClick={() => this.handleBookToggle(true)}>My Book</button> */}
   <button className='btn bg-primary text-white'  onClick={() => this.handleBookToggle(false)}>Ttl. Book</button>
 </div>}
 
@@ -244,6 +249,8 @@ class MatchOdds extends React.PureComponent<
     })()
   } */}300K
 </span>
+
+
 
 
                   </div>
@@ -301,6 +308,7 @@ class MatchOdds extends React.PureComponent<
                               </span>
 
                               <div>
+                              
 
                                 {getMarketBook && getMarketBook[`${market.marketId}_${runner.selectionId}`] ? (
                                   <span
@@ -312,15 +320,11 @@ class MatchOdds extends React.PureComponent<
                                     }
                                   >
                                     
-                                    {mybook ? <span>{
-                                      this.props.shared
-                                        ? (getMarketBook[`${market.marketId}_${runner.selectionId}`] * (this.props.shared / 100)).toLocaleString()
-                                        : getMarketBook[`${market.marketId}_${runner.selectionId}`].toLocaleString()
-                                    }</span> : <span>{
+                                   <span>{
                                       this.props.shared
                                         ? (getMarketBook[`${market.marketId}_${runner.selectionId}`]).toLocaleString()
                                         : getMarketBook[`${market.marketId}_${runner.selectionId}`].toLocaleString()
-                                    }</span>}
+                                    }</span>
 
                                   </span>
                                 ) : (

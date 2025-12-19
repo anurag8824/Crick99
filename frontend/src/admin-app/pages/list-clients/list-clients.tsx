@@ -36,7 +36,7 @@ import {
 } from "react-bootstrap";
 import { selectLoader } from "../../../redux/actions/common/commonSlice";
 import SubmitButton from "../../../components/SubmitButton";
-import { debounce } from "lodash";
+import { debounce, set } from "lodash";
 import betService from "../../../services/bet.service";
 import ReactPaginate from "react-paginate";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
@@ -340,6 +340,10 @@ const ListClients = () => {
       setUserBook(false);
     }
   };
+
+  React.useEffect(() => {
+    setuserresponse();
+  }, []);
 
   const getclientpl = (row: any) => {
     const clientpl = row.balance?.profitLoss || 0;
@@ -1443,7 +1447,7 @@ const ListClients = () => {
                                     </a>
                                   )} */}
 
-                                  {userState?.user?.role == RoleType.admin && (
+                                  {/* {userState?.user?.role == RoleType.admin && ( */}
                                     <a
                                       onClick={() =>
                                         updateStatus(
@@ -1470,7 +1474,7 @@ const ListClients = () => {
                                       )}
                                       {`(${user.username})`}
                                     </a>
-                                  )}
+                                  {/* )} */}
 
                                   {/* )}  */}
                                   {/* {userState?.user?.role == RoleType.admin && (

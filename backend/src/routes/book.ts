@@ -24,6 +24,8 @@ export class UserBookRoutes {
       this.userBookController.getmarketanalysis,
     )
     this.router.get('/get-user-book', Passport.authenticateJWT, this.userBookController.getuserbook)
+    this.router.get('/get-mybook', Passport.authenticateJWT, this.userBookController.getMybookSP)
+
     this.router.post(
       '/get-user-wise-book',
       Passport.authenticateJWT,

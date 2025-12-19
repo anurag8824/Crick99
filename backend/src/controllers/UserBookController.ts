@@ -294,6 +294,24 @@ export class UserBookController extends ApiController {
     }
     return this.success(res, clientData)
   }
+
+  getMybookSP = async (req: Request, res: Response) => {
+    const user: any = req.user
+    const currentUser: any = await User.findOne({ _id: ObjectId(user._id) })
+   
+    const users = await User.aggregate([
+      {
+        $match: {
+          parentId: user?._id,
+          parentStr: { $elemMatch: { $eq: ObjectId(user._id) } },
+        },
+      },
+    ])
+
+    return this.success(res, users)
+  }
+
+
   getFinalSuperParentId = async (parentId: string, parentStr: any) =>{
     return ""
   }
