@@ -33,11 +33,8 @@ const MyLedger = () => {
 
 
 
-
-
-
-
-  const getProcessedRowsolddd = () => {
+ 
+const getProcessedRowsolddd = () => {
     let balance = 0;
     const result: {
       id: string;
@@ -148,6 +145,10 @@ const MyLedger = () => {
     return result.reverse(); // latest first
   };
 
+  const getDateKey = (date: string) =>
+    new Date(date).toISOString().split("T")[0];
+  
+
   const getProcessedRows = () => {
     let balance = 0;
   
@@ -163,9 +164,10 @@ const MyLedger = () => {
   
     filtered.forEach((item: any) => {
       // 🔑 Fancy false → ek hi Casino group
+      const dateKey = getDateKey(item.createdAt);
       const key =
         item.Fancy === false
-          ? `${item.ChildId}_CASINO`
+          ? `${item.ChildId}_CASINO_${dateKey}`
           : `${item.ChildId}_${item.matchId}`;
   
       if (!groupedMap.has(key)) {

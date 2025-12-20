@@ -20,6 +20,8 @@ import { useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AxiosResponse } from "axios";
 import userService from "../../../services/user.service";
+import UserService from "../../../services/user.service";
+
 
 const MyBookShow = () => {
   const [getMyAllBet, setMyAllBet] = React.useState<IBet[]>([]);
@@ -88,6 +90,21 @@ const MyBookShow = () => {
     };
   }, [getMyAllBet]);
 
+  const [shared, setShared] = React.useState<any>();
+   React.useEffect(() => {
+      // const userState = useAppSelector<{ user: User }>(selectUserData);
+      const username: any = userState?.user?.username;
+  
+      console.log(username, "testagentmaster");
+      UserService.getParentUserDetail(username).then(
+        (res: AxiosResponse<any>) => {
+          console.log(res, "check balance for parent");
+          const thatb = res?.data?.data[0];
+          setShared(thatb?.share);
+        }
+      );
+    }, [userState]);
+
   const [searchObj, setSearchObj] = React.useState({
     username: "",
     type: "",
@@ -134,10 +151,42 @@ const MyBookShow = () => {
     userList?.items?.forEach((u: any) => {
       map[u.username] = u;
     });
+    console.log(map, "user map");
     return map;
   }, [userList]);
 
-  const applyParentShare = (value: number, parentName: string) => {
+  const getLastParent = (clientUsername: string) => {
+    let currentUser = userMap[clientUsername];
+    let lastUser = currentUser;
+  
+    while (currentUser && currentUser.parentNameStr) {
+      const parent = userMap[currentUser.parentNameStr];
+      if (!parent) break;
+  
+      lastUser = parent;
+      currentUser = parent;
+    }
+
+    console.log(lastUser, "last user");
+  
+    return lastUser;
+  };
+
+  const applyLastParentShare = (value: number, clientUsername: string) => {
+    const lastParent = getLastParent(clientUsername);
+  
+    if (!lastParent) return value;
+  
+    const percent =
+      (lastParent.pshare || 0) - (lastParent.share || 0);
+  
+    // ❗ minus nahi, multiply
+    return value * (percent / 100);
+  };
+  
+  
+
+  const applyParentShareOldd = (value: number, parentName: string) => {
     let finalValue = value;
     let currentParent = parentName;
 
@@ -151,6 +200,9 @@ const MyBookShow = () => {
 
     return finalValue;
   };
+
+
+
 
   const calculateBook = () => {
     const result: any = {};
@@ -185,10 +237,10 @@ const MyBookShow = () => {
         }
 
         // 🔗 Apply parent hierarchy share
-        value = applyParentShare(value, bet.parentNameStr);
+       const finalValue = applyLastParentShare(value, bet.parentNameStr);
 
         // ➕ Sum values
-        result[runner.runnerName] = (result[runner.runnerName] || 0) + value;
+        result[runner.runnerName] = (result[runner.runnerName] || 0) + finalValue;
       });
     });
 
@@ -203,6 +255,56 @@ const MyBookShow = () => {
       calculateBook();
     }
   }, [getMyAllBet, userList]);
+
+  const [fancyPercent, setFancyPercent] = React.useState<number>(0);
+
+
+  const getFinalParentPercentForFancy = (bet: any) => {
+    // ✅ Only for FANCY bets
+    if (bet?.bet_on !== "FANCY") return 0;
+  
+    let currentUser = userMap[bet.userName];
+    let lastUser = currentUser;
+  
+    while (currentUser && currentUser.parentNameStr) {
+      const parent = userMap[currentUser.parentNameStr];
+      if (!parent) break;
+  
+      lastUser = parent;
+      currentUser = parent;
+    }
+  
+    if (!lastUser) return 0;
+  
+    return (lastUser.pshare || 0) - (lastUser.share || 0);
+  };
+
+  const calculateFancyPercent = () => {
+    if (!getMyAllBet?.length) return;
+  
+    // 🔹 first fancy bet (agar multiple ho to logic change kar sakte ho)
+    const fancyBet = getMyAllBet.find(
+      (bet: any) => bet.bet_on === "FANCY"
+    );
+  
+    if (!fancyBet) {
+      setFancyPercent(0);
+      return;
+    }
+  
+    const percent = getFinalParentPercentForFancy(fancyBet);
+    setFancyPercent(percent);
+  
+    // console.log("🎯 FANCY FINAL PERCENT:", percent);
+  };
+  
+  React.useEffect(() => {
+    if (userList?.items?.length && getMyAllBet?.length) {
+      calculateFancyPercent();
+    }
+  }, [getMyAllBet, userList]);
+  
+  
 
   return (
     <div>
@@ -250,7 +352,7 @@ const MyBookShow = () => {
                         fontWeight: 600,
                       }}
                     >
-                      {Math.round(value)}
+                      {userState?.user?.role == "dl" ? Math.round(value*(shared/100)) : Math.round(value)}
                     </td>
                   </tr>
                 ))}
