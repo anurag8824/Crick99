@@ -1276,11 +1276,26 @@ getAccountStmtListUserLedger = async (req: Request, res: Response) => {
 
   clinetladger = async (req:Request,res:Response)=>{
     try {
+      console.log(req.body,"sennddd")
+      const getrole = req?.body?.datag?.role
+      const allowedIds = req?.body.datag?.allowedIds; 
+      console.log(getrole)
       let user = req.user
       let id = user["_id"]
+
+      let ldata;
+
+      if (!getrole) {
+        // agar role undefined / null / empty hai
+        ldata = await ledger.find({ ParentId: id });
+      } else {
+        // agar role aaya hai
+        ldata = await ledger.find({ crole: getrole , ParentId:{$in:allowedIds} });
+      }
+  
+
       // const ddata = await ledger.find({ChildId:id})
-      const ldata = await ledger.find({ParentId:id})
-      // const ldata = await ledger.find({crole:"dl"})
+      // const ldata = await ledger.find({ParentId:id})
       const ddata= await ledger.find({ChildId:id})
       // const arr = [ddata,ldata]
       return this.success(res, [ldata,ddata])
@@ -1289,6 +1304,8 @@ getAccountStmtListUserLedger = async (req: Request, res: Response) => {
       
     }
   }
+
+
 
   clinetladger22 = async (req:Request,res:Response)=>{
     console.log(req.body,"seocndd ledgerr")

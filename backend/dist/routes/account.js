@@ -35,7 +35,7 @@ class AccountRoutes {
         this.router.get("/html-cards/:type/:roundId", Passport_1.default.authenticateJWT, this.CasinoController.htmlCards);
         this.router.get("/done-results/:type", Passport_1.default.authenticateJWT, this.CasinoController.results);
         this.router.post('/profit-loss', Passport_1.default.authenticateJWT, this.AccountController.profitloss);
-        this.router.get("/all-client-ledger/one", Passport_1.default.authenticateJWT, this.AccountController.clinetladger);
+        this.router.post("/all-client-ledger/one", Passport_1.default.authenticateJWT, this.AccountController.clinetladger);
         this.router.post("/all-client-ledger/ppone", Passport_1.default.authenticateJWT, this.AccountController.clinetladger22);
         this.router.post("/all-client-ledger/pponemuid", Passport_1.default.authenticateJWT, this.AccountController.clinetladger22muid);
         this.router.get("/all-client-ledger/two", Passport_1.default.authenticateJWT, this.AccountController.allClientLedger);

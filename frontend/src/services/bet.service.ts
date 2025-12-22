@@ -44,8 +44,8 @@ class BetService {
     return api.post("c-reset", name)
   }
 
-  oneledger() {
-    return api.get("all-client-ledger/one");
+  oneledger(datag?: any | undefined) {
+    return api.post("all-client-ledger/one", { datag });
   }
 
   deleteledgerentry(id: any) {

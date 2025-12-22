@@ -250,7 +250,9 @@ const AdminRoutes = () => {
             { path: "main-setting", element: <MainSetting /> },
 
             { path: "rules", element: <Rules /> },
-            { path: "all-settlement", element: <AllClientLedger /> },
+            // { path: "all-settlement", element: <AllClientLedger /> },
+            { path: "all-settlement-role/:rolewise", element: <AllClientLedger /> },
+
             { path: "all-settlement/:pid", element: <SingleLedger /> },
 
             { path: "ledger-client", element: <ClientLedger /> },

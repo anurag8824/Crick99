@@ -477,7 +477,10 @@ import PaymentsIcon from "@mui/icons-material/Payments";
 import { useAppSelector } from "../../../redux/hooks";
 import { selectUserData } from "../../../redux/actions/login/loginSlice";
 import { CustomLink } from "../../../pages/_layout/elements/custom-link";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import userService from "../../../services/user.service";
+import UserService from "../../../services/user.service";
+
 
 interface LedgerEntry {
   settled: any;
@@ -501,6 +504,7 @@ interface GroupedEntry {
 
 const AllClientLedger = () => {
   const userState = useAppSelector(selectUserData);
+  const [loading, setLoading] = React.useState(false);
 
   const [showModal, setShowModal] = React.useState(false);
   const [selectedEntry, setSelectedEntry] = React.useState<GroupedEntry | null>(
@@ -511,6 +515,9 @@ const AllClientLedger = () => {
   const [modalType, setModalType] = React.useState<"lena" | "dena" | null>(
     null
   );
+
+    const sendrole = useParams().rolewise;
+    console.log(sendrole, "sendrole from params");
 
   const [lena, setLena] = React.useState<GroupedEntry[]>([]);
   const [dena, setDena] = React.useState<GroupedEntry[]>([]);
@@ -620,15 +627,71 @@ const AllClientLedger = () => {
     return { lenaArray, denaArray };
   };
 
+
+   const [searchObj, setSearchObj] = React.useState({
+      username: "",
+      type: "",
+      search: "",
+      status: "",
+      page: 1,
+    });
+  
+    // const [userList, setUserList] = React.useState([]);
+    const [userList, setUserList] = React.useState<any>({});
+  
+    const getList = (obj: {
+      username: string;
+      type: string;
+      search: string;
+      status?: string;
+      page?: number;
+    }) => {
+      const fullObj = {
+        username: userState?.user?.username,
+        type: obj.type,
+        search: obj.search,
+        status: obj.status ?? "", // fallback to empty string
+        page: obj.page ?? 1, // fallback to 1
+      };
+  
+      UserService.getUserList(fullObj).then((res: AxiosResponse<any>) => {
+        setSearchObj(fullObj); // ✅ Now matches the expected state shape
+        console.log(res?.data?.data, "lista i want to render");
+        setUserList(res?.data?.data);
+      });
+    };
+  
+    React.useEffect(() => {
+      getList(searchObj); // Trigger on mount or when searchObj changes
+    }, [userState]);
+
+
+    
+
+
+
   React.useEffect(() => {
+    if (userList?.items?.length > 0){
+    const allowedIds = [...userList?.items?.map((item: any) => item._id),userState.user._id];
+
+    setLoading(true); 
+
     betService
-      .oneledger()
+      .oneledger({
+        role: sendrole,
+        allowedIds,
+      })
       .then((res: AxiosResponse<{ data: LedgerEntry[][] }>) => {
         const { lenaArray, denaArray } = processLedgerData(res.data.data);
         setLena(lenaArray);
         setDena(denaArray);
+      }).catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
+        setLoading(false); // 👈 stop loading
       });
-  }, [userState]);
+  }}, [userState,sendrole,userList]);
 
   const navigate = useNavigate();
 
@@ -669,8 +732,19 @@ const AllClientLedger = () => {
           </div>
         )}
 
-        {!showModal && (
-          <div className="parentdiv d-flex flex-column gap-2 flex-md-row justify-content-between align-items-start">
+        
+       { loading ? (<div style={{
+    minHeight: "60vh",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  }} className="text-center py-5">
+    {/* <div className="spinner-border text-primary" role="status">
+      <span className="visually-hidden">Loading...</span>
+    </div> */}
+    <img src='/imgs/loading.svg' width={50} />
+    {/* <div className="mt-2">Loading ledger data...</div> */}
+  </div>) : <div className="parentdiv d-flex flex-column gap-2 flex-md-row justify-content-between align-items-start">
             <div className="childdiv1 w-100">
               <div
                 style={{ backgroundColor: "#10bf35" }}
@@ -1016,8 +1090,8 @@ const AllClientLedger = () => {
                 </table>
               </div>
             </div>
-          </div>
-        )}
+          </div>}
+    
         {/* SINGLE MODAL OUTSIDE LOOP */}
         {showModal && selectedEntry && (
           <div className="">

@@ -71,7 +71,7 @@ export class AccountRoutes {
 
     this.router.post('/profit-loss', Passport.authenticateJWT, this.AccountController.profitloss)
 
-    this.router.get("/all-client-ledger/one",Passport.authenticateJWT,this.AccountController.clinetladger) 
+    this.router.post("/all-client-ledger/one",Passport.authenticateJWT,this.AccountController.clinetladger) 
     this.router.post("/all-client-ledger/ppone",Passport.authenticateJWT,this.AccountController.clinetladger22) 
 
     this.router.post("/all-client-ledger/pponemuid",Passport.authenticateJWT,this.AccountController.clinetladger22muid) 

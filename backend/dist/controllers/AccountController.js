@@ -799,12 +799,25 @@ class AccountController extends ApiController_1.ApiController {
             }
         });
         this.clinetladger = (req, res) => __awaiter(this, void 0, void 0, function* () {
+            var _b, _c, _d;
             try {
+                console.log(req.body, "sennddd");
+                const getrole = (_c = (_b = req === null || req === void 0 ? void 0 : req.body) === null || _b === void 0 ? void 0 : _b.datag) === null || _c === void 0 ? void 0 : _c.role;
+                const allowedIds = (_d = req === null || req === void 0 ? void 0 : req.body.datag) === null || _d === void 0 ? void 0 : _d.allowedIds;
+                console.log(getrole);
                 let user = req.user;
                 let id = user["_id"];
+                let ldata;
+                if (!getrole) {
+                    // agar role undefined / null / empty hai
+                    ldata = yield allledager_1.ledger.find({ ParentId: id });
+                }
+                else {
+                    // agar role aaya hai
+                    ldata = yield allledager_1.ledger.find({ crole: getrole, ParentId: { $in: allowedIds } });
+                }
                 // const ddata = await ledger.find({ChildId:id})
-                const ldata = yield allledager_1.ledger.find({ ParentId: id });
-                // const ldata = await ledger.find({crole:"dl"})
+                // const ldata = await ledger.find({ParentId:id})
                 const ddata = yield allledager_1.ledger.find({ ChildId: id });
                 // const arr = [ddata,ldata]
                 return this.success(res, [ldata, ddata]);

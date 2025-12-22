@@ -354,21 +354,20 @@ const AdminDashboard = () => {
     {
       id: "3",
       name: "Ledger",
-      items: [
-        { title: "Profit/Loss", link: "/total-profit", icon: "far fa-copy fa-2x me-3" },
-        { title: "My Ledger", link: "/my-ledger", icon: "far fa-copy fa-2x me-3" },
-        { title: "Agent", link: "/all-settlement", icon: "far fa-copy fa-2x me-3" },
-        { title: "Client", link: "/all-settlement", icon: "far fa-copy fa-2x me-3" },
-
-      ],
+      items: getRoleOptions().map((role) =>({
+        title: role.label,
+        link: `/all-settlement-role/${role.key}`,
+        icon: "fa-regular fa-circle-user fa-2x me-3",
+      })),
     },
     {
       id: "4",
       name: "Cash Transaction",
-      items: [
-        { title: "Agent", link: "/client-transactions", icon: "far fa-list-alt fa-2x me-3" },
-        { title: "Client", link: "/client-transactions", icon: "far fa-list-alt fa-2x me-3" },
-      ],
+      items: getRoleOptions().map((role) =>({
+        title: role.label,
+        link: `/client-transactions/${role.key}`,
+        icon: "fa-regular fa-circle-user fa-2x me-3",
+      })),
     },
     {
       id: "5",
