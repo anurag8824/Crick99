@@ -57,6 +57,7 @@ interface Iledger extends Document {
   umoney:number;
   profit:number;
   cname:string | null;
+  crole:string | null;
   settletype:string | null;
   pname:string |null;
   iscomSet: boolean; 
@@ -81,6 +82,7 @@ const allledger = new Schema<Iledger>({
   umoney:{type:Number},
   profit:{type:Number,default:0},
   cname:{type:String, default : null},
+  crole:{type:String, default : null},
   settletype:{type:String, default : null},
   pname:{type:String, default : null},
   iscomSet: { type: Boolean, default: false },

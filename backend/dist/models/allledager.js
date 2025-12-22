@@ -49,6 +49,7 @@ const allledger = new mongoose_1.Schema({
     umoney: { type: Number },
     profit: { type: Number, default: 0 },
     cname: { type: String, default: null },
+    crole: { type: String, default: null },
     settletype: { type: String, default: null },
     pname: { type: String, default: null },
     iscomSet: { type: Boolean, default: false },

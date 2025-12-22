@@ -2359,6 +2359,7 @@ class FancyController extends ApiController_1.ApiController {
                                 updown: -profit_loss,
                                 profit: commissionlegaf,
                                 cname: userData === null || userData === void 0 ? void 0 : userData.code,
+                                crole: userData === null || userData === void 0 ? void 0 : userData.role,
                                 pname: p1info === null || p1info === void 0 ? void 0 : p1info.code,
                                 matchId
                             }, { new: true, upset: true });
@@ -2402,6 +2403,7 @@ class FancyController extends ApiController_1.ApiController {
                                 updown: share,
                                 profit,
                                 cname: userData === null || userData === void 0 ? void 0 : userData.code,
+                                crole: userData === null || userData === void 0 ? void 0 : userData.role,
                                 pname: p1info === null || p1info === void 0 ? void 0 : p1info.code,
                                 matchId
                             });
@@ -2454,6 +2456,7 @@ class FancyController extends ApiController_1.ApiController {
                                 umoney,
                                 profit: profitone,
                                 cname: p1info === null || p1info === void 0 ? void 0 : p1info.code,
+                                crole: p1info === null || p1info === void 0 ? void 0 : p1info.role,
                                 pname: p2infoh === null || p2infoh === void 0 ? void 0 : p2infoh.code,
                                 matchId
                             } // Add to current balance
@@ -2506,6 +2509,7 @@ class FancyController extends ApiController_1.ApiController {
                                 parentName: p3info.username,
                                 profit: profitone,
                                 cname: p2info === null || p2info === void 0 ? void 0 : p2info.code,
+                                crole: p2info === null || p2info === void 0 ? void 0 : p2info.role,
                                 pname: p3info === null || p3info === void 0 ? void 0 : p3info.code,
                                 matchId
                             });
@@ -2560,6 +2564,7 @@ class FancyController extends ApiController_1.ApiController {
                                 parentName: p4info.username,
                                 profit: profitone,
                                 cname: p3info === null || p3info === void 0 ? void 0 : p3info.code,
+                                crole: p3info === null || p3info === void 0 ? void 0 : p3info.role,
                                 pname: p4info === null || p4info === void 0 ? void 0 : p4info.code,
                                 matchId
                             });
@@ -2612,6 +2617,7 @@ class FancyController extends ApiController_1.ApiController {
                                 parentName: p5info.username,
                                 profit: profitone,
                                 cname: p4info === null || p4info === void 0 ? void 0 : p4info.code,
+                                crole: p4info === null || p4info === void 0 ? void 0 : p4info.role,
                                 pname: p5info === null || p5info === void 0 ? void 0 : p5info.code,
                                 matchId
                             });
@@ -2664,6 +2670,7 @@ class FancyController extends ApiController_1.ApiController {
                                 parentName: p51info.username,
                                 profit: profitone,
                                 cname: p41info === null || p41info === void 0 ? void 0 : p41info.code,
+                                crole: p41info === null || p41info === void 0 ? void 0 : p41info.role,
                                 pname: p51info === null || p51info === void 0 ? void 0 : p51info.code,
                                 fammount,
                                 matchId

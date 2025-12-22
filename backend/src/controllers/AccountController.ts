@@ -1280,6 +1280,7 @@ getAccountStmtListUserLedger = async (req: Request, res: Response) => {
       let id = user["_id"]
       // const ddata = await ledger.find({ChildId:id})
       const ldata = await ledger.find({ParentId:id})
+      // const ldata = await ledger.find({crole:"dl"})
       const ddata= await ledger.find({ChildId:id})
       // const arr = [ddata,ldata]
       return this.success(res, [ldata,ddata])

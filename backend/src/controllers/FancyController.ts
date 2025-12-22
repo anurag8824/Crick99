@@ -2365,6 +2365,7 @@ export class FancyController extends ApiController {
   //             parentName: p5info.username,
   //             profit: profitone,
   //             cname: p4info?.code,
+  
   //             pname: p5info?.code,
   //           });
   //           mainledgerBalance = 0;
@@ -2481,6 +2482,7 @@ export class FancyController extends ApiController {
               updown: -profit_loss,
               profit: commissionlegaf,
               cname: userData?.code,
+              crole: userData?.role,
               pname: p1info?.code,
               matchId
             },{new:true,upset:true});
@@ -2528,6 +2530,7 @@ export class FancyController extends ApiController {
               updown: share,
               profit,
               cname: userData?.code,
+              crole: userData?.role,
               pname: p1info?.code,
               matchId
             });
@@ -2595,6 +2598,7 @@ export class FancyController extends ApiController {
                 umoney,
                 profit: profitone,
                 cname: p1info?.code,
+                crole: p1info?.role,
                 pname: p2infoh?.code,
                 matchId
               } // Add to current balance
@@ -2656,6 +2660,7 @@ export class FancyController extends ApiController {
               parentName: p3info.username,
               profit: profitone,
               cname: p2info?.code,
+              crole: p2info?.role,
               pname: p3info?.code,
               matchId
             });
@@ -2718,6 +2723,7 @@ export class FancyController extends ApiController {
               parentName: p4info.username,
               profit: profitone,
               cname: p3info?.code,
+              crole: p3info?.role,
               pname: p4info?.code,
               matchId
             });
@@ -2779,6 +2785,7 @@ export class FancyController extends ApiController {
               parentName: p5info.username,
               profit: profitone,
               cname: p4info?.code,
+              crole: p4info?.role,
               pname: p5info?.code,
               matchId
             });
@@ -2839,6 +2846,7 @@ export class FancyController extends ApiController {
               parentName: p51info.username,
               profit: profitone,
               cname: p41info?.code,
+              crole: p41info?.role,
               pname: p51info?.code,
               fammount,
               matchId

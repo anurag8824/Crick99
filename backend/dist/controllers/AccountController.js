@@ -804,6 +804,7 @@ class AccountController extends ApiController_1.ApiController {
                 let id = user["_id"];
                 // const ddata = await ledger.find({ChildId:id})
                 const ldata = yield allledager_1.ledger.find({ ParentId: id });
+                // const ldata = await ledger.find({crole:"dl"})
                 const ddata = yield allledager_1.ledger.find({ ChildId: id });
                 // const arr = [ddata,ldata]
                 return this.success(res, [ldata, ddata]);
