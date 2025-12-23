@@ -528,7 +528,7 @@ export class CasinoController extends ApiController {
           //   totalProfitLoss
           // };
           if(bets.length > 0){
-          await fancyController.cal9xbro(userId,totalProfitLoss,bets?.[0]?.marketId + bets?.[0]?.marketName,casinoResultData.mid,bets[0]._id,BetOn.CASINO, bets?.[0]?.matchName);
+          await fancyController.cal9xbro(userId,totalProfitLoss,bets?.[0]?.marketId + bets?.[0]?.marketName,casinoResultData.mid,bets[0]._id,BetOn.CASINO, bets?.[0]?.matchName , bets?.[0]?.bet_on );
           }
         }));
       

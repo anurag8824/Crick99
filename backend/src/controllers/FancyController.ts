@@ -527,6 +527,8 @@ export class FancyController extends ApiController {
               " / " +
               (result == -1 ? "Abandoned" : result);
             let matchName: string = ItemBetList.matchName 
+            let betGame: string = ItemBetList.bet_on 
+
             await this.addprofitlosstouser({
               userId: ObjectId(Item._id),
               bet_id: ObjectId(ItemBetList._id),
@@ -538,7 +540,7 @@ export class FancyController extends ApiController {
               sportId: ItemBetList.sportId,
             });
 
-            await this.cal9xbro(Item._id, profitLossAmt, narration, matchId, ItemBetList._id, BetOn.FANCY, matchName)
+            await this.cal9xbro(Item._id, profitLossAmt, narration, matchId, ItemBetList._id, BetOn.FANCY, matchName , betGame)
             if (indexBetList == 0) {
               ItemBetList.ratioStr.allRatio.map((ItemParentStr: any) => {
                 parentIdList.push(ItemParentStr.parent);
@@ -838,6 +840,8 @@ export class FancyController extends ApiController {
               (result == -1 ? "Abandoned" : result);
 
             let matchName: string = ItemBetList.matchName;
+            let betGame: string = ItemBetList.bet_on;
+
             await this.addprofitlosstouser({
               userId: ObjectId(Item._id),
               bet_id: ObjectId(ItemBetList._id),
@@ -848,7 +852,7 @@ export class FancyController extends ApiController {
               selectionId: ItemBetList.selectionId,
               sportId: ItemBetList.sportId,
             });
-            await this.cal9xbro(Item._id, profitLossAmt, narration, matchId, ItemBetList._id, BetOn.FANCY , matchName)
+            await this.cal9xbro(Item._id, profitLossAmt, narration, matchId, ItemBetList._id, BetOn.FANCY , matchName,betGame)
 
             if (indexBetList == 0) {
               ItemBetList.ratioStr.allRatio.map((ItemParentStr: any) => {
@@ -1268,7 +1272,7 @@ export class FancyController extends ApiController {
           if (bets.length > 0) {
             const totalProfitLoss = await bets.reduce((sum, bet) => sum + bet.profitLoss, 0);
 
-            await this.cal9xbro(userId, totalProfitLoss, bets?.[0]?.marketId.toString()+ bets?.[0]?.marketName, matchId, bets[0]?._id, BetOn.MATCH_ODDS, bets?.[0]?.matchName);
+            await this.cal9xbro(userId, totalProfitLoss, bets?.[0]?.marketId.toString()+ bets?.[0]?.marketName, matchId, bets[0]?._id, BetOn.MATCH_ODDS, bets?.[0]?.matchName, bets?.[0]?.bet_on);
           }
         }));
 
@@ -1407,7 +1411,7 @@ export class FancyController extends ApiController {
           //   totalProfitLoss
           // };
           if(bets.length > 0){
-          await this.cal9xbro(userId, totalProfitLoss, bets?.[0]?.marketId + bets?.[0]?.marketName, matchId, bets[0]._id, BetOn.MATCH_ODDS, bets?.[0]?.matchName);
+          await this.cal9xbro(userId, totalProfitLoss, bets?.[0]?.marketId + bets?.[0]?.marketName, matchId, bets[0]._id, BetOn.MATCH_ODDS, bets?.[0]?.matchName,bets?.[0]?.bet_on);
           }
         }));
 
@@ -1554,7 +1558,7 @@ export class FancyController extends ApiController {
           //   totalProfitLoss
           // };
           if(bets.length > 0){
-          await this.cal9xbro(userId, totalProfitLoss, bets?.[0]?.marketId + bets?.[0]?.marketName, matchId, bets[0]?._id, BetOn.MATCH_ODDS, bets?.[0]?.matchName);
+          await this.cal9xbro(userId, totalProfitLoss, bets?.[0]?.marketId + bets?.[0]?.marketName, matchId, bets[0]?._id, BetOn.MATCH_ODDS, bets?.[0]?.matchName,bets?.[0]?.bet_on);
           }
         }));
 
@@ -2399,7 +2403,8 @@ export class FancyController extends ApiController {
     matchId,
     bet_id: any,
     bet_on,
-    matchName
+    matchName,
+    betGame
 
   ) {
     try {
@@ -2481,6 +2486,7 @@ export class FancyController extends ApiController {
               commissiondega: 0,
               narration,
               matchName,
+              betGame,
               fammount,
               betId: bet_id,
               Fancy: betstatus,
@@ -2530,6 +2536,7 @@ export class FancyController extends ApiController {
               commissiondega: commissiondegaf,
               narration,
               matchName,
+              betGame,
               fammount,
               betId: bet_id,
               Fancy: betstatus,
@@ -2598,6 +2605,7 @@ export class FancyController extends ApiController {
                 commissiondega,
                 narration,
                 matchName,
+                betGame,
                 fammount,
                 betId: bet_id,
                 Fancy: betstatus,
@@ -2660,6 +2668,7 @@ export class FancyController extends ApiController {
               commissionlega,
               narration,
               matchName,
+              betGame,
               fammount,
               betId: bet_id,
               Fancy: betstatus,
@@ -2724,6 +2733,7 @@ export class FancyController extends ApiController {
               commissionlega,
               narration,
               matchName,
+              betGame,
               fammount,
               betId: bet_id,
               Fancy: betstatus,
@@ -2787,6 +2797,7 @@ export class FancyController extends ApiController {
               commissionlega,
               narration,
               matchName,
+              betGame,
               fammount,
               betId: bet_id,
               Fancy: betstatus,
@@ -2850,6 +2861,7 @@ export class FancyController extends ApiController {
               commissionlega,
               narration,
               matchName,
+              betGame,
               betId: bet_id,
               Fancy: betstatus,
               updown,

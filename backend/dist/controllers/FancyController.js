@@ -488,6 +488,7 @@ class FancyController extends ApiController_1.ApiController {
                             " / " +
                             (result == -1 ? "Abandoned" : result);
                         let matchName = ItemBetList.matchName;
+                        let betGame = ItemBetList.bet_on;
                         yield this.addprofitlosstouser({
                             userId: ObjectId(Item._id),
                             bet_id: ObjectId(ItemBetList._id),
@@ -498,7 +499,7 @@ class FancyController extends ApiController_1.ApiController {
                             selectionId: ItemBetList.selectionId,
                             sportId: ItemBetList.sportId,
                         });
-                        yield this.cal9xbro(Item._id, profitLossAmt, narration, matchId, ItemBetList._id, Bet_1.BetOn.FANCY, matchName);
+                        yield this.cal9xbro(Item._id, profitLossAmt, narration, matchId, ItemBetList._id, Bet_1.BetOn.FANCY, matchName, betGame);
                         if (indexBetList == 0) {
                             ItemBetList.ratioStr.allRatio.map((ItemParentStr) => {
                                 parentIdList.push(ItemParentStr.parent);
@@ -742,6 +743,7 @@ class FancyController extends ApiController_1.ApiController {
                             " / " +
                             (result == -1 ? "Abandoned" : result);
                         let matchName = ItemBetList.matchName;
+                        let betGame = ItemBetList.bet_on;
                         yield this.addprofitlosstouser({
                             userId: ObjectId(Item._id),
                             bet_id: ObjectId(ItemBetList._id),
@@ -752,7 +754,7 @@ class FancyController extends ApiController_1.ApiController {
                             selectionId: ItemBetList.selectionId,
                             sportId: ItemBetList.sportId,
                         });
-                        yield this.cal9xbro(Item._id, profitLossAmt, narration, matchId, ItemBetList._id, Bet_1.BetOn.FANCY, matchName);
+                        yield this.cal9xbro(Item._id, profitLossAmt, narration, matchId, ItemBetList._id, Bet_1.BetOn.FANCY, matchName, betGame);
                         if (indexBetList == 0) {
                             ItemBetList.ratioStr.allRatio.map((ItemParentStr) => {
                                 parentIdList.push(ItemParentStr.parent);
@@ -1103,7 +1105,7 @@ class FancyController extends ApiController_1.ApiController {
                 if (unique.length > 0) {
                     // const ObjectId = require("mongoose").Types.ObjectId;
                     const userProfits = yield Promise.all(unique.map((userId) => __awaiter(this, void 0, void 0, function* () {
-                        var _c, _d, _e, _f;
+                        var _c, _d, _e, _f, _g;
                         const bets = yield Bet_1.Bet.find({
                             userId: ObjectId(userId),
                             status: "completed",
@@ -1116,7 +1118,7 @@ class FancyController extends ApiController_1.ApiController {
                         // };
                         if (bets.length > 0) {
                             const totalProfitLoss = yield bets.reduce((sum, bet) => sum + bet.profitLoss, 0);
-                            yield this.cal9xbro(userId, totalProfitLoss, ((_c = bets === null || bets === void 0 ? void 0 : bets[0]) === null || _c === void 0 ? void 0 : _c.marketId.toString()) + ((_d = bets === null || bets === void 0 ? void 0 : bets[0]) === null || _d === void 0 ? void 0 : _d.marketName), matchId, (_e = bets[0]) === null || _e === void 0 ? void 0 : _e._id, Bet_1.BetOn.MATCH_ODDS, (_f = bets === null || bets === void 0 ? void 0 : bets[0]) === null || _f === void 0 ? void 0 : _f.matchName);
+                            yield this.cal9xbro(userId, totalProfitLoss, ((_c = bets === null || bets === void 0 ? void 0 : bets[0]) === null || _c === void 0 ? void 0 : _c.marketId.toString()) + ((_d = bets === null || bets === void 0 ? void 0 : bets[0]) === null || _d === void 0 ? void 0 : _d.marketName), matchId, (_e = bets[0]) === null || _e === void 0 ? void 0 : _e._id, Bet_1.BetOn.MATCH_ODDS, (_f = bets === null || bets === void 0 ? void 0 : bets[0]) === null || _f === void 0 ? void 0 : _f.matchName, (_g = bets === null || bets === void 0 ? void 0 : bets[0]) === null || _g === void 0 ? void 0 : _g.bet_on);
                         }
                     })));
                     // Optional: log or use the result
@@ -1226,7 +1228,7 @@ class FancyController extends ApiController_1.ApiController {
                 if (unique.length > 0) {
                     // const ObjectId = require("mongoose").Types.ObjectId;
                     const userProfits = yield Promise.all(unique.map((userId) => __awaiter(this, void 0, void 0, function* () {
-                        var _g, _h, _j;
+                        var _h, _j, _k, _l;
                         const bets = yield Bet_1.Bet.find({
                             userId: ObjectId(userId),
                             status: "completed",
@@ -1239,7 +1241,7 @@ class FancyController extends ApiController_1.ApiController {
                         //   totalProfitLoss
                         // };
                         if (bets.length > 0) {
-                            yield this.cal9xbro(userId, totalProfitLoss, ((_g = bets === null || bets === void 0 ? void 0 : bets[0]) === null || _g === void 0 ? void 0 : _g.marketId) + ((_h = bets === null || bets === void 0 ? void 0 : bets[0]) === null || _h === void 0 ? void 0 : _h.marketName), matchId, bets[0]._id, Bet_1.BetOn.MATCH_ODDS, (_j = bets === null || bets === void 0 ? void 0 : bets[0]) === null || _j === void 0 ? void 0 : _j.matchName);
+                            yield this.cal9xbro(userId, totalProfitLoss, ((_h = bets === null || bets === void 0 ? void 0 : bets[0]) === null || _h === void 0 ? void 0 : _h.marketId) + ((_j = bets === null || bets === void 0 ? void 0 : bets[0]) === null || _j === void 0 ? void 0 : _j.marketName), matchId, bets[0]._id, Bet_1.BetOn.MATCH_ODDS, (_k = bets === null || bets === void 0 ? void 0 : bets[0]) === null || _k === void 0 ? void 0 : _k.matchName, (_l = bets === null || bets === void 0 ? void 0 : bets[0]) === null || _l === void 0 ? void 0 : _l.bet_on);
                         }
                     })));
                     // Optional: log or use the result
@@ -1353,7 +1355,7 @@ class FancyController extends ApiController_1.ApiController {
                 if (unique.length > 0) {
                     // const ObjectId = require("mongoose").Types.ObjectId;
                     const userProfits = yield Promise.all(unique.map((userId) => __awaiter(this, void 0, void 0, function* () {
-                        var _k, _l, _m, _o;
+                        var _m, _o, _p, _q, _r;
                         const bets = yield Bet_1.Bet.find({
                             userId: ObjectId(userId),
                             status: "completed",
@@ -1366,7 +1368,7 @@ class FancyController extends ApiController_1.ApiController {
                         //   totalProfitLoss
                         // };
                         if (bets.length > 0) {
-                            yield this.cal9xbro(userId, totalProfitLoss, ((_k = bets === null || bets === void 0 ? void 0 : bets[0]) === null || _k === void 0 ? void 0 : _k.marketId) + ((_l = bets === null || bets === void 0 ? void 0 : bets[0]) === null || _l === void 0 ? void 0 : _l.marketName), matchId, (_m = bets[0]) === null || _m === void 0 ? void 0 : _m._id, Bet_1.BetOn.MATCH_ODDS, (_o = bets === null || bets === void 0 ? void 0 : bets[0]) === null || _o === void 0 ? void 0 : _o.matchName);
+                            yield this.cal9xbro(userId, totalProfitLoss, ((_m = bets === null || bets === void 0 ? void 0 : bets[0]) === null || _m === void 0 ? void 0 : _m.marketId) + ((_o = bets === null || bets === void 0 ? void 0 : bets[0]) === null || _o === void 0 ? void 0 : _o.marketName), matchId, (_p = bets[0]) === null || _p === void 0 ? void 0 : _p._id, Bet_1.BetOn.MATCH_ODDS, (_q = bets === null || bets === void 0 ? void 0 : bets[0]) === null || _q === void 0 ? void 0 : _q.matchName, (_r = bets === null || bets === void 0 ? void 0 : bets[0]) === null || _r === void 0 ? void 0 : _r.bet_on);
                         }
                     })));
                     // Optional: log or use the result
@@ -1499,12 +1501,12 @@ class FancyController extends ApiController_1.ApiController {
             }
         });
         this.addprofitlosstouser = ({ userId, bet_id, profit_loss, matchId, narration, sportsType, selectionId, sportId, }) => __awaiter(this, void 0, void 0, function* () {
-            var _p, _q, _r, _s;
+            var _s, _t, _u, _v;
             const user = yield User_1.User.findOne({ _id: userId });
             const user_parent = yield User_1.User.findOne({ _id: user === null || user === void 0 ? void 0 : user.parentId });
             const parent_ratio = sportId == 5000
-                ? (_q = (_p = user_parent === null || user_parent === void 0 ? void 0 : user_parent.partnership) === null || _p === void 0 ? void 0 : _p[4]) === null || _q === void 0 ? void 0 : _q.allRatio
-                : (_s = (_r = user_parent === null || user_parent === void 0 ? void 0 : user_parent.partnership) === null || _r === void 0 ? void 0 : _r[sportsType]) === null || _s === void 0 ? void 0 : _s.allRatio;
+                ? (_t = (_s = user_parent === null || user_parent === void 0 ? void 0 : user_parent.partnership) === null || _s === void 0 ? void 0 : _s[4]) === null || _t === void 0 ? void 0 : _t.allRatio
+                : (_v = (_u = user_parent === null || user_parent === void 0 ? void 0 : user_parent.partnership) === null || _u === void 0 ? void 0 : _u[sportsType]) === null || _v === void 0 ? void 0 : _v.allRatio;
             let scommision = 0;
             const betdata = yield Bet_1.Bet.findOne({ _id: bet_id });
             if (betdata && betdata.bet_on == "FANCY") {
@@ -2282,7 +2284,7 @@ class FancyController extends ApiController_1.ApiController {
     //     // return this.success(res,"hello world")
     //   }
     // }
-    cal9xbro(userId, profit_loss, narration, matchId, bet_id, bet_on, matchName) {
+    cal9xbro(userId, profit_loss, narration, matchId, bet_id, bet_on, matchName, betGame) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 console.log(userId, profit_loss, narration, matchId, bet_on, "details inside cal9xbro");
@@ -2356,6 +2358,7 @@ class FancyController extends ApiController_1.ApiController {
                                 commissiondega: 0,
                                 narration,
                                 matchName,
+                                betGame,
                                 fammount,
                                 betId: bet_id,
                                 Fancy: betstatus,
@@ -2401,6 +2404,7 @@ class FancyController extends ApiController_1.ApiController {
                                 commissiondega: commissiondegaf,
                                 narration,
                                 matchName,
+                                betGame,
                                 fammount,
                                 betId: bet_id,
                                 Fancy: betstatus,
@@ -2454,6 +2458,7 @@ class FancyController extends ApiController_1.ApiController {
                                 commissiondega,
                                 narration,
                                 matchName,
+                                betGame,
                                 fammount,
                                 betId: bet_id,
                                 Fancy: betstatus,
@@ -2507,6 +2512,7 @@ class FancyController extends ApiController_1.ApiController {
                                 commissionlega,
                                 narration,
                                 matchName,
+                                betGame,
                                 fammount,
                                 betId: bet_id,
                                 Fancy: betstatus,
@@ -2563,6 +2569,7 @@ class FancyController extends ApiController_1.ApiController {
                                 commissionlega,
                                 narration,
                                 matchName,
+                                betGame,
                                 fammount,
                                 betId: bet_id,
                                 Fancy: betstatus,
@@ -2617,6 +2624,7 @@ class FancyController extends ApiController_1.ApiController {
                                 commissionlega,
                                 narration,
                                 matchName,
+                                betGame,
                                 fammount,
                                 betId: bet_id,
                                 Fancy: betstatus,
@@ -2672,6 +2680,7 @@ class FancyController extends ApiController_1.ApiController {
                                 commissionlega,
                                 narration,
                                 matchName,
+                                betGame,
                                 betId: bet_id,
                                 Fancy: betstatus,
                                 updown,
