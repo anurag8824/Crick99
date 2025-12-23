@@ -41,6 +41,7 @@ const allledger = new mongoose_1.Schema({
     commissiondega: Number,
     narration: String,
     matchName: String,
+    betGame: String,
     fammount: Number,
     Fancy: { type: Boolean, default: false },
     settled: { type: Boolean, default: false },

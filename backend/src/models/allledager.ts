@@ -46,6 +46,7 @@ interface Iledger extends Document {
   username: string | null;
   narration: string;
   matchName: string;
+  betGame: string;
   fammount: number;
   commissionlega: number;
   commissiondega: number;
@@ -75,6 +76,7 @@ const allledger = new Schema<Iledger>({
   commissiondega: Number,
   narration: String,
   matchName:  String,
+  betGame:  String,
   fammount:Number,
   Fancy: { type: Boolean, default: false },
   settled: { type: Boolean, default: false },
