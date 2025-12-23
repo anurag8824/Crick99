@@ -1472,8 +1472,19 @@ const filteredCombined = pattern
                           // 🧠 Step 2: Group "withMatchId" items
                           const groupedMap = new Map();
 
+                         
+
                           withMatchId.forEach((item: any) => {
-                            const key = item.matchId;
+                            const betGroup =
+                            item.betGame == "CASINO" ? "CASINO" : item?.matchName;
+                            const dateKey =
+                            betGroup === "CASINO"
+                              ? new Date(item.createdAt).toISOString().split("T")[0]
+                              : "";
+
+                              const matchKey = item.matchId || "NO_MATCH";
+
+                            const key = `${betGroup}|${matchKey}|${dateKey}`;
 
                             if (!groupedMap.has(key)) {
                               groupedMap.set(key, { ...item });
@@ -1524,6 +1535,8 @@ const filteredCombined = pattern
                           const reversedBalances = [
                             ...(balanceArray || []),
                           ].reverse();
+
+                          console.log(finalList,"finanalslsi")
 
                           // 🧾 Step 6: Render table
                           return (
@@ -1596,7 +1609,7 @@ const filteredCombined = pattern
                                         className="small p-0"
                                         style={{ zIndex: 2 }}
                                       >
-                                        {row?.narration}
+                                        {row?.betGame}
                                       </span>
                                     </td>
 

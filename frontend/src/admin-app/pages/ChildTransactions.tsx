@@ -230,6 +230,21 @@ const ChildTransactions = () => {
   console.log(selectedClientList, "selelcteddClient list");
 
   const navigate = useNavigate();
+    const handleDelete = (id:any) =>{
+      console.log("delete clicked" , id);
+      betService.deleteledgerentry(id).then((res: AxiosResponse<{ data: any }>) => {
+        console.log("Deleted successfully", res);
+        // Refresh data after deletion
+        window.location.reload();
+        
+        
+       
+      }).catch((err) => {
+        console.error("Error deleting entry", err);
+      });
+  
+  
+    }
   return (
     <div className="container-fluid ">
       <div className="row row-center">
@@ -1222,8 +1237,19 @@ const ChildTransactions = () => {
                           // 🧠 Step 2: Group "withMatchId" items
                           const groupedMap = new Map();
 
+                         
+
                           withMatchId.forEach((item: any) => {
-                            const key = item.matchId;
+                            const betGroup =
+                            item.betGame == "CASINO" ? "CASINO" : item?.matchName;
+                            const dateKey =
+                            betGroup === "CASINO"
+                              ? new Date(item.createdAt).toISOString().split("T")[0]
+                              : "";
+
+                              const matchKey = item.matchId || "NO_MATCH";
+
+                            const key = `${betGroup}|${matchKey}|${dateKey}`;
 
                             if (!groupedMap.has(key)) {
                               groupedMap.set(key, { ...item });
@@ -1274,6 +1300,8 @@ const ChildTransactions = () => {
                           const reversedBalances = [
                             ...(balanceArray || []),
                           ].reverse();
+
+                          console.log(finalList,"finanalslsi")
 
                           // 🧾 Step 6: Render table
                           return (
@@ -1326,7 +1354,7 @@ const ChildTransactions = () => {
                                       className="small p-1"
                                       style={{ zIndex: 2 }}
                                     >
-                                      {row?.settletype || ""}
+                                      {row?.settletype || "-"}
                                     </td>
 
                                     <td
@@ -1346,7 +1374,7 @@ const ChildTransactions = () => {
                                         className="small p-0"
                                         style={{ zIndex: 2 }}
                                       >
-                                        {row?.narration}
+                                        {row?.betGame}
                                       </span>
                                     </td>
 
@@ -1367,6 +1395,14 @@ const ChildTransactions = () => {
                                     >
                                       SELF
                                     </td>
+
+
+                                   {row?.settletype ?  <td
+                                      className="small p-1"
+                                      style={{ zIndex: 2 }}
+                                    >
+                                     <button onClick={() => handleDelete(row?._id)}>Delete</button> 
+                                    </td> : "-"}
                                   </tr>
                                 ))}
                             </tbody>
