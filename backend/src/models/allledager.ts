@@ -45,6 +45,7 @@ interface Iledger extends Document {
   ChildId: PopulatedDoc<IUser>;
   username: string | null;
   narration: string;
+  matchName: string;
   fammount: number;
   commissionlega: number;
   commissiondega: number;
@@ -73,6 +74,7 @@ const allledger = new Schema<Iledger>({
   commissionlega: Number,
   commissiondega: Number,
   narration: String,
+  matchName:  String,
   fammount:Number,
   Fancy: { type: Boolean, default: false },
   settled: { type: Boolean, default: false },

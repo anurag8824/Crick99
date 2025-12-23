@@ -81,7 +81,7 @@ const DisplaySessionBets = () => {
 
 
    const [filteredBets, setFilteredBets] = React.useState<any[]>([]);
-    const [users, setUsers] = React.useState<string[]>([]);
+    const [users, setUsers] = React.useState<any[]>([]);
     const [selectedSelection, setSelectedSelection] =
       React.useState("All Selections");
     const [totalPL, setTotalPL] = React.useState(0);
@@ -112,8 +112,15 @@ const DisplaySessionBets = () => {
 
        // Get unique users and selections
        const uniqueUsers: any = Array.from(
-        new Set(fancyBets.map((b: { userName: any }) => b.userName))
+        new Map( fancyBets.map((b: any) => [
+          b.userName,
+          {
+            userName: b.userName,
+            code: b.code || ""
+          }
+        ])).values()
       );
+
       const uniqueSelections = Array.from(
         new Map(
           fancyBets.map((b: any) => [
@@ -345,16 +352,21 @@ const DisplaySessionBets = () => {
 
             <div className="md:flex  justify-between p-4 bg-light">
               <select
-                style={{background:"#0f2327", color:"white"}}
-                value={selectedUserF}
-                onChange={(e) => setSelectedUserF(e.target.value)}
-                className="rounded p-1"
-              >
-                <option>All Users</option>
-                {users.map((u) => (
-                  <option key={u}>{u}</option>
-                ))}
-              </select>
+  style={{ background: "#0f2327", color: "white" }}
+  value={selectedUserF}
+  onChange={(e) => setSelectedUserF(e.target.value)}
+  className="rounded p-1"
+>
+  <option value="All Users">All Users</option>
+
+  {users.map((u: any) => (
+    <option key={u.userName} value={u.userName}>
+      {u.userName}
+      {u.code ? ` / ${u.code}` : ""}
+    </option>
+  ))}
+</select>
+
 
 
               <select
@@ -390,6 +402,7 @@ const DisplaySessionBets = () => {
                     <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Session</th>
                     <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Creator Name</th>
                     <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">PnL</th>
+                    <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Result</th>
                     <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">Date</th>
                     {/* <th style={{background:"#0f2327", color:"white"}} className="pt-0 pb-0">IP</th> */}
                   </tr>
@@ -397,13 +410,13 @@ const DisplaySessionBets = () => {
                 <tbody className="small">
                   {filteredBets?.map((bet, index) => (
                     <tr key={index}>
-                      <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}  className="p-1 pt-2 small pr-0">
+                      <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba", fontSize:"14px" }}  className="p-1 pt-2  small pr-0">
                         {bet?.parentNameStr}
                       </td>
-                      <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}  className="pt-2 pb-1">{bet?.odds}</td>
-                      <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}  className="pt-2 pb-1">{bet?.volume}</td>
+                      <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba", fontSize:"14px" }}  className="pt-2 pb-1">{bet?.odds}</td>
+                      <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba", fontSize:"14px" }}  className="pt-2 pb-1">{bet?.volume}</td>
 
-                      <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}  className="pt-2 pb-1">
+                      <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba", fontSize:"14px" }}  className="pt-2 pb-1">
                         {bet?.isBack ? (
                           <button
                             className="btn-yes btn btn-sm p-1 ng-scope"
@@ -446,7 +459,7 @@ const DisplaySessionBets = () => {
       )}
     </td> */}
 
-<td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} 
+<td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba", fontSize:"14px" }} 
                         className={`pt-2 pb-1 ${
                           bet?.profitLoss < 0
                             ? "text-red-500"
@@ -456,18 +469,18 @@ const DisplaySessionBets = () => {
                         {bet?.stack}
                       </td>
 
-<td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}  className="p-1 pt-2 small pr-0">
+<td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba", fontSize:"14px" }}  className="p-1 pt-2 small pr-0">
                         {bet?.selectionName}
                       </td>
 
 
-<td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }}  className="p-1 pt-2 small pr-0">
+<td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba", fontSize:"14px" }}  className="p-1 pt-2 small pr-0">
                         {bet.userName}({bet?.code})
                       </td>
                      
 
                       <td
-                      style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" }} 
+                      style={{background : bet.isBack ? "#72BBEF" : "#faa9ba", fontSize:"14px" }} 
                         className={`pt-2 pb-1 ${
                           bet?.profitLoss < 0
                             ? "text-red-500"
@@ -477,8 +490,14 @@ const DisplaySessionBets = () => {
                         {bet?.profitLoss}
                       </td>
 
+                      <td style={{background : bet.isBack ? "#72BBEF" : "#faa9ba", fontSize:"14px" }}  className="p-1 pt-2 small pr-0">
+                        {bet?.fancy?.result ? bet?.fancy?.result : "-" }
+                      </td>
+
+                      
+
                       <td
-                      style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" ,fontSize: "xx-small"  }} 
+                      style={{background : bet.isBack ? "#72BBEF" : "#faa9ba" ,fontSize: "14px"  }} 
                         className="pt-2 pb-1 text-nowrap"
                       >
                         {moment(bet?.betClickTime).format(dateFormat)}

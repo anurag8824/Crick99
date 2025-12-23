@@ -479,7 +479,7 @@ class CasinoController extends ApiController_1.ApiController {
                     // const ObjectId = require("mongoose").Types.ObjectId;
                     console.log("unique user list", unique);
                     const userProfits = yield Promise.all(unique.map((userId) => __awaiter(this, void 0, void 0, function* () {
-                        var _b, _c;
+                        var _b, _c, _d;
                         const bets = yield Bet_1.Bet.find({
                             userId: ObjectId(userId),
                             status: "completed",
@@ -487,12 +487,13 @@ class CasinoController extends ApiController_1.ApiController {
                             bet_on: Bet_1.BetOn.CASINO,
                         });
                         const totalProfitLoss = bets.reduce((sum, bet) => sum + bet.profitLoss, 0);
+                        console.log(bets, "betsssgd");
                         // return {
                         //   userId,
                         //   totalProfitLoss
                         // };
                         if (bets.length > 0) {
-                            yield fancyController.cal9xbro(userId, totalProfitLoss, ((_b = bets === null || bets === void 0 ? void 0 : bets[0]) === null || _b === void 0 ? void 0 : _b.marketId) + ((_c = bets === null || bets === void 0 ? void 0 : bets[0]) === null || _c === void 0 ? void 0 : _c.marketName), casinoResultData.mid, bets[0]._id, Bet_1.BetOn.CASINO);
+                            yield fancyController.cal9xbro(userId, totalProfitLoss, ((_b = bets === null || bets === void 0 ? void 0 : bets[0]) === null || _b === void 0 ? void 0 : _b.marketId) + ((_c = bets === null || bets === void 0 ? void 0 : bets[0]) === null || _c === void 0 ? void 0 : _c.marketName), casinoResultData.mid, bets[0]._id, Bet_1.BetOn.CASINO, (_d = bets === null || bets === void 0 ? void 0 : bets[0]) === null || _d === void 0 ? void 0 : _d.matchName);
                         }
                     })));
                     // Optional: log or use the result

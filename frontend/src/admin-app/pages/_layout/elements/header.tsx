@@ -1134,7 +1134,7 @@ const [userList, setUserList] = React.useState<any>({});
                     </div> :""}
                   </li>
                  
-                  {userState?.user?.role === "dl" ? ( <li className={`nav-item pl-4  md:w-60 w-fit ${activeMenu === "ComReport" ? "bg-active" : ""} `}>
+                  {userState?.user?.role  ? ( <li className={`nav-item pl-4  md:w-60 w-fit ${activeMenu === "ComReport" ? "bg-active" : ""} `}>
                     <CustomLink
                       // onClick={toggleDrawer}
                       onClick={() => { toggleDrawer(); setActiveMenu("ComReport");}}
@@ -1795,7 +1795,7 @@ const [userList, setUserList] = React.useState<any>({});
                     </div> :""}
                   </li>
                  
-                  {userState?.user?.role === "dl" ? ( <li className={`nav-item md:pl-5  md:w-60 w-fit ${activeMenu === "ComReport" ? "bg-active" : ""} `}>
+                  {userState?.user?.role ? ( <li className={`nav-item md:pl-5  md:w-60 w-fit ${activeMenu === "ComReport" ? "bg-active" : ""} `}>
                     <CustomLink
                       // onClick={toggleDrawer}
                       onClick={() => { toggleDrawer(); setActiveMenu("ComReport");}}

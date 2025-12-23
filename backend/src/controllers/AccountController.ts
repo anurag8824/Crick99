@@ -1290,7 +1290,9 @@ getAccountStmtListUserLedger = async (req: Request, res: Response) => {
         ldata = await ledger.find({ ParentId: id });
       } else {
         // agar role aaya hai
-        ldata = await ledger.find({ crole: getrole , ParentId:{$in:allowedIds} });
+        // ldata = await ledger.find({ crole: getrole , ParentId:{$in:allowedIds} });
+
+        ldata = await ledger.find({ crole: getrole });
       }
   
 
