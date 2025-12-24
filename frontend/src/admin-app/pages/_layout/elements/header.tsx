@@ -989,7 +989,7 @@ const [userList, setUserList] = React.useState<any>({});
                         </CustomLink>
                       </li>
 
-                      <li>
+                     {userState?.user?.role != "admin" ? <li>
                         <CustomLink
                         //  onClick={() => setDropdownOpen3(!dropdownOpen3)}
                         onClick={() => {toggleDrawer() ; setActiveMenu("My");}}
@@ -1001,7 +1001,7 @@ const [userList, setUserList] = React.useState<any>({});
                             {"My Ledger"}
                           </b>
                         </CustomLink>
-                      </li>
+                      </li> : ""}
 
                       <li className="hidden">
                         <CustomLink
@@ -1649,7 +1649,7 @@ const [userList, setUserList] = React.useState<any>({});
                         </CustomLink>
                       </li>
 
-                      <li>
+                     {userState?.user?.role != "admin" ? <li>
                         <CustomLink
                         //  onClick={() => setDropdownOpen3(!dropdownOpen3)}
                         onClick={() => {toggleDrawer() ; setActiveMenu("My");}}
@@ -1661,7 +1661,7 @@ const [userList, setUserList] = React.useState<any>({});
                             {"My Ledger"}
                           </b>
                         </CustomLink>
-                      </li>
+                      </li> : ""}
 
                       <li className="hidden">
                         <CustomLink

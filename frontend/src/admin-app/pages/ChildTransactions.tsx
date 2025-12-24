@@ -157,7 +157,7 @@ const ChildTransactions = () => {
   const [hasDefaultSet, setHasDefaultSet] = React.useState(false); // NEW FLAG
 
   const [selectedClientListFiltered, setSelectedClientListFiltered] =
-    React.useState<any>();
+   React.useState<any>();
 
   const ctid = useParams().id;
 
@@ -172,7 +172,7 @@ const ChildTransactions = () => {
         setLena(lenaArray);
         setDena(denaArray);
       });
-  }, [userState, ctid]);
+  }, [userState, ctid, sendId]);
 
   const combined = [...lena, ...dena];
 
@@ -190,7 +190,7 @@ const ChildTransactions = () => {
       setSelectedClientListFiltered(defaultList);
       setHasDefaultSet(true); // ab dobara set nahi hoga
     }
-  }, [ctid, combined, listData]);
+  }, [ctid, combined, listData, sendId]);
 
   console.log("Combined Data:", combined);
 
@@ -1364,17 +1364,12 @@ const ChildTransactions = () => {
                                           : ""
                                       }
                                     >
-                                      <span
-                                        className="badge badge-primary p-1"
-                                        style={{ fontSize: "xx-small" }}
-                                      >
-                                        🏆
-                                      </span>
+                                     
                                       <span
                                         className="small p-0"
                                         style={{ zIndex: 2 }}
                                       >
-                                        {row?.betGame}
+                                        {row?.betGame == "CASINO" ? "CASINO" :row?.matchName}
                                       </span>
                                     </td>
 

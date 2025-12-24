@@ -485,6 +485,8 @@ import UserService from "../../../services/user.service";
 interface LedgerEntry {
   settled: any;
   ChildId: string;
+  parid:any;
+  PARentid:any;
   username: string;
   commissionlega: number;
   commissiondega: number;
@@ -496,6 +498,7 @@ interface LedgerEntry {
 
 interface GroupedEntry {
   agent: string;
+  parid:any
   amount: number;
   settled: number;
   final: number;
@@ -566,12 +569,13 @@ const AllClientLedger = () => {
 
     const activeMap: Record<
       string,
-      { username: string; positive: number; negative: number }
+      { username: string; positive: number; negative: number ;PARentid:number }
     > = {};
     flatData.forEach((entry: any) => {
       if (!entry.settled) {
         const id = entry.ChildId;
         const username = entry.username + " (" + entry.cname + ")";
+        const PARentid = entry.ParentId;
 
         // Compute money based on role
         // const money = userState.user.role === "dl" ? entry.money - entry.commissiondega : entry.money;
@@ -583,7 +587,7 @@ const AllClientLedger = () => {
         // const money =  entry.money + entry.commissiondega ;
 
         if (!activeMap[id]) {
-          activeMap[id] = { username, positive: 0, negative: 0 };
+          activeMap[id] = { username, positive: 0, negative: 0, PARentid };
         }
 
         if (money > 0) {
@@ -598,7 +602,7 @@ const AllClientLedger = () => {
     const denaArray: GroupedEntry[] = [];
 
     Object.entries(activeMap).forEach(
-      ([ChildId, { username, positive, negative }]) => {
+      ([ChildId, { username, positive, negative ,PARentid }]) => {
         const rawAmount = positive - negative;
         console.log(positive, negative, rawAmount, username);
         const settledAmount = settledMap[ChildId] || 0;
@@ -607,6 +611,7 @@ const AllClientLedger = () => {
 
         console.log(netFinal, settledAmount,rawAmount, "GHJK", username);
         const baseData = {
+          parid : PARentid,
           agent: username,
           amount: rawAmount,
           settled: settledAmount,
@@ -817,7 +822,7 @@ const AllClientLedger = () => {
                               setModalType("lena");
                               setShowModal(true);
                             }}
-                            to={`/client-transactions/${row.ChildId}`}
+                            to={`/client-transactions/${row.parid}/${row.ChildId}`}
 
                           >
                             <span>
@@ -936,9 +941,9 @@ const AllClientLedger = () => {
                               setRemark("");
                               setModalType("dena");
                               setShowModal(true);
-                              navigate(`/client-transactions/${row.ChildId}`);
+                              navigate(`/client-transactions/${row.parid}/${row.ChildId}`)
                             }}
-                            to={`/client-transactions/${row.ChildId}`}
+                            to={`/client-transactions/${row.parid}/${row.ChildId}`}
                           >
                             <span>
                               <svg

@@ -236,7 +236,7 @@ const ClientTransactions = () => {
     };
   
     loadLedgerData();
-  }, [userState, roleonly]);
+  }, [userState, roleonly,ctid]);
   
   
 
@@ -291,7 +291,7 @@ const ClientTransactions = () => {
       );
       setSelectedClientListFiltered(filtered);
     }
-  }, [modalTypeF, selectedClientList ,roleonly]);
+  }, [modalTypeF, selectedClientList ,roleonly, ctid]);
 
   console.log(selectedClientList, "selelcteddClient list");
 
@@ -1599,17 +1599,12 @@ const filteredCombined = pattern
                                           : ""
                                       }
                                     >
-                                      <span
-                                        className="badge badge-primary p-1"
-                                        style={{ fontSize: "xx-small" }}
-                                      >
-                                        🏆
-                                      </span>
+                                     
                                       <span
                                         className="small p-0"
                                         style={{ zIndex: 2 }}
                                       >
-                                        {row?.betGame}
+                                        {row?.betGame == "CASINO" ? "CASINO" :row?.matchName}
                                       </span>
                                     </td>
 

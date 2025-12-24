@@ -509,6 +509,13 @@ console.log(isallowed, "is disallowed or not");
     console.log(uplineParent, "Currently selected upline parent data");
   }, [uplineParent]);
 
+  const [commissionType, setCommissionType] = React.useState("betbybet");
+
+  // 2️⃣ Handle select change
+  const handleSelect = (e:any) => {
+    setCommissionType(e.target.value);
+  };
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -888,9 +895,9 @@ console.log(isallowed, "is disallowed or not");
                           <label htmlFor="mcom"> Commision type</label>
                           <span className="text-danger">*</span>
                           <input
-                            className="form-control rounded-0"
+                            className="form-control rounded-0 capitalize"
                             placeholder="M Comm Limit"
-                            value={"Bet by bet"}
+                            value={commissionType}
                             min="0"
                             max="2"
                             disabled
@@ -902,15 +909,18 @@ console.log(isallowed, "is disallowed or not");
                         <div className="form-group">
                           <label htmlFor="mcoms"> Commision Type</label>
                           <span className="text-danger">*</span>
-                          <select className="form-select">
-                            <option value="">Select Comm Type</option>
-                            <option value="Payment Diya">No. Comm</option>
-                            <option value="Payment Liya">Bet By Bet</option>
-                          </select>
+                          <select
+            className="form-select"
+            value={commissionType}
+            onChange={handleSelect}
+          >
+            <option value="betbybet">Bet By Bet</option>
+            <option value="nocomm">No Comm</option>
+          </select>
                         </div>
                       </div>
 
-                      <div className="col-md-6">
+                     {commissionType == "betbybet" && <div className="col-md-6">
                         <div className="form-group">
                           <label htmlFor="mcom"> My Match Commision</label>
                           <span className="text-danger">*</span>
@@ -923,9 +933,9 @@ console.log(isallowed, "is disallowed or not");
                             disabled
                           />
                         </div>
-                      </div>
+                      </div>}
 
-                      <div className="col-md-6">
+                    {commissionType == "betbybet" &&  <div className="col-md-6">
                         <div className="form-group">
                           <label htmlFor="mcom">Match Commision(≤2%)</label>
                           <span className="text-danger">*</span>
@@ -941,26 +951,26 @@ console.log(isallowed, "is disallowed or not");
                             type="number"
                           />
                         </div>
-                      </div>
+                      </div>}
 
-                      <div className="col-md-6">
+                      {commissionType == "betbybet" && <div className="col-md-6">
                         <div className="form-group">
                           <label htmlFor="scom">My Session Commision</label>
                           <span className="text-danger">*</span>
                           <input
                             className="form-control rounded-0"
                             placeholder="S Comm Limit"
-                            value={4}
+                            value={3}
                             min="0"
-                            max="4"
+                            max="3"
                             disabled
                             // required
                             type="number"
                           />
                         </div>
-                      </div>
+                      </div>}
 
-                      <div className="col-md-6">
+                     {commissionType == "betbybet" && <div className="col-md-6">
                         <div className="form-group">
                           <label htmlFor="scom">Session Commision(≤3%)</label>
                           <span className="text-danger">*</span>
@@ -976,7 +986,7 @@ console.log(isallowed, "is disallowed or not");
                             type="number"
                           />
                         </div>
-                      </div>
+                      </div>}
 
                       {!isExposerAllow && (
                         <div className="col-md-6">
@@ -1025,7 +1035,7 @@ console.log(isallowed, "is disallowed or not");
                         </div>
                       )}
 
-                      <div className="col-md-6">
+                      {commissionType == "betbybet" && <div className="col-md-6">
                         <div className="form-group">
                           <label htmlFor="mcomdddc"> My Casino Commision</label>
                           <span className="text-danger">*</span>
@@ -1038,9 +1048,9 @@ console.log(isallowed, "is disallowed or not");
                             disabled
                           />
                         </div>
-                      </div>
+                      </div>}
 
-                      <div className="col-md-6">
+                      {commissionType == "betbybet" && <div className="col-md-6">
                         <div className="form-group">
                           <label htmlFor="mcomddd">Casino Commision(≤2%)</label>
                           <span className="text-danger">*</span>
@@ -1054,7 +1064,7 @@ console.log(isallowed, "is disallowed or not");
                             type="number"
                           />
                         </div>
-                      </div>
+                      </div>}
 
                       {isExposerAllow && (
                         <div className="col-md-6 d-none ">

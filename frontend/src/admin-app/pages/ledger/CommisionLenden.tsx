@@ -514,6 +514,7 @@ const CommisionLenden: React.FC = () => {
                           <button
                             onClick={() => settled(row.name)}
                             className="bg-yellow-400 mt-1.5 px-2 py-1.5 rounded-md"
+                            style={{background:"#b7862f",color:"white"}}
                           >
                             Reset
                           </button>
