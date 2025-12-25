@@ -1,3 +1,4 @@
+
 // import React, { useEffect, useState } from "react";
 // import betService from "../../../services/bet.service";
 // import { AxiosResponse } from "axios";
@@ -340,8 +341,6 @@ const RecursiveLedger: React.FC<LedgerNodeProps> = ({ parentId, level = 0 }) => 
     const flatDatas = data[0] || [];
     const flatData = flatDatas?.filter((entry:any) => entry?.matchId  == smatchId ); // Exclude test entries
 
-    
-
     const settledMap: Record<string, number> = {};
     console.log(flatData, "flatData");
     
@@ -462,11 +461,6 @@ const RecursiveLedger: React.FC<LedgerNodeProps> = ({ parentId, level = 0 }) => 
           return;
         }
 
-        // yhn pr filter hoga jo data selet rkhurng m aur fhir sirf vo hi enrtiyes proecess hogi jo m select krunga udar se 
-
-        
-
-
         const ledgerData = processLedgerData(res.data.data);
         setEntries(ledgerData);
       } catch (err) {
@@ -531,12 +525,9 @@ console.log(totals, "totals");
   };
 
 
-  
-
 
 
   console.log(entries, "entries at level", level);
-
 
   // return (
   //   <>
@@ -620,17 +611,8 @@ console.log(totals, "totals");
   //     })}
   //   </>
   // );
-
   return (
-
-
-
-    
-
-
     <>
-
-
       {entries.map((row) => {
         // If not CL, show simple colored row and recurse deeper
         if (row.role !== "CL") {
@@ -780,245 +762,15 @@ console.log(totals, "totals");
         </>
       )}
     </>
-
   );
   
 };
 
-const LedgerAllInOne: React.FC = () => {
+const LedgerAllInOneOLLDDD: React.FC = () => {
   const navigate = useNavigate();
-  const [filter, setFilter] = useState<any>()
-  const smatchId = useParams().id;
-
-
-  const oddsData = filter?.filter((f:any) => f.betGame == "MATCH_ODDS" );
-const fancyData:any = filter?.filter((f:any) => f.betGame == "FANCY");
-
-//@ts-ignore
-const uniqueOdds:any = [...new Map(oddsData?.map(i => [i.betGame, i])).values()];
-//@ts-ignore
-
-const uniqueFancy = [...new Map(fancyData?.map(i => [i.narration, i])).values()];
-//@ts-ignore
-
-const uniqueUsers = [...new Set(filter?.map(i => i.username))];
-
-
-  const [selectedOdds, setSelectedOdds] = useState<string[]>([]);
-const [selectedFancy, setSelectedFancy] = useState<string[]>([]);
-const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
-
-useEffect(() => {
-  if (filter?.length) {
-    setSelectedOdds(uniqueOdds.map((o:any) => o.betId));
-    setSelectedFancy(uniqueFancy.map(f => f.narration));
-    setSelectedUsers(uniqueUsers);
-  }
-}, [filter]);
-
-
-const toggleItem = (value: string, list: string[], setList: any) => {
-  setList((prev:any) =>
-    prev.includes(value)
-      ? prev.filter((i:any) => i !== value)
-      : [...prev, value]
-  );
-};
-
-const toggleAll = (values: string[], list: string[], setList: any) => {
-  setList(list.length === values.length ? [] : values);
-};
-
-  
-
-
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res= await betService.oneledger();
-
-        const usert: any = res.data.data[2];
-        if (usert?.user?.role === "user") {
-          return;
-        }
-
-        const flitler = res.data?.data[0]
-
-        const flatData = flitler?.filter((entry:any) => entry?.matchId  == smatchId ); // Exclude test entries
-    setFilter(flatData)
-
-      } catch (err) {
-        console.error("Ledger fetch error:", err);
-      } finally {
-      }
-    };
-    fetchData();
-  }, []);
-
-  console.log(filter,"fdfdf")
-
-  const [dataashow ,setDataashow] = React.useState(false)
-  const handleShow = () => {
-    setDataashow(true)
-  }
-
 
   return (
-
-
-<>
-{ !dataashow && <div className="card-header d-flex justify-content-end mt-2 p-2">
-  <div className="d-flex align-items-center gap-2">
-    
-    {/* Refresh */}
-    <button
-      type="button"
-      className="btn bg-primary d-flex align-items-center gap-1 text-white"
-      // onClick={handleRefresh}   // optional
-    >
-      <i className="bi bi-arrow-clockwise"></i>
-      Refresh
-    </button>
-
-    {/* Show */}
-    <button
-      type="button"
-      className="btn bg-primary text-white"
-      onClick={handleShow}      // optional
-    >
-      Show
-    </button>
-
-    {/* Back */}
-    <button
-      type="button"
-      className="btn bg-primary text-white"
-      onClick={() => navigate(-1)}   // optional
-    >
-      Back
-    </button>
-
-  </div>
-</div>}
-
-
-  { !dataashow &&  <div className="container-fluid p-md-4 mt-3">
-    <h5 style={{background:"#0f2327", color:"white" , padding:"8px"}}>
-  <input
-    type="checkbox"
-    checked={selectedOdds.length === uniqueOdds.length}
-    onChange={() =>
-      toggleAll(uniqueOdds.map((o:any) => o.betId), selectedOdds, setSelectedOdds)
-    }
-  /> Match / Odds
-</h5>
-
-{uniqueOdds.map((o:any) => (
-  <div key={o.betId}>
-    <input
-      type="checkbox"
-      checked={selectedOdds.includes(o.betId)}
-      onChange={() =>
-        toggleItem(o.betId, selectedOdds, setSelectedOdds)
-      }
-    />
-    {o.matchName}
-  </div>
-))}
-
-
-<h5 style={{background:"#0f2327", color:"white" , padding:"8px" , marginTop:"8px"}}>
-  <input
-    type="checkbox"
-    checked={selectedFancy.length === uniqueFancy.length}
-    onChange={() =>
-      toggleAll(uniqueFancy.map(f => f.narration), selectedFancy, setSelectedFancy)
-    }
-  /> Session
-</h5>
-
-<table className="table-bordered mt-2 w-100">
-<thead style={{ background: "#e9ecef" }}>
-    <tr>
-      <th></th>
-      <th></th>
-      <th>Declare</th>
-    </tr>
-  </thead>
-  <tbody>
-    {uniqueFancy.map(f => (
-      <tr key={f.narration}>
-        <td>
-          <input
-            type="checkbox"
-            checked={selectedFancy.includes(f.narration)}
-            onChange={() =>
-              toggleItem(f.narration, selectedFancy, setSelectedFancy)
-            }
-          />
-        </td>
-        <td>
-  {f.narration?.split(" / ")?.[0] || "-"}
-</td>
-
-<td>
-  {f.narration?.split(" / ")?.slice(-1)[0] || "-"}
-</td>
-        
-      </tr>
-    ))}
-  </tbody>
-</table>
-
-
-<h5 style={{background:"#0f2327", color:"white" , padding:"8px" , marginTop:"8px"}}>
-  <input
-    type="checkbox"
-    checked={selectedUsers.length === uniqueUsers.length}
-    onChange={() =>
-      toggleAll(uniqueUsers, selectedUsers, setSelectedUsers)
-    }
-  /> Client
-</h5>
-
-<table
-    className="table-bordered mt-2 w-100"
-    style={{
-      background: "#ffffff",
-      fontSize: "13px"
-    }}
-  >
-    <thead style={{ background: "#e9ecef" }}>
-      <tr>
-        <th style={{ width: "40px", textAlign: "center" }}></th>
-        <th>Client</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      {uniqueUsers.map(u => (
-        <tr key={u} style={{ cursor: "pointer" }}>
-          <td style={{ textAlign: "center" }}>
-            <input
-              type="checkbox"
-              checked={selectedUsers.includes(u)}
-              onChange={() =>
-                toggleItem(u, selectedUsers, setSelectedUsers)
-              }
-            />
-          </td>
-          <td>{u}</td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-
-
-
-    </div>}
-
-
-    {dataashow && <div className="container-fluid p-md-4 mt-3">
+    <div className="container-fluid p-md-4 mt-3">
       <div
         style={{ background: "#0f2327" }}
         className="bg-grey flex item-center justify-between px-5 py-3 gx-bg-flex"
@@ -1043,10 +795,17 @@ const toggleAll = (values: string[], list: string[], setList: any) => {
           </tbody>
         </table>
       </div>
-    </div>}
-    </>
+    </div>
+
     
   );
 };
 
-export default LedgerAllInOne;
+export default LedgerAllInOneOLLDDD;
+
+
+
+
+
+
+

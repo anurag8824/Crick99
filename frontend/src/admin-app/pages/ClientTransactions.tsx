@@ -686,7 +686,13 @@ const filteredCombined = pattern
           <div className="row">
             <div className="card card-bordered gx-card">
               <div className="card-body">
-                <TopBackHeader name="Client Transactions" />
+                <TopBackHeader name= {
+  roleonly == "sadmin" ? "Admin Transactions" :
+  roleonly == "suadmin" ? "Sub Admin Transactions" :
+  roleonly == "smdl" ? "Master Transactions" :
+  roleonly == "mdl" ? "Super Transactions" :
+  roleonly == "dl" ? "Agent Transactions" : "Client Transactions"
+} />
                 <div className="gx-px-2 gx-pt-3 gx-bg-flex">
                   <form id="advanced_search" className="row g-3">
                     {/* Client */}

@@ -5,6 +5,9 @@ import { AxiosResponse } from "axios";
 import { CustomLink } from "../../../pages/_layout/elements/custom-link";
 import { DatePicker } from "antd";
 import TopBackHeader from "../TopBackHeader";
+import { useAppSelector } from "../../../redux/hooks";
+import { selectUserData } from "../../../redux/actions/login/loginSlice";
+import UserService from "../../../services/user.service";
 
 interface CommissionRow {
   name: string;
@@ -21,6 +24,8 @@ interface CommissionRow {
 const CommisionLenden: React.FC = () => {
   const [commissionData, setCommissionData] = useState<CommissionRow[]>([]);
   const [allEntries, setAllEntries] = useState<any[][]>([]);
+    const userState = useAppSelector(selectUserData);
+  
 
   const [optionuser, setOptionuser] = React.useState<string>("all");
 
@@ -28,15 +33,60 @@ const CommisionLenden: React.FC = () => {
   const [endDate, setEndDate] = React.useState<string>("");
   const { RangePicker } = DatePicker;
 
+  const [searchObj, setSearchObj] = React.useState({
+        username: "",
+        type: "",
+        search: "",
+        status: "",
+        page: 1,
+      });
+    
+      // const [userList, setUserList] = React.useState([]);
+      const [userList, setUserList] = React.useState<any>({});
+    
+      const getList = (obj: {
+        username: string;
+        type: string;
+        search: string;
+        status?: string;
+        page?: number;
+      }) => {
+        const fullObj = {
+          username: userState?.user?.username,
+          type: obj.type,
+          search: obj.search,
+          status: obj.status ?? "", // fallback to empty string
+          page: obj.page ?? 1, // fallback to 1
+        };
+    
+        UserService.getUserList(fullObj).then((res: AxiosResponse<any>) => {
+          setSearchObj(fullObj); // ✅ Now matches the expected state shape
+          console.log(res?.data?.data, "lista i want to render");
+          setUserList(res?.data?.data);
+        });
+      };
+    
+      React.useEffect(() => {
+        getList(searchObj); // Trigger on mount or when searchObj changes
+      }, [userState]);
+  
+
   React.useEffect(() => {
-    betService.oneledger().then((res: AxiosResponse<any>) => {
+    if (userList?.items?.length > 0){
+      const allowedIds = [...userList?.items?.map((item: any) => item._id),userState.user._id];
+    betService.oneledger(
+    //   {
+    //   role: "dl",
+    //   allowedIds, 
+    // }
+  ).then((res: AxiosResponse<any>) => {
       console.log(res, "dmbsdbh lena dena");
       const data = res.data.data;
       const processed = processCommissionTable(data);
       setCommissionData(processed);
       setAllEntries(data);
-    });
-  }, []);
+    });}
+  }, [userList,userState]);
 
   const processCommissionTable = (data: any[][]): CommissionRow[] => {
     const milaCasinoMap: Record<string, number> = {};

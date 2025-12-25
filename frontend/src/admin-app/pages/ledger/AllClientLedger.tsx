@@ -709,7 +709,14 @@ const AllClientLedger = () => {
             className="bg-grey  flex item-center justify-between px-5 py-3 gx-bg-flex"
           >
             <span className="text-2xl font-weight-normal text-white gx-align-items-center gx-pt-1 gx-text-capitalize">
-              Agent Ledger
+            {
+  sendrole == "sadmin" ? "Admin" :
+  sendrole == "suadmin" ? "Sub Admin" :
+  sendrole == "smdl" ? "Master" :
+  sendrole == "mdl" ? "Super" :
+  sendrole == "dl" ? "Agent" : "Client"
+} Ledger
+
             </span>
             <button
               onClick={() => navigate(-1)}
