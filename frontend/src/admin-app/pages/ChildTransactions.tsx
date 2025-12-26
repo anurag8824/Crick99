@@ -30,6 +30,8 @@ interface GroupedEntry {
 
 const ChildTransactions = () => {
   const userState = useAppSelector(selectUserData);
+    const [loading, setLoading] = React.useState(false);
+  
 
   const [showModal, setShowModal] = React.useState(false);
   const [selectedEntry, setSelectedEntry] = React.useState<GroupedEntry | null>(
@@ -164,6 +166,7 @@ const ChildTransactions = () => {
   const sendId = useParams().pid;
 
   React.useEffect(() => {
+    setLoading(true); 
     betService
       .pponeledger(sendId)
       .then((res: AxiosResponse<{ data: LedgerEntry[][] }>) => {
@@ -171,6 +174,11 @@ const ChildTransactions = () => {
         const { lenaArray, denaArray } = processLedgerData(res?.data?.data);
         setLena(lenaArray);
         setDena(denaArray);
+      }).catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
+        setLoading(false); // 👈 stop loading
       });
   }, [userState, ctid, sendId]);
 
@@ -716,6 +724,7 @@ const ChildTransactions = () => {
                     {/* Submit Button */}
                     <div className="col-12">
                       <button
+                        disabled={loading} 
                         className="btn btn-success"
                         onClick={async () => {
                           if (!selectedClient) return;
@@ -748,6 +757,7 @@ const ChildTransactions = () => {
                           };
 
                           try {
+                            setLoading(true);
                             await betService.postsettelement(data);
                             setShowModal(false);
                             const res = await betService.oneledger();
@@ -759,10 +769,12 @@ const ChildTransactions = () => {
                           } catch (err) {
                             alert("Error during settlement.");
                             console.error(err);
+                          }finally {
+                            setLoading(false);
                           }
                         }}
                       >
-                        Submit
+                        {loading ? "Processing..." : "Submit"}
                       </button>
                     </div>
                   </form>
@@ -852,6 +864,16 @@ const ChildTransactions = () => {
                     </select>
                   </div>
 
+                  {loading ? <div style={{
+    minHeight: "60vh",
+    display: "flex",
+    alignItems: "baseline",
+    justifyContent: "center",
+  }} className="text-center py-5">
+    
+    <img src='/imgs/loading.svg' width={50} />
+  </div>
+                 :
                   <div className="row overflow-auto mb-20">
                     <div className="col-sm-12">
                       <table
@@ -1405,8 +1427,9 @@ const ChildTransactions = () => {
                         })()}
 
                       </table>
+                      {selectedClient ? "" : <div className="text-center">Select user</div>}
                     </div>
-                  </div>
+                  </div> }
                 </div>
               </div>
             </div>

@@ -30,6 +30,8 @@ interface GroupedEntry {
 
 const ClientTransactions = () => {
   const userState = useAppSelector(selectUserData);
+  const [loading, setLoading] = React.useState(false);
+  
 
   const [showModal, setShowModal] = React.useState(false);
   const [selectedEntry, setSelectedEntry] = React.useState<GroupedEntry | null>(
@@ -164,6 +166,7 @@ const ClientTransactions = () => {
 
   React.useEffect(() => {
     if(!ctid) return;
+    setLoading(true); 
     betService
       .oneledger()
       .then((res: AxiosResponse<{ data: LedgerEntry[][] }>) => {
@@ -171,6 +174,11 @@ const ClientTransactions = () => {
         const { lenaArray, denaArray } = processLedgerData(res?.data?.data);
         setLena(lenaArray);
         setDena(denaArray);
+      }).catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
+        setLoading(false); // 👈 stop loading
       });
   }, [userState, ctid]);
 
@@ -206,6 +214,7 @@ const ClientTransactions = () => {
     };
   
     const loadLedgerData = async () => {
+      setLoading(true); // ✅ start loading
       try {
         // Step 1: top-level ledger
         const res = await betService.oneledger();
@@ -232,6 +241,8 @@ const ClientTransactions = () => {
         }
       } catch (error) {
         console.error("Recursive Ledger Load Error:", error);
+      } finally {
+        setLoading(false); // ✅ stop loading once everything finishes
       }
     };
   
@@ -813,6 +824,7 @@ const filteredCombined = pattern
                     <div className="col-12">
                       <button
                         className="btn btn-success"
+                        disabled={loading}
                         onClick={async () => {
                           if (!selectedClient) return;
 
@@ -844,6 +856,7 @@ const filteredCombined = pattern
                           };
 
                           try {
+                            setLoading(true);
                             await betService.postsettelement(data);
                             setShowModal(false);
                             const res = await betService.oneledger();
@@ -855,16 +868,18 @@ const filteredCombined = pattern
                           } catch (err) {
                             alert("Error during settlement.");
                             console.error(err);
+                          } finally {
+                            setLoading(false);
                           }
                         }}
                       >
-                        Submit
+                        {loading ? "Processing..." : "Submit"}
                       </button>
                     </div>
                   </form>
 
                   {/* === CLIENT DETAILS SECTION === */}
-                  {selectedClient && (
+                  {selectedClient  &&   (
                     // <div className="col-12 mt-3 hiddden">
                     //   <div className="border p-3 rounded">
                     //     <div>
@@ -948,7 +963,17 @@ const filteredCombined = pattern
                     </select>
                   </div>
 
-                  <div className="row overflow-auto mb-20">
+                 {loading ? <div style={{
+    minHeight: "60vh",
+    display: "flex",
+    alignItems: "baseline",
+    justifyContent: "center",
+  }} className="text-center py-5">
+    
+    <img src='/imgs/loading.svg' width={50} />
+  </div>
+                 : 
+                 <div className="row overflow-auto mb-20">
                     <div className="col-sm-12">
                       <table
                         className="table table-striped table-bordered LedgerList dataTable no-footer"
@@ -1645,8 +1670,9 @@ const filteredCombined = pattern
                           );
                         })()}
                       </table>
+                      {selectedClient ? "" : <div className="text-center">Select user</div>}
                     </div>
-                  </div>
+                  </div>}
                 </div>
               </div>
             </div>

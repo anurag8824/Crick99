@@ -648,8 +648,9 @@ console.log(totals, "totals");
                 >
                   {row.agent} — {row.role}
                 </td>
+                
               </tr>
-  
+              
               {/* Even non-CL roles can have children */}
               <RecursiveLedger parentId={row.ChildId} level={level + 1} />
             </React.Fragment>
@@ -695,6 +696,39 @@ console.log(totals, "totals");
             <th className="navbar-bet99" style={{ background: "#0f2327", color: "white" }}>
               FINAL
             </th>
+
+            {/* <th className="navbar-bet99" style={{ background: "#0f2327", color: "white" }}>
+              Client
+            </th> */}
+            <th className="navbar-bet99" style={{ background: "#0f2327", color: "white" }}>
+              M.AMT
+            </th>
+            <th className="navbar-bet99" style={{ background: "#0f2327", color: "white" }}>
+              S.AMT
+            </th>
+            <th className="navbar-bet99" style={{ background: "#0f2327", color: "white" }}>
+              TOT.AMT
+            </th>
+            <th className="navbar-bet99" style={{ background: "#0f2327", color: "white" }}>
+              M.COM
+            </th>
+            <th className="navbar-bet99" style={{ background: "#0f2327", color: "white" }}>
+              S.COM
+            </th>
+            <th className="navbar-bet99" style={{ background: "#0f2327", color: "white" }}>
+              TOT.COM
+            </th>
+            <th className="navbar-bet99" style={{ background: "#0f2327", color: "white" }}>
+              NET.AMT
+            </th>
+            <th className="navbar-bet99" style={{ background: "#0f2327", color: "white" }}>
+              SHR.AMT
+            </th>
+            <th className="navbar-bet99" style={{ background: "#0f2327", color: "white" }}>
+              FINAL
+            </th>
+
+
           </tr>
   
           {entries
@@ -723,6 +757,30 @@ console.log(totals, "totals");
                   <td className={row.balance! < 0 ? "text-danger" : "text-success"}>
                     {row.balance}
                   </td>
+
+                  {/* <td style={{ paddingLeft: `${level * 25}px` }}>{row.agent}</td> */}
+  
+  <td className={row.match! < 0 ? "text-danger" : "text-success"}>
+    {row.match?.toFixed(2)}
+  </td>
+  <td className={row.session! < 0 ? "text-danger" : "text-success"}>
+    {row.session?.toFixed(2)}
+  </td>
+  <td className={row.amount! < 0 ? "text-danger" : "text-success"}>
+    {row.amount.toFixed(2)}
+  </td>
+  <td className={row.mCom! < 0 ? "text-danger" : "text-success"}>{row.mCom}</td>
+  <td className={row.sCom! < 0 ? "text-danger" : "text-success"}>{row.sCom}</td>
+  <td className={row.tCom! < 0 ? "text-danger" : "text-success"}>{row.tCom}</td>
+  <td className={row.gTotal! < 0 ? "text-danger" : "text-success"}>{row.gTotal}</td>
+  <td className={row.upDownShare! < 0 ? "text-danger" : "text-success"}>
+    {row.upDownShare}
+  </td>
+  <td className={row.balance! < 0 ? "text-danger" : "text-success"}>
+    {row.balance}
+  </td>
+
+
                 </tr>
                
   
@@ -735,6 +793,42 @@ console.log(totals, "totals");
 {clRows.length > 0 && (
   <tr style={{ background: "#1b3a3oof", fontWeight: "bkkold" }}>
     <td style={{ color: "whitke" }}>TOTAL</td>
+
+    <td className={totals.match < 0 ? "text-danger" : "text-success"}>
+      {totals.match.toFixed(2)}
+    </td>
+
+    <td className={totals.session < 0 ? "text-danger" : "text-success"}>
+      {totals.session.toFixed(2)}
+    </td>
+
+    <td className={totals.amount < 0 ? "text-danger" : "text-success"}>
+      {totals.amount.toFixed(2)}
+    </td>
+
+    <td className={totals.mCom < 0 ? "text-danger" : "text-success"}>
+      {totals.mCom.toFixed(2)}
+    </td>
+
+    <td className={totals.sCom < 0 ? "text-danger" : "text-success"}>
+      {totals.sCom.toFixed(2)}
+    </td>
+
+    <td className={totals.tCom < 0 ? "text-danger" : "text-success"}>
+      {totals.tCom.toFixed(2)}
+    </td>
+
+    <td className={totals.gTotal < 0 ? "text-danger" : "text-success"}>
+      {totals.gTotal.toFixed(2)}
+    </td>
+
+    <td className={totals.upDownShare < 0 ? "text-danger" : "text-success"}>
+      {totals.upDownShare.toFixed(2)}
+    </td>
+
+    <td className={totals.balance < 0 ? "text-danger" : "text-success"}>
+      {totals.balance.toFixed(2)}
+    </td>
 
     <td className={totals.match < 0 ? "text-danger" : "text-success"}>
       {totals.match.toFixed(2)}
