@@ -814,7 +814,8 @@ class AccountController extends ApiController_1.ApiController {
                 }
                 else {
                     // agar role aaya hai
-                    ldata = yield allledager_1.ledger.find({ crole: getrole, ParentId: { $in: allowedIds } });
+                    // ldata = await ledger.find({ crole: getrole , ParentId:{$in:allowedIds} });
+                    ldata = yield allledager_1.ledger.find({ ParentId: id });
                     // ldata = await ledger.find({ crole: getrole });
                 }
                 // const ddata = await ledger.find({ChildId:id})
