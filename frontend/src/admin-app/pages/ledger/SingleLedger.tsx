@@ -299,7 +299,7 @@ const AllClientLedger = () => {
               <span className="flex mx-3 text-white justify-between text-2xl">
                 <div className="justify-content-start ">Lena </div>{" "}
                 <div className="justify-content-end">
-                  {lenaTotals.amount.toFixed(2)}
+                  {(lenaTotals.amount + lenaTotals.settled).toFixed(2)}
                 </div>
               </span>
             </div>
@@ -349,7 +349,8 @@ const AllClientLedger = () => {
                           <i className="fa fa-eye fa-xs"></i> {row.agent}
                         </CustomLink>
                       </td>
-                      <td>{row.amount.toFixed(2)}</td>
+                      {/* <td>{row.amount.toFixed(2)}</td> */}
+                      <td>{(row.amount + row.settled).toFixed(2)}</td>
                       {/* <td>{row.settled.toFixed(2)}</td> */}
                       <td  className="">
                         <CustomLink  to={`/client-transactions/${sendId}/${row.ChildId}`}>
@@ -406,7 +407,7 @@ const AllClientLedger = () => {
               <span className="flex mx-3 text-white justify-between text-2xl">
                 <div className="justify-content-start ">Dena </div>{" "}
                 <div className="justify-content-end">
-                  {denaTotals.amount.toFixed(2)}
+                  {(denaTotals.amount + denaTotals.settled).toFixed(2)}
                 </div>
               </span>
             </div>
@@ -458,7 +459,8 @@ const AllClientLedger = () => {
                           <i className="fa fa-eye fa-xs"></i> {row.agent}
                         </CustomLink>
                       </td>
-                      <td>{row.amount.toFixed(2)}</td>
+                      {/* <td>{row.amount.toFixed(2)}</td> */}
+                      <td>{(row.amount + row.settled).toFixed(2)}</td>
                       {/* <td>{row.settled.toFixed(2)}</td> */}
                       {/* <td className="bg-final2 text-white">{row.final.toFixed(2)}</td> */}
                       <td className="">

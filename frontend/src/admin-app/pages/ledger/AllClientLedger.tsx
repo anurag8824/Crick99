@@ -765,7 +765,7 @@ const AllClientLedger = () => {
                 <span className="flex mx-3 text-white justify-between text-2xl">
                   <div className="justify-content-start ">Lena </div>{" "}
                   <div className="justify-content-end">
-                    {lenaTotals.amount.toFixed(2)}
+                  {(lenaTotals.amount + lenaTotals.settled).toFixed(2)}
                   </div>
                 </span>
               </div>
@@ -885,7 +885,7 @@ const AllClientLedger = () => {
                 <span className="flex mx-3 text-white justify-between text-2xl">
                   <div className="justify-content-start ">Dena </div>{" "}
                   <div className="justify-content-end">
-                    {denaTotals.amount.toFixed(2)}
+                  {(denaTotals.amount + denaTotals.settled).toFixed(2)}
                   </div>
                 </span>
               </div>
