@@ -22,6 +22,10 @@ import FilterSection from "./FilterSection";
 import MyBetComponent22Admin from "./my-bet-component22-admin";
 import { Modal } from "react-bootstrap";
 import BetDetailsModal from "./BetDetailsModal";
+import { AxiosResponse } from "axios";
+import userService from "../../../services/user.service";
+import UserService from "../../../services/user.service";
+
 
 const MyBetComponent22AdminCombined = () => {
   const [getMyAllBet, setMyAllBet] = React.useState<IBet[]>([]);
@@ -46,6 +50,24 @@ const MyBetComponent22AdminCombined = () => {
 
   const [showModal, setShowModal] = React.useState(false);
 const [selectedBets, setSelectedBets] = React.useState([]);
+
+ const [shared, setShared] = React.useState<any>();
+   React.useEffect(() => {
+      // const userState = useAppSelector<{ user: User }>(selectUserData);
+      const username: any = userState?.user?.username;
+  
+      console.log(username, "testagentmaster");
+      UserService.getParentUserDetail(username).then(
+        (res: AxiosResponse<any>) => {
+          console.log(res, "check balance for parent");
+          const thatb = res?.data?.data[0];
+          setShared(thatb?.share);
+        }
+      );
+    }, [userState]);
+
+const [fancyPercent, setFancyPercent] = React.useState<number>(0);
+
 
 const handleShowDetails = (selectionName:any) => {
   const filtered:any = getMyAllBet.filter(b => b.selectionName === selectionName);
@@ -131,7 +153,8 @@ const handleShowDetails = (selectionName:any) => {
 
     getMyAllBet.forEach((bet) => {
       //@ts-ignore
-      const val = Number(bet?.profitLoss?.$numberDecimal) || 0;
+      const pl = Number(bet?.profitLoss?.$numberDecimal) || 0;
+      const val = (pl * fancyPercent) / 100;
       if (val >= 0) {
         plus += val;
       } else {
@@ -143,7 +166,7 @@ const handleShowDetails = (selectionName:any) => {
       plus: plus.toFixed(2),
       minus: minus.toFixed(2),
     };
-  }, [getMyAllBet]);
+  }, [getMyAllBet,fancyPercent]);
 
   // Combine bets by selectionName
 const combinedBets = React.useMemo(() => {
@@ -151,7 +174,7 @@ const combinedBets = React.useMemo(() => {
   
     getMyAllBet.forEach((bet:any) => {
       const key = bet.selectionName;
-      const profitLoss:any = (Number(bet?.profitLoss?.$numberDecimal)).toFixed() || 0;
+      const profitLoss =   Number(bet?.profitLoss?.$numberDecimal) || 0;
   
       if (map.has(key)) {
         const existing = map.get(key);
@@ -171,6 +194,106 @@ const combinedBets = React.useMemo(() => {
   
     return Array.from(map.values());
   }, [getMyAllBet]);
+
+
+
+    const [searchObj, setSearchObj] = React.useState({
+      username: "",
+      type: "",
+      search: "",
+      status: "",
+      page: 1,
+    });
+
+
+   // const [userList, setUserList] = React.useState([]);
+    const [userList, setUserList] = React.useState<any>({});
+  
+    const getList = (obj: {
+      username: string;
+      type: string;
+      search: string;
+      status?: string;
+      page?: number;
+    }) => {
+      const fullObj = {
+        username: userState?.user?.username,
+        type: obj.type,
+        search: obj.search,
+        status: obj.status ?? "", // fallback to empty string
+        page: obj.page ?? 1, // fallback to 1
+      };
+  
+      userService.getUserList(fullObj).then((res: AxiosResponse<any>) => {
+        setSearchObj(fullObj); // ✅ Now matches the expected state shape
+        console.log(res?.data?.data, "lista i want to render");
+        setUserList(res?.data?.data);
+      });
+    };
+  
+    React.useEffect(() => {
+      getList(searchObj); // Trigger on mount or when searchObj changes
+    }, [userState]);
+
+   const userMap = React.useMemo(() => {
+      const map: any = {};
+      userList?.items?.forEach((u: any) => {
+        map[u.username] = u;
+      });
+      console.log(map, "user map");
+      return map;
+    }, [userList]);
+  
+  
+  
+  
+    const getFinalParentPercentForFancy = (bet: any) => {
+      // ✅ Only for FANCY bets
+      if (bet?.bet_on !== "FANCY") return 0;
+    
+      let currentUser = userMap[bet.userName];
+      let lastUser = currentUser;
+    
+      while (currentUser && currentUser.parentNameStr) {
+        const parent = userMap[currentUser.parentNameStr];
+        if (!parent) break;
+    
+        lastUser = parent;
+        currentUser = parent;
+      }
+    
+      if (!lastUser) return 0;
+    
+      return (lastUser.pshare || 0) - (lastUser.share || 0);
+    };
+  
+    const calculateFancyPercent = () => {
+      if (!getMyAllBet?.length) return;
+    
+      // 🔹 first fancy bet (agar multiple ho to logic change kar sakte ho)
+      const fancyBet = getMyAllBet.find(
+        (bet: any) => bet.bet_on === "FANCY"
+      );
+    
+      if (!fancyBet) {
+        setFancyPercent(0);
+        return;
+      }
+    
+      const percent = getFinalParentPercentForFancy(fancyBet);
+      setFancyPercent(percent);
+    
+      // console.log("🎯 FANCY FINAL PERCENT:", percent);
+    };
+    
+    React.useEffect(() => {
+      if (userList?.items?.length && getMyAllBet?.length) {
+        calculateFancyPercent();
+      }
+    }, [getMyAllBet, userList]);
+  
+
+
   
 
   return (
@@ -329,7 +452,11 @@ const combinedBets = React.useMemo(() => {
                   className="no-wrap px-2"
                   style={{ background: bet.isBack ? "#72BBEF" : "#faa9ba" }}
                 >
-                  {(Number(bet?.profitLoss?.$numberDecimal)).toFixed(2)}
+                  {userState?.user?.role == "dl" ?  (
+  (parseFloat(bet?.totalPL) * shared) / 100
+).toFixed(2) :  (
+  (parseFloat(bet?.totalPL) * fancyPercent) / 100
+).toFixed(2)}
                 </td>
                 <td
                   className="no-wrap text-center px-2"

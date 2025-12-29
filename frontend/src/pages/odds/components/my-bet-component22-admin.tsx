@@ -138,7 +138,7 @@ const MyBetComponent22Admin = () => {
         className="text-center text-white py-2"
         style={{ marginTop: "25px", background: "#0f2326" }}
       >
-        <div style={{ fontSize: "13px" ,color:"white" }}>COMPLETED BETS(Admin)</div>
+        <div style={{ fontSize: "13px" ,color:"white" }}>COMPLETED BETS(user)</div>
       </div>
 
       <div
@@ -307,7 +307,7 @@ const MyBetComponent22Admin = () => {
                   className="no-wrap px-2"
                   style={{ background: bet.isBack ? "#72BBEF" : "#faa9ba" }}
                 >
-                  {Math.abs(Number(bet?.profitLoss?.$numberDecimal)).toFixed(2)}
+                  {Math.abs(Number(bet?.totalPL)).toFixed(2)}
                 </td>
 
                 {/* <td className='no-wrap text-center' > {bet.isBack ? "Yes" : "No"} </td> */}
