@@ -165,15 +165,22 @@ const getProcessedRowsolddd = () => {
     filtered.forEach((item: any) => {
       // 🔑 Fancy false → ek hi Casino group
       const dateKey = getDateKey(item.createdAt);
-      const key =
+
+      const keyoldd =
         item.Fancy === false
           ? `${item.ChildId}_CASINO_${dateKey}`
           : `${item.ChildId}_${item.matchId}`;
+
+          // ✅ GROUP KEY RULE
+  const key =
+  item.betGame == "CASINO"
+    ? `${item.ChildId}_CASINO_${dateKey}`          // casino → date wise
+    : `${item.ChildId}_MATCH_${item.matchId}`; 
   
       if (!groupedMap.has(key)) {
         groupedMap.set(key, {
           ...item,
-          narration: item.Fancy === false ? "Casino" : item.narration,
+          narration: item.matchName,
         });
       } else {
         const existing = groupedMap.get(key);
@@ -189,9 +196,10 @@ const getProcessedRowsolddd = () => {
         }
   
         // 🔒 Fancy false ka narration hamesha Casino
-        if (item.Fancy === false) {
-          existing.narration = "Casino";
-        }
+
+        // if (item.Fancy === false) {
+        //   existing.narration = "Casino";
+        // }
   
         groupedMap.set(key, existing);
       }
@@ -222,7 +230,7 @@ const getProcessedRowsolddd = () => {
         credit,
         debit,
         balance,
-        narration: item.narration,
+        narration: item.matchName,
         date: item.createdAt,
         Fancy: item.Fancy,
       });
@@ -396,14 +404,7 @@ const getProcessedRowsolddd = () => {
                           })}
                         </td>
                         <td className="small p-1" style={{ zIndex: 2 }}>
-  {(() => {
-    let text = row.narration || "";
-    // 1️⃣ Numbers hatao agar start me hain
-    text = text.replace(/^\d+/, '').trim();
-    // 2️⃣ "/" ke pehle tak ka part lo (agar ho)
-    if (text.includes("/")) text = text.split("/")[0].trim();
-    return text;
-  })()}
+  {row.narration}
 </td>
 
 
@@ -438,14 +439,7 @@ const getProcessedRowsolddd = () => {
                         >
                        
                           <span className="small p-0 " style={{ zIndex: 2 }}>
-                          {(() => {
-    let text = row.narration || "";
-    // 1️⃣ Numbers hatao agar start me hain
-    text = text.replace(/^\d+/, '').trim();
-    // 2️⃣ "/" ke pehle tak ka part lo (agar ho)
-    if (text.includes("/")) text = text.split("/")[0].trim();
-    return text;
-  })()}
+                          {row.narration}
                           </span>
                         </td>
                       </tr>
