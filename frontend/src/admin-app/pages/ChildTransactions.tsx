@@ -768,9 +768,9 @@ const flatData = flatDataMain.filter(
                                           className="small p-0"
                                           style={{ zIndex: 2 }}
                                         >
-                                          {row?.betGame == "CASINO"
+                                           {row?.betGame ? row?.betGame == "CASINO" 
                                             ? "CASINO"
-                                            : row?.matchName}
+                                            : row?.matchName : row?.narration}
                                         </span>
                                       </td>
 
