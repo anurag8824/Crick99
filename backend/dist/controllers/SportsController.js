@@ -757,7 +757,7 @@ class SportsController extends ApiController_1.ApiController {
             const fancy = yield sports_service_1.default.getSession(match.matchId, match.sportId);
             console.log(fancy.data.sports, "fancy data is here");
             const fancyone = (_b = (_a = fancy === null || fancy === void 0 ? void 0 : fancy.data) === null || _a === void 0 ? void 0 : _a.sports) === null || _b === void 0 ? void 0 : _b.filter((m) => (m.gtype === "session" || m.gtype === "fancy1") &&
-                (m.RunnerName && !m.RunnerName.includes(" run bhav ")) && (m.RunnerName && !m.RunnerName.includes(" Caught out ")) && (m.RunnerName && !m.RunnerName.includes(" ball No ")) && (m.RunnerName && !m.RunnerName.includes(" Run bhav ")) && (m.RunnerName && !m.RunnerName.includes(" run bhav")) && (m.RunnerName.includes(".3 over ")));
+                (m.RunnerName && !m.RunnerName.includes(" run bhav ")) && (m.RunnerName && !m.RunnerName.includes(" Caught out ")) && (m.RunnerName && !m.RunnerName.includes(" ball No ")) && (m.RunnerName && !m.RunnerName.includes(" Run bhav ")) && (m.RunnerName && !m.RunnerName.includes(" run bhav")) && (m.RunnerName.includes(".3 over ")) && (m.RunnerName && !m.RunnerName.includes(" bhav ")) && (m.RunnerName && !m.RunnerName.includes(" two boundaries ")));
             if (fancy.data.sports) {
                 console.log("hello world", fancyone);
                 yield fancy.data.sports.map((market) => __awaiter(this, void 0, void 0, function* () {
@@ -1171,7 +1171,7 @@ class SportsController extends ApiController_1.ApiController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { fancy } = req.body;
-                if (fancy.gtype == "khado" || fancy.gtype == "oddeven" || fancy.gtype == "meter" || fancy.RunnerName.includes(' run bhav ') || fancy.RunnerName.includes(" Caught out ") || fancy.RunnerName.includes(' ball No ') || fancy.RunnerName.includes(' Run bhav ') || fancy.RunnerName.includes(' run bhav') || fancy.RunnerName.includes('.3 over ')) {
+                if (fancy.gtype == "khado" || fancy.gtype == "oddeven" || fancy.gtype == "meter" || fancy.RunnerName.includes(' run bhav ') || fancy.RunnerName.includes(" Caught out ") || fancy.RunnerName.includes(' ball No ') || fancy.RunnerName.includes(' Run bhav ') || fancy.RunnerName.includes(' run bhav') || fancy.RunnerName.includes(' bhav ') || fancy.RunnerName.includes(' two boundaries ') || fancy.RunnerName.includes('.3 over ')) {
                     return this.fail(res, 'not fancy added');
                 }
                 let type = '';

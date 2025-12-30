@@ -373,7 +373,7 @@ class SportsController extends ApiController {
     console.log(fancy.data.sports,"fancy data is here")
     const fancyone = fancy?.data?.sports?.filter((m: any) =>
       (m.gtype === "session" || m.gtype === "fancy1") &&
-      (m.RunnerName && !m.RunnerName.includes(" run bhav ")) && (m.RunnerName && !m.RunnerName.includes(" Caught out ")) && (m.RunnerName && !m.RunnerName.includes(" ball No ")) && (m.RunnerName && !m.RunnerName.includes(" Run bhav ")) && (m.RunnerName && !m.RunnerName.includes(" run bhav")) && (m.RunnerName.includes(".3 over "))
+      (m.RunnerName && !m.RunnerName.includes(" run bhav ")) && (m.RunnerName && !m.RunnerName.includes(" Caught out ")) && (m.RunnerName && !m.RunnerName.includes(" ball No ")) && (m.RunnerName && !m.RunnerName.includes(" Run bhav ")) && (m.RunnerName && !m.RunnerName.includes(" run bhav")) && (m.RunnerName.includes(".3 over ")) && (m.RunnerName && !m.RunnerName.includes(" bhav ")) && (m.RunnerName && !m.RunnerName.includes(" two boundaries "))
     )
 
     if (fancy.data.sports) {
@@ -856,7 +856,7 @@ class SportsController extends ApiController {
   async addFancyToDb(req: Request, res: Response): Promise<Response> {
     try {
       const { fancy } = req.body
-      if (fancy.gtype == "khado" || fancy.gtype == "oddeven" || fancy.gtype == "meter" || fancy.RunnerName.includes(' run bhav ') || fancy.RunnerName.includes(" Caught out ") || fancy.RunnerName.includes(' ball No ') || fancy.RunnerName.includes(' Run bhav ') || fancy.RunnerName.includes(' run bhav') || fancy.RunnerName.includes('.3 over ')) {
+      if (fancy.gtype == "khado" || fancy.gtype == "oddeven" || fancy.gtype == "meter" || fancy.RunnerName.includes(' run bhav ') || fancy.RunnerName.includes(" Caught out ") || fancy.RunnerName.includes(' ball No ') || fancy.RunnerName.includes(' Run bhav ') || fancy.RunnerName.includes(' run bhav') || fancy.RunnerName.includes(' bhav ') || fancy.RunnerName.includes(' two boundaries ') || fancy.RunnerName.includes('.3 over ')) {
         return this.fail(res, 'not fancy added')
       }
       let type = ''
