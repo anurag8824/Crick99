@@ -554,10 +554,15 @@ const AllClientLedger = () => {
 
     // const flatData = [...(data[0] || []), ...(data[0] || [])]; // ye naye wala hai for other than superadmin
 
-    const flatData =
+    const flatDataMain =
       userState.user.role === "admin"
         ? data[0] // for admin
         : data[0]; // for others
+
+        // ✅ REMOVE entries with ChildId null / undefined
+const flatData = flatDataMain.filter(
+  (entry: any) => entry.ChildId !== null && entry.ChildId !== undefined
+);
 
     const settledMap: Record<string, number> = {};
     flatData.forEach((entry: any) => {
