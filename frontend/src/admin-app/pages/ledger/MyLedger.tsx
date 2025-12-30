@@ -180,7 +180,7 @@ const getProcessedRowsolddd = () => {
       if (!groupedMap.has(key)) {
         groupedMap.set(key, {
           ...item,
-          narration: item.matchName,
+          narration: item.betGame ? item.betGame === "CASINO" ? "Casino" : item.matchName : item.narration,
         });
       } else {
         const existing = groupedMap.get(key);
@@ -230,7 +230,7 @@ const getProcessedRowsolddd = () => {
         credit,
         debit,
         balance,
-        narration: item.matchName,
+        narration: item.betGame ? item.betGame === "CASINO" ? "Casino" : item.matchName : item.narration,
         date: item.createdAt,
         Fancy: item.Fancy,
       });
