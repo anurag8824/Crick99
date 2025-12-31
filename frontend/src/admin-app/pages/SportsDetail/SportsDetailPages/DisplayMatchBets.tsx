@@ -82,7 +82,7 @@ const DisplayMatchBets = () => {
   const [stack, setStack] = React.useState<any[]>([]);
 
   const [filteredBets, setFilteredBets] = React.useState<any[]>([]);
-  const [users, setUsers] = React.useState<string[]>([]);
+  const [users, setUsers] = React.useState<any[]>([]);
   const [markets, setMarkets] = React.useState<string[]>([]);
   const [selectedUserM, setSelectedUserM] = React.useState("All Users");
   const [selectedMarket, setSelectedMarket] = React.useState("All Markets");
@@ -107,8 +107,16 @@ const DisplayMatchBets = () => {
       setMarketonlymatch(matchBets);
 
       // Unique users and markets
-      const uniqueUsers: any = Array.from(
-        new Set(matchBets.map((b: { userName: any }) => b.userName))
+      const uniqueUsers = Array.from(
+        new Map(
+          matchBets.map((b: any) => [
+            b.userName,
+            {
+              userName: b.userName,
+              code: b.code || ""
+            }
+          ])
+        ).values()
       );
       const uniqueMarkets: any = Array.from(
         new Set(matchBets.map((b: { marketName: any }) => b.marketName))
@@ -427,17 +435,22 @@ const DisplayMatchBets = () => {
             </div>
 
             <div className="filters mb-3 d-flex gap-2 flex justify-between p-4 bg-light">
-              <select
-              style={{background:"#0f2327", color:"white"}}
-                value={selectedUserM}
-                onChange={(e) => setSelectedUserM(e.target.value)}
-                className="rounded p-1"
-              >
-                <option>All Users</option>
-                {users.map((u) => (
-                  <option key={u}>{u}</option>
-                ))}
-              </select>
+            <select
+  style={{ background: "#0f2327", color: "white" }}
+  value={selectedUserM}
+  onChange={(e) => setSelectedUserM(e.target.value)}
+  className="rounded p-1"
+>
+  <option value="All Users">All Users</option>
+
+  {users.map((u: any) => (
+    <option key={u.userName} value={u.userName}>
+      {u.userName}
+      {u.code ? ` (${u.code})` : ""}
+    </option>
+  ))}
+</select>
+
 
               <select
                style={{background:"#0f2327", color:"white"}}
