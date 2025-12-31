@@ -804,7 +804,6 @@ class AccountController extends ApiController_1.ApiController {
                 console.log(req.body, "sennddd");
                 const getrole = (_c = (_b = req === null || req === void 0 ? void 0 : req.body) === null || _b === void 0 ? void 0 : _b.datag) === null || _c === void 0 ? void 0 : _c.role;
                 const allowedIds = (_d = req === null || req === void 0 ? void 0 : req.body.datag) === null || _d === void 0 ? void 0 : _d.allowedIds;
-                console.log(getrole);
                 let user = req.user;
                 let id = user["_id"];
                 let ldata;
@@ -944,6 +943,7 @@ class AccountController extends ApiController_1.ApiController {
             let amount = req.body.settleamount;
             let remark = req.body.remark;
             let type = req.body.type;
+            let setrole = req.body.urole;
             try {
                 console.log(user, PaentId, ChildId, amount, "vhgjkl;hgjkl");
                 yield allledager_1.ledger.create({
@@ -953,7 +953,8 @@ class AccountController extends ApiController_1.ApiController {
                     narration: "Settlement",
                     umoney: amount,
                     settled: true,
-                    settletype: type
+                    settletype: type,
+                    crole: setrole
                 });
                 yield allledager_1.ledger.create({
                     ParentId: ChildId,

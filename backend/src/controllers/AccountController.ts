@@ -1279,7 +1279,6 @@ getAccountStmtListUserLedger = async (req: Request, res: Response) => {
       console.log(req.body,"sennddd")
       const getrole = req?.body?.datag?.role
       const allowedIds = req?.body.datag?.allowedIds; 
-      console.log(getrole)
       let user = req.user
       let id = user["_id"]
 
@@ -1451,12 +1450,14 @@ getAccountStmtListUserLedger = async (req: Request, res: Response) => {
     let  user = req.user
     // let PaentId = user["_id"]
     let ChildId = req.body.ChildId
+  
     let Paentdata = await User.findOne({_id:ChildId})
     let PaentId = Paentdata.parentId
     console.log(PaentId,ChildId,"parentid")
     let amount = req.body.settleamount
     let remark = req.body.remark 
     let type = req.body.type
+    let setrole = req.body.urole
 
    
 
@@ -1472,7 +1473,8 @@ getAccountStmtListUserLedger = async (req: Request, res: Response) => {
         narration:"Settlement",
         umoney:amount,
         settled:true,
-        settletype:type
+        settletype:type,
+        crole:setrole
       })
       await ledger.create ({
   
