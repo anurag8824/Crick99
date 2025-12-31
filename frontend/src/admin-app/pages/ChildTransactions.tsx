@@ -370,7 +370,7 @@ const flatData = flatDataMain.filter(
                     </div>
 
                     {/* Remark */}
-                    <div className="col-12 col-md-6 col-lg-4">
+                    <div className="col-12 col-md-6 col-lg-4 d-none">
                       <label
                         htmlFor="advanced_search_remark"
                         className="form-label"
