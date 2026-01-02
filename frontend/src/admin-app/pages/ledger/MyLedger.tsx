@@ -235,8 +235,22 @@ const getProcessedRowsolddd = () => {
         Fancy: item.Fancy,
       });
     });
+
+    // 🔥 FINAL SORTING LOGIC
+result.sort((a, b) => {
+  const isASettlement = a.narration === "Settlement";
+  const isBSettlement = b.narration === "Settlement";
+
+  // 1️⃣ Settlement always on top
+  if (isASettlement && !isBSettlement) return -1;
+  if (!isASettlement && isBSettlement) return 1;
+
+  // 2️⃣ Otherwise date-wise DESC
+  return new Date(b.date).getTime() - new Date(a.date).getTime();
+});
+
   
-    return result.reverse();
+    return result;
   };
   
   
