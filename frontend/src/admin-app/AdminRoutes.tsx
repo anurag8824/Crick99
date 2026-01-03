@@ -83,7 +83,7 @@ const DeletedAllBets = React.lazy(
 
 const AdminDashboard = React.lazy(
   () => import("../admin-app/pages/admin-dashboard/admin-dashboard")
-);
+)
 const AccountStatementAdmin = React.lazy(
   () => import("../admin-app/pages/AccountStatement/AccountStatementAdmin")
 );
