@@ -34,6 +34,7 @@ import CasinoKeyWise from "./pages/SportsDetail/CasinoKeyWise";
 import CasinoBetsWise from "./pages/SportsDetail/CasinoBetsWise";
 import PlusMinusReport from "./pages/SportsDetail/SportsDetailPages/PlusMinusReport";
 import LedgerA from "./pages/ledger/LedgerA";
+import ChaMyledgerChildTxnCopy from "./pages/ChaMyledgerChildTxnCopy";
 
 const ActiveMarkets = React.lazy(
   () => import("../admin-app/pages/active-matches/active-markets")
@@ -245,6 +246,11 @@ const AdminRoutes = () => {
             {
               path: "client-transactions/:pid/:id",
               element: <ChildTransactions />,
+            },
+
+            {
+              path: "ledger-client-transactions/:pid/:id",
+              element: <ChaMyledgerChildTxnCopy />,
             },
 
             { path: "main-setting", element: <MainSetting /> },
